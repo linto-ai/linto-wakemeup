@@ -44,7 +44,10 @@ function configureDefaults() {
 
 		//Server RED properties
 		process.env.HTTP_PORT = ifHas(process.env.HTTP_PORT, envdefault.HTTP_PORT);
-		
+
+		//BDD
+		process.env.BDD_URI = ifHas(process.env.BDD_URI, envdefault.BDD_URI)
+
 	} catch (e) {
 		console.error(debug.namespace, e);
 		process.exit(1);
