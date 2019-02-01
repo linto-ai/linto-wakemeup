@@ -17,22 +17,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const debug = require('debug')('wakemeup:ctl')
-require('./config')
+const debug = require('debug')('wakemeup:ctl');
+require('./config');
 
 class Ctl {
     constructor() {
-        this.init()
+        this.init();
     }
     async init() {
         try {
-            this.webServer = await require('./lib/webserver')
-            debug(`Application is started - Listening on ${process.env.HTTP_PORT}`)
+            this.webServer = await require('./lib/webserver');
+            debug(`Application is started - Listening on ${process.env.HTTP_PORT}`);
         } catch (error) {
-            console.error(error)
-            process.exit(1)
+            console.error(error);
+            process.exit(1);
         }
     }
 }
 
-new Ctl()
+new Ctl();

@@ -15,38 +15,39 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * 
  */
 
-const debug = require('debug')('wakemeup:config')
-const dotenv = require('dotenv')
+const debug = require('debug')('wakemeup:config');
+const dotenv = require('dotenv');
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
 
 function noop() { }
 
 function ifHasNotThrow(element, error) {
 	if (!element) throw error
-	return element
+	return element;
 }
 function ifHas(element, defaultValue) {
 	if (!element) return defaultValue
-	return element
+	return element;
 }
 
 function configureDefaults() {
 	try {
-		dotenv.config()
-		const envdefault = dotenv.parse(fs.readFileSync('.envdefault'))
+		dotenv.config();
+		const envdefault = dotenv.parse(fs.readFileSync('.envdefault'));
 
 		// Node environment
-		process.env.NODE_ENV = ifHas(process.env.NODE_ENV, envdefault.NODE_ENV)
+		process.env.NODE_ENV = ifHas(process.env.NODE_ENV, envdefault.NODE_ENV);
 
 		//Server RED properties
-		process.env.HTTP_PORT = ifHas(process.env.HTTP_PORT, envdefault.HTTP_PORT)
+		process.env.HTTP_PORT = ifHas(process.env.HTTP_PORT, envdefault.HTTP_PORT);
 		
 	} catch (e) {
-		console.error(debug.namespace, e)
-		process.exit(1)
+		console.error(debug.namespace, e);
+		process.exit(1);
 	}
 }
-module.exports = configureDefaults()
+module.exports = configureDefaults();
