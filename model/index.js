@@ -5,10 +5,11 @@ class MongoModel {
         this.mongoDb = mongoDb
     }
     async getUser() {
+
         return new Promise((resolve, reject) => {
             resolve(true)
         })
     }
 }
 
-module.exports = new MongoModel()
+module.exports = new MongoModel();

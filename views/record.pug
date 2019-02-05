@@ -1,0 +1,29 @@
+html
+  head
+    include partial/header.pug
+  body
+    nav
+      .liens
+        a(href="/listen") Listen
+        a(href="/record") Record
+      .infoUsers
+        span.infoBarre 
+          span Connecté en tant que  
+          span=firstName +  " "
+          span= lastName
+        a(href="/disconnect") Deconnexion
+    .formulaire
+      h1(style="color:white") Enregistrement:
+      form(method='POST' action='/login' name="userInfo")
+        select#typeMicro(name="Type Micro" value="Type micro")
+          option(selected=true disabled) Type de micro
+          option(value="Pied") Pied
+          option(value="Integré") Integré
+        br
+        select#typeMicro(name="Type Micro" value="Type micro")
+          option(selected=true disabled) Sexe
+          option(value="Pied") Homme
+          option(value="Integré") Femme
+        br
+
+      button.btn(type='submit') Envoyer

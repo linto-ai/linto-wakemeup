@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    script(type='text/javascript' src='js/axios.min.js')
+    script(type='text/javascript' src='js/form.js')
+    
+
+    include partial/header.pug
+  body
+    nav
+      h1.titre Wake Me Up
+    p= message
+    div.formulaire
+      h1(style="color:white") Identifiez vous:
+      form(method='POST' action='/checkLogin' name="userInfo" id="userForm")
+        div.form-group
+          label(for='surName') Nom:
+          br
+          input(type='text',  name='userInfo' id="formLastname")
+        div.form-group
+          label(for='name') Prenom:
+          br
+          input(type='text',  name='userInfo' id="formName")
+        button(type='submit' id="postlogin") Valider
