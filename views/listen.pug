@@ -1,5 +1,27 @@
 html
   head
     include partial/header.pug
+    script(type='text/javascript' src='js/listen.js')
+    script(type='text/javascript' src='js/axios.min.js')
   body
-    h1= message
+    nav
+      .liens
+        a(href="/listen") Listen
+        a(href="/record") Record
+      .infoUsers
+        span.infoBarre 
+          span Connecté en tant que  
+          span=firstName +  " "
+          span= lastName
+        a(href="/disconnect") Deconnexion
+    .formulaire
+      h1(style="color:white") Ecoute:
+      span Mot chaud:
+      span=testedHotword
+      br
+      button(type='listen' id='listen') Ecouter
+      br
+      audio(src="" controls)
+      button.valid(type='submit') Valide
+      button.invalid(type='submit') Invalide
+        

@@ -3,8 +3,6 @@ html(lang="en")
   head
     script(type='text/javascript' src='js/axios.min.js')
     script(type='text/javascript' src='js/form.js')
-    
-
     include partial/header.pug
   body
     nav
@@ -21,4 +19,12 @@ html(lang="en")
           label(for='name') Prenom:
           br
           input(type='text',  name='userInfo' id="formName")
+        .form-goup
+          label(for="")
+            input(type="radio", name="gender_filter", value="1", checked=gender=="male")
+            | Homme
+            input(type="radio", name="gender_filter", value="0", checked=gender=="female")
+            | Femme
+        br
+        a(href="/dataUsage" class="lien") Pourquoi avons nous besoin de vous identifier
         button(type='submit' id="postlogin") Valider
