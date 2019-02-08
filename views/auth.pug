@@ -8,9 +8,9 @@ html(lang="en")
     nav
       h1.titre Wake Me Up
     p= message
-    div.formulaire
+    .grisaille(style="width: 600px; height: 100vh; margin-top:0px; padding: 50px")
       h1(style="color:white") Identifiez vous:
-      form(method='POST' action='/checkLogin' name="userInfo" id="userForm")
+      form(method='POST' action='/checkLogin' name="userInfo" id="userForm" class="form-content")
         div.form-group
           label(for='surName') Nom:
           br
@@ -19,12 +19,26 @@ html(lang="en")
           label(for='name') Prenom:
           br
           input(type='text',  name='userInfo' id="formName")
+          br
+
         .form-goup
-          label(for="")
-            input(type="radio", name="gender_filter", value="1", checked=gender=="male")
-            | Homme
-            input(type="radio", name="gender_filter", value="0", checked=gender=="female")
-            | Femme
+          label(class="container") Homme
+            input(type="radio", name="gender_filter", value="1", checked=gender=="male", class="checkbox")
+            span(class="checkmark")
+          label(class="container" style="text-align: right") Femme
+            input(type="radio", name="gender_filter", value="0", checked=gender=="female", class="checkbox")
+            span(class="checkmark")
+            | 
+        br
+        br      
+        button(type='submit' id="postlogin") Valider
+        br
         br
         a(href="/dataUsage" class="lien") Pourquoi avons nous besoin de vous identifier
-        button(type='submit' id="postlogin") Valider
+        br 
+        br
+        .explications(style="font-size: 0.8em")
+          | Wake Me Up est une plateforme permettant l’enregistrement de prononciation de mots clés. 
+          br
+          | Ces échantillons nous servent ensuite à entrainer un “modèle” permettant à LinTo de reconnaitre avec toujours plus d’efficacités ces differents mot/ phrases quel que soit le contexte.
+          

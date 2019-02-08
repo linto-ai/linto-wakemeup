@@ -1,11 +1,16 @@
+html {
+    height: 100vh;
+}
+
 body {
     font-family: sans-serif;
+    height: 85vh;
+
 }
 
 .lien {
     font-size: 0.7em;
 }
-
 
 nav a {
     top: 25%;
@@ -22,16 +27,20 @@ nav a:hover {
     background-color: rgb(124, 213, 252);
 }
 
+.form-content {
+    margin: auto;
+}
+
+.form-group {
+    padding: 1em;
+    padding-left: 0px;
+}
 
 .titre {
     color: white;
     margin-top: 0px;
     font-size: 2.5em;
     margin-left: 0.5em;
-}
-
-.formulaire * {
-    margin: 3%;
 }
 
 button {
@@ -66,7 +75,8 @@ button:hover {
     background-color: rgb(124, 213, 252)
 }
 
-.formulaire {
+.grisaille {
+    text-align: center;
     color: white;
     width: 320px;
     height: 320px;
@@ -74,8 +84,6 @@ button:hover {
     background-color: rgb(209, 209, 209);
     margin-top: 30vh;
 }
-
-
 
 nav {
 
@@ -85,7 +93,6 @@ nav {
     left: 0%;
     height: 50px;
     width: 100%;
-
 }
 
 .infoUsers {
@@ -107,11 +114,11 @@ nav {
     top: 15px;
 }
 
-/* Customize the label (the container) */
+
 .container {
-    display: block;
+    /*display: block;*/
     position: relative;
-    padding-left: 35px;
+    padding-right: 30px;
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 22px;
@@ -132,13 +139,15 @@ nav {
 
 /* Create a custom radio button */
 .checkmark {
+
     position: absolute;
-    top: 0;
-    left: 0;
     height: 25px;
     width: 25px;
     background-color: #eee;
     border-radius: 50%;
+    margin: 5px;
+    margin-right: 10px;
+    margin-top: 0px;
 }
 
 /* On mouse-over, add a grey background color */
@@ -148,7 +157,7 @@ nav {
 
 /* When the radio button is checked, add a blue background */
 .container input:checked~.checkmark {
-    background-color: #2196F3;
+    background-color: #3BBBF1;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */

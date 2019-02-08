@@ -1,29 +1,51 @@
-html
-  head
-    include partial/header.pug
-  body
-    nav
-      .liens
-        a(href="/listen") Listen
-        a(href="/record") Record
-      .infoUsers
-        span.infoBarre 
-          span Connecté en tant que  
-          span=firstName +  " "
-          span= lastName
-        a(href="/disconnect") Deconnexion
-    .formulaire
-      h1(style="color:white") Enregistrement:
-      form(method='POST' action='/login' name="userInfo")
-        select#typeMicro(name="Type Micro" value="Type micro")
-          option(selected=true disabled) Type de micro
-          option(value="Pied") Pied
-          option(value="Integré") Integré
-        br
-        select#typeMicro(name="Type Micro" value="Type micro")
-          option(selected=true disabled) Sexe
-          option(value="Pied") Homme
-          option(value="Integré") Femme
-        br
+<!DOCTYPE html>
+<html lang="en">
 
-      button.btn(type='submit') Envoyer
+head
+  meta(charset="utf-8")
+  meta(http-equiv="X-UA-Compatible" content="IE=edge")
+  meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+  meta(name="description" content="")
+  meta(name="author" content="")
+  title=titre
+  link(href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css")
+  link(href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet")
+  link(href="css/sb-admin.css" rel="stylesheet")
+
+
+
+body(id="page-top")
+
+  include partial/navBar.pug
+  div(id="wrapper")
+    include partial/sideBar.pug
+    div(id="content-wrapper")
+      div(class="container-fluid")
+        ol(class="breadcrumb")
+          li(class="breadcrumb-item")
+            a(href="/accueil") Accueil
+          li(class="breadcrumb-item active") enregistrement     
+        h1(style="color:white") Enregistrement:
+        form(method='POST' action='/login' name="userInfo")
+          select#typeMicro(name="Type Micro" value="Type micro")
+            option(selected=true disabled) Type de micro
+            option(value="Pied") Pied
+            option(value="Integré") Integré
+          br
+          select#typeMicro(name="Type Micro" value="Type micro")
+            option(selected=true disabled) Sexe
+            option(value="Pied") Homme
+            option(value="Integré") Femme
+          br
+
+        button.btn(type='submit') Envoyer
+      include partial/footer.pug
+  a(class="scroll-to-top rounded" href="#page-top")
+    i(class="fas fa-angle-up")  
+  script(src="vendor/jquery/jquery.min.js")
+  script(src="vendor/bootstrap/js/bootstrap.bundle.min.js")
+  script(src="vendor/jquery-easing/jquery.easing.min.js")
+  script(src="js/sb-admin.min.js")
+
+
+</html>
