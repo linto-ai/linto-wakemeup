@@ -22,19 +22,16 @@ body(id="page-top")
     include partial/sideBar.pug
     div(id="content-wrapper")
       div(class="container-fluid")
-        ol(class="breadcrumb")
-          li(class="breadcrumb-item")
-            a(href="index.html") Accueil
-          li(class="breadcrumb-item active") Utilisation des données      
-        h1 Comment utilisons nous vos données
-        p Dans le but d’optimiser le processus d’entrainement du modèle de reconnaissance, il est important de pouvoir:
+        h1 Accueil:
+        br
+        p Bienvenue sur Wake Me Up, la plateforme collaborative d'enregistrement d'échantillons OPEN SOURCE de LINAGORA.
+        | Cette plateforme vous permet de participer à la revolution du third-way disruptif des assistants vocaux personnels.
+        br
+        | Pour se faire nous avons besoin de different types d'aides:
         ul
-            li identifier le sexe de l’individu enregistrant l’échantillon
-            li identifier le type de micro sur lequel l’échantillon à été enregistré 
-            li regrouper les differents échantillons  
-        | Ainsi, il est possible d'utiliser un pseudonyme, s'il reste le même durant les differents enregistrements.
-        | Nous sauvegardons donc localement sur votre machine sous forme de cookie les differentes informations vous concernant,
-        | Aussi, aucune information permettant de vous identifier personnellement ne sera stocké sur nos serveurs
+          li Des enregistrement vocaux des differents "hotwords" de Linto™
+          li De vérification des enregistrements des autres utilisateurs de la plateforme
+
       include partial/footer.pug
   a(class="scroll-to-top rounded" href="#page-top")
     i(class="fas fa-angle-up")  
@@ -42,8 +39,8 @@ body(id="page-top")
   script(src="vendor/bootstrap/js/bootstrap.bundle.min.js")
   script(src="vendor/jquery-easing/jquery.easing.min.js")
   script(src="js/sb-admin.min.js")
-
+  script(src="js/listen.js")
+  script(type='text/javascript' src='js/axios.min.js')
 
 </html>
-
-
+        

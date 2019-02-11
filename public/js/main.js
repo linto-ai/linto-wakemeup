@@ -20,10 +20,20 @@ function getCookie(cname) {
     return "";
 }
 
-const userCookie = getCookie('user')
+function delete_cookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 
-if (userCookie.length == 0) {
-    console.log('existe pas')
+function disconnect() {
+    delete_cookie("nom");
+    delete_cookie("prenom");
+    window.location.replace("/disconnect");
+}
+const userCookie = getCookie('prenom');
+const ifConnected = document.getElementById("ifConnected");
+
+if (userCookie.length == 0 || !userCookie) {
+    ifConnected.style.display = "none";
 } else {
-    console.log(userCookie)
+    console.log("connecte")
 }
