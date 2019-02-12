@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         isValid = true;
         console.log("valide");
         sendForm(isValid);
-
     };
 
     invalid.onclick = function (e) {
@@ -44,8 +43,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     };
 
     async function getAudio(alreadyListened) {
-
-
         axios('/getAudio', {
             method: 'GET',
             headers: {

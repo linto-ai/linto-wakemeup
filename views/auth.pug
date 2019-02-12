@@ -6,34 +6,31 @@
     script(type='text/javascript' src='js/form.js')
     script(type='text/javascript' src='js/main.js')
     meta(charset="utf-8")
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    title SB Admin - Login
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="css/sb-admin.css" rel="stylesheet">
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(name="description" content="")
+    meta(name="author" content="")
+    title Identification
+    link(href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css")
+    link(href="css/sb-admin.css" rel="stylesheet")
 
 
-  <body class="bg-dark">
-
-    <div class="container">
-      <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Login</div>
-        <div class="card-body">
+  body(class="bg-dark")
+    div(class="container")
+      div(class="card card-login mx-auto mt-5")
+        div(class="card-header") S'identifier
+        div(class="card-body")
           form(method='POST' action='/checkLogin' name="userInfo" id="userForm" class="form-content")
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" name='userInfo' id="formName" class="form-control" placeholder="Prenom" autofocus="autofocus">
-                <label for="firstname">prenom</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" name='userInfo' id="formLastname" class="form-control" placeholder="Nom"  required="required">
-                <label for="inputPassword">nom</label>
-              </div>
-            </div>
+            div(class="form-group")
+              div(class="form-label-group")
+                input(type="text" name='userInfo' id="formName" class="form-control" placeholder="Prenom" autofocus="autofocus")
+                label(for="firstname") Prénom
+              
+            div(class="form-group")
+              div(class="form-label-group")
+                input(type="text" name='userInfo' id="formLastname" class="form-control" placeholder="Nom"  required="required")
+                label(for="inputPassword") Nom
+
             
             .form-goup
             label(class="container") Homme
@@ -43,27 +40,22 @@
               input(type="radio", name="gender_filter", value="0", checked=gender=="female", class="checkbox")
               span(class="checkmark")
             button(type='submit' id="postlogin" class="btn btn-primary btn-block") Valider
-          <div class="text-center">
-            <a class="d-block small mt-3" href="/dataUsage">Pourquoi avons nous besoin de vous identifier</a>
+          div(class="text-center")
+            a(class="d-block small mt-3" href="/dataUsage") Pourquoi avons nous besoin de vous identifier
 
-          </div>
 
           .explications(style="font-size: 0.7em" class="text-center")
             | Wake Me Up est une plateforme permettant l’enregistrement de prononciation de mots clés. 
             br
             | Ces échantillons nous servent ensuite à entrainer un “modèle” permettant à LinTo de reconnaitre avec toujours plus d’efficacités ces differents mot/ phrases quel que soit le contexte.
 
-        </div>
-      </div>
-    </div>
+ 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    script(src="vendor/jquery/jquery.min.js")
+    script(src="vendor/bootstrap/js/bootstrap.bundle.min.js")
+    script(src="vendor/jquery-easing/jquery.easing.min.js")
 
-  </body>
+  
 
 </html>
