@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             sendForm();
         }
 
-    }
+    };
 
     // On keyup "ENTER"
     btnSubmit.addEventListener("keyup", function (e) {
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if (checkAuth.data.status == "success") {
             window.location.href = '/accueil'
         } else {
-            console.log(checkAuth.data)
+            console.log(checkAuth.data);
         }
 
 
