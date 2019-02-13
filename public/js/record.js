@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var stopButton = document.getElementById("stop");
 
 
-    // get audio stream from user's mic
     navigator.mediaDevices.getUserMedia({
             audio: true
         })
@@ -17,13 +16,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
             recordButton.disabled = false;
             recordButton.addEventListener('click', startRecording);
             stopButton.addEventListener('click', stopRecording);
-            recorder = new MediaRecorder(stream);
+            replayButton.addEventListener('click', listenRecording);
 
-            // listen to dataavailable, which gets triggered whenever we have
-            // an audio blob available
+            recorder = new MediaRecorder(stream);
             recorder.addEventListener('dataavailable', onRecordingReady);
         });
 
+    function listenRecording() {
+        console.log("linto, lassistant vocal a votre ecoute")
+        audio.play();
+    }
 
     function startRecording() {
         console.log("start recording");
@@ -37,14 +39,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
         console.log("stop recording");
         recordButton.disabled = false;
         stopButton.disabled = true;
-
-        // Stopping the recorder will eventually trigger the `dataavailable` event and we can complete the recording process
+        replayButton.disabled = false;
         recorder.stop();
     }
 
     function onRecordingReady(e) {
         var audio = document.getElementById('audio');
-        // e.data contains a blob representing the recording
         audio.src = URL.createObjectURL(e.data);
         audio.play();
     }
