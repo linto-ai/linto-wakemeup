@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   head
     script(type='text/javascript' src='js/axios.min.js')
     script(type='text/javascript' src='js/form.js')
@@ -13,8 +12,6 @@
     title Identification
     link(href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css")
     link(href="css/sb-admin.css" rel="stylesheet")
-
-
   body(class="bg-dark")
     div(class="container")
       div(class="card card-login mx-auto mt-5")
@@ -25,37 +22,23 @@
               div(class="form-label-group")
                 input(type="text" name='userInfo' id="formName" class="form-control" placeholder="Prenom" autofocus="autofocus")
                 label(for="firstname") Prénom
-              
             div(class="form-group")
               div(class="form-label-group")
                 input(type="text" name='userInfo' id="formLastname" class="form-control" placeholder="Nom"  required="required")
                 label(for="inputPassword") Nom
-
             
-            .form-goup
-            label(class="container") Homme
-              input(type="radio", name="gender_filter", value="1", checked=gender=="male", class="checkbox")
-              span(class="checkmark")
-            label(class="container" style="text-align: right") Femme
-              input(type="radio", name="gender_filter", value="0", checked=gender=="female", class="checkbox")
-              span(class="checkmark")
             button(type='submit' id="postlogin" class="btn btn-primary btn-block") Valider
           div(class="text-center")
             a(class="d-block small mt-3" href="/dataUsage") Pourquoi avons nous besoin de vous identifier
+            a(class="d-block small mt-3" href="/register") S'inscrire
 
-
-          .explications(style="font-size: 0.7em" class="text-center")
+          .explications(style="font-size: 0.65em" class="text-center")
             | Wake Me Up est une plateforme permettant l’enregistrement de prononciation de mots clés. 
             br
             | Ces échantillons nous servent ensuite à entrainer un “modèle” permettant à LinTo de reconnaitre avec toujours plus d’efficacités ces differents mot/ phrases quel que soit le contexte.
 
- 
-
-
     script(src="vendor/jquery/jquery.min.js")
     script(src="vendor/bootstrap/js/bootstrap.bundle.min.js")
     script(src="vendor/jquery-easing/jquery.easing.min.js")
-
-  
 
 </html>

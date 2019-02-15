@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     navigator.mediaDevices.getUserMedia({
-            audio: true
+            audio: {
+                mimeType: "audio/wav;codecs=0"
+            }
         })
         .then(function (stream) {
             console.log("log")
@@ -23,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
 
     function listenRecording() {
-        console.log("linto, lassistant vocal a votre ecoute")
+        console.log("linto, lassistant vocal a votre ecoute");
         audio.play();
     }
 
@@ -45,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     function onRecordingReady(e) {
         var audio = document.getElementById('audio');
+        console.log(e);
         audio.src = URL.createObjectURL(e.data);
         audio.play();
     }

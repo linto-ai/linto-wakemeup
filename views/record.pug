@@ -13,6 +13,7 @@ head
   link(href="css/sb-admin.css" rel="stylesheet")
   script(type='text/javascript' src='js/main.js')
   script(type='text/javascript' src='js/record.js')
+
 body(id="page-top")
   include partial/navBar.pug
   div(id="wrapper")
@@ -28,7 +29,7 @@ body(id="page-top")
           div(class="col-md-2 col-md-offset-5")
             button(id="record" class="btn btn-danger" disabled) Enregistrer
             button(id="stop" class="btn btn-secondary" disabled) Stop
-            button(id="replay" class="btn btn-sucess") replay
+            button(id="replay" class="btn btn-sucess" disabled) replay
             audio(id="audio" src="")
         div(class="row")
           div(class="col-md-2 col-md-offset-5")

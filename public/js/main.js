@@ -32,7 +32,7 @@ function disconnect() {
 const userCookie = getCookie('prenom');
 const ifConnected = document.getElementById("ifConnected");
 
-if (userCookie.length == 0 || !userCookie) {
+if (!!ifConnected && (userCookie.length == 0 || !userCookie)) {
     ifConnected.style.display = "none";
 } else {
     console.log("connecte")
