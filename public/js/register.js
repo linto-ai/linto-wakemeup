@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     const boutonFemme = document.getElementById("femme");
     const boutonHomme = document.getElementById("homme");
-    boutonFemme.addEventListener('click', setGender("femme"));
-    boutonHomme.addEventListener('click', setGender("homme"));
-
+    boutonFemme.addEventListener('click', setGender);
+    boutonHomme.addEventListener('click', setGender);
+    var genre;
 
 
 
@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         const lastName = document.getElementById('formLastname');
         const userInfo = {
             lastName: lastName.value,
-            firstName: firstName.value
+            firstName: firstName.value,
+            gender: genre
         }
         let checkAuth = await axios('/checkLogin', {
             method: 'post',
@@ -39,9 +40,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-    function setGender(genre) {
-
-
+    function setGender(e) {
+        console.log(e.target.id)
+        genre = e.target.id;
         console.log("OP CHANGEMENT GENRE", genre);
         if (genre === "femme") {
             if (!boutonFemme.classList.contains("active")) {

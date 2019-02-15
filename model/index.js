@@ -1,11 +1,12 @@
 const mongoDb = require("mongodb")
 class MongoModel {
     constructor() {
-        this.bddUri = process.env.BDD_URI
-        this.mongoDb = mongoDb
+        this.bddUri = process.env.BDD_URI;
+        this.mongoDb = mongoDb;
     }
 
-    createUser(firstname, lastname, gender) {
+    async createUser(firstname, lastname, gender) {
+
 
         return userID;
 
@@ -13,7 +14,7 @@ class MongoModel {
     async getUser() {
 
         return new Promise((resolve, reject) => {
-            resolve(true)
+            resolve(true);
         });
     }
 }
