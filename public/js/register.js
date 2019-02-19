@@ -6,27 +6,59 @@ document.addEventListener("DOMContentLoaded", function (event) {
     boutonHomme.addEventListener('click', setGender);
     var genre;
 
+    const btnSubmit = document.getElementById('postregister');
+
+    btnSubmit.onclick = function (e) {
+        e.preventDefault();
+        if (isvalidForm()) {
+            sendForm();
+        }
+
+    };
 
 
+    btnSubmit.addEventListener("keyup", function (e) {
+
+        e.preventDefault();
+
+        if (event.keyCode === 13) {
+
+            if (isvalidForm()) {
+                sendForm();
+            }
+        }
+    });
+
+    function isvalidForm() {
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
+        if (!!firstName && !!lastName && !!genre) {
+            return true;
+        }
+        return false;
+    }
     async function sendForm() {
 
-        const form = document.getElementById('userForm');
-        const firstName = document.getElementById('formName');
-        const lastName = document.getElementById('formLastname');
+
+        const firstName = document.getElementById('firstName');
+        const lastName = document.getElementById('lastName');
         const userInfo = {
             lastName: lastName.value,
             firstName: firstName.value,
             gender: genre
-        }
-        let checkAuth = await axios('/checkLogin', {
+        };
+        let checkAuth = await axios('/register', {
             method: 'post',
             data: userInfo
-        })
+        });
 
         if (checkAuth.data.status == "success") {
-            window.location.href = '/accueil'
+            window.location.href = '/accueil';
+        } else if (checkAuth.data.status == "found") {
+
+            alert("utilisateur deja enregistre")
         } else {
-            console.log(checkAuth.data)
+            console.log(checkAuth.data);
         }
 
     }
@@ -41,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     function setGender(e) {
-        console.log(e.target.id)
+        console.log(e.target.id);
         genre = e.target.id;
         console.log("OP CHANGEMENT GENRE", genre);
         if (genre === "femme") {

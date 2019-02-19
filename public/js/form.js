@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
     const btnSubmit = document.getElementById('postlogin');
 
-    // On click "Submit" form
     btnSubmit.onclick = function (e) {
         e.preventDefault();
         if (isvalidForm()) {
@@ -10,13 +9,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     };
 
-    // On keyup "ENTER"
+
     btnSubmit.addEventListener("keyup", function (e) {
-        // Cancel the default action, if needed
+
         e.preventDefault();
-        // Number 13 is the "Enter" key on thekeyboard
+
         if (event.keyCode === 13) {
-            // Trigger the button element with a click
+
             if (isvalidForm()) {
                 sendForm();
             }
@@ -52,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
     async function sendForm() {
 
-        const form = document.getElementById('userForm');
         const firstName = document.getElementById('formName');
         const lastName = document.getElementById('formLastname');
         const userInfo = {
@@ -68,6 +66,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
             window.location.href = '/accueil'
         } else {
             console.log(checkAuth.data)
+
+            alert("wrong credentials")
         }
 
     }

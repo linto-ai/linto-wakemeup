@@ -1,6 +1,7 @@
 doctype html
 html(lang='en')
   head(<meta='', charset='utf-8')
+    script(type='text/javascript' src='js/axios.min.js')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     meta(name='description', content='')
@@ -31,7 +32,7 @@ html(lang='en')
                     span(class="fa fa-male" id="homme")
                   button.btn.btn-outline-primary.btn-lg(id="femme" onclick="return false;")
                     span(class="fa fa-female" id="femme")
-            a.btn.btn-primary.btn-block(href='/register') Register
+            a.btn.btn-primary.btn-block(id="postregister") Register
           .text-center
             a.d-block.small.mt-3(href='/login') Se connecter
             a.d-block.small(class="d-block small mt-3" href="/dataUsage") Pourquoi avons nous besoin de vous identifier

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-    console.log("document chargzer")
+
     var recordButton = document.getElementById("record");
     var replayButton = document.getElementById("replay");
     var stopButton = document.getElementById("stop");
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
 
     function listenRecording() {
-        console.log("linto, lassistant vocal a votre ecoute");
+
         audio.play();
     }
 
@@ -48,9 +48,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function onRecordingReady(e) {
         var audio = document.getElementById('audio');
         console.log(e);
-        audio.src = URL.createObjectURL(e.data);
+        audioRecord = URL.createObjectURL(e.data);
+        audio.src = audioRecord;
         audio.play();
     }
-
+    async function sendWav() {
+        await axios('/checkLogin', {
+            method: 'post',
+            data: audioRecord
+        })
+    }
 
 });
