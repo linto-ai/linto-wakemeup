@@ -2,11 +2,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-
+    var audio = document.getElementById('audio');
     var recordButton = document.getElementById("record");
     var replayButton = document.getElementById("replay");
     var stopButton = document.getElementById("stop");
-
+    var submitButton = document.getElementById("submit");
+    var audioRecord = undefined;
 
     navigator.mediaDevices.getUserMedia({
             audio: {
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             recordButton.addEventListener('click', startRecording);
             stopButton.addEventListener('click', stopRecording);
             replayButton.addEventListener('click', listenRecording);
+            submitButton.addEventListener('click', sendAudio);
 
             recorder = new MediaRecorder(stream);
             recorder.addEventListener('dataavailable', onRecordingReady);
@@ -46,17 +48,28 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     function onRecordingReady(e) {
-        var audio = document.getElementById('audio');
+
         console.log(e);
         audioRecord = URL.createObjectURL(e.data);
         audio.src = audioRecord;
         audio.play();
     }
-    async function sendWav() {
-        await axios('/checkLogin', {
-            method: 'post',
-            data: audioRecord
-        })
+    async function sendAudio() {
+        if (!!audioRecord) {
+            console.log(audio.src)
+            var fd = new FormData();
+            var request = new XMLHttpRequest();
+            fd.append('upl', audio.src, 'blob.wav');
+            request.open("POST", "/sendaudio");
+            request.send(fd);
+            console.log("wav envoye")
+            audioRecord = undefined;
+            audio.src = "";
+        } else {
+            console.log("Veuillez tout de même vous enregistrer en premier")
+        }
+
+
     }
 
 });
