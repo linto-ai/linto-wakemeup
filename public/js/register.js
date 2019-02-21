@@ -30,9 +30,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
     });
 
     function isvalidForm() {
-        const firstName = document.getElementById('firstName');
-        const lastName = document.getElementById('lastName');
-        if (!!firstName && !!lastName && !!genre) {
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const confirmation = document.getElementById('confirmationPassword');
+        if (password.value != confirmation.value) {
+            alert("les mots de passe ne correspondent pas");
+            return false;
+        }
+        if (!!email && !!password && !!confirmation && !!genre) {
             return true;
         }
         return false;
@@ -40,11 +45,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     async function sendForm() {
 
 
-        const firstName = document.getElementById('firstName');
-        const lastName = document.getElementById('lastName');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
         const userInfo = {
-            lastName: lastName.value,
-            firstName: firstName.value,
+            password: password.value,
+            email: email.value,
             gender: genre
         };
         let checkAuth = await axios('/register', {
@@ -63,10 +68,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     }
 
-    if (!!getCookie("nom") && !!getCookie("prenom")) {
-        console.log("prenom:", getCookie("nom"));
-        console.log("nom:", getCookie("prenom"));
-        sendAuth(getCookie("nom"), getCookie("prenom"));
+    if (!!getCookie("nom") && !!getCookie("email")) {
+        console.log("email:", getCookie("nom"));
+        console.log("nom:", getCookie("email"));
+        sendAuth(getCookie("nom"), getCookie("email"));
     }
 
 

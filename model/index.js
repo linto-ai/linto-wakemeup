@@ -8,7 +8,14 @@ class modelMongoDb {
         this.mongoDb = mongoDb;
         return this;
     }
+    async addWav(userID, typeMicro, filename) {
+        var datas = {
+            'userID': userID,
+            'micro': typeMicro,
+            'filename': filename
+        };
 
+    }
     async test() {
         return await this.mongoRequest('test', {})
     }
@@ -49,14 +56,14 @@ class modelMongoDb {
 
 
     }
-    async createUser(userFirstName, userLastName, userGender) {
+    async createUser(userEmail, userPassword, userGender) {
         var userDatas = {
             firstname: userFirstName,
             lastname: userLastName,
             gender: userGender
         }
         await this.mongoInsert('users', userDatas);
-        console.log("therWeGo");
+
         return 0;
     }
     /*******************/

@@ -17,14 +17,19 @@ html(lang='en')
           form
             .form-group
               .form-row
+                .col-md-12
+                  .form-label-group
+                    input#email.form-control(type='email', placeholder='email', autofocus='autofocus')
+                    label(for='email') Email
+              .form-row
                 .col-md-6
                   .form-label-group
-                    input#firstName.form-control(type='text', placeholder='First name', autofocus='autofocus')
-                    label(for='firstName') Prenom
+                    input#password.form-control(type='password', placeholder='password')
+                    label(for='password') Mot de passe
                 .col-md-6
                   .form-label-group
-                    input#lastName.form-control(type='text', placeholder='Last name')
-                    label(for='lastName') Nom
+                    input#confirmationPassword.form-control(type='password', placeholder='confirmationPassword')
+                    label(for='confirmationPassword') Confirmation
             .form-group
               .form-label-group
                 .mx-auto(style="max-width:15%")

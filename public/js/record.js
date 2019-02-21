@@ -15,13 +15,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
         })
         .then(function (stream) {
-            console.log("log")
+            console.log("log");
             recordButton.disabled = false;
             recordButton.addEventListener('click', startRecording);
             stopButton.addEventListener('click', stopRecording);
             replayButton.addEventListener('click', listenRecording);
             submitButton.addEventListener('click', sendAudio);
-
             recorder = new MediaRecorder(stream);
             recorder.addEventListener('dataavailable', onRecordingReady);
         });
@@ -65,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             console.log("wav envoye")
             audioRecord = undefined;
             audio.src = "";
+
         } else {
             console.log("Veuillez tout de même vous enregistrer en premier")
         }
