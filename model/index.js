@@ -1,6 +1,7 @@
 const BDD_URI = 'mongodb://127.0.0.1';
 const MONGODB_DBNAME = 'wakemeup';
 const mongoDb = require("mongodb");
+const bcrypt = require('bcrypt');
 
 class modelMongoDb {
     constructor() {
@@ -26,10 +27,9 @@ class modelMongoDb {
         return await this.mongoRequest('test', query)
     }
 
-    async checkUser(userFirstName, userLastName) {
+    async checkUser(email) {
         const getuser = await this.mongoRequest('users', {
-            firstname: userFirstName,
-            lastname: userLastName
+            email: email
         });
         if (getuser.length > 0) {
             console.log('found > ', getuser)
@@ -43,6 +43,7 @@ class modelMongoDb {
                 firstname: userFirstName,
                 lastname: userLastName
             })[0]);
+            
             return true;
         } else {
             console.log("user not found \nInserting dat data in dat database");
@@ -57,14 +58,20 @@ class modelMongoDb {
 
     }
     async createUser(userEmail, userPassword, userGender) {
-        var userDatas = {
-            firstname: userFirstName,
-            lastname: userLastName,
-            gender: userGender
-        }
-        await this.mongoInsert('users', userDatas);
+        bcrypt.hash(userPassword, 10, function (err, hash) {
+            var userDatas = {
+                email: userEmail,
+                password: hash,
+                gender: userGender
+            }
+            await this.mongoInsert('users', userDatas);
+        });
+
 
         return 0;
+    }
+    async checkPassword(userEmail, userPassword) {
+
     }
     /*******************/
     /*** Mongo CRUD ***/
