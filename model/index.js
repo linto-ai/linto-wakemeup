@@ -2,6 +2,7 @@ const BDD_URI = 'mongodb://127.0.0.1';
 const MONGODB_DBNAME = 'wakemeup';
 const mongoDb = require("mongodb");
 const bcrypt = require('bcrypt');
+var sha1 = require('sha1');
 
 class modelMongoDb {
     constructor() {
@@ -38,39 +39,51 @@ class modelMongoDb {
             console.log('not found')
             return false;
         }
-        /*if ( ) {
-            console.log(await this.mongoRequest('users', {
-                firstname: userFirstName,
-                lastname: userLastName
-            })[0]);
-            
-            return true;
-        } else {
-            console.log("user not found \nInserting dat data in dat database");
-            console.log(await this.mongoRequest('users', {
-                "firstname": userFirstName
-            }));
-
-            return false;
-        }*/
-
 
 
     }
     async createUser(userEmail, userPassword, userGender) {
-        bcrypt.hash(userPassword, 10, function (err, hash) {
-            var userDatas = {
-                email: userEmail,
-                password: hash,
-                gender: userGender
-            }
-            await this.mongoInsert('users', userDatas);
-        });
+        let userSalt = Math.random();
+        console.log(userSalt)
+        let saltedPassword = userSalt + userPassword;
+        let userHash = sha1(saltedPassword);
+        console.log('mot de passe haché : ', userHash);
 
+        const userDatas = {
+            email: userEmail,
+            hash: userHash,
+            gender: userGender,
+            salt: userSalt
+        };
 
-        return 0;
+        await this.mongoInsert('users', userDatas);
+        return userHash;
     }
+
+
+
+
+
+
+
     async checkPassword(userEmail, userPassword) {
+        let saltedPassword = "sel" + userPassword;
+        let getUser = await this.mongoRequest('users', {
+            email: userEmail
+        });
+        const user = getUser[0]
+        saltedPassword = user.salt + userPassword;
+        let hashedSaltedPassword = sha1(saltedPassword);
+        //let hash = await user.hash
+
+        if (user.hash === hashedSaltedPassword) {
+            console.log(user.hash, hashedSaltedPassword);
+            return true;
+        } else {
+            return false;
+        }
+
+
 
     }
     /*******************/

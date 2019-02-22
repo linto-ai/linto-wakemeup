@@ -20,12 +20,12 @@
           form(method='POST' action='/checkLogin' name="userInfo" id="userForm" class="form-content")
             div(class="form-group")
               div(class="form-label-group")
-                input(type="text" name='userInfo' id="formName" class="form-control" placeholder="Prenom" autofocus="autofocus")
-                label(for="firstname") Prénom
+                input(type="email" name='email' id="email" class="form-control" placeholder="email" autofocus="autofocus")
+                label(for="firstname") email
             div(class="form-group")
               div(class="form-label-group")
-                input(type="text" name='userInfo' id="formLastname" class="form-control" placeholder="Nom"  required="required")
-                label(for="inputPassword") Nom
+                input(type="password" name='password' id="password" class="form-control" placeholder="password"  required="required")
+                label(for="inputPassword") Mot de passe
             button(type='submit' id="postlogin" class="btn btn-primary btn-block") Valider
           div(class="text-center")
             a(class="d-block small mt-3" href="/dataUsage") Pourquoi avons nous besoin de vous identifier

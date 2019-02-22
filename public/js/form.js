@@ -23,18 +23,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
     });
 
     function isvalidForm() {
-        const firstName = document.getElementById('formName');
-        const lastName = document.getElementById('formLastname');
-        if (firstName.value.length > 0 && lastName.value.length > 0) {
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        if (email.value.length > 0 && password.value.length > 0) {
             return true;
         }
         return false;
     }
 
-    async function sendAuth(lastName, firstName) {
+    async function sendAuth(password, email) {
         const userInfo = {
-            lastName: lastName,
-            firstName: firstName
+            password: password,
+            email: email
         }
         let checkAuth = await axios('/checkLogin', {
             method: 'post',
@@ -51,11 +51,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
     async function sendForm() {
 
-        const firstName = document.getElementById('formName');
-        const lastName = document.getElementById('formLastname');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
         const userInfo = {
-            lastName: lastName.value,
-            firstName: firstName.value
+            password: password.value,
+            email: email.value
         }
         let checkAuth = await axios('/checkLogin', {
             method: 'post',
@@ -72,10 +72,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     }
 
-    if (!!getCookie("nom") && !!getCookie("prenom")) {
-        console.log("prenom:", getCookie("nom"));
-        console.log("nom:", getCookie("prenom"));
-        sendAuth(getCookie("nom"), getCookie("prenom"));
+    if (!!getCookie("hash") && !!getCookie("email")) {
+        console.log("email:", getCookie("hash"));
+        console.log("hash:", getCookie("email"));
+        sendAuth(getCookie("hash"), getCookie("email"));
     }
 
 
