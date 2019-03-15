@@ -1,0 +1,2 @@
+use wakemeup
+db.users.insert([{"email":"rlopez@linagora.com","passwordHash":"4217fc2e1a44d9e24930fcb7a1f4104656f4c4c1","salt":"toto","gender":"male","deviceType":"default","firstName":"","lastName":"","ageRange":"","nbListen":0,"nbRecord":0,"emailHash":"28f779a160273dd71d3931e7b22fb4e82e3f307d","anonymous":false}])
