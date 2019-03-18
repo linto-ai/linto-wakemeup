@@ -17,56 +17,83 @@ module.exports = (webServer) => {
           if (getUser.length > 0) {
             user = getUser[0]
           }
-          console.log('>,',   user)
           if (typeof (user) === "undefined") { // User not found
             res.json({
               "status": "error",
-              "msg": "user not found"
+              "field": "user",
+              "msg": "User not found"
             })
           } else { // User found
             const userPswdHash = user.passwordHash
             const salt = user.salt
             // Compare password with database
-            console.log()
             if (sha1(password + salt) == userPswdHash) {
-              res.json({"status":"success", "msg":"password found"})
-              
-              // TODO > Traitement des information LOGIN
-              
-              /*req.session.logged = 'on'
-              req.session.user = userName
+              req.session.logged = 'on'
+              req.session.user = user.emailHash
               req.session.save((err) => {
                 if (err) {
                   res.json({
                     "status": "error",
+                    "field": "global",
                     "msg": "Error on saving session"
                   })
                 } else {
+                  //Valid password
                   res.json({
                     "status": "success",
+                    "field": "global",
                     "msg": "valid"
-                  }) //Valid password
+                  }) 
                 }
-              })*/
+              })
             } else {
+              // Invalid password
               res.json({
                 "status": "error",
+                "field": "password",
                 "msg": "Invalid password"
-              }) // Invalid password
+              }) 
             }
           }
         } catch (error) {
           console.error(error)
           res.json({
             "status": "error",
+            "field": "global",
             "msg": error
           })
         }
       } else {
         res.json({
           "status": "error",
+          "field": "global",
           "msg": "An error has occured whent trying to connect to database"
         })
+      }
+    }
+  },
+  {
+    path: '/createUser',
+    method: 'post',
+    controller: async (req, res, next) => {
+      const userInfos = req.body
+      const createUser= await model.createUser(userInfos)
+      if(createUser === 'success'){
+        const getUser = await model.getUserByEmail(userInfos.email)
+        req.session.logged = 'on'
+        req.session.user = getUser[0].emailHash
+        req.session.save((err) => {
+          if (err) {
+            res.json({
+              "status": "error",
+              "msg": "Error on saving session"
+            })
+          } else {
+            res.json({status:'success', msg:'Compte créé avec succès'})
+          }
+        })
+      } else {
+        res.json({status:'error', msg: createUser})
       }
     }
   }]

@@ -44,6 +44,9 @@ function configureDefaults() {
     process.env.MONGODB_USER = ifHas(process.env.MONGODB_USER, envdefault.MONGODB_USER)
     process.env.MOGODB_PSWD = ifHas(process.env.MOGODB_PSWD, envdefault.MOGODB_PSWD)
 
+    //Redis 
+    process.env.REDIS_HOST = ifHas(process.env.REDIS_HOST, envdefault.REDIS_HOST)
+    process.env.REDIS_PORT = ifHas(process.env.REDIS_PORT, envdefault.REDIS_PORT)
   } catch (e) {
     console.error(debug.namespace, e)
     process.exit(1)

@@ -12,25 +12,18 @@ function logger(req, res, next) {
 function checkAuth(req, res, next) {
   if (isProduction()) {
     // If not connected
-    if ((typeof (req.session.logged) == 'undefined' || req.session.logged != 'on') && req.url != '/login') {
-      res.redirect('/login')
+    if ((typeof (req.session.logged) == 'undefined' || req.session.logged != 'on')) {
+      res.redirect('/')
     }
     //If connected
-    else if (req.session.logged == 'on' && req.url == '/login') {
-      req.session.save((err) => {
-        if (err && err != 'undefined') {
-          console.error('Err:', err)
-        }
-      })
-      res.redirect('/admin/linto')
-    } else {
+    else if (req.session.logged == 'on') {
       req.session.save((err) => {
         if (err && err != 'undefined') {
           console.error('Err:', err)
         }
       })
       next()
-    }
+    } 
   } else {
     next()
   }

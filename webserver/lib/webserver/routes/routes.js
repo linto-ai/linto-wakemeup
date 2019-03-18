@@ -21,7 +21,9 @@ const debug = require('debug')('linto-admin:routes')
 module.exports = (webServer) => {
   return {
     "/": require('./home')(webServer),
+    "/interface": require('./interface')(webServer),
     "/login": require('./login')(webServer),
+    "/logout": require('./logout')(webServer),
     
   }
 }

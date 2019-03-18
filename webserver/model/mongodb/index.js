@@ -1,7 +1,7 @@
 const debug = require('debug')('linto-admin:model:mongodb')
 const MONGODB_DBNAME = process.env.MONGODB_DBNAME
-//const sha1 = require('sha1')
-//const randomstring = require('randomstring')
+const sha1 = require('sha1')
+const randomstring = require('randomstring')
 const mongoDb = require("mongodb")
 let urlMongo = 'mongodb://'
 if (process.env.MONGODB_USER) {
@@ -76,19 +76,27 @@ class modelMongoDb {
    */
   async createUser(payload) {
     try {
-      const getUsers = await this.getUsers()
-      if (getUsers.length == 0) {
+      const getUser = await this.getUserByEmail(payload.email)
+      if (getUser.length === 0) {
         const salt = randomstring.generate(12)
         const userPayload = {
-          userName: payload.userName,
-          email: payload.email,
-          pswdHash: sha1(payload.pswd + salt),
+          email : payload.email,
+          passwordHash: sha1(payload.pswd + salt),
           salt: salt,
-          role: 'administrator'
+          gender: payload.gender,
+          deviceType: payload.deviceType,
+          firstName: '',
+          lastName: '',
+          ageRange: '',
+          nbListen: 0,
+          nbRecord: 0,
+          emailHash : sha1(payload.email),
+          anonymous: false
         }
         return await this.mongoInsert('users', userPayload)
+        
       } else {
-        return 'An user already exist.'
+        return 'Cet utilisateur existe déjà'
       }
 
     } catch (err) {

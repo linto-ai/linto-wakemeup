@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "NODE_ENV=production nodemon app.js",
+    "start-dev": "NODE_ENV=dev nodemon app.js"
   },
   "author": "rlopez",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "connect-redis": "^3.4.1",
     "cookie-parser": "^1.4.4",
     "dotenv": "^7.0.0",
     "eventemitter3": "^3.1.0",
@@ -17,6 +19,8 @@
     "express-session": "^1.15.6",
     "mongodb": "^3.1.13",
     "path": "^0.12.7",
+    "randomstring": "^1.1.5",
+    "redis": "^2.8.0",
     "sha1": "^1.1.1"
   }
 }

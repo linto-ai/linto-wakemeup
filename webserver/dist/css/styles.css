@@ -7280,6 +7280,20 @@ button {
   border: none;
   background-color: #fff;
   font-weight: 300; }
+  .input.error {
+    border: 1px solid #c61e42; }
+  .input.valid {
+    border: 1px solid #2da800; }
+
+.error-field {
+  display: inline-block;
+  width: 100%;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 500;
+  color: #c61e42;
+  margin: 0;
+  padding: 5px 0; }
 
 .select {
   display: inline-block;
@@ -7295,6 +7309,10 @@ button {
   border-radius: 5px;
   font-weight: 300;
   padding: 5px; }
+  .select.error {
+    border: 1px solid #c61e42; }
+  .select.valid {
+    border: 1px solid #2da800; }
 
 .micro-type-container {
   display: inline-block;
@@ -7338,6 +7356,23 @@ button {
       background-position: -80px -160px; }
     .micro-type-container .micro-type-item.active .label, .micro-type-container .micro-type-item:hover .label {
       color: #2da800; }
+
+.status-field {
+  display: inline-block;
+  width: 100%;
+  margin: 5px 0;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center; }
+  .status-field.success {
+    color: #2da800;
+    border-color: #2da800; }
+  .status-field.error {
+    color: #c61e42;
+    border-color: #c61e42; }
 
 /*** END FORM ***/
 /*** GLOBAL ***/

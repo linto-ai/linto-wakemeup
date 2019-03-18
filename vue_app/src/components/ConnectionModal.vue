@@ -13,7 +13,7 @@
               <span class="icon user"></span>
               <span class="label">Adresse email:</span>
             </div>
-            <input type="text" class="input" v-model="userEmail">
+            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid  === 'valid' ? 'valid' : '']">
             <span
               class="error-field"
               :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -24,7 +24,7 @@
               <span class="icon pswd"></span>
               <span class="label">Mot de passe :</span>
             </div>
-            <input type="password" class="input" v-model="userPswd">
+            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']">
             <span
               class="error-field"
               :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -50,45 +50,88 @@
 import axios from 'axios'
 import { bus } from "../main.js";
 export default {
-  data() {
+  data () {
     return {
       showConnectionModal: false,
-      userEmail: "",
+      userEmail: '',
       userEmailValid: false,
-      userEmailErrorMsg: "",
-      userPswd: "",
+      userEmailErrorMsg: '',
+      userPswd: '',
       userPswdValid: false,
-      userPswdErrorMsg: ""
-    };
+      userPswdErrorMsg: ''
+    }
   },
-  mounted() {
+  mounted () {
     bus.$on("toggle_connection_modal", () => {
-      this.toggleConnectionModal();
-    });
+      this.toggleConnectionModal()
+    })
   },
   methods: {
-    toggleConnectionModal() {
-      this.showConnectionModal = !this.showConnectionModal;
+    toggleConnectionModal () {
+      this.showConnectionModal = !this.showConnectionModal
     },
-    closeModal() {
-      this.showConnectionModal = false;
+    closeModal () {
+      this.showConnectionModal = false
     },
     toggleCreateAccountModal () {
       this.showConnectionModal = false
       bus.$emit('toggle_create_account_modal', {})
     },
-    async sendLogin () {
-      const payload = {
-        email: this.userEmail,
-        password: this.userPswd
+    validateEmail (email) {
+      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+    },
+    checkForm () {
+      if (this.userEmail.length === 0) {
+        this.userEmailValid = 'error'
+        this.userEmailErrorMsg = 'Vous devez renseigner une adresse email de connection'
+      } else if (!this.validateEmail(this.userEmail)) {
+        this.userEmailValid = 'error'
+        this.userEmailErrorMsg = 'Le format de l\'adresse email est invalide'
+      } else {
+        this.userEmailValid = 'valid'
+        this.userEmailErrorMsg = ''
       }
-      const login = await axios('http://localhost:3003/login/userAuth', {
-        method: 'post',
-        data: payload
-      })
-      console.log(login)
 
-}
+      if (this.userPswd.length === 0) {
+        this.userPswdValid = 'error'
+        this.userPswdErrorMsg = 'Veuillez renseigner un mot de passe'
+      } else {
+        this.userPswdValid = 'valid'
+        this.userPswdErrorMsg = ''
+      }
+
+      if (this.userEmailValid === 'valid' && this.userPswdValid === 'valid') {
+        return true
+      } else {
+        return false
+      }
+    },
+    async sendLogin () {
+      const formValid = this.checkForm();
+      if(formValid) {
+        const payload = {
+          email: this.userEmail,
+          password: this.userPswd
+        }
+        const login = await axios('http://localhost:3003/login/userAuth', {
+          method: 'post',
+          data: payload
+        })
+        if (login.data.status === 'error') {
+          if(login.data.field === 'user') {
+            this.userEmailValid = 'error'
+            this.userEmailErrorMsg = login.data.msg
+          } else if (login.data.field === 'password') {
+            this.userPswdValid = 'error'
+            this.userPswdErrorMsg = login.data.msg
+          }
+        } else if (login.data.status === 'success') {
+          document.location.href = '/interface'
+        }
+      } else {
+        return
+      }
+    }
   }
-};
+}
 </script>
