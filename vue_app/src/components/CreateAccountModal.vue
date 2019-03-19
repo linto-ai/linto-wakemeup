@@ -127,7 +127,7 @@ export default {
       this.showCreateAccountModal = false;
       bus.$emit('toggle_connection_modal', () => {});
     },
-     validateEmail (email) {
+    validateEmail (email) {
       return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
     },
     async sendForm () {

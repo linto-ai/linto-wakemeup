@@ -7,11 +7,25 @@ module.exports = (webServer) => {
     {
       path: '/getUserInfos',
       method: 'post',
-//      requireAuth: true,
       controller: async (req, res, next) => {
         const userHash = req.body.hash
         const user =  await model.getUserByHash(userHash)
         res.json({ user })
+      }
+    },
+    {
+      path: '/updateUser',
+      method: 'post',
+      controller: async (req, res, next) => {
+        const data = req.body
+        const userHash = data.emailHash
+        const getUserInfos = await model.getUserByHash(userHash)
+        let payload = getUserInfos[0]
+        for(let key in data){
+          payload[key] = data[key]
+        }
+        const updateUser = await model.updateUser(payload)
+        res.json({'status': updateUser})
       }
     },
     {

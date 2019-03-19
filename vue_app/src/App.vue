@@ -3,13 +3,11 @@
      <div id="header">
       <HeaderApp></HeaderApp>
     </div>
-    <div id="test">
-      <transition>
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </transition>
-    </div>
+    <transition>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 <script>

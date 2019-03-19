@@ -7083,9 +7083,9 @@ button {
   font-weight: 500;
   text-transform: uppercase;
   text-align: center;
-  -moz-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -7112,6 +7112,7 @@ button {
       color: #fff; }
   .button.large {
     width: 100%;
+    max-width: 620px;
     padding: 5px 0;
     font-size: 18px;
     color: #fff; }
@@ -7155,6 +7156,8 @@ button {
   clear: both;
   position: relative;
   border-bottom: 1px solid; }
+  .divider.grey {
+    border-color: #ccc; }
   .divider.red {
     border-color: #c61e42; }
   .divider.shadowTop {
@@ -7270,7 +7273,8 @@ button {
 .input {
   display: inline-block;
   width: 100%;
-  padding: 5px;
+  max-width: 460px;
+  padding: 5px 10px;
   -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
@@ -7313,6 +7317,8 @@ button {
     border: 1px solid #c61e42; }
   .select.valid {
     border: 1px solid #2da800; }
+  .select:hover {
+    cursor: pointer; }
 
 .micro-type-container {
   display: inline-block;
@@ -7375,6 +7381,36 @@ button {
     border-color: #c61e42; }
 
 /*** END FORM ***/
+/*** TABLE USER PANEL ***/
+.user-panel-tab {
+  width: 100%; }
+  .user-panel-tab tr td {
+    vertical-align: top;
+    padding: 0 0 20px 0; }
+  .user-panel-tab td.tab-label {
+    text-align: right;
+    font-size: 14px;
+    padding: 10px 10px 0 0;
+    width: 30%;
+    font-weight: 500; }
+  .user-panel-tab td.tab-input {
+    text-align: left;
+    margin-left: 10px;
+    width: 70%;
+    max-width: 460px; }
+    .user-panel-tab td.tab-input .micro-type-container {
+      text-align: left; }
+
+.info {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  color: #999999;
+  font-style: italic;
+  text-align: left;
+  padding: 10px 0; }
+
+/*** END TABLE USER PANEL ***/
 /*** GLOBAL ***/
 body {
   background-color: #fff;
@@ -7396,6 +7432,27 @@ body {
 
 .hidden {
   display: none !important; }
+
+.white-container {
+  width: 100%;
+  padding: 20px;
+  -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  text-align: center; }
+
+h3 {
+  display: inline-block;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 400;
+  color: #444444;
+  margin: 40px 0 20px 0; }
 
 /*** END GLOBAL ***/
 /*** HEADER ***/

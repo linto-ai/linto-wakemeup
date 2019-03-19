@@ -20,7 +20,8 @@ export default new Vuex.Store({
         ageRange: data.ageRange,
         nbListen: data.nbListen,
         nbRecord: data.nbRecord,
-        anonymous: data.anonymous
+        anonymous: data.anonymous,
+        emailHash: data.emailHash
       }
     }
   },

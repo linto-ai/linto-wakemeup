@@ -1,7 +1,8 @@
 /*** BUTTONS ***/
-*:focus{
-  outline: none !important; 
+*:focus {
+  outline: none !important;
 }
+
 button {
   border: none;
   margin: 0;
@@ -20,6 +21,7 @@ button {
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
   -moz-appearance: none;
+
   /* Remove excess padding and border in Firefox 4+ */
   &::-moz-focus-inner {
     border: 0;
@@ -35,7 +37,7 @@ button {
   font-weight: 500;
   text-transform: uppercase;
   text-align: center;
-  @include boxShadow(0, 2px, 2px, 2px, rgba(0, 0, 0, .3));
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
   @include borderRadius(5px);
   @include transition(all 0.3s ease);
   -webkit-appearance: none;
@@ -66,6 +68,7 @@ button {
 
   &.large {
     width: 100%;
+    max-width: 620px;
     padding: 5px 0;
     font-size: 18px;
     color: #fff;
@@ -121,9 +124,12 @@ button {
   position: relative;
   border-bottom: 1px solid;
 
+  &.grey {
+    border-color: #ccc;
+  }
+
   &.red {
     border-color: $redChart;
-
   }
 
   &.shadowTop {
@@ -273,7 +279,8 @@ button {
 .input {
   display: inline-block;
   width: 100%;
-  padding: 5px;
+  max-width: 460px;
+  padding: 5px 10px;
   @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
   @include borderRadius(5px);
   border: none;
@@ -283,19 +290,20 @@ button {
   &.error {
     border: 1px solid $redChart
   }
+
   &.valid {
     border: 1px solid $greenChart
   }
 }
 
-.error-field{
+.error-field {
   display: inline-block;
   width: 100%;
   font-size: 13px;
   font-style: italic;
   font-weight: 500;
   color: $redChart;
-  margin: 0; 
+  margin: 0;
   padding: 5px 0;
 }
 
@@ -309,11 +317,17 @@ button {
   @include borderRadius(5px);
   font-weight: 300;
   padding: 5px;
+
   &.error {
     border: 1px solid $redChart
   }
+
   &.valid {
     border: 1px solid $greenChart
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
@@ -363,31 +377,33 @@ button {
       line-height: 13px;
       height: 30px;
       text-align: center;
-      color:$greyUnactive;
+      color: $greyUnactive;
     }
 
-    &.active, 
-    &:hover{
-      .icon{
+    &.active,
+    &:hover {
+      .icon {
         &.default {
           background-position: -80px 0;
         }
-  
+
         &.casque {
           background-position: -80px -80px;
         }
-  
+
         &.pied {
           background-position: -80px -160px;
         }
       }
-      .label{
+
+      .label {
         color: $greenChart;
       }
     }
   }
 }
-.status-field{
+
+.status-field {
   display: inline-block;
   width: 100%;
   margin: 5px 0;
@@ -397,14 +413,57 @@ button {
   font-size: 14px;
   font-weight: 500;
   text-align: center;
-  &.success{
+
+  &.success {
     color: $greenChart;
     border-color: $greenChart;
   }
-  &.error{
+
+  &.error {
     color: $redChart;
     border-color: $redChart;
   }
 }
 
 /*** END FORM ***/
+
+/*** TABLE USER PANEL ***/
+.user-panel-tab {
+  width: 100%;
+
+  tr td {
+    vertical-align: top;
+    padding: 0 0 20px 0;
+  }
+
+  td.tab-label {
+    text-align: right;
+    font-size: 14px;
+    padding: 10px 10px 0 0;
+    width: 30%;
+    font-weight: 500;
+  }
+
+  td.tab-input {
+    text-align: left;
+    margin-left: 10px;
+    width: 70%;
+    max-width: 460px;
+
+    .micro-type-container {
+      text-align: left;
+    }
+  }
+}
+
+.info {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  color: #999999;
+  font-style: italic;
+  text-align: left;
+  padding: 10px 0;
+}
+
+/*** END TABLE USER PANEL ***/
