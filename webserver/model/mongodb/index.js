@@ -68,7 +68,16 @@ class modelMongoDb {
       console.error('get user ', err)
     }
   }
-
+  async getUserByHash(hash) {
+    try {
+      const query = {
+        emailHash: hash
+      }
+      return await this.mongoRequest('users', query)
+    } catch (err) {
+      console.error('get user ', err)
+    }
+  }
   /**
    * Create a new user
    * @param {Object} payload

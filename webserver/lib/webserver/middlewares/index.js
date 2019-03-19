@@ -28,7 +28,17 @@ function checkAuth(req, res, next) {
     next()
   }
 }
+
+function isConnected(req, res, next) {
+  if ((typeof (req.session.logged) != 'undefined' || req.session.logged == 'on')) {
+    res.cookie('wmu_user', req.session.user)
+  } else {
+    res.cookie('wmu_user', 'disconnected')
+  }
+  next()
+}
 module.exports = {
   checkAuth,
-  logger
+  logger,
+  isConnected
 }

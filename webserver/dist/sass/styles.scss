@@ -26,9 +26,10 @@ body {
   z-index: 1;
 }
 
-.hidden{
+.hidden {
   display: none !important;
 }
+
 /*** END GLOBAL ***/
 
 /*** HEADER ***/
@@ -43,7 +44,6 @@ body {
   background-color: #ffffff;
   @include boxShadow(0, 2px, 4px, 0px, rgba(0, 0, 0, .3));
   border-bottom: 1px solid $redChart;
-  overflow: hidden;
 }
 
 .logo-container {
@@ -67,6 +67,110 @@ body {
   }
 }
 
+.user-menu {
+  display: inline-block;
+  position: relative;
+  width: auto;
+  padding: 0 15px;
+  height: 100%;
+
+  .toggle-user-menu {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+
+    & > span {
+      display: inline-block;
+      height: 50px;
+      vertical-align: top;
+    }
+    .label {
+      font-size: 16px;
+      font-weight: 500;
+      color: $redChart;
+      line-height: 50px;
+    }
+
+    .icon {
+      width: 30px;
+      margin-left: 5px;
+      background-image: url('../img/user-arrow@2x.png');
+      background-size: 30px 100px;
+      background-repeat: no-repeat;
+      background-position: 0 0 ;
+    }
+
+    &:hover{
+      .label{
+        text-decoration: underline
+      }
+    }
+    &.closed{
+      .icon{
+        background-position: 0 -50px ;
+      }
+    }
+  }
+
+  .user-submenu {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    background: #fff;
+    @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+    @include borderRadius(5px);
+    text-align: center;
+  }
+
+  .user-submenu-link {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+
+    & > span {
+      display: inline-block;
+      vertical-align: top;
+      height: 20px;
+    }
+    .label{
+      line-height: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      &.user{
+        color: $greenChart;
+      }
+      &.logout{
+        color: $redChart; 
+      }
+    }
+    .icon{
+      width: 20px;
+      background-image: url('../img/user-panel-icons@2x.png');
+      background-size: 20px 40px;
+      background-repeat: no-repeat;
+      margin: 0 5px;
+
+      &.user{
+        background-position: 0 0;
+      }
+      &.logout{
+        background-position: 0 -20px;
+      }
+    }
+
+    &:hover{
+      background: #f2f2f2;
+      .label{
+        text-decoration: underline;
+      }
+
+    }
+  }
+}
+
 /*** END HEADER ***/
 
 /*** PAGE CONTENT ***/
@@ -84,6 +188,7 @@ body {
 /* HOME - Highlight */
 #highlight {
   margin: 40px 0;
+
   h2 {
     display: inline-block;
     width: 100%;
@@ -91,29 +196,35 @@ body {
     font-weight: 100;
     font-size: 38px;
     padding: 20px 0;
-    @include textShadow(1px, 1px, 2px, rgba(0,0,0,0.2))
+    @include textShadow(1px, 1px, 2px, rgba(0, 0, 0, 0.2))
   }
+
   .talk {
     border-right: 1px solid #ccc;
+
     h2 {
       color: $redChart;
     }
   }
+
   .listen h2 {
     color: $greenChart;
   }
-  .title-icon{
+
+  .title-icon {
     height: 180px;
     width: 100%;
     text-align: center;
+
     img {
       display: inline-block;
       height: 100%;
       width: auto;
       vertical-align: top;
     }
-  } 
-  .highlight-content{
+  }
+
+  .highlight-content {
     width: 75%;
     margin: 40px auto;
     text-align: left;
@@ -121,7 +232,8 @@ body {
     font-weight: 400;
     line-height: 24px;
   }
-  .highlight-action{
+
+  .highlight-action {
     margin: 20px 0;
     text-align: center;
   }

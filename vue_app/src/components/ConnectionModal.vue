@@ -53,10 +53,10 @@ export default {
   data () {
     return {
       showConnectionModal: false,
-      userEmail: '',
+      userEmail: 'rlopez@linagora.com',
       userEmailValid: false,
       userEmailErrorMsg: '',
-      userPswd: '',
+      userPswd: 'admin',
       userPswdValid: false,
       userPswdErrorMsg: ''
     }
@@ -126,7 +126,7 @@ export default {
             this.userPswdErrorMsg = login.data.msg
           }
         } else if (login.data.status === 'success') {
-          document.location.href = '/interface'
+          document.location.href = '/interface/overview'
         }
       } else {
         return

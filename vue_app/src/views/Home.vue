@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div id="header">
-      <Header></Header>
-    </div>
     <div id="page-content">
       <div id="home">
         <div id="highlight" class="container-fluid">

@@ -1,17 +1,21 @@
 const debug = require('debug')('linto-admin:interface')
-//const sha1 = require('sha1')
-/*const DBmodel = require(`${process.cwd()}/model/${process.env.BDD_TYPE}`)
-const model = new DBmodel()*/
+const middlewares = require(`${process.cwd()}/lib/webserver/middlewares`)
 
 module.exports = (webServer) => {
   return [
     {
-      path: '/',
+      path: '/*',
       method: 'get',
       requireAuth: true,
-      controller: async (req, res, next) => {
-        res.sendFile(process.cwd() + '/dist/interface.html')
-      }
+      controller:[
+        (req, res, next) => {
+          middlewares.isConnected(req, res, next)
+        },
+        async (req, res, next) => {
+          res.setHeader("Content-Type", "text/html")
+          res.sendFile(process.cwd() + '/dist/index.html')
+        }
+      ] 
     }
   ]
 }

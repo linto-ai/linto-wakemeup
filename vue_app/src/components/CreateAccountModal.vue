@@ -63,15 +63,15 @@
               <span class="label">Type de mircophone :</span>
             </div>
             <div class="micro-type-container">
-              <div class="micro-type-item" @click="setMicrophone('default')" :class="[selectedMic == 'default' ? 'active' : '']">
+              <div class="micro-type-item" @click="setMicrophone('default')" :class="[deviceType == 'default' ? 'active' : '']">
                 <span class="icon default"></span>
                 <span class="label">Micro par défaut</span>
               </div>
-              <div class="micro-type-item" @click="setMicrophone('casque')" :class="[selectedMic == 'casque' ? 'active' : '']">
+              <div class="micro-type-item" @click="setMicrophone('casque')" :class="[deviceType == 'casque' ? 'active' : '']">
                 <span class="icon casque"></span>
                 <span class="label">Micro-casque</span>
               </div>
-              <div @click="setMicrophone('pied')" class="micro-type-item" :class="[selectedMic == 'pied' ? 'active' : '']">
+              <div @click="setMicrophone('pied')" class="micro-type-item" :class="[deviceType == 'pied' ? 'active' : '']">
                 <span class="icon pied"></span>
                 <span class="label">Micro à pied</span>
               </div>
@@ -93,7 +93,7 @@ export default {
   data() {
     return {
       showCreateAccountModal: false,
-      selectedMic: 'default',
+      deviceType: 'default',
       userEmail: "",
       userEmailValid: false,
       userEmailErrorMsg: "",
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     setMicrophone (selected) {
-      this.selectedMic = selected
+      this.deviceType = selected
     },
     closeModal () {
       this.showCreateAccountModal = false;
@@ -149,8 +149,9 @@ export default {
         if (createUser.data.status === 'success') {
           this.btnCreateAccountLabel = 'Succès'
           this.createAccoutMsg += ', vous allez être redirigé dans 3 sec'
+          this.setCookie('wmu_user', createUser.data.userHash)
           setTimeout(() => {
-            document.location.href = '/interface'
+            document.location.href = '/interface/overview'
           },3000)
         } else {
           this.btnCreateAccountLabel = 'Créer un compte'
@@ -210,6 +211,26 @@ export default {
       } else {
         return false
       }
+    },
+    setCookie (cname, cvalue, exdays) {
+      const d = new Date()
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
+      const expires = 'expires='+d.toUTCString()
+      document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
+    },
+    getCookie (cname) {
+      const name = cname + '='
+      const ca = document.cookie.split(';')
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1)
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length)
+        }
+      }
+      return ''
     }
   }
 }

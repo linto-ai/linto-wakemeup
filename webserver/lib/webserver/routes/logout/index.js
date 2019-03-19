@@ -16,7 +16,7 @@ module.exports = (webServer) => {
             console.error(err)
           });
         }
-        res.redirect('/login')
+        res.redirect('/')
       }
     ]
   }]
