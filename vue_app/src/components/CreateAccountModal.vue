@@ -151,7 +151,7 @@ export default {
           this.createAccoutMsg += ', vous allez être redirigé dans 3 sec'
           this.setCookie('wmu_user', createUser.data.userHash)
           setTimeout(() => {
-            document.location.href = '/interface/overview'
+            document.location.href = '/'
           },3000)
         } else {
           this.btnCreateAccountLabel = 'Créer un compte'

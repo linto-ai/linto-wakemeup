@@ -30,7 +30,7 @@ body {
   display: none !important;
 }
 
-.white-container{
+.white-container {
   width: 100%;
   padding: 20px;
   @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
@@ -39,7 +39,8 @@ body {
   background-color: #fff;
   text-align: center;
 }
-h3{
+
+h2 {
   display: inline-block;
   width: 100%;
   font-size: 24px;
@@ -47,6 +48,16 @@ h3{
   color: $greyText;
   margin: 40px 0 20px 0;
 }
+
+h3 {
+  display: inline-block;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 500;
+  color: $greyText;
+  margin: 20px 0;
+}
+
 /*** END GLOBAL ***/
 
 /*** HEADER ***/
@@ -96,11 +107,12 @@ h3{
     height: 100%;
     width: auto;
 
-    & > span {
+    &>span {
       display: inline-block;
       height: 50px;
       vertical-align: top;
     }
+
     .label {
       font-size: 16px;
       font-weight: 500;
@@ -114,17 +126,18 @@ h3{
       background-image: url('../img/user-arrow@2x.png');
       background-size: 30px 100px;
       background-repeat: no-repeat;
-      background-position: 0 0 ;
+      background-position: 0 0;
     }
 
-    &:hover{
-      .label{
+    &:hover {
+      .label {
         text-decoration: underline
       }
     }
-    &.closed{
-      .icon{
-        background-position: 0 -50px ;
+
+    &.closed {
+      .icon {
+        background-position: 0 -50px;
       }
     }
   }
@@ -147,40 +160,46 @@ h3{
     width: 100%;
     padding: 10px 0;
 
-    & > span {
+    &>span {
       display: inline-block;
       vertical-align: top;
       height: 20px;
     }
-    .label{
+
+    .label {
       line-height: 20px;
       font-size: 14px;
       font-weight: 500;
-      &.user{
+
+      &.user {
         color: $greenChart;
       }
-      &.logout{
-        color: $redChart; 
+
+      &.logout {
+        color: $redChart;
       }
     }
-    .icon{
+
+    .icon {
       width: 20px;
       background-image: url('../img/user-panel-icons@2x.png');
       background-size: 20px 40px;
       background-repeat: no-repeat;
       margin: 0 5px;
 
-      &.user{
+      &.user {
         background-position: 0 0;
       }
-      &.logout{
+
+      &.logout {
         background-position: 0 -20px;
       }
     }
 
-    &:hover{
+    &:hover {
       background: #f2f2f2;
-      .label{
+
+      .label {
         text-decoration: underline;
       }
 
@@ -199,7 +218,8 @@ h3{
   background: #fafafa;
   overflow: auto;
   width: 100%;
-  height: calc(100% - 70px)
+  height: calc(100% - 70px);
+  padding-bottom: 40px;
 }
 
 /* HOME - Highlight */
@@ -257,5 +277,57 @@ h3{
 }
 
 /* END HOME - Highlight */
+
+/* USER PANEL */
+
+.col.user-stats:first-child{
+  border-right: 1px solid #ccc;
+}
+.user-stats {
+  
+  .stats-container {
+    height: 60px;
+    text-align: center;
+    margin-bottom: 40px;
+    
+    &>span {
+      display: inline-block;
+      height: 60px;
+      vertical-align: top;
+    }
+
+    .number {
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 60px;
+      &.talk {
+        color: $redChart;
+      }
+
+      &.listen {
+        color: $greenChart;
+      }
+    }
+
+    .icon {
+      width: 60px;
+      margin-right: 10px;
+      background-image: url('../img/stats-icons@2x.png');
+      background-size: 60px 120px;
+      background-repeat: no-repeat;
+
+      &.talk{
+        background-position: 0 0;
+      }
+      &.listen{
+        background-position: 0 -60px;
+      }
+    }
+  }
+}
+
+/* END USER PANEL */
+
+
 
 /*** END PAGE CONTENT ***/

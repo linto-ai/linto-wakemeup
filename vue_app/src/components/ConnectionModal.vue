@@ -48,7 +48,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { bus } from "../main.js";
+import { bus } from '../main.js'
 export default {
   data () {
     return {
@@ -62,7 +62,7 @@ export default {
     }
   },
   mounted () {
-    bus.$on("toggle_connection_modal", () => {
+    bus.$on('toggle_connection_modal', () => {
       this.toggleConnectionModal()
     })
   },
@@ -108,7 +108,7 @@ export default {
     },
     async sendLogin () {
       const formValid = this.checkForm();
-      if(formValid) {
+      if (formValid) {
         const payload = {
           email: this.userEmail,
           password: this.userPswd
@@ -118,7 +118,7 @@ export default {
           data: payload
         })
         if (login.data.status === 'error') {
-          if(login.data.field === 'user') {
+          if (login.data.field === 'user') {
             this.userEmailValid = 'error'
             this.userEmailErrorMsg = login.data.msg
           } else if (login.data.field === 'password') {
@@ -126,7 +126,7 @@ export default {
             this.userPswdErrorMsg = login.data.msg
           }
         } else if (login.data.status === 'success') {
-          document.location.href = '/interface/overview'
+          document.location.href = '/'
         }
       } else {
         return

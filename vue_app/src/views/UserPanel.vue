@@ -2,9 +2,9 @@
   <div>
     <div id="page-content">
       <div class="container-fluid">
-        <div clas="row">
+        <div class="row justify-content-around">
           <div class="col-5">
-            <h3>Informations utilisateur</h3>
+            <h2>Informations utilisateur</h2>
             <div class="white-container">
               <table class="user-panel-tab">
                 <tbody>
@@ -88,6 +88,62 @@
                 </tbody>
               </table>
             </div>
+            <h2>Modifier le mot de passe</h2>
+            <div class="white-container">
+              <table class="user-panel-tab">
+                <tbody>
+                  <tr>
+                    <td class="tab-label">Mot de passe actuel :</td>
+                    <td class="tab-input">
+                      <input class="input" type="password" v-model="currentPswd"  :class="[currentPswdValid === 'error' ? 'error' : '', currentPswdValid === 'valid' ? 'valid' : '']"/>
+                      <span class="error-field" :class="[currentPswdErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ currentPswdErrorMsg }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tab-label">Nouveau mot de passe :</td>
+                    <td class="tab-input">
+                      <input class="input" type="password" v-model="newPswd"  :class="[newPswdValid === 'error' ? 'error' : '', newPswdValid === 'valid' ? 'valid' : '']"/>
+                      <span class="error-field" :class="[newPswdErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdErrorMsg }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tab-label">Confirmation du ouveau mot de passe :</td>
+                    <td class="tab-input">
+                      <input class="input" type="password" v-model="newPswdConfirm"  :class="[newPswdConfirmValid === 'error' ? 'error' : '', newPswdConfirmValid === 'valid' ? 'valid' : '']"/>
+                      <span class="error-field" :class="[newPswdConfirmErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdConfirmErrorMsg }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="padding-top:10px;">
+                      <button class="button red large" @click="updatePswd()">Modifier le mot de passe</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-5">
+            <h2>Statistiques</h2>
+            <div class="white-container">
+              <div class="row">
+                <div class="col user-stats">
+                  <h3>Wake-words enregistrés</h3>
+                  <div class="stats-container">
+                    <span class="icon talk"></span>
+                    <span class="number talk">{{ userInfos.nbRecord }}</span>
+                  </div>
+                  <button class="button red">S'enregistrer</button>
+                </div>
+                <div class="col user-stats">
+                  <h3>Wake-words écoutés</h3>
+                  <div class="stats-container">
+                    <span class="icon listen"></span>
+                    <span class="number listen">{{ userInfos.nbListen }}</span>
+                  </div>
+                  <button class="button green">Écouter</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -96,7 +152,7 @@
 </template>
 <script>
 import axios from 'axios'
-
+import { bus } from '../main.js'
 export default {
   data () {
     return {
@@ -106,14 +162,22 @@ export default {
       lastNameValid: false,
       lastNameErrorMsg: '',
       firstNameValid: false,
-      firstNameErrorMsg: ''
+      firstNameErrorMsg: '',
+      currentPswd: '',
+      currentPswdValid: false,
+      currentPswdErrorMsg: '',
+      newPswd: '',
+      newPswdValid: false,
+      newPswdErrorMsg: '',
+      newPswdConfirm: '',
+      newPswdConfirmValid: false,
+      newPswdConfirmErrorMsg: ''
     }
   },
   computed : {
     userInfos () {
       this.userEmail = this.$store.state.userInfos.email
       return this.$store.state.userInfos
-
     }
   },
   methods: {
@@ -129,7 +193,7 @@ export default {
     checkProfil () {
       let profilValid = true
       // check email
-      if(this.validateEmail(this.userEmail)){
+      if (this.validateEmail(this.userEmail)) {
         this.userEmailValid = 'valid'
         this.userEmailErrorMsg = ''
       } else {
@@ -166,19 +230,112 @@ export default {
     },
     async updateProfil () {
       const profilValid = this.checkProfil()
-      if(profilValid) {
+      if (profilValid) {
+        let payload = this.userInfos
+        payload.email = this.userEmail
         const updateUser = await axios(`${process.env.VUE_APP_URL}/api/updateUser`, {
           method: 'post',
-          data: this.userInfos
+          data: payload
         })
-
-        console.log(updateUser)
+        if (updateUser.data.status === 'success') {
+          this.userEmailValid = false
+          this.lastNameValid = false
+          this.firstNameValid = false
+          bus.$emit('notify_app', {
+            status: 'success',
+            msg: 'Vos informations ont été mises à jour',
+            redirect: false
+          })
+          this.$store.dispatch('getUserInfos', this.userInfos.emailHash)
+        }
       }
       else {
         return
       }
+    },
+    checkPswd () {
+      let pswdFormValid = true
+
+      // check current password
+      if (this.currentPswd.length === 0 ) {
+        pswdFormValid = false
+        this.currentPswdValid = 'error'
+        this.currentPswdErrorMsg = 'Veuillez saisir votre mot de passe actuel'
+      } else {
+        this.currentPswdValid = 'valid'
+        this.currentPswdErrorMsg = ''
+      }
+
+      // check new password
+      if (this.newPswd.length === 0 ) {
+        pswdFormValid = false
+        this.newPswdValid = 'error'
+        this.newPswdErrorMsg = 'Veuillez saisir un nouveau mot de passe'
+      } else if (this.newPswd === this.currentPswd ) {
+        pswdFormValid = false
+        this.newPswdValid = 'error'
+        this.newPswdErrorMsg = 'Le nouveau mot de passe doit être différent de l\'actuel'
+
+      } else if (this.newPswd.length < 8 ) {
+        pswdFormValid = false
+        this.newPswdValid = 'error'
+        this.newPswdErrorMsg = 'Votre mot de passe doit contenir au moins 8 caractères'
+      } else {
+        this.newPswdValid = 'valid'
+        this.newPswdErrorMsg = ''
+      }
+
+      // check new password confirm
+      if (this.newPswdConfirm.length === 0 ) {
+        pswdFormValid = false
+        this.newPswdConfirmValid = 'error'
+        this.newPswdConfirmErrorMsg = 'Veuillez confirmer votre nouveau mot de passe'
+      } else if (this.newPswdConfirm != this.newPswd ) {
+        pswdFormValid = false
+        this.newPswdConfirmValid = 'error'
+        this.newPswdConfirmErrorMsg = 'Les mots de passe saisis ne correspondent pas'
+      } else {
+        this.newPswdConfirmValid = 'valid'
+        this.newPswdConfirmErrorMsg = ''
+      }
+
+      return pswdFormValid
+    },
+    async updatePswd () {
+      const pswdFormValid = this.checkPswd()
+      if (pswdFormValid) { 
+        const payload = {
+          currentPswd: this.currentPswd,
+          newPswd: this.newPswd,
+          emailHash: this.userInfos.emailHash
+        }
+        const updatePswd = await axios(`${process.env.VUE_APP_URL}/api/updateUserPswd`, {
+          method: 'post',
+          data: payload
+        })
+        if (updatePswd.data.status === 'success') {
+          bus.$emit('notify_app', {
+            status: 'success',
+            msg: 'Votre mot de passe a été modifié',
+            redirect: false
+          })
+          this.$store.dispatch('getUserInfos', this.userInfos.emailHash)
+        } else if (updatePswd.data.status === 'error') {
+          if (updatePswd.data.code === 0) {
+            this.currentPswdValid = 'error'
+            this.currentPswdErrorMsg = 'Le mot de passe saisi est invalide'
+          } else {
+            bus.$emit('notify_app', {
+            status: updatePswd.status,
+            msg: updatePswd.data.msg,
+            redirect: false
+          })
+          }
+        }
+      } else {
+        return
+      }
     }
   }
-
 }
 </script>

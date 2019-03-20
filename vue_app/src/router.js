@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Home from './views/Home.vue';
-import Interface from './views/Interface.vue'
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './views/Home.vue'
+import Record from './views/Record.vue'
 import UserPanel from './views/UserPanel.vue'
 
 Vue.use(Router);
@@ -15,14 +15,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/interface/overview',
-      name: 'Interface',
-      component: Interface
-    },
-    {
       path: '/interface/account',
       name: 'Compte utilisateur',
       component: UserPanel
+    },
+    {
+      path: '/interface/record',
+      name: 'Compte utilisateur',
+      component: Record
     }
   ]
 });

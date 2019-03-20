@@ -13,7 +13,7 @@
                 class="highlight-content"
               >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod malesuada nisl, sit amet vulputate justo interdum nec. Donec lobortis, ipsum vitae hendrerit sodales, purus risus fringilla ante, eu auctor mi velit ut turpis.</div>
               <div class="highlight-action">
-                <button class="button red">Enregistrez votre voix</button>
+                <a href="/interface/record" class="button red">Enregistrez votre voix</a>
               </div>
             </div>
             <div class="col listen">
