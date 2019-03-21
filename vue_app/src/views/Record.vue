@@ -1,37 +1,83 @@
 <template>
   <div id="page-content">
-    <button @click="startRecording()" class="button" id="start">Start recording</button>
-    <button @click="stopRecording()" class="button" id="stop">Stop recording</button>
-    <button @click="playRecord()" class="button">Play</button>
-    <button @click="test()" class="button">TEST</button>
-
+    <div class="container-fluid h-100 talk" id="player-container" >
+      <div class="row h-100">
+        <div class="col-3 h-100 player-content">
+          <h2 class="red">Enregistrez votre voix</h2>
+          <span class="content">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+          </span>
+        </div>
+        <div class="col-9 h-100">
+          <div id="player-wrapper">
+              <div class="say-word">
+                <h3>Dites : "<span class="word">Linto</span>"</h3>
+              </div>
+              <div class="record-btn-container">
+                <div class="player-anim">
+                  <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
+                </div>
+                <button @click="startRecording()" class="button-record" id="start" v-if="!isRecording"><span class="icon"></span></button>
+                <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button>
+                
+                <div class="player-anim">
+                  <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
+                </div>
+                <span class="label">Enregistrer</span>
+              </div>
+              <div class="record-actions-container" v-if="blob !== null && !isRecording">
+                <div class="action-container">
+                  <button @click="playRecord()" class="btn-player play"></button>
+                  <span class="label">Réécouter</span>
+                </div>
+                <div class="action-container">
+                  <button @click="restartRecord()" class="btn-player reset"></button>
+                  <span class="label">Recommencer</span>
+                </div>
+                <div class="action-container">
+                  <button @click="validRecord()" class="btn-player validate"></button>
+                  <span class="label">Valider</span>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
   </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      context: null,
+      isRecording: false,
       analyser: null,
       blob: null,
+      buffer: null,
+      bufferSize: 4096,
+      context: null,
       leftchannel: [],
-      rightchannel: [],
       leftBuffer: '',
-      rightBufffer: '',
-      recorder: null,
-      recordingLength: 0,
-      volume: null,
-      mediaStream: null,
-      sampleRate: 44100,
       mediaRecorder: null,
       mediaRecorderblob: null,
       mediaRecorderChunk: [],
-      bufferSize: 4096,
+      mediaStream: null,
       numberOfInputChannels: 2,
       numberOfOutputChannels: 2,
-      buffer: null,
+      recorder: null,
+      recordingLength: 0,
+      rightchannel: [],
+      rightBufffer: '',
+      sampleRate: 44100,
+      sourceNode: null,
       view: null,
-      sourceNode: null
+      volume: null
     }
   }, 
   mounted () {
@@ -65,11 +111,9 @@ export default {
         this.mediaRecorderChunk = [];
         this.mediaRecorder.ondataavailable = (e) => {
           this.mediaRecorderChunk.push(e.data);
-          this.mediaRecorderblob = new Blob(mediaRecorderChunk, {
+          this.mediaRecorderblob = new Blob(this.mediaRecorderChunk, {
             'type': 'audio/webm; codecs=opus'
           });
-          //sendDatas(mediaRecorderblob, {})
-          console.log('MR Blob :',this.mediaRecorderblob)
         }
 
         // Recorder (script processor) raw data
@@ -88,15 +132,17 @@ export default {
   },
   methods: {
     startRecording () {
-      //this.mediaRecorder.start()
+      this.isRecording = true
+      this.mediaRecorder.start()
       this.mediaStream.connect(this.recorder)
       this.recorder.connect(this.context.destination);
     },
     stopRecording () {
+      this.isRecording = false
       var audio = new Audio(url);
       this.recorder.disconnect(this.context.destination);
       this.mediaStream.disconnect(this.recorder);
-      //this.mediaRecorder.stop()
+      this.mediaRecorder.stop()
       this.sourceNode = this.context.createMediaElementSource(audio);
       this.sourceNode.connect(this.context.destination);
 
@@ -205,9 +251,6 @@ export default {
       request.open("POST", "http://localhost:3003/saveaudio");
       request.send(formData)
     },
-     test () {
-      console.log(this.leftchannel, this.rightchannel)
-    }
   }
  
 }

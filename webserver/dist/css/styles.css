@@ -7515,6 +7515,10 @@ h2 {
   font-weight: 400;
   color: #444444;
   margin: 40px 0 20px 0; }
+  h2.red {
+    color: #c61e42; }
+  h2.green {
+    color: #2da800; }
 
 h3 {
   display: inline-block;
@@ -7523,6 +7527,10 @@ h3 {
   font-weight: 500;
   color: #444444;
   margin: 20px 0; }
+  h3.red {
+    color: #c61e42; }
+  h3.green {
+    color: #2da800; }
 
 /*** END GLOBAL ***/
 /*** HEADER ***/
@@ -7715,3 +7723,209 @@ h3 {
 
 /* END USER PANEL */
 /*** END PAGE CONTENT ***/
+/*** RECORD ***/
+#player-container {
+  background-image: url("../img/bg-player.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center; }
+
+.player-content {
+  background-color: #fff;
+  -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2); }
+  .player-content h2 {
+    text-align: center; }
+  .player-content .content {
+    display: inline-block;
+    padding: 20px 40px;
+    line-height: 22px;
+    font-size: 16px;
+    text-align: left; }
+
+#player-wrapper {
+  padding: 20px;
+  width: 70%;
+  height: auto;
+  -moz-box-shadow: 0px 2px 6px 2px rgba(127, 0, 35, 0.2);
+  -webkit-box-shadow: 0px 2px 6px 2px rgba(127, 0, 35, 0.2);
+  box-shadow: 0px 2px 6px 2px rgba(127, 0, 35, 0.2);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  margin: 60px auto 40px auto; }
+  #player-wrapper h3 {
+    font-size: 36px;
+    font-weight: 500; }
+    #player-wrapper h3 .word {
+      color: #c61e42; }
+  #player-wrapper .record-btn-container {
+    display: inline-block;
+    margin: 20px;
+    height: 160px; }
+    #player-wrapper .record-btn-container .button-record {
+      display: inline-block;
+      margin: 0 40px;
+      width: 120px;
+      height: 120px;
+      background-color: #fff;
+      -moz-box-shadow: 0px 2px 6px 2px rgba(127, 0, 35, 0.2);
+      -webkit-box-shadow: 0px 2px 6px 2px rgba(127, 0, 35, 0.2);
+      box-shadow: 0px 2px 6px 2px rgba(127, 0, 35, 0.2);
+      -webkit-border-radius: 60px;
+      -moz-border-radius: 60px;
+      border-radius: 60px; }
+      #player-wrapper .record-btn-container .button-record:hover {
+        background-color: #bdccd4; }
+        #player-wrapper .record-btn-container .button-record:hover .icon {
+          background-color: #fff; }
+      #player-wrapper .record-btn-container .button-record.isRecording {
+        -webkit-animation: recordingBtn 1s infinite;
+        -moz-animation: recordingBtn 1s infinite;
+        -o-animation: recordingBtn 1s infinite;
+        animation: recordingBtn 1s infinite; }
+      #player-wrapper .record-btn-container .button-record .icon {
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        -webkit-mask: url(../img/record-icon.svg) no-repeat 50% 50%;
+        mask: url(../img/record-icon.svg) no-repeat 50% 50%;
+        -webkit-mask-size: cover;
+        mask-size: cover;
+        background-color: #c61e42; }
+        #player-wrapper .record-btn-container .button-record .icon.isRecording {
+          -webkit-animation: recordingIcon 1s infinite;
+          -moz-animation: recordingIcon 1s infinite;
+          -o-animation: recordingIcon 1s infinite;
+          animation: recordingIcon 1s infinite; }
+    #player-wrapper .record-btn-container .label {
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+      color: #bdccd4;
+      text-align: center; }
+
+.player-anim {
+  display: inline-block;
+  height: 120px; }
+  .player-anim .sound-bar {
+    display: inline-block;
+    width: 8px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #bdccd4; }
+    .player-anim .sound-bar.bsmall {
+      height: 40px;
+      margin: 40px 10px; }
+    .player-anim .sound-bar.bmed {
+      height: 80px;
+      margin: 20px 10px; }
+    .player-anim .sound-bar.bbig {
+      height: 120px;
+      margin: 0px 10px; }
+
+.record-actions-container {
+  margin-top: 20px;
+  height: 100px;
+  text-align: center; }
+  .record-actions-container .action-container {
+    display: inline-block;
+    height: 100%;
+    width: 80px;
+    margin: 0 20px; }
+    .record-actions-container .action-container .btn-player {
+      display: inline-block;
+      height: 60px;
+      width: 60px;
+      background-image: url("../img/player-btn@2x.png");
+      background-size: 120px 180px;
+      background-repeat: no-repeat; }
+      .record-actions-container .action-container .btn-player.play {
+        background-position: 0 0; }
+        .record-actions-container .action-container .btn-player.play:hover {
+          background-position: -60px 0; }
+      .record-actions-container .action-container .btn-player.reset {
+        background-position: 0 -120px; }
+        .record-actions-container .action-container .btn-player.reset:hover {
+          background-position: -60px -120px; }
+      .record-actions-container .action-container .btn-player.validate {
+        background-position: 0 -60px; }
+        .record-actions-container .action-container .btn-player.validate:hover {
+          background-position: -60px -60px; }
+    .record-actions-container .action-container .label {
+      display: inline-block;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
+      color: #bdccd4; }
+
+@-webkit-keyframes recordingBtn {
+  0% {
+    background-color: #fff; }
+  50% {
+    background-color: #c61e42; }
+  100% {
+    background-color: #fff; } }
+
+@-moz-keyframes recordingBtn {
+  0% {
+    background-color: #fff; }
+  50% {
+    background-color: #c61e42; }
+  100% {
+    background-color: #fff; } }
+
+@-o-keyframes recordingBtn {
+  0% {
+    background-color: #fff; }
+  50% {
+    background-color: #c61e42; }
+  100% {
+    background-color: #fff; } }
+
+@keyframes recordingBtn {
+  0% {
+    background-color: #fff; }
+  50% {
+    background-color: #c61e42; }
+  100% {
+    background-color: #fff; } }
+
+@-webkit-keyframes recordingIcon {
+  0% {
+    background-color: #c61e42; }
+  50% {
+    background-color: #fff; }
+  100% {
+    background-color: #c61e42; } }
+
+@-moz-keyframes recordingIcon {
+  0% {
+    background-color: #c61e42; }
+  50% {
+    background-color: #fff; }
+  100% {
+    background-color: #c61e42; } }
+
+@-o-keyframes recordingIcon {
+  0% {
+    background-color: #c61e42; }
+  50% {
+    background-color: #fff; }
+  100% {
+    background-color: #c61e42; } }
+
+@keyframes recordingIcon {
+  0% {
+    background-color: #c61e42; }
+  50% {
+    background-color: #fff; }
+  100% {
+    background-color: #c61e42; } }
+
+/*** END RECORD ***/

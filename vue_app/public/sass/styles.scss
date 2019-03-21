@@ -4,8 +4,8 @@
 @import "./mixins.scss";
 @import "./custom-elements.scss";
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
-
 /*** GLOBAL ***/
+
 body {
   background-color: #fff;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
@@ -33,7 +33,11 @@ body {
 .white-container {
   width: 100%;
   padding: 20px;
-  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  @include boxShadow(0px,
+  2px,
+  6px,
+  2px,
+  rgba(0, 0, 0, 0.2));
   @include borderRadius(5px);
   border: none;
   background-color: #fff;
@@ -47,6 +51,12 @@ h2 {
   font-weight: 400;
   color: $greyText;
   margin: 40px 0 20px 0;
+  &.red {
+    color: $redChart;
+  }
+  &.green {
+    color: $greenChart;
+  }
 }
 
 h3 {
@@ -56,11 +66,18 @@ h3 {
   font-weight: 500;
   color: $greyText;
   margin: 20px 0;
+  &.red {
+    color: $redChart;
+  }
+  &.green {
+    color: $greenChart;
+  }
 }
 
 /*** END GLOBAL ***/
 
 /*** HEADER ***/
+
 #header {
   position: fixed;
   top: 0;
@@ -70,7 +87,11 @@ h3 {
   z-index: 5;
   padding: 5px 20px;
   background-color: #ffffff;
-  @include boxShadow(0, 2px, 4px, 0px, rgba(0, 0, 0, .3));
+  @include boxShadow(0,
+  2px,
+  4px,
+  0px,
+  rgba(0, 0, 0, .3));
   border-bottom: 1px solid $redChart;
 }
 
@@ -78,7 +99,6 @@ h3 {
   text-align: left;
   height: 60px;
   position: relative;
-
   img {
     display: inline-block;
     height: 100%;
@@ -89,7 +109,6 @@ h3 {
 
 .user-panel {
   text-align: right;
-
   .button {
     margin-top: 15px;
   }
@@ -101,25 +120,21 @@ h3 {
   width: auto;
   padding: 0 15px;
   height: 100%;
-
   .toggle-user-menu {
     display: inline-block;
     height: 100%;
     width: auto;
-
     &>span {
       display: inline-block;
       height: 50px;
       vertical-align: top;
     }
-
     .label {
       font-size: 16px;
       font-weight: 500;
       color: $redChart;
       line-height: 50px;
     }
-
     .icon {
       width: 30px;
       margin-left: 5px;
@@ -128,20 +143,17 @@ h3 {
       background-repeat: no-repeat;
       background-position: 0 0;
     }
-
     &:hover {
       .label {
         text-decoration: underline
       }
     }
-
     &.closed {
       .icon {
         background-position: 0 -50px;
       }
     }
   }
-
   .user-submenu {
     position: absolute;
     top: 50px;
@@ -149,60 +161,56 @@ h3 {
     width: 100%;
     padding: 10px 0;
     background: #fff;
-    @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+    @include boxShadow(0px,
+    2px,
+    6px,
+    2px,
+    rgba(0,
+    0,
+    0,
+    0.2));
     @include borderRadius(5px);
     text-align: center;
   }
-
   .user-submenu-link {
     display: inline-block;
     text-align: center;
     width: 100%;
     padding: 10px 0;
-
     &>span {
       display: inline-block;
       vertical-align: top;
       height: 20px;
     }
-
     .label {
       line-height: 20px;
       font-size: 14px;
       font-weight: 500;
-
       &.user {
         color: $greenChart;
       }
-
       &.logout {
         color: $redChart;
       }
     }
-
     .icon {
       width: 20px;
       background-image: url('../img/user-panel-icons@2x.png');
       background-size: 20px 40px;
       background-repeat: no-repeat;
       margin: 0 5px;
-
       &.user {
         background-position: 0 0;
       }
-
       &.logout {
         background-position: 0 -20px;
       }
     }
-
     &:hover {
       background: #f2f2f2;
-
       .label {
         text-decoration: underline;
       }
-
     }
   }
 }
@@ -210,6 +218,7 @@ h3 {
 /*** END HEADER ***/
 
 /*** PAGE CONTENT ***/
+
 #page-content {
   position: fixed;
   top: 70px;
@@ -223,9 +232,9 @@ h3 {
 }
 
 /* HOME - Highlight */
+
 #highlight {
   margin: 40px 0;
-
   h2 {
     display: inline-block;
     width: 100%;
@@ -233,26 +242,27 @@ h3 {
     font-weight: 100;
     font-size: 38px;
     padding: 20px 0;
-    @include textShadow(1px, 1px, 2px, rgba(0, 0, 0, 0.2))
+    @include textShadow(1px,
+    1px,
+    2px,
+    rgba(0,
+    0,
+    0,
+    0.2))
   }
-
   .talk {
     border-right: 1px solid #ccc;
-
     h2 {
       color: $redChart;
     }
   }
-
   .listen h2 {
     color: $greenChart;
   }
-
   .title-icon {
     height: 180px;
     width: 100%;
     text-align: center;
-
     img {
       display: inline-block;
       height: 100%;
@@ -260,7 +270,6 @@ h3 {
       vertical-align: top;
     }
   }
-
   .highlight-content {
     width: 75%;
     margin: 40px auto;
@@ -269,7 +278,6 @@ h3 {
     font-weight: 400;
     line-height: 24px;
   }
-
   .highlight-action {
     margin: 20px 0;
     text-align: center;
@@ -280,22 +288,20 @@ h3 {
 
 /* USER PANEL */
 
-.col.user-stats:first-child{
+.col.user-stats:first-child {
   border-right: 1px solid #ccc;
 }
+
 .user-stats {
-  
   .stats-container {
     height: 60px;
     text-align: center;
     margin-bottom: 40px;
-    
     &>span {
       display: inline-block;
       height: 60px;
       vertical-align: top;
     }
-
     .number {
       font-size: 34px;
       font-weight: 500;
@@ -303,23 +309,20 @@ h3 {
       &.talk {
         color: $redChart;
       }
-
       &.listen {
         color: $greenChart;
       }
     }
-
     .icon {
       width: 60px;
       margin-right: 10px;
       background-image: url('../img/stats-icons@2x.png');
       background-size: 60px 120px;
       background-repeat: no-repeat;
-
-      &.talk{
+      &.talk {
         background-position: 0 0;
       }
-      &.listen{
+      &.listen {
         background-position: 0 -60px;
       }
     }
@@ -328,6 +331,275 @@ h3 {
 
 /* END USER PANEL */
 
-
-
 /*** END PAGE CONTENT ***/
+
+/*** RECORD ***/
+
+#player-container {
+  background-image: url('../img/bg-player.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.player-content {
+  background-color: #fff;
+  @include boxShadow(0px,
+  2px,
+  6px,
+  2px,
+  rgba(0,
+  0,
+  0,
+  0.2));
+  h2 {
+    text-align: center;
+  }
+  .content {
+    display: inline-block;
+    padding: 20px 40px;
+    line-height: 22px;
+    font-size: 16px;
+    text-align: left;
+  }
+}
+
+#player-wrapper {
+  padding: 20px;
+  width: 70%;
+  height: auto;
+  @include boxShadow(0px,2px,6px,2px,rgba(127,0,35,0.2));
+  @include borderRadius(5px);
+  border: none;
+  background-color: rgba(255, 255, 255, .9);
+  text-align: center;
+  margin: 60px auto 40px auto;
+  h3 {
+    font-size: 36px;
+    font-weight: 500;
+    .word {
+      color: $redChart;
+    }
+  }
+  .record-btn-container {
+    display: inline-block;
+    margin: 20px;
+    height: 160px;
+    .button-record {
+      display: inline-block;
+      margin: 0 40px;
+      width: 120px;
+      height: 120px;
+      background-color: #fff;
+      @include boxShadow(0px,2px,6px,2px,rgba(127,0,35,0.2));
+      @include borderRadius(60px);
+      
+      &:hover{
+        background-color: $greyUnactive;
+        .icon{
+          background-color: #fff;
+        }
+      }
+      &.isRecording {
+        -webkit-animation: recordingBtn 1s infinite;
+        -moz-animation: recordingBtn 1s infinite;
+        -o-animation: recordingBtn 1s infinite;
+        animation: recordingBtn 1s infinite;
+      }
+      .icon {
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        -webkit-mask: url(../img/record-icon.svg) no-repeat 50% 50%;
+        mask: url(../img/record-icon.svg) no-repeat 50% 50%;
+        -webkit-mask-size: cover;
+        mask-size: cover;
+        background-color: $redChart;
+        &.isRecording {
+          -webkit-animation: recordingIcon 1s infinite;
+          -moz-animation: recordingIcon 1s infinite;
+          -o-animation: recordingIcon 1s infinite;
+          animation: recordingIcon 1s infinite;
+        }
+      }
+    }
+    .label{
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+      color: $greyUnactive;
+      text-align: center;
+    }
+  }
+  
+}
+
+.player-anim {
+  display: inline-block;
+  height: 120px;
+  .sound-bar {
+    display: inline-block;
+    width: 8px;
+    @include borderRadius(4px);
+    background-color: $greyUnactive;
+    &.bsmall {
+      height: 40px;
+      margin: 40px 10px;
+    }
+    &.bmed {
+      height: 80px;
+      margin: 20px 10px;
+    }
+    &.bbig {
+      height: 120px;
+      margin: 0px 10px;
+    }
+  }
+}
+.record-actions-container{
+  margin-top: 20px;
+  height: 100px;
+  text-align: center;
+
+  .action-container{
+    display: inline-block;
+    height: 100%;
+    width: 80px;
+    margin: 0 20px;
+
+    .btn-player{
+      display: inline-block;
+      height: 60px;
+      width: 60px;
+      background-image: url('../img/player-btn@2x.png');
+      background-size: 120px 180px;
+      background-repeat: no-repeat;
+
+      &.play { 
+        background-position: 0 0;
+        &:hover{
+          background-position: -60px 0;
+        }
+      }
+      &.reset { 
+        background-position: 0 -120px;
+        &:hover{
+          background-position: -60px -120px;
+        }
+      }
+      &.validate { 
+        background-position: 0 -60px;
+        &:hover{
+          background-position: -60px -60px;
+        }
+      }
+    }
+    .label{
+      display: inline-block;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
+      color: $greyUnactive;
+
+    }
+
+  }
+
+}
+@-webkit-keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+  50% {
+    background-color: $redChart;
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+
+@-moz-keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+  50% {
+    background-color: $redChart;
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+
+@-o-keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+  50% {
+    background-color: $redChart;
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+
+@keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+  50% {
+    background-color: $redChart;
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+
+@-webkit-keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+  50% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: $redChart;
+  }
+}
+
+@-moz-keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+  50% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: $redChart;
+  }
+}
+
+@-o-keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+  50% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: $redChart;
+  }
+}
+
+@keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+  50% {
+    background-color: #fff;
+  }
+  100% {
+    background-color: $redChart;
+  }
+}
+
+/*** END RECORD ***/
