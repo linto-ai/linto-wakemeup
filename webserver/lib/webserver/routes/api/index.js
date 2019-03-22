@@ -19,6 +19,7 @@ module.exports = (webServer) => {
     {
       path: '/updateUser',
       method: 'post',
+      requireAuth: true,
       controller: async (req, res, next) => {
         const data = req.body
         const userHash = data.emailHash
@@ -36,6 +37,7 @@ module.exports = (webServer) => {
     {
       path: '/updateUserPswd',
       method: 'post',
+      requireAuth: true,
       controller: async (req, res, next) => {
         const data = req.body
         const userHash = data.emailHash
@@ -72,13 +74,12 @@ module.exports = (webServer) => {
       }
     },
     {
-      path: '/test',
+      path: '/scenarios',
       method: 'get',
       controller: async (req, res, next) => {
-        res.json({
-          test: 'test'
-        })
+        const scenarios = await model.getScenarios()
+        res.json({ scenarios })
       }
-    }
+    },
   ]
 }

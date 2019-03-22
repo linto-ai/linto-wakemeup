@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
-    userInfos: ''
+    userInfos: '',
+    scenarios:''
   },
   mutations: {
     SET_USER: (state, data) => {
@@ -21,9 +22,15 @@ export default new Vuex.Store({
         nbListen: data.nbListen,
         nbRecord: data.nbRecord,
         anonymous: data.anonymous,
-        emailHash: data.emailHash
+        emailHash: data.emailHash,
+        listenList: data.listenList,
+        recordList: data.recordList
       }
+    },
+    SET_SCENARIOS: (state, data) => { 
+      state.scenarios = data
     }
+      
   },
   actions: {
     getUserInfos: async ({ commit, state }, hash) => {
@@ -38,6 +45,17 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
+    getScenarios: async ({ commit, state }) => {
+      try {
+        const getScenarios = await axios(`${process.env.VUE_APP_URL}/api/scenarios`,{
+          method: 'get'
+        })
+        commit('SET_SCENARIOS', getScenarios.data.scenarios)
+        return state.scenarios
+      } catch (err) {
+        console.error(err)
+      }
+    }
   },
   getters: {
 

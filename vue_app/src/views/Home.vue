@@ -39,20 +39,20 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
-import ConnectionModal from "@/components/ConnectionModal.vue";
-import CreateAccountModal from "@/components/CreateAccountModal.vue";
-import { bus } from "../main.js";
+import Header from '@/components/Header.vue'
+import ConnectionModal from '@/components/ConnectionModal.vue'
+import CreateAccountModal from '@/components/CreateAccountModal.vue'
+import { bus } from '../main.js'
 export default {
-  data() {
+  data () {
     return {
       showConnectModal: false
-    };
+    }
   },
   components: {
     Header,
     ConnectionModal,
     CreateAccountModal
   }
-};
+}
 </script>

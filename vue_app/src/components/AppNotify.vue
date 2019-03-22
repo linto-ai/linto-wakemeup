@@ -19,7 +19,7 @@ export default {
       notifHeight: 'height: 0px;'
     }
   },
-  async mounted (){
+  async mounted () {
     bus.$on('notify_app', (data) => {
       this.msg = data.msg
       this.status = data.status
@@ -30,7 +30,7 @@ export default {
       setTimeout(() => {
         const notifHeight = document.getElementById('notif-container').offsetHeight;
         this.notifHeight = 'height: '+ (notifHeight + 10) + 'px'
-      },200)
+      }, 200)
 
       setTimeout(() => {
         this.notifHeight = 'height: 0px;'

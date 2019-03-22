@@ -88,7 +88,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { bus } from "../main.js";
+import { bus } from '../main.js'
 export default {
   data() {
     return {
@@ -112,7 +112,7 @@ export default {
     }
   },
   mounted () {
-    bus.$on("toggle_create_account_modal", () => {
+    bus.$on('toggle_create_account_modal', () => {
       this.showCreateAccountModal = true
     })
   },
@@ -121,11 +121,11 @@ export default {
       this.deviceType = selected
     },
     closeModal () {
-      this.showCreateAccountModal = false;
+      this.showCreateAccountModal = false
     },
     backToLogin () {
-      this.showCreateAccountModal = false;
-      bus.$emit('toggle_connection_modal', () => {});
+      this.showCreateAccountModal = false
+      bus.$emit('toggle_connection_modal', () => {})
     },
     validateEmail (email) {
       return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
@@ -160,7 +160,7 @@ export default {
         return
       }
     },
-    checkForm () {
+    checkForm () {
       // User Email 
       if (this.userEmail.length === 0) {
         this.userEmailValid = 'error'
@@ -192,7 +192,7 @@ export default {
       else if (this.userPswdConfirm !== this.userPswd) {
         this.userPswdConfirmValid = 'error'
         this.userPswdConfirmdErrorMsg = 'Les mots de passes doivent êtres identiques'
-      } else {
+      } else {
         this.userPswdConfirmValid = 'valid'
         this.userPswdConfirmdErrorMsg = ''
       }
@@ -208,7 +208,7 @@ export default {
       
       if (this.userEmailValid === 'valid' && this.userPswdValid === 'valid' && this.userPswdConfirmValid === 'valid' && this.userGenderValid === 'valid') {
         return true
-      } else {
+      } else {
         return false
       }
     },

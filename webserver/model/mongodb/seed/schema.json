@@ -1,6 +1,6 @@
 {
   "users": {
-    "email" : "rlopez@linagora.com", 
+    "email": "rlopez@linagora.com",
     "passwordHash": "4217fc2e1a44d9e24930fcb7a1f4104656f4c4c1",
     "salt": "toto",
     "gender": "male",
@@ -10,7 +10,63 @@
     "ageRange": "",
     "nbListen": 0,
     "nbRecord": 0,
-    "emailHash" : "28f779a160273dd71d3931e7b22fb4e82e3f307d",
-    "anonymous": false
+    "emailHash": "28f779a160273dd71d3931e7b22fb4e82e3f307d",
+    "listenList": [],
+    "recordList": {
+      "linto" : { 
+        "step":"3", 
+        "complete": true
+      },
+      "annuler" : { 
+        "step":"0", 
+        "complete": false
+      }
+    }
+  },
+  "audio": {
+    "wakeword":"linto",
+    "name": "",
+    "path": "",
+    "extension": "wav || mpeg",
+    "duration": "",
+    "size": "",
+    "voteGood": 0,
+    "voteBad": 0,
+    "author": "user",
+    "options": {},
+    "type": "raw || raw-echo...",
+    "uploadDate": "Date"
+  },
+
+  "audioTitle": {
+    "title": "[wakeWord]-[options]-[Date].[extension]",
+    "example": "linto-raw-noopt-20190317200000.wav",
+    "options": {
+      "allfilters": "noOpt",
+      "echoCancellation": "echoCancel",
+      "noiseSuppression": "noiseSuppr"
+    }
+  },
+  "scenarios": [
+    {
+    "WakeWord": "Linto",
+    "Scenario": {
+      "noOpt": {
+        "step": 1,
+        "echoCancellation": true,
+        "noiseSuppression": true
+      },
+      "echoCancel": {
+        "step": 2,
+        "echoCancellation": true,
+        "noiseSuppression": false
+      },
+      "noiseSuppr": {
+        "step": 3,
+        "echoCancellation": false,
+        "noiseSuppression": true
+      }
+    }
   }
+]
 }

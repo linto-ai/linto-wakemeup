@@ -181,7 +181,7 @@ export default {
     }
   },
   methods: {
-    setMicrophone (data) {
+    setMicrophone (data) {
       this.userInfos.deviceType = data
     },
     validateEmail (email) {
@@ -208,7 +208,7 @@ export default {
       }
       
       // check lastname
-      if (this.validateNames(this.userInfos.lastName) || this.userInfos.lastName.length === 0) {
+      if (this.validateNames(this.userInfos.lastName) || this.userInfos.lastName.length === 0) {
         this.lastNameValid = 'valid'
         this.lastNameErrorMsg = ''
       } else {
@@ -218,7 +218,7 @@ export default {
       }
 
       // check firstanme
-       if (this.validateNames(this.userInfos.firstName) || this.userInfos.firstName.length === 0) {
+       if (this.validateNames(this.userInfos.firstName) || this.userInfos.firstName.length === 0) {
         this.firstNameValid = 'valid'
         this.firstNameErrorMsg = ''
       } else {
@@ -313,7 +313,7 @@ export default {
           method: 'post',
           data: payload
         })
-        if (updatePswd.data.status === 'success') {
+        if (updatePswd.data.status === 'success') {
           bus.$emit('notify_app', {
             status: 'success',
             msg: 'Votre mot de passe a été modifié',
@@ -321,7 +321,7 @@ export default {
           })
           this.$store.dispatch('getUserInfos', this.userInfos.emailHash)
         } else if (updatePswd.data.status === 'error') {
-          if (updatePswd.data.code === 0) {
+          if (updatePswd.data.code === 0) {
             this.currentPswdValid = 'error'
             this.currentPswdErrorMsg = 'Le mot de passe saisi est invalide'
           } else {

@@ -81,17 +81,19 @@ export default {
       return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
     },
     checkForm () {
+      // Check email
       if (this.userEmail.length === 0) {
         this.userEmailValid = 'error'
         this.userEmailErrorMsg = 'Vous devez renseigner une adresse email de connection'
       } else if (!this.validateEmail(this.userEmail)) {
         this.userEmailValid = 'error'
         this.userEmailErrorMsg = 'Le format de l\'adresse email est invalide'
-      } else {
+      } else {
         this.userEmailValid = 'valid'
         this.userEmailErrorMsg = ''
       }
 
+      // Check password
       if (this.userPswd.length === 0) {
         this.userPswdValid = 'error'
         this.userPswdErrorMsg = 'Veuillez renseigner un mot de passe'
@@ -106,8 +108,8 @@ export default {
         return false
       }
     },
-    async sendLogin () {
-      const formValid = this.checkForm();
+    async sendLogin () {
+      const formValid = this.checkForm()
       if (formValid) {
         const payload = {
           email: this.userEmail,
@@ -118,18 +120,16 @@ export default {
           data: payload
         })
         if (login.data.status === 'error') {
-          if (login.data.field === 'user') {
+          if (login.data.field === 'user') {
             this.userEmailValid = 'error'
             this.userEmailErrorMsg = login.data.msg
-          } else if (login.data.field === 'password') {
+          } else if (login.data.field === 'password') {
             this.userPswdValid = 'error'
             this.userPswdErrorMsg = login.data.msg
           }
         } else if (login.data.status === 'success') {
           document.location.href = '/'
         }
-      } else {
-        return
       }
     }
   }

@@ -39,9 +39,9 @@ export default {
   },
   created () {
     const userCookie = this.getCookie('wmu_user')
-    if(userCookie !== 'disconnected'){
+    if (userCookie !== 'disconnected') {
       this.$store.dispatch('getUserInfos', userCookie).then((resp) => {
-        if(resp){
+        if (resp) {
           this.userConnected = true
         }
       }, error => {
@@ -49,14 +49,14 @@ export default {
       })
     }
   },
-  computed : {
+  computed: {
     userInfos () {
       return this.$store.state.userInfos
     }
   },
-  methods : {
+  methods: {
     toggleConnectionModal () {
-      bus.$emit('toggle_connection_modal', {})
+      bus.$emit('toggle_connection_modal', {})
     },
     toggleUserMenu () {
       this.showUserMenu = !this.showUserMenu

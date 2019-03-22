@@ -11,8 +11,6 @@ urlMongo += process.env.MONGODB_HOST + ':' + process.env.MONGODB_PORT + '/'
 if (process.env.MONGODB_USER) {
   urlMongo += '?authSource=' + process.env.MONGODB_DBNAME
 }
-
-console.log(urlMongo)
 class modelMongoDb {
   constructor() {
     this.mongoDb = mongoDb
@@ -130,7 +128,28 @@ class modelMongoDb {
     }
   }
 
+  async updateUserRecords(payload) {
+    try {
+      const getUser = this.getUserByHash(payload.userHash)
+      console.log(getUser)
+    // TODO
+      return({test:'test'})
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
+  /*****************/
+  /*** Scenarios ***/
+  /*****************/
+  async getScenarios() {
+    try {
+      const query = {}
+      return await this.mongoRequest('scenarios', query)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   /*******************/
   /*** Mongo CRUD ***/
