@@ -44,10 +44,20 @@
               </div>
             </div>
           </div>
+          <div class="player-timeline" v-if="dataReady && !allComplete">
+            <div class="timeline">
+              <div class="progress" :class="progressClass">
+                <span class="progress-info">{{ step }}/3</span>
+              </div>
+            </div>
+          </div>
           <div v-if="!dataReady && allComplete">
               Vous avez déja enregistré tous les scnérios
           </div>
-          <div v-if="!dataReady && !allComplete">Loading</div>
+          <div v-if="!dataReady && !allComplete" class="loading">
+            <img src="/assets/img/loading.gif" class="loading-img" />
+            <span class="label">Chargement...</span>
+          </div>
         </div>
       </div>
     </div>
@@ -55,6 +65,8 @@
 </template>
 <script>
 import moment from 'moment'
+import axios from 'axios'
+import { bus } from '../main.js'
 export default {
   data () {
     return {
@@ -87,7 +99,8 @@ export default {
       audioConfig: null,
       step: 0,
       dataReady: false,
-      allComplete: false
+      allComplete: false,
+      progressClass: ''
 
     }
   }, 
@@ -122,7 +135,6 @@ export default {
       }
       
     }, 1500)
-    
   },
   methods: {
     setScenario () {
@@ -145,8 +157,6 @@ export default {
               }
             })
           } else {
-            console.log('here')
-
             this.scenarios.map(s => {
               let ww = s.wakeword
               let wwfound = false
@@ -177,9 +187,11 @@ export default {
           noiseSuppression : this.scene.scenario.noOpt.noiseSuppression,
         }
       }
+      this.progressClass = 'step-' + this.step
       if(this.audioConfig === null){
         return false
       }
+      console.log(this.step, this.wakeword, this.audioConfig)
       return true
     },
     startRecording () {
@@ -293,28 +305,64 @@ export default {
         view.setUint8(offset + i, string.charCodeAt(i))
       }
     },
-    sendDatas (audioBlob, webAudioInfos, name) {
+    async sendDatas (audioBlob, webAudioInfos, name) {
       const userPayload = {
         userHash: this.userInfos.emailHash,
         wakeword: this.wakeword,
         step: this.step
       }
-      console.log('user paylaod: ', userPayload)
       let formData = new FormData()
       formData.append("webAudioInfos", JSON.stringify(webAudioInfos))
       formData.append("userInfos", JSON.stringify(userPayload))
       formData.append(name, audioBlob, name)
-      var request = new XMLHttpRequest()
-      request.open("POST", "http://localhost:3003/saveaudio")
-      request.send(formData)
+      
+      return await axios('http://localhost:3003/saveaudio', {
+        method: 'post', data: formData
+      })
+      
+
     },
-    validRecord () {
+    async validRecord () {
       const date = moment().format('YYYYDDMmmhhmmss')
-      const wakeWord = 'linto'
-      const opt = 'noOpt'
+      const wakeWord = this.wakeword
+      const opt = this.audioConfig.label
       const fileName = `${wakeWord}-${opt}-${date}`
-      this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
-      this.sendDatas(this.mediaRecorderblob,  {}, fileName + '.webm')
+      
+      let sendRaw, sendWebm
+      if(this.step === 1){
+        sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
+        sendWebm = await this.sendDatas(this.mediaRecorderblob,  this.webAudioInfos, fileName + '.webm')
+        if(sendRaw.data.status === 'success' && sendWebm.data.status === 'success') {
+          bus.$emit('notify_app', {
+            status: 'success',
+            msg: 'Enregistrement validé',
+            redirect: '/interface/record'
+          })
+        } else {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Erreur lors de l\'enregistrement',
+            redirect: false
+          })
+        }
+      }
+      else {
+        sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
+        console.log(sendRaw)
+        if(sendRaw.data.status === 'success') {
+          bus.$emit('notify_app', {
+            status: 'success',
+            msg: 'Enregistrement validé',
+            redirect: '/interface/record'
+          })
+        } else {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Erreur lors de l\'enregistrement',
+            redirect: false
+          })
+        }
+      }
     },
     initRecorder (config) {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {

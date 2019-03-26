@@ -23,41 +23,64 @@ module.exports = (webServer) => {
     requireAuth: true,
     controller: [
       async (req, res, next) => {
-        upload(req, res, function (err) {
+        upload(req, res, async (err) => {
           if (err instanceof multer.MulterError) {
             // A Multer error occurred when uploading.
-            console.error('Multer Error: ' + err)
-            res.json({
-              status: 'error'
-            })
+            res.json({'status': 'error'})
           } else if (err) {
             // An unknown error occurred when uploading.
-            console.error('Unknown Error: ' + err)
-            res.json({
-              status: 'error'
-            })
+            res.json({'status': 'error'})
           }
-          const userInfos = req.body.userInfos
-          const webAudioInfos = req.body.webAudioInfos
-          /*[ 
-              { 
-                fieldname: '01',
-                originalname: '01',
-                encoding: '7bit',
-                mimetype: 'audio/wav',
-                destination:
-                '/home/rlopez/projects/linagora/wake-me-up/webserver/uploads',
-                filename: '01-1553248431964.wav',
-                path:
-                '/home/rlopez/projects/linagora/wake-me-up/webserver/uploads/01-1553248431964.wav',
-                size: 458796 
-              } 
-            ]*/
+          let updateUser = false
+          let addAudioFile = false
+          let errorMsg = ''
+          const userInfos = JSON.parse(req.body.userInfos)
+          const webAudioInfos = JSON.parse(req.body.webAudioInfos)
+          const file = req.files[0]
+          
+          const filePayload = {
+            author: userInfos.userHash,
+            wakeword: userInfos.wakeword,
+            fieldname: file.fieldname,
+            originalname: file.originalname,
+            mimetype: file.mimetype,
+            destination: file.destination,
+            path: file.path,
+            size: file.size,
+            sampleRate: webAudioInfos.contextSampleRate || 'not set',
+            buffersize: webAudioInfos.bufferSize || 'not set',
+            nbChannels: webAudioInfos.nbChannels || 'not set',
+            nbVotes: 0,
+            nbValidVote: 0,
+            nbInvalidVote: 0,
+            status: 'vote'
+          }
+          
+          if(filePayload.mimetype == 'audio/wav'){
+            const updateUserRecord = await model.updateUserRecords({userInfos})
+            if(updateUserRecord.status === 'success'){
+              updateUser = true
+            } else {
+              updateUser = false
+              errorMsg += 'Error on updating user'
+            }
+          } else {
+            updateUser = true
+          }
 
-          res.json({
-            status: 'success'
-          })
-          // Everything went fine.
+          const addFile = await model.addAudioSample(filePayload)
+          if(addFile === 'success'){
+            addAudioFile = true
+          } else {
+            addAudioFile = false
+            errorMsg += 'Error on updating audio file'
+          }
+          
+          if(addAudioFile && updateUser) {
+            res.json({status: 'success', msg:'File has been added'})
+          } else {
+            res.json({status:'error', msg: errorMsg})
+          }
         })
       }
     ]

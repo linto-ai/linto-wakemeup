@@ -130,15 +130,56 @@ class modelMongoDb {
 
   async updateUserRecords(payload) {
     try {
-      const getUser = this.getUserByHash(payload.userHash)
-      console.log(getUser)
-    // TODO
-      return({test:'test'})
+      const userHash = payload.userInfos.userHash
+      const wakeword = payload.userInfos.wakeword
+      const step = payload.userInfos.step
+      const getUser = await this.getUserByHash(userHash)
+      const user = getUser[0]
+      let userRecord = user.recordList
+      if(userRecord.length > 0 ){
+        let wwFound = false
+        userRecord.map(ur => {
+          if(ur.wakeword == wakeword){
+            wwFound = true
+            ur.step = step
+            if(step == 3){
+              ur.complete = true
+            }
+          }
+        })
+        if (!wwFound){
+          userRecord.push({wakeword, step, complete: false})
+        }
+      } else {
+        userRecord.push({wakeword, step, complete: false})
+      }
+      user.recordList = userRecord
+      user.nbRecord += 1
+      const updateUser = await this.updateUser(user)
+      if(updateUser === 'success') {
+        return {
+          status: 'success',
+          msg: 'User datas has been updated'
+        }
+      } else {
+        return {
+          status: 'error',
+          msg: 'Error on updating user datas'
+        }
+      }
     } catch (err) {
       console.error(err)
     }
   }
 
+  async addAudioSample (payload) {
+    try{
+      return await this.mongoInsert('audios', payload)
+    } catch (err) {
+      console.error(err)
+    }
+    
+  }
   /*****************/
   /*** Scenarios ***/
   /*****************/

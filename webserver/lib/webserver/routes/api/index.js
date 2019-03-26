@@ -76,10 +76,11 @@ module.exports = (webServer) => {
     {
       path: '/scenarios',
       method: 'get',
+      requireAuth: true,
       controller: async (req, res, next) => {
         const scenarios = await model.getScenarios()
         res.json({ scenarios })
       }
-    },
+    }
   ]
 }
