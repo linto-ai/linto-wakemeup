@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="page-content">
-      <div class="container-fluid">
+      <div class="container-fluid" id="user-panel">
         <div class="row justify-content-around">
           <div class="col-5">
             <h2>Informations utilisateur</h2>
@@ -246,7 +246,7 @@ export default {
             msg: 'Vos informations ont été mises à jour',
             redirect: false
           })
-          this.$store.dispatch('getUserInfos', this.userInfos.emailHash)
+          this.$store.dispatch('getUserInfos', this.userInfos.userHash)
         }
       }
       else {
@@ -307,7 +307,7 @@ export default {
         const payload = {
           currentPswd: this.currentPswd,
           newPswd: this.newPswd,
-          emailHash: this.userInfos.emailHash
+          userHash: this.userInfos.userHash
         }
         const updatePswd = await axios(`${process.env.VUE_APP_URL}/api/updateUserPswd`, {
           method: 'post',
@@ -319,7 +319,7 @@ export default {
             msg: 'Votre mot de passe a été modifié',
             redirect: false
           })
-          this.$store.dispatch('getUserInfos', this.userInfos.emailHash)
+          this.$store.dispatch('getUserInfos', this.userInfos.userHash)
         } else if (updatePswd.data.status === 'error') {
           if (updatePswd.data.code === 0) {
             this.currentPswdValid = 'error'

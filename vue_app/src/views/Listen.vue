@@ -46,7 +46,7 @@
             <span class="label">Chargement...</span>
           </div>
           <div v-if="!audiosReady && noMoreAudio" class="record-complete white-container">
-              Vous avez écouté tous les "wake-words". Merci !<br/>
+              Vous n'avez pas de "wake-word" à valider.<br/>
               <a href="/">Retour à l'accueil</a>
           </div>
         </div>
@@ -60,7 +60,6 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
-      listenList: '',
       audiosReady: false,
       wakeword: '',
       audioFile: '',
@@ -81,7 +80,7 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      this.getAudios(data.emailHash)
+      this.getAudios(data.userHash)
     },
     audios: function (data) {
       if(data.length > 0){
@@ -115,7 +114,7 @@ export default {
       const payload = {
         audioId: this.audios[0]._id,
         vote: vote, 
-        userHash: this.userInfos.emailHash
+        userHash: this.userInfos.userHash
       }
       const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audio/vote`, {
         method: 'post',

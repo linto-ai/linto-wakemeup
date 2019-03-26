@@ -29,7 +29,7 @@ module.exports = (webServer) => {
               // Compare password with database
               if (sha1(password + salt) == userPswdHash) {
                 req.session.logged = 'on'
-                req.session.user = user.emailHash
+                req.session.user = user.userHash
                 req.session.save((err) => {
                   if (err) {
                     res.json({
@@ -43,7 +43,7 @@ module.exports = (webServer) => {
                       "status": "success",
                       "field": "global",
                       "msg": "valid",
-                      "userHash": user.emailHash
+                      "userHash": user.userHash
                     })
                   }
                 })
@@ -82,7 +82,7 @@ module.exports = (webServer) => {
         if (createUser === 'success') {
           const getUser = await model.getUserByEmail(userInfos.email)
           req.session.logged = 'on'
-          req.session.user = getUser[0].emailHash
+          req.session.user = getUser[0].userHash
           req.session.save((err) => {
             if (err) {
               res.json({
@@ -93,7 +93,7 @@ module.exports = (webServer) => {
               res.json({
                 status: 'success',
                 msg: 'Compte créé avec succès',
-                userHash: getUser[0].emailHash
+                userHash: getUser[0].userHash
               })
             }
           })

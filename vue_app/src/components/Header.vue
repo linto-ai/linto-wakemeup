@@ -5,6 +5,11 @@
         <a href="/"><img id="wakemeup-logo" src="/assets/img/wakemeup-logo.svg" alt="Wake Me Up" /></a>
         <img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" />
       </div>
+      <div class="col text-center">
+        <button data-url='/interface/record' @click="navigate($event)" class="header-link red">S'enregistrer</button>
+        <span class="text-separator"> | </span>
+        <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
+      </div>
       <div class="col user-panel">
         <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Se connecter/S'inscrire</button>
         <div v-if="userConnected" class="user-menu">
@@ -74,6 +79,14 @@ export default {
         }
       }
       return ''
+    },
+    navigate (e) {
+      if(!this.userConnected){
+        this.toggleConnectionModal()
+      } else {
+        const url = e.target.getAttribute('data-url')
+        window.location.href = url
+      }
     }
   }
 }

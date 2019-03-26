@@ -7547,6 +7547,25 @@ h3 {
   -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
   border-bottom: 1px solid #c61e42; }
+  #header .header-link {
+    display: inline-block;
+    height: 60px;
+    line-height: 60px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 10px; }
+    #header .header-link.red {
+      color: #c61e42; }
+      #header .header-link.red:hover {
+        background-color: #c61e42;
+        color: #fff;
+        text-decoration: none; }
+    #header .header-link.green {
+      color: #2da800; }
+      #header .header-link.green:hover {
+        background-color: #2da800;
+        color: #fff;
+        text-decoration: none; }
 
 .logo-container {
   text-align: left;
@@ -7649,7 +7668,7 @@ h3 {
   background: #fafafa;
   overflow: auto;
   width: 100%;
-  height: calc(100% - 70px);
+  height: 100%;
   padding-bottom: 40px; }
 
 /* HOME - Highlight */
@@ -7691,6 +7710,9 @@ h3 {
 
 /* END HOME - Highlight */
 /* USER PANEL */
+#user-panel {
+  padding-bottom: 40px; }
+
 .col.user-stats:first-child {
   border-right: 1px solid #ccc; }
 

@@ -52,7 +52,7 @@
             </div>
           </div>
           <div v-if="!dataReady && allComplete" class="record-complete white-container">
-              Vous avez enregistrés tous les "wake-words". Merci !<br/>
+              Vous n'avez pas de "wake-word" à enregistrer.<br/>
               <a href="/">Retour à l'accueil</a>
           </div>
           <div v-if="!dataReady && !allComplete" class="loading">
@@ -101,7 +101,9 @@ export default {
       progressClass: '',
       isRecording: false,
       isPlaying: '',
-      recordIsValid: ''
+      recordIsValid: '',
+      userReady: false,
+      scenariosReady: false
     }
   }, 
   created () {
@@ -119,26 +121,28 @@ export default {
       return this.$store.state.userInfos
     }
   },
-  mounted () {
-    setTimeout(() => {
-      const setScenario = this.setScenario()
-      if(!setScenario) {
-        this.allComplete = true
-        this.dataReady = false
+  watch : {
+    userInfos: function(data) {
+      this.userReady = true
+    },
+    scenarios: function (data) {
+      this.scenariosReady = true
+    },
+    userReady (data) {
+      if(data === true && this.scenariosReady === true){
+        this.setScenario();
       }
-      else {
-        this.dataReady = true
-        this.allComplete = false
-        setTimeout(()=> {
-          this.initRecorder(this.audioConfig)
-        },500)
+    },
+    scenariosReady (data) {
+      if(data === true && this.userReady === true){
+        this.setScenario();
       }
-      
-    }, 1500)
+    },
+
   },
   methods: {
     setScenario () {
-      if (this.userInfos.recordList.length > 0) {
+      if (!!this.userInfos.recordList && this.userInfos.recordList.length > 0) {
         this.userInfos.recordList.map(rec => {
           if(!rec.complete) {
             this.wakeword = rec.wakeword
@@ -189,9 +193,12 @@ export default {
       }
       this.progressClass = 'step-' + this.step
       if(this.audioConfig === null){
-        return false
+        this.allComplete = true
+        this.dataReady = false
       }
-      return true
+        this.dataReady = true
+        this.allComplete = false
+        this.initRecorder(this.audioConfig)
     },
     startRecording () {
       this.leftchannel = []
@@ -307,7 +314,7 @@ export default {
     },
     async sendDatas (audioBlob, webAudioInfos, name) {
       const userPayload = {
-        userHash: this.userInfos.emailHash,
+        userHash: this.userInfos.userHash,
         wakeword: this.wakeword,
         step: this.step
       }

@@ -22,7 +22,7 @@ module.exports = (webServer) => {
       requireAuth: true,
       controller: async (req, res, next) => {
         const data = req.body
-        const userHash = data.emailHash
+        const userHash = data.userHash
         const getUserInfos = await model.getUserByHash(userHash)
         let payload = getUserInfos[0]
         for (let key in data) {
@@ -40,7 +40,7 @@ module.exports = (webServer) => {
       requireAuth: true,
       controller: async (req, res, next) => {
         const data = req.body
-        const userHash = data.emailHash
+        const userHash = data.userHash
         const getUserInfos = await model.getUserByHash(userHash)
         let payload = getUserInfos[0]
         console.log(data)

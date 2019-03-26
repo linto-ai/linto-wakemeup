@@ -69,7 +69,7 @@ class modelMongoDb {
   async getUserByHash(hash) {
     try {
       const query = {
-        emailHash: hash
+        userHash: hash
       }
       return await this.mongoRequest('users', query)
     } catch (err) {
@@ -97,8 +97,9 @@ class modelMongoDb {
           ageRange: '',
           nbListen: 0,
           nbRecord: 0,
-          emailHash : sha1(payload.email),
-          anonymous: false
+          userHash : sha1(payload.email),
+          recordList: [],
+          role: 'user'
         }
         return await this.mongoInsert('users', userPayload)
         
