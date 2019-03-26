@@ -81,6 +81,25 @@ module.exports = (webServer) => {
         const scenarios = await model.getScenarios()
         res.json({ scenarios })
       }
+    },
+    {
+      path: '/getAudios',
+      method: 'get',
+      requireAuth: true,
+      controller: async (req,res,next) => {
+        const audios = await model.getVotingAudios()
+        res.json({ audios })
+      }
+    },
+    {
+      path: '/audio/vote',
+      method: 'post',
+      requireAuth: true,
+      controller: async (req,res,next) => {
+        const payload = req.body
+        const voteAudio = await model.updateVoteAudio(payload)
+        res.json({ voteAudio })
+      }
     }
   ]
 }

@@ -171,14 +171,77 @@ class modelMongoDb {
       console.error(err)
     }
   }
-
+  /**************/
+  /*** Audios ***/
+  /*************/
+  async getVotingAudios (payload) {
+    try {
+      const query = {
+        options : 'noOpt',
+        mimetype: 'audio/wav',
+        status: 'vote',
+      }
+      return await this.mongoRequest('audios', query)
+    } catch (err) {
+      console.error(err)
+    }
+  }
   async addAudioSample (payload) {
     try{
       return await this.mongoInsert('audios', payload)
     } catch (err) {
       console.error(err)
     }
-    
+  }
+  async getAudioById (id) {
+    try {
+      const query = {
+        _id: this.mongoDb.ObjectID(id)
+      }
+      return await this.mongoRequest('audios', query)
+    } catch (err) {
+      console.error('get user ', err)
+    }
+  }
+  async updateVoteAudio (payload) {
+    try{
+      const getAudio = await this.getAudioById(payload.audioId)
+      const getUser = await this.getUserByHash(payload.userHash)
+      let user = getUser[0]
+      let audioPayload = getAudio[0]
+
+      user.nbListen += 1
+
+      audioPayload.userVoted.push(payload.userHash)
+      audioPayload.nbVotes += 1
+      if(payload.vote === 'good'){
+        audioPayload.nbValidVote += 1
+      } else if (payload.vote === 'bad') {
+        audioPayload.nbInvalidVote += 1
+      }
+      if(audioPayload.nbValidVote >= 5) {
+        audioPayload.status = 'valid'
+      }
+      if(audioPayload.nbInvalidVote >= 5) {
+        audioPayload.status = 'invalid'
+      }
+      const audioQuery = {
+        _id: this.mongoDb.ObjectID(payload.audioId)
+      }
+      if(!!audioPayload._id){
+        delete audioPayload._id
+      }
+      const updateAudio = await this.mongoUpdate('audios', audioQuery, audioPayload)
+      const updateUser = await this.updateUser(user)
+
+      if(updateAudio === 'success' && updateUser === 'success'){
+        return 'success'
+      } else {
+        return 'error'
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
   /*****************/
   /*** Scenarios ***/

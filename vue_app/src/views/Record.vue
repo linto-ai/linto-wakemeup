@@ -1,6 +1,6 @@
 <template>
   <div id="page-content" >
-    <div class="container-fluid h-100 talk" id="player-container" >
+    <div class="container-fluid h-100 talk red" id="player-container" >
       <div class="row h-100">
         <div class="col-3 h-100 player-content">
           <h2 class="red">Enregistrez votre voix</h2>
@@ -13,7 +13,7 @@
             <div class="say-word">
               <h3>Dites : "<span class="word">{{ wakeword }}</span>"</h3>
             </div>
-            <div class="record-btn-container">
+            <div class="btn-container">
               <div class="player-anim">
                 <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
                 <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
@@ -29,9 +29,9 @@
               </div>
               <span class="label">Enregistrer</span>
             </div>
-            <div class="record-actions-container" v-if="blob !== null && !isRecording">
+            <div class="sub-actions-container" v-if="blob !== null && !isRecording">
               <div class="action-container">
-                <button @click="playRecord()" class="btn-player play"></button>
+                <button @click="playRecord()" class="btn-player play" :class="isPlaying"></button>
                 <span class="label">Réécouter</span>
               </div>
               <div class="action-container">
@@ -39,7 +39,7 @@
                 <span class="label">Recommencer</span>
               </div>
               <div class="action-container">
-                <button @click="validRecord()" class="btn-player validate"></button>
+                <button @click="validRecord()" class="btn-player validate" :class="recordIsValid"></button>
                 <span class="label">Valider</span>
               </div>
             </div>
@@ -51,8 +51,9 @@
               </div>
             </div>
           </div>
-          <div v-if="!dataReady && allComplete">
-              Vous avez déja enregistré tous les scnérios
+          <div v-if="!dataReady && allComplete" class="record-complete white-container">
+              Vous avez enregistrés tous les "wake-words". Merci !<br/>
+              <a href="/">Retour à l'accueil</a>
           </div>
           <div v-if="!dataReady && !allComplete" class="loading">
             <img src="/assets/img/loading.gif" class="loading-img" />
@@ -70,7 +71,6 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
-      isRecording: false,
       analyser: null,
       blob: null,
       buffer: null,
@@ -92,16 +92,16 @@ export default {
       sourceNode: null,
       view: null,
       volume: null,
-      webAudioInfos: {},
-      scene: '',
-      scenariosLoaded: false,
       wakeword: '',
       audioConfig: null,
       step: 0,
+      scenariosLoaded: false,
       dataReady: false,
       allComplete: false,
-      progressClass: ''
-
+      progressClass: '',
+      isRecording: false,
+      isPlaying: '',
+      recordIsValid: ''
     }
   }, 
   created () {
@@ -178,20 +178,19 @@ export default {
           } 
         })
       } else {
-        this.scene = this.scenarios[0],
+        const scene = this.scenarios[0]
         this.step = 1
-        this.wakeword = this.scene.wakeword
+        this.wakeword = scene.wakeword
         this.audioConfig = {
           label : 'noOpt',
-          echoCancellation : this.scene.scenario.noOpt.echoCancellation,
-          noiseSuppression : this.scene.scenario.noOpt.noiseSuppression,
+          echoCancellation : scene.scenario.noOpt.echoCancellation,
+          noiseSuppression : scene.scenario.noOpt.noiseSuppression,
         }
       }
       this.progressClass = 'step-' + this.step
       if(this.audioConfig === null){
         return false
       }
-      console.log(this.step, this.wakeword, this.audioConfig)
       return true
     },
     startRecording () {
@@ -203,8 +202,8 @@ export default {
       this.recorder.connect(this.context.destination)
     },
     stopRecording () {
+      const audio = new Audio()
       this.isRecording = false
-      var audio = new Audio(url)
       this.recorder.disconnect(this.context.destination)
       this.mediaStream.disconnect(this.recorder)
       this.mediaRecorder.stop()
@@ -264,20 +263,21 @@ export default {
         bufferSize: bufferSize,
         nbChannels: nbChannels,
         nbInputs: nbInputs,
-        nbOutputs: nbOutputs
+        nbOutputs: nbOutputs,
+        options: this.audioConfig.label
       }
-
-      var url = window.URL.createObjectURL(this.blob)
-      audio.play()
-      
     },
     playRecord () {
       if (this.blob == null) {
         return
       }
+      this.isPlaying = 'active'
       var url = window.URL.createObjectURL(this.blob)
       var audio = new Audio(url)
       audio.play()
+      audio.addEventListener('ended', () => {
+        this.isPlaying = ''
+      })
     },
     flattenArray (channelBuffer, recordingLength) {
       var result = new Float32Array(recordingLength)
@@ -319,8 +319,6 @@ export default {
       return await axios('http://localhost:3003/saveaudio', {
         method: 'post', data: formData
       })
-      
-
     },
     async validRecord () {
       const date = moment().format('YYYYDDMmmhhmmss')
@@ -333,6 +331,7 @@ export default {
         sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
         sendWebm = await this.sendDatas(this.mediaRecorderblob,  this.webAudioInfos, fileName + '.webm')
         if(sendRaw.data.status === 'success' && sendWebm.data.status === 'success') {
+          this.recordIsValid = 'active'
           bus.$emit('notify_app', {
             status: 'success',
             msg: 'Enregistrement validé',
@@ -348,8 +347,8 @@ export default {
       }
       else {
         sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
-        console.log(sendRaw)
         if(sendRaw.data.status === 'success') {
+          this.recordIsValid = 'active'
           bus.$emit('notify_app', {
             status: 'success',
             msg: 'Enregistrement validé',

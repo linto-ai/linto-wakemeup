@@ -8,7 +8,8 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     userInfos: '',
-    scenarios:''
+    scenarios:'',
+    audios: ''
   },
   mutations: {
     SET_USER: (state, data) => {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     SET_SCENARIOS: (state, data) => { 
       state.scenarios = data
+    },
+    SET_AUDIOS: (state, data) => { 
+      state.audios = data
     }
       
   },
@@ -55,9 +59,45 @@ export default new Vuex.Store({
       } catch (err) {
         console.error(err)
       }
+    },
+    getAudios: async ({ commit, state }, userHash) => {
+      try {
+        const getAudios = await axios(`${process.env.VUE_APP_URL}/api/getAudios`,{
+          method: 'get'
+        })
+        const audios = getAudios.data.audios
+        let validAudios = []
+        audios.map(a => {
+          if(a.author !== userHash && !!a.userVoted){
+            if(a.userVoted.indexOf(userHash) < 0){
+              validAudios.push(a)
+            }
+          }
+        })
+        commit('SET_AUDIOS', validAudios)
+        return state.audios
+      } catch (err) {
+        console.error(err)
+      }
     }
   },
   getters: {
-
+    USER_AUDIOS : (state) => {
+      let audios = state.audios
+      
+      for (let i in lintos) {
+        if (lintos[i].associatedRoom !== 'null') {
+          for (let r in rooms) {
+            if (!!rooms[r]._id && rooms[r].technicalId === lintos[i].associatedRoom) {
+              lintos[i].roomId = rooms[r]._id
+            } else if (!rooms[r]._id && rooms[r].technicalId === lintos[i].associatedRoom) {
+              lintos[i].roomId = rooms[r].id
+            }
+          }
+          associatedLintos.push(lintos[i])
+        }
+      }
+      return associatedLintos
+    },
   }
 })

@@ -25,7 +25,7 @@ export default {
       this.status = data.status
       this.redirect = data.redirect
       if (this.redirect) {
-        this.msg += ' You will be redirected in 3sec...'
+        this.msg += ' Vous serez redirigé dans 3sec...'
       }
       setTimeout(() => {
         const notifHeight = document.getElementById('notif-container').offsetHeight;
@@ -37,7 +37,7 @@ export default {
         if(this.redirect){
           document.location.href= this.redirect
         }
-      }, 4000)
+      }, 3000)
     })
   }
 }

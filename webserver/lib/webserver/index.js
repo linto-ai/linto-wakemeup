@@ -23,6 +23,7 @@ class WebServer extends EventEmitter {
     this.app.set('etag', false)
     this.app.set('trust proxy', true)
     this.app.use('/assets', express.static(path.resolve(__dirname, '../../dist')))
+    this.app.use('/assets/audios', express.static(path.resolve(__dirname, '../../uploads')))
 
 
     this.app.use(bodyParser.json());

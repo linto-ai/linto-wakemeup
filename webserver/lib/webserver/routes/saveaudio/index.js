@@ -53,7 +53,9 @@ module.exports = (webServer) => {
             nbVotes: 0,
             nbValidVote: 0,
             nbInvalidVote: 0,
-            status: 'vote'
+            status: 'vote',
+            options: webAudioInfos.options,
+            userVoted: []
           }
           
           if(filePayload.mimetype == 'audio/wav'){
