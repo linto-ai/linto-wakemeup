@@ -59,10 +59,10 @@ module.exports = (webServer) => {
             gender: userInfos.gender
           }
           
-          if(filePayload.mimetype == 'audio/wav'){
+          if(filePayload.mimetype == 'audio/wav') {
             // update user records infos in DB
             const updateUserRecord = await model.updateUserRecords({userInfos})
-            if(updateUserRecord.status === 'success'){
+            if(updateUserRecord.status === 'success') {
               updateUser = true
             } else {
               updateUser = false
@@ -71,7 +71,7 @@ module.exports = (webServer) => {
 
             // Increment nbRecords of appStats in DB
             const updateScenarios = await model.updateScenario({wakeword: userInfos.wakeword, action: 'increment_record'})
-            if(updateScenarios === 'success'){
+            if(updateScenarios === 'success') {
               updateScenario = true
             } else {
               updateScenario = false
@@ -84,7 +84,7 @@ module.exports = (webServer) => {
           
           // Save Audio in DB
           const addFile = await model.addAudioSample(filePayload)
-          if(addFile === 'success'){
+          if(addFile === 'success') {
             addAudioFile = true
           } else {
             addAudioFile = false

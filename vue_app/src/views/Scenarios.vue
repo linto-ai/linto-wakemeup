@@ -10,8 +10,8 @@
                   <tr>
                     <td class="tab-label">Wakeword :</td>
                     <td class="tab-input">
-                      <input class="input" v-model="wakeword"/>
-                      <!-- <span class="error-field" :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userEmailErrorMsg }}</span> -->
+                      <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']"/>
+                      <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ wakewordErrorMsg }}</span>
                     </td>
                   </tr>
                   <tr>
@@ -59,7 +59,9 @@ export default {
     return {
       isAdmin: false,
       scenariosLoaded: false,
-      wakeword: ''
+      wakeword: '',
+      wakewordValid: false,
+      wakewordErrorMsg : ''
     }
   }, 
   computed: {
@@ -85,37 +87,56 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      if (data.role === 'administrator'){
+      if (data.role === 'administrator') {
         this.isAdmin = true
       } else {
         this.isAdmin = false
       }
     },
     scenarios: function (data) {
-      if(data.length > 0){
+      if (data.length > 0) {
         this.scenariosLoaded = true
       }
     }
   },
   methods: {
-    async addWakeword (data) {
-      const addww = await axios(`${process.env.VUE_APP_URL}/api/scenarios`, {
-        method: 'post', 
-        data: { wakeword: data }
+    validWakeword (wakeword) {
+      let unused = true
+      this.scenarios.map(s => {
+        if (s.wakeword === wakeword) {
+          unused = false
+        }
       })
-      if(addww.data.addWakeword === 'success') {
-        this.$store.dispatch('getScenarios')
-        bus.$emit('notify_app', {
-          status: 'success',
-          msg: 'Wakeword ajouté avec succès.',
-          redirect: false
-        })
+      if (!unused) {
+        this.wakewordValid = 'error'
+        this.wakewordErrorMsg = 'Ce wakeword fais déjà parti du scénario d\'enregistrement'
+        return false
       } else {
-        bus.$emit('notify_app', {
-          status: 'error',
-          msg: 'Erreur lors de l\'ajout du wakeword.',
-          redirect: false
+        this.wakewordValid = 'valid'
+        this.wakewordErrorMsg = ''
+        return true
+      }
+    },
+    async addWakeword (data) {
+      if (this.validWakeword(data)) {
+        const addww = await axios(`${process.env.VUE_APP_URL}/api/scenarios`, {
+          method: 'post', 
+          data: { wakeword: data }
         })
+        if (addww.data.addWakeword === 'success') {
+          this.$store.dispatch('getScenarios')
+          bus.$emit('notify_app', {
+            status: 'success',
+            msg: 'Wakeword ajouté avec succès.',
+            redirect: false
+          })
+        } else {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Erreur lors de l\'ajout du wakeword.',
+            redirect: false
+          })
+        }
       }
     },
     deleteWakeword (data) {
