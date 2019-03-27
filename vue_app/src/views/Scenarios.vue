@@ -1,51 +1,52 @@
 <template>
-  <div id="page-content" >
-    <div class="container-fluid" id="user-panel" v-if="isAdmin && scenariosLoaded" >
-      <div class="row justify-content-around">
-        <div class="col-5">
-          <h2>Ajouter un wakeword</h2>
-          <div class="white-container">
-            <table class="user-panel-tab">
-                <tbody>
-                  <tr>
-                    <td class="tab-label">Wakeword :</td>
-                    <td class="tab-input">
-                      <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']"/>
-                      <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ wakewordErrorMsg }}</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2" style="padding-top:10px;">
-                      <button class="button green large" @click="addWakeword(wakeword)">Ajouter un wakeword</button>
-                    </td>
-                  </tr>
-                </tbody>
-            </table>
+  <div class="h-100">
+    <div id="page-content" >
+      <div class="container-fluid" id="user-panel" v-if="isAdmin && scenariosLoaded" >
+        <div class="row justify-content-around">
+          <div class="col-5">
+            <h2>Ajouter un wakeword</h2>
+            <div class="white-container">
+              <table class="user-panel-tab">
+                  <tbody>
+                    <tr>
+                      <td class="tab-label">Wakeword :</td>
+                      <td class="tab-input">
+                        <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']"/>
+                        <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ wakewordErrorMsg }}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" style="padding-top:10px;">
+                        <button class="button green large" @click="addWakeword(wakeword)">Ajouter un wakeword</button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <div class="col-5">
-          <h2>Wakewords existants</h2>
-          <div class="white-container">
-            <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
-              <span class="wakeword">{{ ww.wakeword }}</span>
-              <div class="wakeword-info">
-                <span class="label listen">Ecoutes</span>
-                <span class="number listen">{{ww.nbListen}}</span>
+          <div class="col-5">
+            <h2>Wakewords existants</h2>
+            <div class="white-container">
+              <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
+                <span class="wakeword">{{ ww.wakeword }}</span>
+                <div class="wakeword-info">
+                  <span class="label listen">Ecoutes</span>
+                  <span class="number listen">{{ww.nbListen}}</span>
+                </div>
+                <div class="wakeword-info">
+                  <span class="label record">Enreg.</span>
+                  <span class="number record">{{ww.nbRecord}}</span>
+                </div>
+                <button class="delete-btn" @click="deleteWakeword(ww.wakeword)"></button>
               </div>
-              <div class="wakeword-info">
-                <span class="label record">Enreg.</span>
-                <span class="number record">{{ww.nbRecord}}</span>
-              </div>
-              <button class="delete-btn" @click="deleteWakeword(ww.wakeword)"></button>
-
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      Vous n'êtes pas autorisé à accéder à cette page <br/>
-      <a href="/">Retour à la page d'accueil</a>
+      <div v-else>
+        Vous n'êtes pas autorisé à accéder à cette page <br/>
+        <a href="/">Retour à la page d'accueil</a>
+      </div>
     </div>
     <DeleteWakewordModal></DeleteWakewordModal>
   </div>

@@ -1,63 +1,65 @@
 <template>
-  <div id="page-content" >
-    <div class="container-fluid h-100 talk red" id="player-container" >
-      <div class="row h-100">
-        <div class="col-3 h-100 player-content">
-          <h2 class="red">Enregistrez votre voix</h2>
-          <span class="content">
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-          </span>
-        </div>
-        <div class="col-9 h-100">
-          <div id="player-wrapper" v-if="dataReady && !allComplete">
-            <div class="say-word">
-              <h3>Dites : "<span class="word">{{ wakeword }}</span>"</h3>
-            </div>
-            <div class="btn-container">
-              <div class="player-anim">
-                <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
-                <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
-                <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
-              </div>
-              <button @click="startRecording()" class="button-record" id="start" v-if="!isRecording"><span class="icon"></span></button>
-              <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button>
-              
-              <div class="player-anim">
-                <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
-                <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
-                <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
-              </div>
-              <span class="label">Enregistrer</span>
-            </div>
-            <div class="sub-actions-container" v-if="blob !== null && !isRecording">
-              <div class="action-container">
-                <button @click="playRecord()" class="btn-player play" :class="isPlaying"></button>
-                <span class="label">Réécouter</span>
-              </div>
-              <div class="action-container">
-                <button @click="startRecording()" class="btn-player reset"></button>
-                <span class="label">Recommencer</span>
-              </div>
-              <div class="action-container">
-                <button @click="validRecord()" class="btn-player validate" :class="recordIsValid"></button>
-                <span class="label">Valider</span>
-              </div>
-            </div>
+  <div class="h-100">
+    <div id="page-content" >
+      <div class="container-fluid h-100 talk red" id="player-container" >
+        <div class="row h-100">
+          <div class="col-3 h-100 player-content">
+            <h2 class="red">Enregistrez votre voix</h2>
+            <span class="content">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+            </span>
           </div>
-          <div class="player-timeline" v-if="dataReady && !allComplete">
-            <div class="timeline">
-              <div class="progress" :class="progressClass">
-                <span class="progress-info">{{ step }}/3</span>
+          <div class="col-9 h-100">
+            <div id="player-wrapper" v-if="dataReady && !allComplete">
+              <div class="say-word">
+                <h3>Dites : "<span class="word">{{ wakeword }}</span>"</h3>
+              </div>
+              <div class="btn-container">
+                <div class="player-anim">
+                  <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
+                </div>
+                <button @click="startRecording()" class="button-record" id="start" v-if="!isRecording"><span class="icon"></span></button>
+                <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button>
+                
+                <div class="player-anim">
+                  <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
+                  <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
+                </div>
+                <span class="label">Enregistrer</span>
+              </div>
+              <div class="sub-actions-container" v-if="blob !== null && !isRecording">
+                <div class="action-container">
+                  <button @click="playRecord()" class="btn-player play" :class="isPlaying"></button>
+                  <span class="label">Réécouter</span>
+                </div>
+                <div class="action-container">
+                  <button @click="startRecording()" class="btn-player reset"></button>
+                  <span class="label">Recommencer</span>
+                </div>
+                <div class="action-container">
+                  <button @click="validRecord()" class="btn-player validate" :class="recordIsValid"></button>
+                  <span class="label">Valider</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div v-if="!dataReady && allComplete" class="record-complete white-container">
-              Vous n'avez pas de "wake-word" à enregistrer.<br/>
-              <a href="/">Retour à l'accueil</a>
-          </div>
-          <div v-if="!dataReady && !allComplete" class="loading">
-            <img src="/assets/img/loading.gif" class="loading-img" />
-            <span class="label">Chargement...</span>
+            <div class="player-timeline" v-if="dataReady && !allComplete">
+              <div class="timeline">
+                <div class="progress" :class="progressClass">
+                  <span class="progress-info">{{ step }}/3</span>
+                </div>
+              </div>
+            </div>
+            <div v-if="!dataReady && allComplete" class="record-complete white-container">
+                Vous n'avez pas de "wake-word" à enregistrer.<br/>
+                <a href="/">Retour à l'accueil</a>
+            </div>
+            <div v-if="!dataReady && !allComplete" class="loading">
+              <img src="/assets/img/loading.gif" class="loading-img" />
+              <span class="label">Chargement...</span>
+            </div>
           </div>
         </div>
       </div>

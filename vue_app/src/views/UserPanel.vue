@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-100">
     <div id="page-content">
       <div class="container-fluid" id="user-panel">
         <div class="row justify-content-around">

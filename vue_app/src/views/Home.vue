@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-100">
     <div id="page-content">
       <div id="home">
         <div id="highlight" class="container-fluid">
