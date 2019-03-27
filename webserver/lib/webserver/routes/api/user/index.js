@@ -6,7 +6,7 @@ const model = new DBmodel()
 
 module.exports = (webServer) => {
   return [{
-      path: '/getUserInfos',
+      path: '/getInfos',
       method: 'post',
       controller: async (req, res, next) => {
         const userHash = req.body.hash
@@ -17,8 +17,8 @@ module.exports = (webServer) => {
       }
     },
     {
-      path: '/updateUser',
-      method: 'post',
+      path: '/',
+      method: 'put',
       requireAuth: true,
       controller: async (req, res, next) => {
         const data = req.body
@@ -35,15 +35,14 @@ module.exports = (webServer) => {
       }
     },
     {
-      path: '/updateUserPswd',
-      method: 'post',
+      path: '/pswd',
+      method: 'put',
       requireAuth: true,
       controller: async (req, res, next) => {
         const data = req.body
         const userHash = data.userHash
         const getUserInfos = await model.getUserByHash(userHash)
         let payload = getUserInfos[0]
-        console.log(data)
         // Check current password
         if (sha1(data.currentPswd + payload.salt) === payload.passwordHash) {
           const newSalt = randomstring.generate(12)
@@ -73,33 +72,5 @@ module.exports = (webServer) => {
         }
       }
     },
-    {
-      path: '/scenarios',
-      method: 'get',
-      requireAuth: true,
-      controller: async (req, res, next) => {
-        const scenarios = await model.getScenarios()
-        res.json({ scenarios })
-      }
-    },
-    {
-      path: '/getAudios',
-      method: 'get',
-      requireAuth: true,
-      controller: async (req,res,next) => {
-        const audios = await model.getVotingAudios()
-        res.json({ audios })
-      }
-    },
-    {
-      path: '/audio/vote',
-      method: 'post',
-      requireAuth: true,
-      controller: async (req,res,next) => {
-        const payload = req.body
-        const voteAudio = await model.updateVoteAudio(payload)
-        res.json({ voteAudio })
-      }
-    }
   ]
 }

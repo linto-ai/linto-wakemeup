@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Listen from './views/Listen.vue'
 import Record from './views/Record.vue'
+import Scenarios from './views/Scenarios.vue'
 import UserPanel from './views/UserPanel.vue'
 
 Vue.use(Router);
@@ -29,6 +30,11 @@ export default new Router({
       path: '/interface/listen',
       name: 'Compte utilisateur',
       component: Listen
+    },
+    {
+      path: '/interface/scenarios',
+      name: 'Ajouter des scenarios',
+      component: Scenarios
     }
   ]
-});
+})

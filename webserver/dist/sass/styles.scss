@@ -101,6 +101,7 @@ h3 {
     font-size: 16px;
     font-weight: 500;
     padding: 0 10px;
+    @include borderRadius(5px); 
     
     &.red{
       color: $redChart;
@@ -219,11 +220,14 @@ h3 {
       &.logout {
         color: $redChart;
       }
+      &.wakewords{
+        color: $greenChart;
+      }
     }
     .icon {
       width: 20px;
       background-image: url('../img/user-panel-icons@2x.png');
-      background-size: 20px 40px;
+      background-size: 20px 60px;
       background-repeat: no-repeat;
       margin: 0 5px;
       &.user {
@@ -232,6 +236,10 @@ h3 {
       &.logout {
         background-position: 0 -20px;
       }
+      &.wakewords{
+        background-position: 0 -40px;
+      }
+
     }
     &:hover {
       background: #f2f2f2;
@@ -762,3 +770,76 @@ h3 {
 }
 
 /*** END RECORD ***/
+
+
+/*** ADMIN PANEL ***/
+.ww-container{
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+
+  & > span {
+    display: inline-block;
+    height: 40px;
+    vertical-align: top;
+
+    &.wakeword{
+      font-size: 18px;
+      color: #fff;
+      background-color: $greyUnactive;
+      padding: 0 10px;
+      font-weight: 500;
+      line-height: 40px;
+      @include borderRadius(5px);
+      width: 50%;
+    }
+    
+  } 
+  .delete-btn{
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    background-image: url('../img/delete-icon@2x.png');
+    background-size: 40px 80px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+
+    &:hover{
+      background-position: 0 -40px;
+    }
+  }
+
+  .wakeword-info{
+    display: inline-block;
+    height: 40px;
+    width: 60px;
+    margin: 0 4px;
+    @include borderRadius(5px);
+    text-align: center;
+    
+    & > span {
+      display: inline-block;
+      width: 100%;
+      vertical-align: top;
+
+      &.label{
+        font-size: 13px;
+        line-height: 15px;
+      }
+      &.number{
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+      }
+      &.listen{
+        color: $greenChart;
+      }
+      &.record{
+        color: $redChart;
+      }
+    }
+
+  }
+  
+}
+/*** END ADMIN PANEL ***/

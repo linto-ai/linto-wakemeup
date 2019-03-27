@@ -1,5 +1,4 @@
 const debug = require('debug')('linto-admin:interface')
-const middlewares = require(`${process.cwd()}/lib/webserver/middlewares`)
 const multer = require('multer')
 const DBmodel = require(`${process.cwd()}/model/${process.env.BDD_TYPE}`)
 const model = new DBmodel()
@@ -33,6 +32,7 @@ module.exports = (webServer) => {
           }
           let updateUser = false
           let addAudioFile = false
+          let updateScenario = false
           let errorMsg = ''
           const userInfos = JSON.parse(req.body.userInfos)
           const webAudioInfos = JSON.parse(req.body.webAudioInfos)
@@ -55,10 +55,12 @@ module.exports = (webServer) => {
             nbInvalidVote: 0,
             status: 'vote',
             options: webAudioInfos.options,
-            userVoted: []
+            userVoted: [],
+            gender: userInfos.gender
           }
           
           if(filePayload.mimetype == 'audio/wav'){
+            // update user records infos in DB
             const updateUserRecord = await model.updateUserRecords({userInfos})
             if(updateUserRecord.status === 'success'){
               updateUser = true
@@ -66,10 +68,21 @@ module.exports = (webServer) => {
               updateUser = false
               errorMsg += 'Error on updating user'
             }
+
+            // Increment nbRecords of appStats in DB
+            const updateScenarios = await model.updateScenario({wakeword: userInfos.wakeword, action: 'increment_record'})
+            if(updateScenarios === 'success'){
+              updateScenario = true
+            } else {
+              updateScenario = false
+              errorMsg += 'Error on updating app stats'
+            }
           } else {
             updateUser = true
+            updateScenario = true
           }
-
+          
+          // Save Audio in DB
           const addFile = await model.addAudioSample(filePayload)
           if(addFile === 'success'){
             addAudioFile = true
@@ -77,8 +90,8 @@ module.exports = (webServer) => {
             addAudioFile = false
             errorMsg += 'Error on updating audio file'
           }
-          
-          if(addAudioFile && updateUser) {
+
+          if(addAudioFile && updateUser && updateScenario) {
             res.json({status: 'success', msg:'File has been added'})
           } else {
             res.json({status:'error', msg: errorMsg})

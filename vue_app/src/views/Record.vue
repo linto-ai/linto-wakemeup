@@ -134,11 +134,11 @@ export default {
       }
     },
     scenariosReady (data) {
+      
       if(data === true && this.userReady === true){
         this.setScenario();
       }
     },
-
   },
   methods: {
     setScenario () {
@@ -148,7 +148,7 @@ export default {
             this.wakeword = rec.wakeword
             this.step = parseInt(rec.step) + 1
             this.scenarios.map(s => {
-              if(s.wakeword = rec.wakeword) {
+              if(s.wakeword === rec.wakeword) {
                 for(let key in s.scenario) {
                   if (s.scenario[key].step == this.step){
                     this.audioConfig = {
@@ -192,13 +192,15 @@ export default {
         }
       }
       this.progressClass = 'step-' + this.step
+      
       if(this.audioConfig === null){
         this.allComplete = true
         this.dataReady = false
-      }
+      } else {
         this.dataReady = true
         this.allComplete = false
         this.initRecorder(this.audioConfig)
+      }
     },
     startRecording () {
       this.leftchannel = []
@@ -216,7 +218,6 @@ export default {
       this.mediaRecorder.stop()
       this.sourceNode = this.context.createMediaElementSource(audio)
       this.sourceNode.connect(this.context.destination)
-
       // we flat the left and right channels down
       // Float32Array[] => Float32Array
       this.leftBuffer = this.flattenArray(this.leftchannel, this.recordingLength)
@@ -316,7 +317,8 @@ export default {
       const userPayload = {
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword,
-        step: this.step
+        step: this.step,
+        gender: this.userInfos.gender
       }
       let formData = new FormData()
       formData.append("webAudioInfos", JSON.stringify(webAudioInfos))
@@ -331,8 +333,14 @@ export default {
       const date = moment().format('YYYYDDMmmhhmmss')
       const wakeWord = this.wakeword
       const opt = this.audioConfig.label
-      const fileName = `${wakeWord}-${opt}-${date}`
-      
+      let gender
+      if(this.userInfos.gender === 'male'){
+        gender = 'M'
+      } else if (this.userInfos.gender === 'female') {
+        gender = 'F'
+      }
+      const fileName = `${wakeWord}-${opt}-${gender}-${date}`
+
       let sendRaw, sendWebm
       if(this.step === 1){
         sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')

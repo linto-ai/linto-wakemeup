@@ -7078,7 +7078,7 @@ button {
 .button {
   display: inline-block;
   vertical-align: top;
-  padding: 5px 10px;
+  padding: 10px 15px;
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
@@ -7093,6 +7093,19 @@ button {
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
   -webkit-appearance: none; }
   .button.red {
     border: 1px solid #ffb0c7;
@@ -7115,27 +7128,26 @@ button {
     max-width: 620px;
     padding: 5px 0;
     font-size: 18px;
-    color: #fff; }
+    background-color: #fff; }
     .button.large.red {
-      background-color: #c61e42;
-      border-color: #c61e42; }
+      border: 1px solid #c61e42;
+      color: #c61e42; }
       .button.large.red:hover {
-        border: 1px solid #c61e42;
-        color: #c61e42;
-        background-color: #fff;
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-        box-shadow: none; }
+        background-color: #c61e42;
+        border-color: #c61e42;
+        color: #fff; }
     .button.large.green {
-      background-color: #2da800;
-      border-color: #2da800; }
+      border: 1px solid #2da800;
+      color: #2da800; }
       .button.large.green:hover {
-        border: 1px solid #2da800;
-        color: #2da800;
-        background-color: #fff;
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-        box-shadow: none; }
+        background-color: #2da800;
+        border-color: #2da800;
+        color: #fff; }
+  .button:hover {
+    -moz-box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    text-decoration: none; }
 
 .aslink {
   display: inline-block;
@@ -7232,6 +7244,13 @@ button {
   .modal-header .back-login-modal {
     left: 10px;
     background-image: url("../img/back@2x.png"); }
+
+.modal-body .content {
+  font-size: 16px;
+  line-height: 22px; }
+  .modal-body .content strong {
+    font-weight: 600;
+    color: #c61e42; }
 
 /*** END MODAL ***/
 /*** FORM ***/
@@ -7553,7 +7572,10 @@ h3 {
     line-height: 60px;
     font-size: 16px;
     font-weight: 500;
-    padding: 0 10px; }
+    padding: 0 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; }
     #header .header-link.red {
       color: #c61e42; }
       #header .header-link.red:hover {
@@ -7643,16 +7665,20 @@ h3 {
         color: #2da800; }
       .user-menu .user-submenu-link .label.logout {
         color: #c61e42; }
+      .user-menu .user-submenu-link .label.wakewords {
+        color: #2da800; }
     .user-menu .user-submenu-link .icon {
       width: 20px;
       background-image: url("../img/user-panel-icons@2x.png");
-      background-size: 20px 40px;
+      background-size: 20px 60px;
       background-repeat: no-repeat;
       margin: 0 5px; }
       .user-menu .user-submenu-link .icon.user {
         background-position: 0 0; }
       .user-menu .user-submenu-link .icon.logout {
         background-position: 0 -20px; }
+      .user-menu .user-submenu-link .icon.wakewords {
+        background-position: 0 -40px; }
     .user-menu .user-submenu-link:hover {
       background: #f2f2f2; }
       .user-menu .user-submenu-link:hover .label {
@@ -8062,3 +8088,59 @@ h3 {
     background-color: #c61e42; } }
 
 /*** END RECORD ***/
+/*** ADMIN PANEL ***/
+.ww-container {
+  width: 100%;
+  padding: 10px;
+  text-align: center; }
+  .ww-container > span {
+    display: inline-block;
+    height: 40px;
+    vertical-align: top; }
+    .ww-container > span.wakeword {
+      font-size: 18px;
+      color: #fff;
+      background-color: #bdccd4;
+      padding: 0 10px;
+      font-weight: 500;
+      line-height: 40px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      width: 50%; }
+  .ww-container .delete-btn {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    background-image: url("../img/delete-icon@2x.png");
+    background-size: 40px 80px;
+    background-repeat: no-repeat;
+    background-position: 0 0; }
+    .ww-container .delete-btn:hover {
+      background-position: 0 -40px; }
+  .ww-container .wakeword-info {
+    display: inline-block;
+    height: 40px;
+    width: 60px;
+    margin: 0 4px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center; }
+    .ww-container .wakeword-info > span {
+      display: inline-block;
+      width: 100%;
+      vertical-align: top; }
+      .ww-container .wakeword-info > span.label {
+        font-size: 13px;
+        line-height: 15px; }
+      .ww-container .wakeword-info > span.number {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px; }
+      .ww-container .wakeword-info > span.listen {
+        color: #2da800; }
+      .ww-container .wakeword-info > span.record {
+        color: #c61e42; }
+
+/*** END ADMIN PANEL ***/

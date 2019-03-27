@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     userInfos: '',
     scenarios:'',
-    audios: ''
+    audios: '',
+    appStats: ''
   },
   mutations: {
     SET_USER: (state, data) => {
@@ -23,7 +24,8 @@ export default new Vuex.Store({
         nbListen: data.nbListen,
         nbRecord: data.nbRecord,
         userHash: data.userHash,
-        recordList: data.recordList
+        recordList: data.recordList,
+        role: data.role
       }
     },
     SET_SCENARIOS: (state, data) => { 
@@ -32,12 +34,11 @@ export default new Vuex.Store({
     SET_AUDIOS: (state, data) => { 
       state.audios = data
     }
-      
   },
   actions: {
     getUserInfos: async ({ commit, state }, hash) => {
       try {
-        const getUser = await axios(`${process.env.VUE_APP_URL}/api/getUserInfos`,{
+        const getUser = await axios(`${process.env.VUE_APP_URL}/api/user/getInfos`,{
           method: 'post',
           data: { hash }
         })
@@ -60,7 +61,7 @@ export default new Vuex.Store({
     },
     getAudios: async ({ commit, state }, userHash) => {
       try {
-        const getAudios = await axios(`${process.env.VUE_APP_URL}/api/getAudios`,{
+        const getAudios = await axios(`${process.env.VUE_APP_URL}/api/audios`,{
           method: 'get'
         })
         const audios = getAudios.data.audios

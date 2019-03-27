@@ -233,8 +233,8 @@ export default {
       if (profilValid) {
         let payload = this.userInfos
         payload.email = this.userEmail
-        const updateUser = await axios(`${process.env.VUE_APP_URL}/api/updateUser`, {
-          method: 'post',
+        const updateUser = await axios(`${process.env.VUE_APP_URL}/api/user`, {
+          method: 'put',
           data: payload
         })
         if (updateUser.data.status === 'success') {
@@ -309,8 +309,8 @@ export default {
           newPswd: this.newPswd,
           userHash: this.userInfos.userHash
         }
-        const updatePswd = await axios(`${process.env.VUE_APP_URL}/api/updateUserPswd`, {
-          method: 'post',
+        const updatePswd = await axios(`${process.env.VUE_APP_URL}/api/user/pswd`, {
+          method: 'put',
           data: payload
         })
         if (updatePswd.data.status === 'success') {

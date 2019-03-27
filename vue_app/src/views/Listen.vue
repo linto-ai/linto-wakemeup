@@ -114,9 +114,10 @@ export default {
       const payload = {
         audioId: this.audios[0]._id,
         vote: vote, 
-        userHash: this.userInfos.userHash
+        userHash: this.userInfos.userHash,
+        wakeword: this.wakeword
       }
-      const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audio/vote`, {
+      const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audios/vote`, {
         method: 'post',
         data: payload
       })

@@ -22,6 +22,10 @@
               <span class="icon user"></span>
               <span class="label user">Mon compte</span>
             </a>
+             <a href="/interface/scenarios" class="user-submenu-link" v-if="isAdmin">
+              <span class="icon wakewords"></span>
+              <span class="label wakewords">Scénarios</span>
+            </a>
             <a href="/logout" class="user-submenu-link logout">
               <span class="icon logout"></span>
               <span class="label logout">Déconnexion</span>
@@ -39,7 +43,8 @@ export default {
   data () {
     return {
       userConnected: false,
-      showUserMenu: false
+      showUserMenu: false,
+      isAdmin: false
     }
   },
   created () {
@@ -57,6 +62,13 @@ export default {
   computed: {
     userInfos () {
       return this.$store.state.userInfos
+    }
+  },
+  watch: {
+    userInfos: function (data) {
+      if(data.role === 'administrator'){ 
+        this.isAdmin = true
+      }
     }
   },
   methods: {

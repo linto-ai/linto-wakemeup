@@ -234,8 +234,9 @@ class modelMongoDb {
       }
       const updateAudio = await this.mongoUpdate('audios', audioQuery, audioPayload)
       const updateUser = await this.updateUser(user)
-
-      if(updateAudio === 'success' && updateUser === 'success'){
+      const updateScenarios =  await this.updateScenario({wakeword: payload.wakeword, action: 'increment_listen'})
+      
+      if(updateAudio === 'success' && updateUser === 'success' && updateScenarios === 'success'){
         return 'success'
       } else {
         return 'error'
@@ -255,6 +256,107 @@ class modelMongoDb {
       console.error(error)
     }
   }
+  async getScenarioByWakeword(wakeword) {
+    try {
+      const query = {wakeword: wakeword}
+      return await this.mongoRequest('scenarios', query)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  async postScenario(data) {
+    try{
+      const payload = {
+        wakeword: data.wakeword,
+        scenario : {
+          noOpt : {
+              step : 1,
+              echoCancellation : true,
+              noiseSuppression : true
+          },
+          echoCancel : {
+              step : 2,
+              echoCancellation : true,
+              noiseSuppression : false
+          },
+          noiseSuppr : {
+              step : 3,
+              echoCancellation : false,
+              noiseSuppression : true
+          }
+        },
+        nbListen: 0,
+        nbRecord: 0
+      }
+      return await this.mongoInsert('scenarios', payload)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  async deleteWakeword(data) {
+    const query = {
+      wakeword: data.wakeword
+    }
+    return await this.mongoDelete('scenarios', query)
+  }
+  async updateScenario (data) {
+    try {
+      const wakeword = data.wakeword
+      const action = data.action
+      const getScenario = await this.getScenarioByWakeword(wakeword)
+      const scenario = getScenario[0]
+      if(action === 'increment_listen') {
+        scenario.nbListen += 1
+      } else if (action === 'increment_record') {
+        scenario.nbRecord += 1
+      }
+      const query = {
+        wakeword: wakeword
+      }
+      if(!!scenario._id){
+        delete scenario._id
+      }
+      return await this.mongoUpdate('scenarios', query, scenario)
+      
+    } catch (err) {
+      console.error(err)
+    }
+
+  }
+  /************/
+  /*** APP ***/
+  /************/
+
+  async getAppStats () {
+    try {
+      const query = {}
+      const appStats =  await this.mongoRequest('app_stats', query)
+      return appStats[0]
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async updateAppStats (payload) {
+    try {
+      const appStats = await this.getAppStats()
+      if(payload.target === 'nbListen') {
+        appStats.nbListen += 1
+      } else if (payload.target === 'nbRecord') {
+        appStats.nbRecord += 1
+      }
+      const query = {
+        _id: this.mongoDb.ObjectID(appStats._id)
+      }
+      if(!!appStats._id) {
+        delete appStats._id
+      }
+      return await this.mongoUpdate('app_stats', query, appStats)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
 
   /*******************/
   /*** Mongo CRUD ***/
