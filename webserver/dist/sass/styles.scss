@@ -264,6 +264,10 @@ h3 {
   width: 100%;
   height: 100%;
   padding-bottom: 100px;
+
+  .locked {
+    overflow: hidden;
+  }
 }
 
 /* HOME - Highlight */
@@ -396,15 +400,55 @@ h3 {
   0,
   0,
   0.2));
+  overflow: auto;
+  
   h2 {
     text-align: center;
   }
+
   .content {
     display: inline-block;
-    padding: 20px 40px;
-    line-height: 22px;
-    font-size: 16px;
+    padding: 10px 20px;
+    line-height: 20px;
+    font-size: 14px;
     text-align: left;
+    .notice {
+      padding: 10px;
+      margin-top: 20px;
+      @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+
+      h3{
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        padding: 20px 0;
+        margin: 0
+      }
+    }
+    &.red{
+      strong {
+        font-weight: 500;
+        color: $redChart;
+      }
+      .notice {
+        h3{
+          color: $redChart;
+        }
+      }
+    }
+
+    &.green{
+      strong {
+        font-weight: 500;
+        color: $greenChart;
+      }
+      .notice {
+        h3{
+          color: $greenChart;
+        }
+      }
+    }
   }
 }
 
@@ -541,7 +585,7 @@ h3 {
         &:hover{
           background-position: -60px 0;
         }
-        &.acitve{
+        &.active{
           background-position: -120px 0;
         }
       }
@@ -556,7 +600,7 @@ h3 {
         &:hover{
           background-position: -60px -60px;
         }
-        &.acitve{
+        &.active{
           background-position: -120px -60px;
         }
       }
@@ -860,3 +904,61 @@ h3 {
   font-weight: 500;
 }
 /*** END FOOTER ***/
+
+/*** MONITORING ***/
+.monitoring-datas{
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+.monitoring-appstats{
+ & > span {
+   display: inline-block;
+   vertical-align: top;
+
+    &.label{
+      font-size: 18px;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+    }
+    &.icon{
+      width: 60px;
+      height: 60px;
+      background-image: url('../img/stats-icons@2x.png');
+      background-size: 60px 120px;
+      background-repeat: no-repeat;
+    }
+    &.number{
+      width: 100%;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      padding: 10px 0;
+    }
+  }
+  &.record {
+    .label,
+    .number {
+      color: $redChart
+    }
+    .icon{
+      background-position: 0 0;
+    }
+    
+  }
+  &.listen{
+    .label,
+    .number{
+      color: $greenChart;
+    }
+    .icon{
+      background-position: 0 -60px;
+    }
+  }
+}
+/*** END MONITORING ***/

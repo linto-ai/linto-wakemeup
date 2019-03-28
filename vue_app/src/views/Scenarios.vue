@@ -69,9 +69,6 @@ export default {
     userInfos () {
       return this.$store.state.userInfos
     }, 
-    appStats () {
-      return this.$store.state.appStats
-    },
     scenarios () {
       return this.$store.state.scenarios
     }

@@ -1,15 +1,33 @@
 <template>
   <div class="h-100">
-    <div id="page-content" >
+    <div id="page-content" class="locked">
       <div class="container-fluid h-100 talk green" id="player-container" >
         <div class="row h-100">
-          <div class="col-3 h-100 player-content">
+          <div class="col-4 h-100 player-content">
             <h2 class="green">Écoutez et validez des enregistrement</h2>
-            <span class="content">
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-            </span>
+            <div class="content green">
+              <p>Bienvenue dans l'interface de validation des wakewords.</p>
+              
+              <p><strong>Écoutez</strong> les enregistrements réalisés par les utilsateurs.</p>
+              <p> Pour qu'un son soit valide, il doit répondre à certains critères :
+                <ul>
+                  <li>Le wakewords doit être <strong>clairement audible</strong></li>
+                  <li>La commande prononcée doit être <strong>conforme avec la commande écrites au-dessus du player</strong></li>
+                  <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du wakeword</li>
+              </p>
+
+              <div class="notice"><h3>Validation d'échantillons audio</h3>
+                <ul>
+                  <li>Le wakeword attendu est écris en rouge au-dessus du player audio</li>
+                  <li>Cliquez sur le bouton "<strong>Écouter</strong>" afin de jouer le son. </li>
+                  <li>Après avoir écouté le son, des boutons vous permettant de voter apparaitrons</li>
+                  <li>Cliquez sur le bouton "<strong>Valide</strong>" si vous estimez que l'échantillon est valide</li>
+                  <li>Cliquez sur le bouton "<strong>Non valide</strong>" si vous estimez que l'échantillon n'est pas valide</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="col-9 h-100">
+          <div class="col-8 h-100">
             <div id="player-wrapper" v-if="audiosReady && !noMoreAudio">
               <div class="say-word">
                 <h3>"<span class="word">{{ wakeword }}</span>"</h3>
@@ -37,7 +55,7 @@
                   </div>
                   <div class="action-container">
                     <button @click="sendVote('bad')" class="btn-player votebad"></button>
-                    <span class="label red">Invalide</span>
+                    <span class="label red">Non valide</span>
                   </div>
                 </div>
               </div>
@@ -69,9 +87,16 @@ export default {
       isPlaying: '',
       playerAudio: null,
       audioHasBeenListen: false,
-      noMoreAudio: false
+      noMoreAudio: false,
+      userHash: '',
+      userAudios: ''
     }
   }, 
+  created () {
+    this.$store.dispatch('getAudios').then((resp) => {}, error => {
+      console.error('error:', err)
+    })
+  },
   computed: {
     userInfos () {
       return this.$store.state.userInfos
@@ -82,27 +107,32 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      this.getAudios(data.userHash)
+      this.userHash = this.$store.state.userInfos.userHash
+    },
+    userHash: function (data) {
+      if(!!this.audios) {
+        this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
+      }
     },
     audios: function (data) {
-      if(data.length > 0){
+      if(!!this.userHash) {
+        this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash)
+      }
+    },
+    userAudios: function (data) {
+      if(data.length > 0) {
         this.noMoreAudio = false
         this.wakeword = data[0].wakeword
         this.audioFile = '/assets/audios/' + data[0].fieldname
         this.audiosReady = true
         this.playerAudio = new Audio(this.audioFile)
-      }
-      else {
+      } else {
+        this.audiosReady = false
         this.noMoreAudio = true
       }
     }
   },
   methods: {
-    getAudios (userHash) {
-      this.$store.dispatch('getAudios', userHash ).then((resp) => {}, error => {
-        console.error('error:', err)
-      })
-    },
     playAudio () {
       this.isPlaying = 'active'
       this.playerAudio.play()
@@ -111,10 +141,9 @@ export default {
         this.audioHasBeenListen = true
       })
     },
-    
     async sendVote (vote) {
       const payload = {
-        audioId: this.audios[0]._id,
+        audioId: this.userAudios[0]._id,
         vote: vote, 
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword

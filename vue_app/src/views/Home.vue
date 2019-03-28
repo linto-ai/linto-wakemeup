@@ -11,7 +11,7 @@
               </div>
               <div
                 class="highlight-content"
-              >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod malesuada nisl, sit amet vulputate justo interdum nec. Donec lobortis, ipsum vitae hendrerit sodales, purus risus fringilla ante, eu auctor mi velit ut turpis.</div>
+              >Participez à l'enregistrement de campagnes de "wakewords". Enregistrez votre voix et créez des échantillons audio qui nous permettront d'enrichir et entraîner notre modèle de données.</div>
               <div class="highlight-action">
                 <button data-url="/interface/record" @click="navigate($event)" class="button red">Enregistrez votre voix</button>
               </div>
@@ -23,7 +23,7 @@
               </div>
               <div
                 class="highlight-content"
-              >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod malesuada nisl, sit amet vulputate justo interdum nec. Donec lobortis, ipsum vitae hendrerit sodales, purus risus fringilla ante, eu auctor mi velit ut turpis.</div>
+              >Aidez-nous à confirmer la validité des échantillons audios créés par les utilisateurs. Ecoutez ces échantillons et donnez-nous votre avis en nous indiquant si les wakewords prononcés sont audibles et conformes aux consignes.</div>
               <div class="highlight-action">
                 <button data-url="/interface/listen" @click="navigate($event)" class="button green">Écouter des enregistrements</button>
               </div>
@@ -37,7 +37,6 @@
     <CreateAccountModal></CreateAccountModal>
   </div>
 </template>
-
 <script>
 import Header from '@/components/Header.vue'
 import ConnectionModal from '@/components/ConnectionModal.vue'
@@ -89,7 +88,7 @@ export default {
         }
       }
       return ''
-    },
+    }
   },
   components: {
     Header,

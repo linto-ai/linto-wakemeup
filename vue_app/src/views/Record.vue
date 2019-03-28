@@ -1,15 +1,30 @@
 <template>
   <div class="h-100">
-    <div id="page-content" >
+    <div id="page-content" class="locked" >
       <div class="container-fluid h-100 talk red" id="player-container" >
         <div class="row h-100">
-          <div class="col-3 h-100 player-content">
+          <div class="col-4 h-100 player-content">
             <h2 class="red">Enregistrez votre voix</h2>
-            <span class="content">
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-            </span>
+            <div class="content red">
+              <p>Bienvenue dans l'interface d'enregistrement des wakewords.</p>
+              <p>L'enregistrement des wakeword nécessite qu'un <strong>microphone</strong> soit detecté par votre navigateur. Lors de votre inscription, vous avez du sélectionner un type de périphérique. Vous pouvez mettre à jour ces informations en vous rendant dans l'interface utilisateur.</p>
+
+              <p>Les données seront enregistrées de façon <strong>anonymes</strong> et renseignerons uniquement le sexe du locuteur. </p>
+
+              <p>Chaque "Wakeword" devra être enregistré 3 fois de suite afin que nous puissions avoir un comparatif des différents échantillons.</p>
+
+              <div class="notice"><h3>Pour enregistrer votre voix</h3>
+                <ul>
+                  <li>La commmande à enregistrer est écrites au-dessus du bouton "enregistrer" sur la partie droite de la page.</li>
+                  <li>Cliquez sur le bouton "<strong>enregistrer</strong>" afin de commencer la captation. Le bouton se mettra à clignoter pour vous indiquer que la captation est en cours.</li>
+                  <li><strong>Prononcez la commande</strong> et appuyez une nouvelle fois sur le bouton "<strong>enregistrer</strong>" afin d'arrêter la captation.</li>
+                  <li>Après avoir enregistré votre voix, vous pourrez <strong>réécouter</strong> votre enregistrement, et le <strong>recommencer</strong> si nécessaire.</li>
+                  <li> Si votre enregistrement vous semble valide, cliquez sur le bouton "<strong>valider</strong>" pour le confirmer et passer à un nouvel enregistrement.</li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="col-9 h-100">
+          <div class="col-8 h-100">
             <div id="player-wrapper" v-if="dataReady && !allComplete">
               <div class="say-word">
                 <h3>Dites : "<span class="word">{{ wakeword }}</span>"</h3>
@@ -22,7 +37,6 @@
                 </div>
                 <button @click="startRecording()" class="button-record" id="start" v-if="!isRecording"><span class="icon"></span></button>
                 <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button>
-                
                 <div class="player-anim">
                   <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
                   <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
@@ -123,36 +137,36 @@ export default {
       return this.$store.state.userInfos
     }
   },
-  watch : {
-    userInfos: function(data) {
+  watch: {
+    userInfos: function (data) {
+      console.log(data)
       this.userReady = true
     },
     scenarios: function (data) {
       this.scenariosReady = true
     },
-    userReady (data) {
-      if(data === true && this.scenariosReady === true){
-        this.setScenario();
+    userReady: function (data) {
+      if (data === true && this.scenariosReady === true) {
+        this.setScenario()
       }
     },
-    scenariosReady (data) {
-      
-      if(data === true && this.userReady === true){
-        this.setScenario();
+    scenariosReady: function (data) {
+      if (data === true && this.userReady === true) {
+        this.setScenario()
       }
-    },
+    }
   },
   methods: {
     setScenario () {
       if (!!this.userInfos.recordList && this.userInfos.recordList.length > 0) {
         this.userInfos.recordList.map(rec => {
-          if(!rec.complete) {
+          if (!rec.complete) {
             this.wakeword = rec.wakeword
             this.step = parseInt(rec.step) + 1
             this.scenarios.map(s => {
-              if(s.wakeword === rec.wakeword) {
+              if (s.wakeword === rec.wakeword) {
                 for(let key in s.scenario) {
-                  if (s.scenario[key].step == this.step){
+                  if (s.scenario[key].step == this.step) {
                     this.audioConfig = {
                       label: key,
                       echoCancellation: s.scenario[key].echoCancellation,
@@ -167,12 +181,12 @@ export default {
               let ww = s.wakeword
               let wwfound = false
               this.userInfos.recordList.map(rec => {
-                if(rec.wakeword == ww) {
+                if (rec.wakeword == ww) {
                   wwfound = true
                 }
               })
-              if(!wwfound) {
-                this.wakeword = s.wakeword,
+              if (!wwfound) {
+                this.wakeword = s.wakeword
                 this.step = 1
                 this.audioConfig = {
                   label : 'noOpt',
@@ -181,21 +195,21 @@ export default {
                 }
               }
             })
-          } 
+          }
         })
       } else {
         const scene = this.scenarios[0]
         this.step = 1
         this.wakeword = scene.wakeword
         this.audioConfig = {
-          label : 'noOpt',
-          echoCancellation : scene.scenario.noOpt.echoCancellation,
-          noiseSuppression : scene.scenario.noOpt.noiseSuppression,
+          label: 'noOpt',
+          echoCancellation: scene.scenario.noOpt.echoCancellation,
+          noiseSuppression: scene.scenario.noOpt.noiseSuppression,
         }
       }
       this.progressClass = 'step-' + this.step
       
-      if(this.audioConfig === null){
+      if (this.audioConfig === null) {
         this.allComplete = true
         this.dataReady = false
       } else {
@@ -319,6 +333,7 @@ export default {
       const userPayload = {
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword,
+        deviceType: this.userInfos.deviceType,
         step: this.step,
         gender: this.userInfos.gender
       }
@@ -327,7 +342,7 @@ export default {
       formData.append("userInfos", JSON.stringify(userPayload))
       formData.append(name, audioBlob, name)
       
-      return await axios('http://localhost:3003/saveaudio', {
+      return await axios(`${process.env.VUE_APP_URL}/api/audios/save`, {
         method: 'post', data: formData
       })
     },
@@ -336,7 +351,7 @@ export default {
       const wakeWord = this.wakeword
       const opt = this.audioConfig.label
       let gender
-      if(this.userInfos.gender === 'male'){
+      if (this.userInfos.gender === 'male') {
         gender = 'M'
       } else if (this.userInfos.gender === 'female') {
         gender = 'F'
@@ -344,10 +359,10 @@ export default {
       const fileName = `${wakeWord}-${opt}-${gender}-${date}`
 
       let sendRaw, sendWebm
-      if(this.step === 1){
+      if (this.step === 1) {
         sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
         sendWebm = await this.sendDatas(this.mediaRecorderblob,  this.webAudioInfos, fileName + '.webm')
-        if(sendRaw.data.status === 'success' && sendWebm.data.status === 'success') {
+        if (sendRaw.data.status === 'success' && sendWebm.data.status === 'success') {
           this.recordIsValid = 'active'
           bus.$emit('notify_app', {
             status: 'success',
@@ -364,7 +379,7 @@ export default {
       }
       else {
         sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
-        if(sendRaw.data.status === 'success') {
+        if (sendRaw.data.status === 'success') {
           this.recordIsValid = 'active'
           bus.$emit('notify_app', {
             status: 'success',

@@ -1,5 +1,5 @@
 {
-  "users": {
+  "users": [{
     "email": "rlopez@linagora.com",
     "passwordHash": "4217fc2e1a44d9e24930fcb7a1f4104656f4c4c1",
     "salt": "toto",
@@ -11,46 +11,32 @@
     "nbListen": 0,
     "nbRecord": 0,
     "userHash": "28f779a160273dd71d3931e7b22fb4e82e3f307d",
-    "listenList": [],
-    "recordList": {
-      "linto" : { 
-        "step":"3", 
-        "complete": true
-      },
-      "annuler" : { 
-        "step":"0", 
-        "complete": false
-      }
-    }
-  },
-  "audio": {
-    "wakeword":"linto",
-    "name": "",
+    "recordList": [],
+    "role": "administrator"
+  }],
+  "audio": [{
+    "author": "",
+    "wakeword": "",
+    "fieldname": "",
+    "originalname": "",
+    "mimetype": "audio/wav",
+    "destination": "",
     "path": "",
-    "extension": "wav || mpeg",
-    "duration": "",
-    "size": "",
-    "voteGood": 0,
-    "voteBad": 0,
-    "author": "user",
-    "options": {},
-    "type": "raw || raw-echo...",
-    "uploadDate": "Date"
-  },
-
-  "audioTitle": {
-    "title": "[wakeWord]-[options]-[Date].[extension]",
-    "example": "linto-raw-noopt-20190317200000.wav",
-    "options": {
-      "allfilters": "noOpt",
-      "echoCancellation": "echoCancel",
-      "noiseSuppression": "noiseSuppr"
-    }
-  },
-  "scenarios": [
-    {
-    "WakeWord": "Linto",
-    "Scenario": {
+    "size": 0,
+    "sampleRate": 44100,
+    "buffersize": 4096,
+    "nbChannels": 2,
+    "nbVotes": 0,
+    "nbValidVote": 0,
+    "nbInvalidVote": 0,
+    "status": "vote",
+    "options": "noOpt",
+    "userVoted": [],
+    "gender": "male"
+  }],
+  "scenarios": [{
+    "wakeword": "linto",
+    "scenario": {
       "noOpt": {
         "step": 1,
         "echoCancellation": true,
@@ -66,7 +52,50 @@
         "echoCancellation": false,
         "noiseSuppression": true
       }
-    }
-  }
-]
+    },
+    "nbRecord": 0,
+    "nbListen": 0
+  }, {
+    "wakeword": "annuler",
+    "scenario": {
+      "noOpt": {
+        "step": 1,
+        "echoCancellation": true,
+        "noiseSuppression": true
+      },
+      "echoCancel": {
+        "step": 2,
+        "echoCancellation": true,
+        "noiseSuppression": false
+      },
+      "noiseSuppr": {
+        "step": 3,
+        "echoCancellation": false,
+        "noiseSuppression": true
+      }
+    },
+    "nbRecord": 0,
+    "nbListen": 0
+  }, {
+    "wakeword": "confirmer",
+    "scenario": {
+      "noOpt": {
+        "step": 1,
+        "echoCancellation": true,
+        "noiseSuppression": true
+      },
+      "echoCancel": {
+        "step": 2,
+        "echoCancellation": true,
+        "noiseSuppression": false
+      },
+      "noiseSuppr": {
+        "step": 3,
+        "echoCancellation": false,
+        "noiseSuppression": true
+      }
+    },
+    "nbRecord": 0,
+    "nbListen": 0
+  }]
 }

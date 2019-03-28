@@ -175,7 +175,7 @@ class modelMongoDb {
   /**************/
   /*** Audios ***/
   /*************/
-  async getVotingAudios (payload) {
+  async getAudioVotes (payload) {
     try {
       const query = {
         options : 'noOpt',
