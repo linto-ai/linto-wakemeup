@@ -7661,16 +7661,14 @@ h3 {
       line-height: 20px;
       font-size: 14px;
       font-weight: 500; }
-      .user-menu .user-submenu-link .label.user {
+      .user-menu .user-submenu-link .label.user, .user-menu .user-submenu-link .label.wakewords, .user-menu .user-submenu-link .label.monitoring {
         color: #2da800; }
       .user-menu .user-submenu-link .label.logout {
         color: #c61e42; }
-      .user-menu .user-submenu-link .label.wakewords {
-        color: #2da800; }
     .user-menu .user-submenu-link .icon {
       width: 20px;
       background-image: url("../img/user-panel-icons@2x.png");
-      background-size: 20px 60px;
+      background-size: 20px 80px;
       background-repeat: no-repeat;
       margin: 0 5px; }
       .user-menu .user-submenu-link .icon.user {
@@ -7679,6 +7677,8 @@ h3 {
         background-position: 0 -20px; }
       .user-menu .user-submenu-link .icon.wakewords {
         background-position: 0 -40px; }
+      .user-menu .user-submenu-link .icon.monitoring {
+        background-position: 0 -60px; }
     .user-menu .user-submenu-link:hover {
       background: #f2f2f2; }
       .user-menu .user-submenu-link:hover .label {

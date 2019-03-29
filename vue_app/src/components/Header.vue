@@ -27,8 +27,8 @@
               <span class="label wakewords">Scénarios</span>
             </a>
             <a href="/interface/monitoring" class="user-submenu-link" v-if="isAdmin">
-              <span class="icon wakewords"></span>
-              <span class="label wakewords">Monitoring</span>
+              <span class="icon monitoring"></span>
+              <span class="label monitoring">Monitoring</span>
             </a>
             <a href="/logout" class="user-submenu-link logout">
               <span class="icon logout"></span>

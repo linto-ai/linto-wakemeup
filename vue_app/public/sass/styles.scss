@@ -214,20 +214,19 @@ h3 {
       line-height: 20px;
       font-size: 14px;
       font-weight: 500;
-      &.user {
+      &.user,
+      &.wakewords,
+      &.monitoring {
         color: $greenChart;
       }
       &.logout {
         color: $redChart;
       }
-      &.wakewords{
-        color: $greenChart;
-      }
     }
     .icon {
       width: 20px;
       background-image: url('../img/user-panel-icons@2x.png');
-      background-size: 20px 60px;
+      background-size: 20px 80px;
       background-repeat: no-repeat;
       margin: 0 5px;
       &.user {
@@ -238,6 +237,9 @@ h3 {
       }
       &.wakewords{
         background-position: 0 -40px;
+      }
+      &.monitoring{
+        background-position: 0 -60px;
       }
 
     }

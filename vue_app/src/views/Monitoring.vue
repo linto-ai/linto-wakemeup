@@ -3,8 +3,7 @@
     <div id="page-content" >
       <div class="container-fluid" id="user-panel">
         <div class="row justify-content-around">
-          
-          <div class="col-6" v-if="appStatsReady">
+          <div class="col-5" v-if="appStatsReady">
             <h2>Statistiques d'utilisation</h2>
             <div class="white-container">
               <div class="row">
@@ -21,20 +20,22 @@
               </div>
             </div>
           </div>
-          <div class="col-4" v-if="genderRatioReady">
-            <h2>Ratio femme / homme</h2>
+          <div class="col-3" v-if="genderRatioReady">
+            <h2>Répartition femme / homme</h2>
             <div class="white-container">
-                <span class="monitoring-datas">Hommes: {{ genderRatio.pctMale }} % - Femmes: {{ genderRatio.pctFemale }} %</span>
                 <canvas id="genderRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
+                <span class="monitoring-datas">Hommes: {{ genderRatio.pctMale }} % <br/> Femmes: {{ genderRatio.pctFemale }} %</span>
             </div>
           </div>
-          
-        </div>
-        <div class="">
-          <div class="col-4" v-if="deviceRatioReady">
-            <h2>Devices</h2>
+          <div class="col-3" v-if="deviceRatioReady">
+            <h2>Types de microphone</h2>
             <div class="white-container">
                 <canvas id="devicesRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
+                <span class="monitoring-datas">
+                  Micro par défault: {{ deviceRatio.prctDefault }}% <br/>
+                  Micro-casque: {{ deviceRatio.prctHeadphone }}% <br/>
+                  Micro à pied: {{ deviceRatio.prctExternal }}% 
+                </span>
             </div>
           </div>
         </div>
