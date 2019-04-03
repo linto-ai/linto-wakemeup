@@ -158,12 +158,9 @@ export default new Vuex.Store({
       })
 
       const total = parseInt(defaultDevice) + parseInt(headphone) + parseInt(external)
-
       const prctDefault = defaultDevice * 100 / total
       const prctHeadphone = headphone * 100 / total
       const prctExternal = external * 100 / total 
-      console.log('GETTER:', total, defaultDevice, headphone, external)
-      console.log('RESP:',prctDefault, prctExternal, prctHeadphone)
       return {
         prctDefault,
         prctExternal,

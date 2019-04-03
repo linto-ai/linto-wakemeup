@@ -30,18 +30,20 @@
                 <h3>Dites : "<span class="word">{{ wakeword }}</span>"</h3>
               </div>
               <div class="btn-container">
-                <div class="player-anim">
+                <RecordBtn :avgVolume="avgVolume"></RecordBtn>
+                <!--<div class="player-anim">
                   <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
                   <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
                   <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
                 </div>
                 <button @click="startRecording()" class="button-record" id="start" v-if="!isRecording"><span class="icon"></span></button>
-                <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button>
-                <div class="player-anim">
+                <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button> -->
+                
+                <!--<div class="player-anim">
                   <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
                   <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
                   <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
-                </div>
+                </div>-->
                 <span class="label">Enregistrer</span>
               </div>
               <div class="sub-actions-container" v-if="blob !== null && !isRecording">
@@ -81,6 +83,7 @@
   </div>
 </template>
 <script>
+import RecordBtn from '@/components/RecordBtn.vue'
 import moment from 'moment'
 import axios from 'axios'
 import { bus } from '../main.js'
@@ -92,6 +95,8 @@ export default {
       buffer: null,
       bufferSize: 4096,
       context: null,
+      dataArray: [],
+      gainNode: null,
       leftchannel: [],
       leftBuffer: '',
       mediaRecorder: null,
@@ -119,7 +124,10 @@ export default {
       isPlaying: '',
       recordIsValid: '',
       userReady: false,
-      scenariosReady: false
+      scenariosReady: false,
+      vad: null,
+      vadOptions: {},
+      avgVolume: 0
     }
   }, 
   created () {
@@ -135,11 +143,18 @@ export default {
     },
     userInfos () {
       return this.$store.state.userInfos
+    },
+    VAD () {
+      return new VAD()
     }
+  },
+  mounted () {
+    bus.$on('start_recording', () => {
+      this.startRecording()
+    })
   },
   watch: {
     userInfos: function (data) {
-      console.log(data)
       this.userReady = true
     },
     scenarios: function (data) {
@@ -219,18 +234,25 @@ export default {
       }
     },
     startRecording () {
+      console.log('ITS RECORDING DUH!')
       this.leftchannel = []
       this.rightchannel = []
       this.isRecording = true
       this.mediaRecorder.start()
-      this.mediaStream.connect(this.recorder)
+      
+      this.mediaStream.connect(this.analyser)
+      this.analyser.connect(this.recorder)
       this.recorder.connect(this.context.destination)
     },
     stopRecording () {
-      const audio = new Audio()
+      bus.$emit('stop_recording', {});
+
+      var audio = new Audio()
       this.isRecording = false
       this.recorder.disconnect(this.context.destination)
-      this.mediaStream.disconnect(this.recorder)
+      this.analyser.disconnect(this.recorder)
+      this.mediaStream.disconnect(this.analyser)
+
       this.mediaRecorder.stop()
       this.sourceNode = this.context.createMediaElementSource(audio)
       this.sourceNode.connect(this.context.destination)
@@ -280,7 +302,7 @@ export default {
       const contextSampleRate = this.analyser.context.sampleRate
       const nbChannels = this.analyser.channelCount
       const nbInputs = this.analyser.numberOfInputs
-      const nbOutputs = this.analyser.numberOfOutputs
+      const nbOutputs = this.analyser.numberOfOutputsaudio
       const bufferSize = this.recorder.bufferSize
       this.webAudioInfos = {
         contextSampleRate: contextSampleRate,
@@ -395,6 +417,14 @@ export default {
         }
       }
     },
+    getAvg (values) {
+      var value = 0;
+      values.forEach(function (v) {
+        value += v;
+      })
+      return value / values.length;
+    },
+    
     initRecorder (config) {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({
@@ -407,15 +437,18 @@ export default {
             noiseSuppression: config.noiseSuppression
           }
         }).then((e) => {
-          const startBtn = document.getElementById('start')
-          const stopBtn = document.getElementById('stop')
-
-          window.AudioContext = window.AudioContext || window.webkitAudioContext;
+          window.AudioContext = window.AudioContext || window.webkitAudioContext
+          this.mediaRecorder = new MediaRecorder(e)
+          
           this.context = new AudioContext()
-          // creates an audio node from the microphone incoming stream
           this.mediaStream = this.context.createMediaStreamSource(e)
           this.analyser = this.context.createAnalyser()
-          this.mediaRecorder = new MediaRecorder(e)
+          
+          this.analyser.fftSize = 1024
+          this.analyser.smoothingTimeConstant = 0.3;
+
+          this.gainNode = this.context.createGain()
+          this.gainNode.connect(this.analyser)
 
           // Set Recorder (script processor)
           if (this.context.createScriptProcessor) {
@@ -438,12 +471,44 @@ export default {
             this.leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)))
             this.rightchannel.push(new Float32Array(e.inputBuffer.getChannelData(1)))
             this.recordingLength += this.bufferSize
+
+            const tempArray = new Uint8Array(this.analyser.frequencyBinCount)
+            this.analyser.getByteFrequencyData(tempArray)
+            this.avgVolume = this.getAverageVolume(tempArray)
           }
+          // Voice activity detection
+            this.vadOptions = {
+              source: this.mediaStream,
+              voice_start: () => { console.log('voice detected') },
+              voice_stop: () => { 
+                if(this.isRecording){
+                  this.stopRecording()
+                } else {
+                  console.log('not recording')
+                }
+              },
+              context: this.audioContext
+            }
+            this.vad = new VAD(this.vadOptions)
         }).catch(err => {
           console.error(err)
         })
       }
+    },
+    getAverageVolume (array) {
+      const length = array.length;
+      let values = 0;
+      let i = 0;
+
+      for (; i < length; i++) {
+          values += array[i];
+      }
+      return values / length;
     }
+  },
+  components: {
+    RecordBtn
   }
+  
 }
 </script>

@@ -7492,6 +7492,19 @@ button {
   #notif-container.success .icon {
     background-position: 0 0; }
 
+/*** RECORD BTN SVG ***/
+path,
+circle {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+
+#recordBtn-bg {
+  -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3); }
+
 /*** GLOBAL ***/
 body {
   background-color: #fff;
@@ -8163,7 +8176,8 @@ h3 {
       .ww-container .wakeword-info > span.number {
         font-size: 16px;
         font-weight: 600;
-        line-height: 20px; }
+        line-height: 20px;
+        margin-top: -5px; }
       .ww-container .wakeword-info > span.listen {
         color: #2da800; }
       .ww-container .wakeword-info > span.record {
@@ -8189,6 +8203,35 @@ h3 {
   font-weight: 500; }
 
 /*** END FOOTER ***/
+/*** COOKIE NOTIFY ***/
+#cookie-notify {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  background-color: #4c4c4c;
+  position: absolute;
+  top: 100%;
+  z-index: 9;
+  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 18px; }
+  #cookie-notify.active {
+    margin-top: -100px; }
+
+.closeCookieModal {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: 500;
+  text-decoration: underline; }
+
+/*** END COOKIE NOTIFY ***/
 /*** MONITORING ***/
 .monitoring-datas {
   display: inline-block;

@@ -558,6 +558,13 @@ button {
       background-position: 0 0;
     }
   }
+}
 
-  
+/*** RECORD BTN SVG ***/
+path,
+circle {
+  @include transition(all 0.3s ease);
+}
+#recordBtn-bg{
+  @include boxShadow(0, 2px, 4px, 0, rgba(0,0,0,0.3))
 }

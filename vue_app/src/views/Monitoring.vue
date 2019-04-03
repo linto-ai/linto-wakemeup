@@ -19,6 +19,20 @@
                 </div>
               </div>
             </div>
+            <h2>Détails par wakeword</h2>
+            <div class="white-container">
+              <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
+                <span class="wakeword">{{ ww.wakeword }}</span>
+                <div class="wakeword-info">
+                  <span class="label listen">Ecoutes</span>
+                  <span class="number listen">{{ww.nbListen}}</span>
+                </div>
+                <div class="wakeword-info">
+                  <span class="label record">Enreg.</span>
+                  <span class="number record">{{ww.nbRecord}}</span>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-3" v-if="genderRatioReady">
             <h2>Répartition femme / homme</h2>
@@ -80,6 +94,7 @@ export default {
   watch: {
     scenarios: function (data) {
       if(data.length > 0 ){
+        console.log(data)
         this.scenariosReady = true
       }
     },
