@@ -27,23 +27,10 @@
           <div class="col-8 h-100">
             <div id="player-wrapper" v-if="dataReady && !allComplete">
               <div class="say-word">
-                <h3>Dites : "<span class="word">{{ wakeword }}</span>"</h3>
+                <h3>Mot clé : "<span class="word">{{ wakeword }}</span>"</h3>
               </div>
               <div class="btn-container">
-                <RecordBtn :avgVolume="avgVolume"></RecordBtn>
-                <!--<div class="player-anim">
-                  <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
-                  <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
-                  <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
-                </div>
-                <button @click="startRecording()" class="button-record" id="start" v-if="!isRecording"><span class="icon"></span></button>
-                <button v-if="isRecording" @click="stopRecording()" class="button-record isRecording" id="stop"><span class="icon isRecording"></span></button> -->
-                
-                <!--<div class="player-anim">
-                  <span class="sound-bar bbig" :class="[isRecording ? 'animate' : '']"></span>
-                  <span class="sound-bar bmed" :class="[isRecording ? 'animate' : '']"></span>
-                  <span class="sound-bar bsmall" :class="[isRecording ? 'animate' : '']"></span>
-                </div>-->
+                <RecordBtn :wakeword="wakeword"></RecordBtn>
                 <span class="label">Enregistrer</span>
               </div>
               <div class="sub-actions-container" v-if="blob !== null && !isRecording">
@@ -52,7 +39,7 @@
                   <span class="label">Réécouter</span>
                 </div>
                 <div class="action-container">
-                  <button @click="startRecording()" class="btn-player reset"></button>
+                  <button @click="resetRecording()" class="btn-player reset"></button>
                   <span class="label">Recommencer</span>
                 </div>
                 <div class="action-container">
@@ -61,12 +48,13 @@
                 </div>
               </div>
             </div>
-            <div class="player-timeline" v-if="dataReady && !allComplete">
-              <div class="timeline">
-                <div class="progress" :class="progressClass">
-                  <span class="progress-info">{{ step }}/3</span>
+            <div class="player-visualizer" v-if="dataReady && !allComplete">
+                <div id="visualizer">
+                  <div id="visualizer-top">
+                  </div>
+                  <div id="visualizer-bot">
+                  </div>
                 </div>
-              </div>
             </div>
             <div v-if="!dataReady && allComplete" class="record-complete white-container">
                 Vous n'avez pas de "wake-word" à enregistrer.<br/>
@@ -127,7 +115,11 @@ export default {
       scenariosReady: false,
       vad: null,
       vadOptions: {},
-      avgVolume: 0
+      avgVolume: 0,
+      nbBar: 0,
+      volumeBarContainer: null,
+      vizualizerTop: null,
+      vizualizerBot: null
     }
   }, 
   created () {
@@ -149,8 +141,17 @@ export default {
     }
   },
   mounted () {
+    setTimeout(() => {
+      this.volumeBarContainer = document.getElementById('visualizer')  
+      this.vizualizerTop = document.getElementById('visualizer-top')
+      this.vizualizerBot = document.getElementById('visualizer-bot')
+    },300)
+    
     bus.$on('start_recording', () => {
       this.startRecording()
+    })
+    bus.$on('reset_recording', () => {
+      this.resetRecording()
     })
   },
   watch: {
@@ -169,6 +170,11 @@ export default {
       if (data === true && this.userReady === true) {
         this.setScenario()
       }
+    },
+    avgVolume: function (data) {
+      this.nbBar++
+      this.vizualizerTop.innerHTML += '<span class="visualizer-bar" style="height: ' + (data + 5) + 'px; left: '+ this.nbBar * 6 +'px;"></span>'
+      this.vizualizerBot.innerHTML += '<span class="visualizer-bar" style="height: ' + (data + 5) + 'px; left: '+ this.nbBar * 6 +'px;"></span>'
     }
   },
   methods: {
@@ -234,7 +240,6 @@ export default {
       }
     },
     startRecording () {
-      console.log('ITS RECORDING DUH!')
       this.leftchannel = []
       this.rightchannel = []
       this.isRecording = true
@@ -244,9 +249,17 @@ export default {
       this.analyser.connect(this.recorder)
       this.recorder.connect(this.context.destination)
     },
+    resetRecording () {
+      this.nbBar = 0
+      this.volumeBarContainer.setAttribute('style', 'width: 100%;')
+      this.vizualizerTop.innerHTML = ''
+      this.vizualizerBot.innerHTML = ''
+      bus.$emit('before_recording', {})
+    },
     stopRecording () {
       bus.$emit('stop_recording', {});
-
+      const volumeBarWidth = this.nbBar * 6 + 20;
+      this.volumeBarContainer.setAttribute('style','width:'+ volumeBarWidth +'px; ')
       var audio = new Audio()
       this.isRecording = false
       this.recorder.disconnect(this.context.destination)
@@ -483,8 +496,6 @@ export default {
               voice_stop: () => { 
                 if(this.isRecording){
                   this.stopRecording()
-                } else {
-                  console.log('not recording')
                 }
               },
               context: this.audioContext
@@ -496,19 +507,16 @@ export default {
       }
     },
     getAverageVolume (array) {
-      const length = array.length;
-      let values = 0;
-      let i = 0;
-
-      for (; i < length; i++) {
-          values += array[i];
+      const length = array.length
+      let values = 0
+      for (let i = 0; i < length; i++) {
+          values += array[i]
       }
-      return values / length;
+      return values / length
     }
   },
   components: {
     RecordBtn
   }
-  
 }
 </script>

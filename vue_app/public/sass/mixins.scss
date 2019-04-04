@@ -41,6 +41,20 @@ opacity: $value; /* Good browsers */
 -moz-border-radius: $value;
 border-radius: $value;
 }
+@mixin borderRadiusDif($topLeft, $topRight, $botRight, $botLeft){
+  -webkit-border-top-left-radius: $topLeft;
+  -moz-border-radius-topleft: $topLeft;
+  border-top-left-radius: $topLeft;
+  -webkit-border-top-right-radius: $topRight;
+  -moz-border-radius-topright: $topRight;
+  border-top-right-radius: $topRight;
+  -webkit-border-bottom-right-radius: $botRight;
+  -moz-border-radius-bottomright: $botRight;
+  border-bottom-right-radius: $botRight;
+  -webkit-border-bottom-left-radius: $botLeft;
+  -moz-border-radius-bottomleft: $botLeft;
+  border-bottom-left-radius: $botLeft;
+  }
 
 @mixin placeholder($color){
 &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
