@@ -3,8 +3,9 @@
     <div id="page-content" class="locked">
       <div class="container-fluid h-100 talk green" id="player-container" >
         <div class="row h-100">
-          <div class="col-4 h-100 player-content">
-            <h2 class="green">Écoutez et validez des enregistrement</h2>
+          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden']">
+            <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
+            <h2 class="green">Écoutez et validez des enregistrements</h2>
             <div class="content green">
               <p>Bienvenue dans l'interface de validation des wakewords.</p>
               
@@ -27,7 +28,8 @@
               </div>
             </div>
           </div>
-          <div class="col-8 h-100">
+          <div :class="[showInfos ? 'col-8 h-100' : 'col-12 h-100']">
+            <button @click="toggleInfos()" :class="[!showInfos ? 'visible' : 'hidden']" class="showInfos toggle-infos" ></button>
             <div id="player-wrapper" v-if="audiosReady && !noMoreAudio">
               <div class="say-word">
                 <h3>"<span class="word">{{ wakeword }}</span>"</h3>
@@ -80,6 +82,7 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
+      showInfos: true,
       audiosReady: false,
       wakeword: '',
       audioFile: '',
@@ -133,6 +136,9 @@ export default {
     }
   },
   methods: {
+    toggleInfos() {
+      this.showInfos = !this.showInfos
+    },
     playAudio () {
       this.isPlaying = 'active'
       this.playerAudio.play()

@@ -3,7 +3,8 @@
     <div id="page-content" class="locked" >
       <div class="container-fluid h-100 talk red" id="player-container" >
         <div class="row h-100">
-          <div class="col-4 h-100 player-content">
+          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden']">
+            <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
             <h2 class="red">Enregistrez votre voix</h2>
             <div class="content red">
               <p>Bienvenue dans l'interface d'enregistrement des wakewords.</p>
@@ -16,7 +17,7 @@
               <div class="notice"><h3>Pour enregistrer votre voix</h3>
                 <ul>
                   <li>La commmande à enregistrer est écrites au-dessus du bouton "enregistrer" sur la partie droite de la page.</li>
-                  <li>Cliquez sur le bouton "<strong>enregistrer</strong>" afin de commencer la captation. Le bouton se mettra à clignoter pour vous indiquer que la captation est en cours.</li>
+                  <li>Cliquez sur le bouton "<strong>enregistrer</strong>" afin de commencer la captation. Le bouton se mettra à clignoter pour vous tu boindiquer que la captation est en cours.</li>
                   <li><strong>Prononcez la commande</strong> et appuyez une nouvelle fois sur le bouton "<strong>enregistrer</strong>" afin d'arrêter la captation.</li>
                   <li>Après avoir enregistré votre voix, vous pourrez <strong>réécouter</strong> votre enregistrement, et le <strong>recommencer</strong> si nécessaire.</li>
                   <li> Si votre enregistrement vous semble valide, cliquez sur le bouton "<strong>valider</strong>" pour le confirmer et passer à un nouvel enregistrement.</li>
@@ -24,10 +25,11 @@
               </div>
             </div>
           </div>
-          <div class="col-8 h-100">
+          <div :class="[showInfos ? 'col-8 h-100' : 'col-12 h-100']">
+            <button @click="toggleInfos()" :class="[!showInfos ? 'visible' : 'hidden']" class="showInfos toggle-infos" ></button>
             <div id="player-wrapper" v-if="dataReady && !allComplete">
               <div class="say-word">
-                <h3>Mot clé : "<span class="word">{{ wakeword }}</span>"</h3>
+                <h3>Mot clé : "<span class="word">{{ wakeword }}</span>" (étape {{step}}/3)</h3>
               </div>
               <div class="btn-container">
                 <RecordBtn :wakeword="wakeword"></RecordBtn>
@@ -78,6 +80,7 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
+      showInfos: true,
       analyser: null,
       blob: null,
       buffer: null,
@@ -489,11 +492,11 @@ export default {
             this.analyser.getByteFrequencyData(tempArray)
             this.avgVolume = this.getAverageVolume(tempArray)
           }
-          // Voice activity detection
+            // Voice activity detection
             this.vadOptions = {
               source: this.mediaStream,
-              voice_start: () => { console.log('voice detected') },
-              voice_stop: () => { 
+              voice_start: () => {},
+              voice_stop: () => {
                 if(this.isRecording){
                   this.stopRecording()
                 }
@@ -513,6 +516,9 @@ export default {
           values += array[i]
       }
       return values / length
+    },
+    toggleInfos () {
+      this.showInfos = !this.showInfos
     }
   },
   components: {

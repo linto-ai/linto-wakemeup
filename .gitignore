@@ -2,3 +2,5 @@
 **/.env
 **/package-lock.json
 **/uploads
+**/dist
+**/dump.rdb
