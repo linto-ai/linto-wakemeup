@@ -115,7 +115,7 @@ export default {
           email: this.userEmail,
           password: this.userPswd
         }
-        const login = await axios('http://localhost:3003/login/userAuth', {
+        const login = await axios(`${process.env.VUE_APP_URL}/login/userAuth`, {
           method: 'post',
           data: payload
         })

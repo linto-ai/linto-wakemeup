@@ -140,7 +140,7 @@ export default {
           gender: this.userGender,
           deviceType: this.deviceType
         }
-        const createUser = await axios('http://localhost:3003/login/createUser',{
+        const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`,{
           method: 'post',
           data: payload
         })

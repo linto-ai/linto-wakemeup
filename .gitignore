@@ -4,3 +4,4 @@
 **/uploads
 **/dist
 **/dump.rdb
+**/mongodb/data

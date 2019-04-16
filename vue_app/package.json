@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "npm run build:css && vue-cli-service build",
+    "build-prod": "VUE_APP_URL=http://localhost:8080 npm run build:css && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build:css": "node-sass --omit-source-map-url public/sass/styles.scss public/css/styles.css"
   },

@@ -1,0 +1,18 @@
+# Webserver
+NODE_ENV=production
+HTTP_PORT=3003
+
+# Mongodbsettings
+BDD_TYPE=mongodb
+MONGODB_HOST=mongo
+MONGODB_PORT=27017
+MONGODB_DBNAME=wakemeup
+MONGODB_REQUIRE_LOGIN=true
+MONGODB_USER=root
+MOGODB_PSWD=example
+
+#Redis
+REDIS_PORT=6379
+REDIS_HOST=redis
+
+VUE_APP_URL=http://localhost:8080
