@@ -88,7 +88,6 @@ export default new Vuex.Store({
     AUDIO_BY_USER: (state) => (userHash) => {
       try {
         let audios = state.audios
-        console.log('all audios', audios)
         let validAudios = []
         audios.map(a => {
           if (a.author !== userHash && !!a.userVoted) {

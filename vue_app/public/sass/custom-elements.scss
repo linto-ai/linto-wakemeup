@@ -71,7 +71,8 @@ button {
     width: 100%;
     max-width: 620px;
     padding: 5px 0;
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: 600;
     background-color: #fff;
 
     &.red {
@@ -300,6 +301,7 @@ button {
   border: none;
   background-color: #fff;
   font-weight: 300;
+  color: $greyText;
 
   &.error {
     border: 1px solid $redChart
@@ -331,6 +333,7 @@ button {
   @include borderRadius(5px);
   font-weight: 300;
   padding: 5px;
+  color: $greyText;
 
   &.error {
     border: 1px solid $redChart

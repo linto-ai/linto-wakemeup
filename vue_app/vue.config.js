@@ -1,5 +1,9 @@
 const path = require('path')
 module.exports = {
+  configureWebpack: config => {
+    config.mode = 'production';
+    config.devtool = false;
+  },
   outputDir: path.resolve(__dirname, '../webserver/dist'),
   publicPath: path.resolve(__dirname, '/assets'),
   pages: {

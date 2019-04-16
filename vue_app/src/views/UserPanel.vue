@@ -144,6 +144,28 @@
                 </div>
               </div>
             </div>
+
+            <h2>Gestion des inforamtions </h2>
+            <div class="white-container">
+              <div class="row">
+                <div class="col user-stats">
+                  <h3>Wake-words enregistrés</h3>
+                  <div class="stats-container">
+                    <span class="icon talk"></span>
+                    <span class="number talk">{{ userInfos.nbRecord }}</span>
+                  </div>
+                  <a href="/interface/record" class="button red">S'enregistrer</a>
+                </div>
+                <div class="col user-stats">
+                  <h3>Wake-words écoutés</h3>
+                  <div class="stats-container">
+                    <span class="icon listen"></span>
+                    <span class="number listen">{{ userInfos.nbListen }}</span>
+                  </div>
+                  <a href="/interface/listen" class="button green">Écouter</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

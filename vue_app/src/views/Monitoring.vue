@@ -94,7 +94,6 @@ export default {
   watch: {
     scenarios: function (data) {
       if(data.length > 0 ){
-        console.log(data)
         this.scenariosReady = true
       }
     },

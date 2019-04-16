@@ -67,7 +67,6 @@ export default {
       }
     },
     hasRecorded: function (data) {
-      console.log(data)
       if(data){
         setTimeout(() => {
           for(let i = 0; i < this.recordIcon.length; i++){

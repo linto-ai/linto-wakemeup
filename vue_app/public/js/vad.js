@@ -39,7 +39,7 @@
     this.iterationFrequency = this.options.context.sampleRate / this.options.bufferLen;
     this.iterationPeriod = 1 / this.iterationFrequency;
 
-    var DEBUG = true;
+    var DEBUG = false;
     if(DEBUG) console.log(
       'Vad' +
       ' | sampleRate: ' + this.options.context.sampleRate +

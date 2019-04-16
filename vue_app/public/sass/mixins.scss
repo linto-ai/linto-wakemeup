@@ -117,3 +117,8 @@ animation: rotating 2s linear infinite;
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome and Opera */
 }
+
+@mixin fontdef-woff($FontPath, $FontName, $FontVersion:"1.0.0", $FontType:"Regular") {
+	src:	url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.woff2?v=#{$FontVersion}') format('woff2'),
+			url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.woff?v=#{$FontVersion}') format('woff');
+}
