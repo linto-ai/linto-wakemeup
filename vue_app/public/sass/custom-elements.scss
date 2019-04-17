@@ -258,7 +258,9 @@ button {
       vertical-align: top;
       width: auto;
     }
-
+    i {
+      font-size: 14px;
+    }
     .icon {
       height: 30px;
       width: 30px;
@@ -570,4 +572,8 @@ circle {
 }
 #recordBtn-bg{
   @include boxShadow(0, 2px, 4px, 0, rgba(0,0,0,0.3))
+}
+
+.h-100{
+  overflow: auto !important; 
 }

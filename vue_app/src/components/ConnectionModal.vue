@@ -53,10 +53,10 @@ export default {
   data () {
     return {
       showConnectionModal: false,
-      userEmail: 'rlopez@linagora.com',
+      userEmail: '',
       userEmailValid: false,
       userEmailErrorMsg: '',
-      userPswd: 'admin',
+      userPswd: '',
       userPswdValid: false,
       userPswdErrorMsg: ''
     }

@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build-app": "vue-cli-service build",
+    "build-app": "npm run build:css && vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "vue-cli-service build"
+    "test": "vue-cli-service build",
+    "build:css": "./node_modules/node-sass/bin/node-sass ./public/sass/styles.scss ./public/css/styles.css"
   },
   "dependencies": {
     "@vue/eslint-config-standard": "^4.0.0",
@@ -15,6 +16,7 @@
     "chart.js": "^2.8.0",
     "jquery": "^3.4.0",
     "moment": "^2.24.0",
+    "node-sass": "^4.11.0",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -27,6 +29,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"
   },
   "eslintConfig": {

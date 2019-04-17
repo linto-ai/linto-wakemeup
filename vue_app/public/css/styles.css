@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -7415,6 +7416,8 @@ button {
       display: inline-block;
       vertical-align: top;
       width: auto; }
+    .field-container .field-label i  {
+      font-size: 14px; }
     .field-container .field-label .icon {
       height: 30px;
       width: 30px;
@@ -7654,7 +7657,9 @@ circle {
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3); }
 
-/** @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i'); **/
+.h-100 {
+  overflow: auto !important; }
+
 /*** GLOBAL ***/
 body {
   background-color: #fff;
@@ -7937,6 +7942,9 @@ h3 {
 /* END USER PANEL */
 /*** END PAGE CONTENT ***/
 /*** RECORD ***/
+.h-100 {
+  overflow: auto !important; }
+
 #player-container {
   background-repeat: no-repeat;
   background-size: cover;
