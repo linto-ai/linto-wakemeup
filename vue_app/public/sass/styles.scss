@@ -1025,3 +1025,26 @@ h3 {
   }
 }
 /*** END MONITORING ***/
+
+/*** RECORD BUTTON ***/@at-root.recordBtn-container,
+svg{
+  width: 100%;
+
+  circle:hover,
+  path:hover{
+    cursor: pointer;
+  }
+  text:hover{
+    cursor: default;
+  }
+  &.notRecording #recordBtnGroup:hover{
+    #recordBtn-bg{
+      fill: #c61e42;
+    }
+    .record-icon{
+      fill: #fff;
+    }
+  } 
+}
+
+
