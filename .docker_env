@@ -15,4 +15,5 @@ MOGODB_PSWD=example
 REDIS_PORT=6379
 REDIS_HOST=redis
 
+# Vue App
 VUE_APP_URL=http://localhost:8080

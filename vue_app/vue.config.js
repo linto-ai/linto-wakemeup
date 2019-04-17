@@ -18,5 +18,11 @@ module.exports = {
       // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
       title: 'Index Page'
     }
+  },
+  pluginOptions: {
+    "style-resources-loader": {
+      preProcessor: "scss",
+      patterns: [path.resolve(__dirname, "./public/styles/sass/styles.scss")]
+    }
   }
 }
