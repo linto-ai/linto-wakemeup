@@ -100,6 +100,15 @@ export default {
       console.error('error:', err)
     })
   },
+  mounted () {
+    if(this.getCookie('wmu_listeninfos') !== 'undefined'){
+      if(this.getCookie('wmu_listeninfos') === 'false'){
+        this.showInfos = false
+      } else if (this.getCookie('wmu_listeninfos') === 'true') {
+        this.showInfos = true
+      }
+    } 
+  },
   computed: {
     userInfos () {
       return this.$store.state.userInfos
@@ -138,6 +147,7 @@ export default {
   methods: {
     toggleInfos() {
       this.showInfos = !this.showInfos
+      this.setCookie('wmu_listeninfos', this.showInfos, 31)
     },
     playAudio () {
       this.isPlaying = 'active'
@@ -172,6 +182,26 @@ export default {
           redirect: false
         })
       }
+    },
+    getCookie(cname) {
+      const name = cname + '='
+      const ca = document.cookie.split(';')
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1)
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length)
+        }
+      }
+      return ''
+    },
+    setCookie (cname, cvalue, exdays) {
+      const d = new Date()
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
+      const expires = 'expires='+d.toUTCString()
+      document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
     }
   }
 }

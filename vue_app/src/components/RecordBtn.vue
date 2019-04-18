@@ -218,24 +218,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.recordBtn-container,
-  svg{
-    width: 100%;
-  }
-  circle:hover,
-  path:hover{
-    cursor: pointer;
-  }
-  text:hover{
-    cursor: default;
-  }
-  svg.notRecording #recordBtnGroup:hover #recordBtn-bg{
-    fill: #c61e42;
-  }
-  svg.notRecording #recordBtnGroup:hover .record-icon{
-    fill: #fff;
-  }
-
-</style>
