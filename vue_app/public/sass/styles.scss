@@ -4,6 +4,9 @@
 @import "./mixins.scss";
 @import "./roboto.scss";
 @import "./custom-elements.scss";
+
+@import "./components/header.scss";
+
 /*** GLOBAL ***/
 body {
   background-color: #fff;
@@ -25,236 +28,6 @@ body {
   z-index: 1;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.white-container {
-  width: 100%;
-  padding: 20px;
-  @include boxShadow(0px,
-  2px,
-  6px,
-  2px,
-  rgba(0, 0, 0, 0.2));
-  @include borderRadius(5px);
-  border: none;
-  background-color: #fff;
-  text-align: center;
-}
-
-h2 {
-  display: inline-block;
-  width: 100%;
-  font-size: 24px;
-  font-weight: 400;
-  color: $greyText;
-  margin: 40px 0 20px 0;
-  &.red {
-    color: $redChart;
-  }
-  &.green {
-    color: $greenChart;
-  }
-}
-
-h3 {
-  display: inline-block;
-  width: 100%;
-  font-size: 20px;
-  font-weight: 500;
-  color: $greyText;
-  margin: 20px 0;
-  &.red {
-    color: $redChart;
-  }
-  &.green {
-    color: $greenChart;
-  }
-}
-
-/*** END GLOBAL ***/
-
-/*** HEADER ***/
-
-#header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 70px;
-  z-index: 5;
-  padding: 5px 20px;
-  background-color: #ffffff;
-  @include boxShadow(0,
-  2px,
-  4px,
-  0px,
-  rgba(0, 0, 0, .3));
-  border-bottom: 1px solid $redChart;
-
-  .header-link{
-    display: inline-block;
-    height: 60px;
-    line-height: 60px;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 0 10px;
-    @include borderRadius(5px); 
-    
-    &.red{
-      color: $redChart;
-
-      &:hover{
-        background-color: $redChart;
-        color: #fff;
-        text-decoration: none;
-      }
-    }
-    &.green{
-      color: $greenChart;
-      &:hover{
-        background-color: $greenChart;
-        color: #fff;
-        text-decoration: none;
-      }
-    }
-  }
-}
-
-.logo-container {
-  text-align: left;
-  height: 60px;
-  position: relative;
-  img {
-    display: inline-block;
-    height: 100%;
-    width: auto;
-    vertical-align: top;
-  }
-}
-
-.user-panel {
-  text-align: right;
-  .button {
-    margin-top: 15px;
-  }
-}
-
-.user-menu {
-  display: inline-block;
-  position: relative;
-  width: auto;
-  padding: 0 15px;
-  height: 100%;
-  .toggle-user-menu {
-    display: inline-block;
-    height: 100%;
-    width: auto;
-    &>span {
-      display: inline-block;
-      height: 50px;
-      vertical-align: top;
-    }
-    .label {
-      font-size: 16px;
-      font-weight: 500;
-      color: $redChart;
-      line-height: 50px;
-    }
-    .icon {
-      width: 30px;
-      margin-left: 5px;
-      background-image: url('../img/user-arrow@2x.png');
-      background-size: 30px 100px;
-      background-repeat: no-repeat;
-      background-position: 0 0;
-    }
-    &:hover {
-      .label {
-        text-decoration: underline
-      }
-    }
-    &.closed {
-      .icon {
-        background-position: 0 -50px;
-      }
-    }
-  }
-  .user-submenu {
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
-    background: #fff;
-    @include boxShadow(0px,
-    2px,
-    6px,
-    2px,
-    rgba(0,
-    0,
-    0,
-    0.2));
-    @include borderRadius(5px);
-    text-align: center;
-  }
-  .user-submenu-link {
-    display: inline-block;
-    text-align: center;
-    width: 100%;
-    padding: 10px 0;
-    &>span {
-      display: inline-block;
-      vertical-align: top;
-      height: 20px;
-    }
-    .label {
-      line-height: 20px;
-      font-size: 14px;
-      font-weight: 500;
-      &.user,
-      &.wakewords,
-      &.monitoring {
-        color: $greenChart;
-      }
-      &.logout {
-        color: $redChart;
-      }
-    }
-    .icon {
-      width: 20px;
-      background-image: url('../img/user-panel-icons@2x.png');
-      background-size: 20px 80px;
-      background-repeat: no-repeat;
-      margin: 0 5px;
-      &.user {
-        background-position: 0 0;
-      }
-      &.logout {
-        background-position: 0 -20px;
-      }
-      &.wakewords{
-        background-position: 0 -40px;
-      }
-      &.monitoring{
-        background-position: 0 -60px;
-      }
-
-    }
-    &:hover {
-      background: #f2f2f2;
-      .label {
-        text-decoration: underline;
-      }
-    }
-  }
-}
-
-/*** END HEADER ***/
-
-/*** PAGE CONTENT ***/
-
 #page-content {
   position: fixed;
   top: 70px;
@@ -271,10 +44,62 @@ h3 {
   }
 }
 
-/* HOME - Highlight */
+.white-container {
+  width: 100%;
+  padding: 20px;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  @include borderRadius(5px);
+  border: none;
+  background-color: #fff;
+  text-align: center;
+}
+
+h2 {
+  display: inline-block;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 400;
+  color: $greyText;
+  margin: 40px 0 20px 0;
+}
+
+h3 {
+  display: inline-block;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 500;
+  color: $greyText;
+  margin: 20px 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.red {
+  color: $redChart;
+}
+
+.green {
+  color: $greenChart;
+}
+
+.h-100{
+  overflow: auto !important; 
+}
+
+.text-center{
+  text-align: center;
+}
+/*** END GLOBAL ***/
+
+
+
+/*** HOME - Highlight ***/
 
 #highlight {
   margin: 40px 0;
+
   h2 {
     display: inline-block;
     width: 100%;
@@ -290,19 +115,24 @@ h3 {
     0,
     0.2))
   }
+
   .talk {
     border-right: 1px solid #ccc;
+
     h2 {
       color: $redChart;
     }
   }
+
   .listen h2 {
     color: $greenChart;
   }
+
   .title-icon {
     height: 180px;
     width: 100%;
     text-align: center;
+
     img {
       display: inline-block;
       height: 100%;
@@ -310,6 +140,7 @@ h3 {
       vertical-align: top;
     }
   }
+
   .highlight-content {
     width: 75%;
     margin: 40px auto;
@@ -318,18 +149,20 @@ h3 {
     font-weight: 400;
     line-height: 24px;
   }
+
   .highlight-action {
     margin: 20px 0;
     text-align: center;
   }
 }
 
-/* END HOME - Highlight */
+/*** END HOME - Highlight ***/
 
-/* USER PANEL */
-#user-panel{
+/*** USER PANEL ***/
+#user-panel {
   padding-bottom: 40px;
 }
+
 .col.user-stats:first-child {
   border-right: 1px solid #ccc;
 }
@@ -339,57 +172,57 @@ h3 {
     height: 60px;
     text-align: center;
     margin-bottom: 40px;
+
     &>span {
       display: inline-block;
       height: 60px;
       vertical-align: top;
     }
+
     .number {
       font-size: 34px;
       font-weight: 500;
       line-height: 60px;
+
       &.talk {
         color: $redChart;
       }
+
       &.listen {
         color: $greenChart;
       }
     }
+
     .icon {
       width: 60px;
       margin-right: 10px;
       background-image: url('../img/stats-icons@2x.png');
       background-size: 60px 120px;
       background-repeat: no-repeat;
+
       &.talk {
         background-position: 0 0;
       }
+
       &.listen {
         background-position: 0 -60px;
       }
     }
   }
 }
-
-/* END USER PANEL */
-
-/*** END PAGE CONTENT ***/
+/*** END USER PANEL ***/
 
 /*** RECORD ***/
-.h-100{
-  overflow: auto !important;
-}
 #player-container {
-  
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  
-  
-  &.red{
+
+  &.red {
     background-image: url('../img/bg-player-red.jpg');
   }
-  &.green{
+
+  &.green {
     background-image: url('../img/bg-player-green.jpg');
   }
 }
@@ -406,13 +239,14 @@ h3 {
   0.2));
   overflow: auto;
   padding-bottom: 20px;
-  
+
   h2 {
     text-align: center;
     padding-top: 40px;
     margin-bottom: 0;
   }
-  .notice.record{
+
+  .notice.record {
     color: $redChart;
     padding: 10px;
     @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
@@ -422,19 +256,21 @@ h3 {
     text-align: center;
 
   }
+
   .content {
     display: inline-block;
     padding: 10px 20px;
     line-height: 20px;
     font-size: 14px;
     text-align: left;
-    
+    color: $greyText;
+
     .notice {
       padding: 10px;
       margin-top: 20px;
       @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
 
-      h3{
+      h3 {
         display: inline-block;
         width: 100%;
         text-align: center;
@@ -443,109 +279,120 @@ h3 {
         margin: 0
       }
     }
-    &.red{
+
+    &.red {
       strong {
         font-weight: 500;
         color: $redChart;
       }
+
       .notice {
-        h3{
+        h3 {
           color: $redChart;
         }
       }
     }
 
-    &.green{
+    &.green {
       strong {
         font-weight: 500;
         color: $greenChart;
       }
+
       .notice {
-        h3{
+        h3 {
           color: $greenChart;
         }
       }
     }
   }
 }
-.toggle-infos{
+
+.toggle-infos {
   display: inline-block;
   width: 50px;
   height: 50px;
   background-size: 50px 100px;
   background-repeat: no-repeat;
   background-position: 0 0;
-  
-  &.closeInfos{
+
+  &.closeInfos {
     position: absolute;
     top: 20px;
     left: 100%;
     margin-left: -70px;
     background-image: url('../img/back@2x.png');
-    &:hover{
+
+    &:hover {
       background-position: 0 -50px;
     }
   }
 
-  &.showInfos{
+  &.showInfos {
     position: absolute;
     top: 40px;
     left: 40px;
     background-image: url('../img/open-infos@2x.png');
 
-    &:hover{
+    &:hover {
       background-position: 0 -50px,
     }
   }
-  
+
 }
 
 #player-wrapper {
   padding: 20px;
   width: 70%;
   height: auto;
-  @include boxShadow(0px,2px,6px,2px,rgba(127,0,35,0.2));
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(127, 0, 35, 0.2));
   @include borderRadius(5px);
   border: none;
   background-color: rgba(255, 255, 255, .9);
   text-align: center;
   margin: 60px auto 40px auto;
+
   h3 {
     font-size: 24px;
     font-weight: 500;
     color: $greyTextLight;
+
     .word {
       color: $redChart;
     }
   }
+
   .btn-container {
     display: inline-block;
     margin: 20px auto;
     width: 100%;
     height: auto;
-    
+
     .button-record {
       display: inline-block;
       margin: 0 40px;
       width: 120px;
       height: 120px;
       background-color: #fff;
-      @include boxShadow(0px,2px,6px,2px,rgba(127,0,35,0.2));
+      @include boxShadow(0px, 2px, 6px, 2px, rgba(127, 0, 35, 0.2));
       @include borderRadius(60px);
-      
-      &:hover{
+
+      &:hover {
         background-color: $redChart;
-        @include boxShadow(0px,2px,6px,2px,rgba(127,0,35,0.2));
-        .icon{
+        @include boxShadow(0px, 2px, 6px, 2px, rgba(127, 0, 35, 0.2));
+
+        .icon {
           background-color: #fff;
         }
       }
+
       &.isRecording {
         -webkit-animation: recordingBtn 1s infinite;
         -moz-animation: recordingBtn 1s infinite;
         -o-animation: recordingBtn 1s infinite;
         animation: recordingBtn 1s infinite;
       }
+
       .icon {
         display: inline-block;
         width: 120px;
@@ -555,6 +402,7 @@ h3 {
         -webkit-mask-size: cover;
         mask-size: cover;
         background-color: $redChart;
+
         &.isRecording {
           -webkit-animation: recordingIcon 1s infinite;
           -moz-animation: recordingIcon 1s infinite;
@@ -563,6 +411,7 @@ h3 {
         }
       }
     }
+
     .button-play {
       display: inline-block;
       margin: 0 40px;
@@ -572,14 +421,17 @@ h3 {
       background-repeat: no-repeat;
       background-size: 120px 360px;
       background-position: 0 0;
-      &:hover{
+
+      &:hover {
         background-position: 0 -120px;
       }
-      &.active{
+
+      &.active {
         background-position: 0 -240px;
       }
     }
-    .label{
+
+    .label {
       display: inline-block;
       width: 100%;
       font-size: 14px;
@@ -587,42 +439,48 @@ h3 {
       text-align: center;
     }
   }
-  
+
 }
+
 .player-anim {
   display: inline-block;
   height: 120px;
+
   .sound-bar {
     display: inline-block;
     width: 8px;
     @include borderRadius(4px);
     background-color: $greyUnactive;
+
     &.bsmall {
       height: 40px;
       margin: 40px 10px;
     }
+
     &.bmed {
       height: 80px;
       margin: 20px 10px;
     }
+
     &.bbig {
       height: 120px;
       margin: 0px 10px;
     }
   }
 }
-.sub-actions-container{
+
+.sub-actions-container {
   margin-top: 20px;
   height: 100px;
   text-align: center;
 
-  .action-container{
+  .action-container {
     display: inline-block;
     height: 100%;
     width: 80px;
     margin: 0 20px;
 
-    .btn-player{
+    .btn-player {
       display: inline-block;
       height: 60px;
       width: 60px;
@@ -630,101 +488,111 @@ h3 {
       background-size: 180px 180px;
       background-repeat: no-repeat;
 
-      &.play { 
+      &.play {
         background-position: 0 0;
-        &:hover{
+
+        &:hover {
           background-position: -60px 0;
         }
-        &.active{
+
+        &.active {
           background-position: -120px 0;
         }
       }
-      &.reset { 
+
+      &.reset {
         background-position: 0 -120px;
-        &:hover{
+
+        &:hover {
           background-position: -60px -120px;
         }
       }
-      &.validate { 
+
+      &.validate {
         background-position: 0 -60px;
-        &:hover{
+
+        &:hover {
           background-position: -60px -60px;
         }
-        &.active{
+
+        &.active {
           background-position: -120px -60px;
         }
       }
 
       &.votegood,
-      &.votebad{
+      &.votebad {
         background-image: url('../img/vote-icons@2x.png');
         background-size: 120px 120px;
       }
-      &.votegood{
+
+      &.votegood {
         background-position: 0 0;
-        &:hover{
+
+        &:hover {
           background-position: -60px 0;
         }
       }
-      &.votebad{
+
+      &.votebad {
         background-position: 0 -60px;
-        &:hover{
+
+        &:hover {
           background-position: -60px -60px;
         }
       }
     }
-    .label{
+
+    .label {
       display: inline-block;
       width: 100%;
       font-size: 13px;
       text-align: center;
       color: $greyUnactive;
-
-      &.red{
-        color: $redChart;
-      }
-      &.green{
-        color: $greenChart
-      }
     }
   }
 }
 
-.player-visualizer{
+.player-visualizer {
   width: 70%;
   margin: 20px auto;
 }
-#visualizer{
+
+#visualizer {
   width: 100%;
   height: 100px;
   margin: 0 auto;
   position: relative;
-  background: rgba(255,255,255,0.8);
-  @include boxShadow(0px, 2px, 4px, 0px, rgba(0,0,0,0.3));
+  background: rgba(255, 255, 255, 0.8);
+  @include boxShadow(0px, 2px, 4px, 0px, rgba(0, 0, 0, 0.3));
 
   #visualizer-top,
-  #visualizer-bot{
+  #visualizer-bot {
     width: 100%;
     height: 50px;
     position: relative;
-    
+
   }
-  .visualizer-bar{
+
+  .visualizer-bar {
     position: absolute;
     display: inline-block;
     width: 4px;
     margin: 0 1px;
   }
-  #visualizer-top{
+
+  #visualizer-top {
     border-bottom: 1px solid #cecece;
-    .visualizer-bar{
+
+    .visualizer-bar {
       bottom: 0;
       background-image: linear-gradient(to bottom, $redLight, $redChart);
       @include borderRadiusDif(2px, 2px, 0, 0)
     }
   }
-  #visualizer-bot{
-    .visualizer-bar{
+
+  #visualizer-bot {
+    .visualizer-bar {
       top: 0;
       background-image: linear-gradient(to bottom, $redChart, $redLight);
       @include borderRadiusDif(0, 0, 2px, 2px)
@@ -733,41 +601,24 @@ h3 {
 
 }
 
-.loading{
-  width: 100%;
-  height:500px;
-  margin: 40px auto;
-  text-align: center;
-  img{
-    display: inline-block;
-    height: 180px;
-    width: 300px;
-  }
-
-  .label{
-    display: inline-block;
-    width: 100%;
-    font-size: 18px;
-    color: #fff;
-    text-align: center;
-    padding: 0;
-  }
-}
 .record-complete {
   margin: 40px auto;
   width: 70%;
   text-align: center;
   font-size: 16px;
-  padding: 20px ;
-  
+  padding: 20px;
+
 }
+
 @-webkit-keyframes recordingBtn {
   0% {
     background-color: #fff;
   }
+
   50% {
     background-color: $redChart;
   }
+
   100% {
     background-color: #fff;
   }
@@ -777,9 +628,11 @@ h3 {
   0% {
     background-color: #fff;
   }
+
   50% {
     background-color: $redChart;
   }
+
   100% {
     background-color: #fff;
   }
@@ -789,9 +642,11 @@ h3 {
   0% {
     background-color: #fff;
   }
+
   50% {
     background-color: $redChart;
   }
+
   100% {
     background-color: #fff;
   }
@@ -801,9 +656,11 @@ h3 {
   0% {
     background-color: #fff;
   }
+
   50% {
     background-color: $redChart;
   }
+
   100% {
     background-color: #fff;
   }
@@ -813,9 +670,11 @@ h3 {
   0% {
     background-color: $redChart;
   }
+
   50% {
     background-color: #fff;
   }
+
   100% {
     background-color: $redChart;
   }
@@ -825,9 +684,11 @@ h3 {
   0% {
     background-color: $redChart;
   }
+
   50% {
     background-color: #fff;
   }
+
   100% {
     background-color: $redChart;
   }
@@ -837,9 +698,11 @@ h3 {
   0% {
     background-color: $redChart;
   }
+
   50% {
     background-color: #fff;
   }
+
   100% {
     background-color: $redChart;
   }
@@ -849,29 +712,66 @@ h3 {
   0% {
     background-color: $redChart;
   }
+
   50% {
     background-color: #fff;
   }
+
   100% {
     background-color: $redChart;
   }
 }
-
 /*** END RECORD ***/
 
+/*** RECORD BUTTON ***/
+.recordBtn-container,
+svg {
+  width: 100%;
+
+  circle:hover,
+  path:hover {
+    cursor: pointer;
+  }
+
+  text:hover {
+    cursor: default;
+  }
+
+  &.notRecording #recordBtnGroup:hover {
+    #recordBtn-bg {
+      fill: #c61e42;
+    }
+
+    .record-icon {
+      fill: #fff;
+    }
+  }
+}
+
+path,
+circle {
+  @include transition(all 0.3s ease);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+#recordBtn-bg{
+  @include boxShadow(0, 2px, 4px, 0, rgba(0,0,0,0.3))
+}
+
+/*** END RECORD BUTTON ***/
 
 /*** ADMIN PANEL ***/
-.ww-container{
+.ww-container {
   width: 100%;
   padding: 10px;
   text-align: center;
 
-  & > span {
+  &>span {
     display: inline-block;
     height: 40px;
     vertical-align: top;
 
-    &.wakeword{
+    &.wakeword {
       font-size: 18px;
       color: #fff;
       background-color: $greyUnactive;
@@ -881,9 +781,10 @@ h3 {
       @include borderRadius(5px);
       width: 50%;
     }
-    
-  } 
-  .delete-btn{
+
+  }
+
+  .delete-btn {
     width: 40px;
     height: 40px;
     margin-left: 10px;
@@ -892,48 +793,123 @@ h3 {
     background-repeat: no-repeat;
     background-position: 0 0;
 
-    &:hover{
+    &:hover {
       background-position: 0 -40px;
     }
   }
 
-  .wakeword-info{
+  .wakeword-info {
     display: inline-block;
     height: 40px;
     width: 60px;
     margin: 0 4px;
     @include borderRadius(5px);
     text-align: center;
-    
-    & > span {
+
+    &>span {
       display: inline-block;
       width: 100%;
       vertical-align: top;
 
-      &.label{
+      &.label {
         font-size: 13px;
         line-height: 15px;
       }
-      &.number{
+
+      &.number {
         font-size: 16px;
         font-weight: 600;
         line-height: 20px;
         margin-top: -5px;
       }
-      &.listen{
+
+      &.listen {
         color: $greenChart;
       }
-      &.record{
+
+      &.record {
         color: $redChart;
       }
     }
 
   }
 }
+
 /*** END ADMIN PANEL ***/
 
+
+
+
+/*** MONITORING ***/
+.monitoring-datas {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.monitoring-appstats {
+  &>span {
+    display: inline-block;
+    vertical-align: top;
+
+    &.label {
+      font-size: 18px;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    &.icon {
+      width: 60px;
+      height: 60px;
+      background-image: url('../img/stats-icons@2x.png');
+      background-size: 60px 120px;
+      background-repeat: no-repeat;
+    }
+
+    &.number {
+      width: 100%;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      padding: 10px 0;
+    }
+  }
+
+  &.record {
+
+    .label,
+    .number {
+      color: $redChart
+    }
+
+    .icon {
+      background-position: 0 0;
+    }
+
+  }
+
+  &.listen {
+
+    .label,
+    .number {
+      color: $greenChart;
+    }
+
+    .icon {
+      background-position: 0 -60px;
+    }
+  }
+}
+
+/*** END MONITORING ***/
+
 /*** FOOTER ***/
-#footer{
+#footer {
   width: 100%;
   height: 40px;
   line-height: 40px;
@@ -944,15 +920,40 @@ h3 {
   top: 100%;
   margin-top: -40px;
   z-index: 10;
-  @include boxShadow(0px, -2px, 4px, 0px, rgba(0,0,0,0.1));
+  @include boxShadow(0px, -2px, 4px, 0px, rgba(0, 0, 0, 0.1));
   font-size: 14px;
   font-weight: 500;
 }
 
 /*** END FOOTER ***/
 
+
+/*** LOADING ***/
+.loading {
+  width: 100%;
+  height: 500px;
+  margin: 40px auto;
+  text-align: center;
+
+  img {
+    display: inline-block;
+    height: 180px;
+    width: 300px;
+  }
+
+  .label {
+    display: inline-block;
+    width: 100%;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    padding: 0;
+  }
+}
+/***  END LOADING ***/
+
 /*** COOKIE NOTIFY ***/
-#cookie-notify{
+#cookie-notify {
   width: 100%;
   text-align: center;
   color: #fff;
@@ -960,17 +961,19 @@ h3 {
   position: absolute;
   top: 100%;
   z-index: 9;
-  @include boxShadow(0px, 2px, 4px, 0px, rgba(0,0,0,0.3));
+  @include boxShadow(0px, 2px, 4px, 0px, rgba(0, 0, 0, 0.3));
   font-size: 14px;
   font-weight: 500;
   padding: 10px 0;
   font-size: 14px;
   line-height: 18px;
+
   &.active {
     margin-top: -100px;
   }
 }
-.closeCookieModal{
+
+.closeCookieModal {
   display: inline-block;
   width: 100%;
   text-align: center;
@@ -978,85 +981,255 @@ h3 {
   font-weight: 500;
   text-decoration: underline;
 }
+
 /*** END COOKIE NOTIFY ***/
 
-/*** MONITORING ***/
-.monitoring-datas{
-  display: inline-block;
+/*** FORM ***/
+.field-container {
+  margin: 10px 0;
   width: 100%;
   padding: 10px 0;
-  font-size: 16px;
-  font-weight: 500;
-  text-align: center;
-}
-.monitoring-appstats{
- & > span {
-   display: inline-block;
-   vertical-align: top;
 
-    &.label{
-      font-size: 18px;
-      font-weight: 500;
-      width: 100%;
-      text-align: center;
-      padding: 10px 0;
-    }
-    &.icon{
-      width: 60px;
-      height: 60px;
-      background-image: url('../img/stats-icons@2x.png');
-      background-size: 60px 120px;
-      background-repeat: no-repeat;
-    }
-    &.number{
-      width: 100%;
-      text-align: center;
-      font-size: 32px;
-      font-weight: 600;
-      padding: 10px 0;
-    }
+  &.btn {
+    padding: 10px 0;
   }
-  &.record {
-    .label,
-    .number {
+
+  .field-label {
+    text-align: left;
+    min-height: 30px;
+    margin-bottom: 5px;
+
+    &>span {
+      display: inline-block;
+      vertical-align: top;
+      width: auto;
+    }
+    i {
+      font-size: 14px;
+    }
+    .icon {
+      height: 30px;
+      width: 30px;
+      margin-right: 5px;
+      background-image: url('../img/login-icons@2x.png');
+      background-size: 30px 60px;
+      background-repeat: no-repeat;
+
+      &.user {
+        background-position: 0 0;
+      }
+
+      &.pswd {
+        background-position: 0 -30px;
+      }
+    }
+
+    .label {
+      height: 30px;
+      line-height: 30px;
+      font-weight: 400;
+      margin-right: 10px;
+    }
+
+    .required {
+      font-size: 18px;
+      font-weight: 400;
       color: $redChart
     }
-    .icon{
-      background-position: 0 0;
-    }
-    
-  }
-  &.listen{
-    .label,
-    .number{
-      color: $greenChart;
-    }
-    .icon{
-      background-position: 0 -60px;
-    }
   }
 }
-/*** END MONITORING ***/
 
-/*** RECORD BUTTON ***/@at-root.recordBtn-container,
-svg{
+.input {
+  display: inline-block;
   width: 100%;
+  max-width: 460px;
+  padding: 5px 10px;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  @include borderRadius(5px);
+  border: none;
+  background-color: #fff;
+  font-weight: 300;
+  color: $greyText;
 
-  circle:hover,
-  path:hover{
+  &.error {
+    border: 1px solid $redChart
+  }
+
+  &.valid {
+    border: 1px solid $greenChart
+  }
+}
+
+.error-field {
+  display: inline-block;
+  width: 100%;
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 500;
+  color: $redChart;
+  margin: 0;
+  padding: 5px 0;
+}
+
+.select {
+  display: inline-block;
+  max-width: 260px;
+  min-width: 120px;
+  background-color: #fff;
+  border: none;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  @include borderRadius(5px);
+  font-weight: 300;
+  padding: 5px;
+  color: $greyText;
+
+  &.error {
+    border: 1px solid $redChart
+  }
+
+  &.valid {
+    border: 1px solid $greenChart
+  }
+
+  &:hover {
     cursor: pointer;
   }
-  text:hover{
-    cursor: default;
-  }
-  &.notRecording #recordBtnGroup:hover{
-    #recordBtn-bg{
-      fill: #c61e42;
-    }
-    .record-icon{
-      fill: #fff;
-    }
-  } 
 }
 
+.micro-type-container {
+  display: inline-block;
+  height: 110px;
+  width: 100%;
 
+  text-align: center;
+
+  .micro-type-item {
+    margin: 0 5px;
+    display: inline-block;
+    height: 110px;
+    width: 80px;
+    vertical-align: top;
+    cursor: pointer;
+
+    &>span {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .icon {
+      width: 80px;
+      height: 80px;
+      background-image: url('../img/micro-type@2x.png');
+      background-repeat: no-repeat;
+      background-size: 160px 240px;
+
+      &.default {
+        background-position: 0 0;
+      }
+
+      &.casque {
+        background-position: 0 -80px;
+      }
+
+      &.pied {
+        background-position: 0 -160px;
+      }
+    }
+
+    .label {
+      width: 100%;
+      font-size: 11px;
+      line-height: 13px;
+      height: 30px;
+      text-align: center;
+      color: $greyUnactive;
+    }
+
+    &.active,
+    &:hover {
+      .icon {
+        &.default {
+          background-position: -80px 0;
+        }
+
+        &.casque {
+          background-position: -80px -80px;
+        }
+
+        &.pied {
+          background-position: -80px -160px;
+        }
+      }
+
+      .label {
+        color: $greenChart;
+      }
+    }
+  }
+}
+
+.status-field {
+  display: inline-block;
+  width: 100%;
+  margin: 5px 0;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 5px 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+
+  &.success {
+    color: $greenChart;
+    border-color: $greenChart;
+  }
+
+  &.error {
+    color: $redChart;
+    border-color: $redChart;
+  }
+}
+
+/*** END FORM ***/
+
+/*** TABLE USER PANEL ***/
+.user-panel-tab {
+  width: 100%;
+
+  tr td {
+    vertical-align: top;
+    padding: 0 0 20px 0;
+  }
+
+  td.tab-label {
+    text-align: right;
+    font-size: 14px;
+    padding: 10px 10px 0 0;
+    width: 30%;
+    font-weight: 500;
+  }
+
+  td.tab-input {
+    text-align: left;
+    margin-left: 10px;
+    width: 70%;
+    max-width: 460px;
+
+    .micro-type-container {
+      text-align: left;
+    }
+  }
+  
+}
+
+.info {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  color: #999999;
+  font-style: italic;
+  text-align: left;
+  padding: 10px 0;
+}
+
+/*** END TABLE USER PANEL ***/

@@ -21,7 +21,7 @@ module.exports = (webServer) => {
               res.json({
                 "status": "error",
                 "field": "user",
-                "msg": "User not found"
+                "msg": "Utilisateur non trouvé"
               })
             } else { // User found
               const userPswdHash = user.passwordHash
@@ -52,7 +52,7 @@ module.exports = (webServer) => {
                 res.json({
                   "status": "error",
                   "field": "password",
-                  "msg": "Invalid password"
+                  "msg": "Mot de passe incorrect"
                 })
               }
             }
@@ -68,7 +68,7 @@ module.exports = (webServer) => {
           res.json({
             "status": "error",
             "field": "global",
-            "msg": "An error has occured whent trying to connect to database"
+            "msg": "Erreur lors de la connexion à la base de données"
           })
         }
       }

@@ -5,7 +5,7 @@
         <a href="/"><img id="wakemeup-logo" src="/assets/img/wakemeup-logo.svg" alt="Wake Me Up" /></a>
         <img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" />
       </div>
-      <div class="col text-center">
+      <div class="col links text-center">
         <button data-url='/interface/record' @click="navigate($event)" class="header-link red">S'enregistrer</button>
         <span class="text-separator"> | </span>
         <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
@@ -22,6 +22,16 @@
               <span class="icon user"></span>
               <span class="label user">Mon compte</span>
             </a>
+            <div class="mobile-links">
+              <a href="/interface/record" class="user-submenu-link">
+                <span class="icon record"></span>
+                <span class="label record">S'enregistrer</span>
+              </a>
+              <a href="/interface/listen" class="user-submenu-link">
+                <span class="icon listen"></span>
+                <span class="label listen">Écouter</span>
+              </a>
+            </div>
              <a href="/interface/scenarios" class="user-submenu-link" v-if="isAdmin">
               <span class="icon wakewords"></span>
               <span class="label wakewords">Scénarios</span>
