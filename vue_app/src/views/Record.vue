@@ -296,12 +296,13 @@
         // we create our wav file
         this.buffer = new ArrayBuffer(44 + interleaved.length * 2)
         this.view = new DataView(this.buffer)
-  
+        
         // RIFF chunk descriptor
         this.writeUTFBytes(this.view, 0, 'RIFF')
         this.view.setUint32(4, 44 + interleaved.length * 2, true)
         this.writeUTFBytes(this.view, 8, 'WAVE')
         // FMT sub-chunk
+
         this.writeUTFBytes(this.view, 12, 'fmt ')
         this.view.setUint32(16, 16, true) // chunkSize
         this.view.setUint16(20, 1, true) // wFormatTag
@@ -328,13 +329,12 @@
         })
   
         // Format datas to send
-        const contextSampleRate = this.analyser.context.sampleRate
         const nbChannels = this.analyser.channelCount
         const nbInputs = this.analyser.numberOfInputs
-        const nbOutputs = this.analyser.numberOfOutputsaudio
+        const nbOutputs = this.analyser.numberOfOutputs
         const bufferSize = this.recorder.bufferSize
         this.webAudioInfos = {
-          contextSampleRate: contextSampleRate,
+          contextSampleRate: this.sampleRate,
           bufferSize: bufferSize,
           nbChannels: nbChannels,
           nbInputs: nbInputs,
@@ -478,6 +478,8 @@
   
             this.gainNode = this.context.createGain()
             this.gainNode.connect(this.analyser)
+
+            this.sampleRate = this.analyser.context.sampleRate
   
             // Set Recorder (script processor)
             if (this.context.createScriptProcessor) {

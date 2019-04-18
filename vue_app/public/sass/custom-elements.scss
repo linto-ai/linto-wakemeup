@@ -569,6 +569,8 @@ button {
 path,
 circle {
   @include transition(all 0.3s ease);
+  transform-box: fill-box;
+  transform-origin: center;
 }
 #recordBtn-bg{
   @include boxShadow(0, 2px, 4px, 0, rgba(0,0,0,0.3))

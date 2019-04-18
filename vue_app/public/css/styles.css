@@ -7650,7 +7650,9 @@ circle {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
-  transition: all 0.3s ease; }
+  transition: all 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center; }
 
 #recordBtn-bg {
   -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
@@ -8045,7 +8047,7 @@ h3 {
   #player-wrapper h3 {
     font-size: 24px;
     font-weight: 500;
-    color: #bdccd4; }
+    color: #8faebf; }
     #player-wrapper h3 .word {
       color: #c61e42; }
   #player-wrapper .btn-container {
