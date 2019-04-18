@@ -37,19 +37,19 @@
           <div class="col-3" v-if="genderRatioReady">
             <h2>Répartition femme / homme</h2>
             <div class="white-container">
-                <canvas id="genderRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
-                <span class="monitoring-datas">Hommes: {{ genderRatio.pctMale }} % <br/> Femmes: {{ genderRatio.pctFemale }} %</span>
+              <canvas id="genderRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
+              <span class="monitoring-datas">Hommes: {{ genderRatio.pctMale.toFixed(1) }} % <br/> Femmes: {{ genderRatio.pctFemale.toFixed(1) }} %</span>
             </div>
           </div>
           <div class="col-3" v-if="deviceRatioReady">
             <h2>Types de microphone</h2>
             <div class="white-container">
-                <canvas id="devicesRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
-                <span class="monitoring-datas">
-                  Micro par défault: {{ deviceRatio.prctDefault }}% <br/>
-                  Micro-casque: {{ deviceRatio.prctHeadphone }}% <br/>
-                  Micro à pied: {{ deviceRatio.prctExternal }}% 
-                </span>
+              <canvas id="devicesRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
+              <span class="monitoring-datas">
+                Micro par défault: {{ deviceRatio.prctDefault.toFixed(1) }}% <br/>
+                Micro-casque: {{ deviceRatio.prctHeadphone.toFixed(1) }}% <br/>
+                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}% 
+              </span>
             </div>
           </div>
         </div>
