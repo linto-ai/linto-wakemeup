@@ -11,7 +11,7 @@
               </div>
               <div
                 class="highlight-content"
-              >Participez à l'enregistrement de campagnes de "wakewords". Enregistrez votre voix et créez des échantillons audio qui nous permettront d'enrichir et entraîner notre modèle de données.</div>
+              >Participez à l'enregistrement de campagnes de mots-clés. Enregistrez votre voix et créez des échantillons audio qui nous permettront d'enrichir et d'entraîner notre modèle de données.</div>
               <div class="highlight-action">
                 <button data-url="/interface/record" @click="navigate($event)" class="button red">Enregistrez votre voix</button>
               </div>

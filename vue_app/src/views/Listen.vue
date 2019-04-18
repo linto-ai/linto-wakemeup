@@ -7,19 +7,19 @@
             <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
             <h2 class="green">Écoutez et validez des enregistrements</h2>
             <div class="content green">
-              <p>Bienvenue dans l'interface de validation des wakewords.</p>
+              <p>Bienvenue dans l'interface de validation des mots-clés.</p>
               
               <p><strong>Écoutez</strong> les enregistrements réalisés par les utilsateurs.</p>
               <p> Pour qu'un son soit valide, il doit répondre à certains critères :
                 <ul>
-                  <li>Le wakewords doit être <strong>clairement audible</strong></li>
+                  <li>Le mot-clé doit être <strong>clairement audible</strong></li>
                   <li>La commande prononcée doit être <strong>conforme avec la commande écrites au-dessus du player</strong></li>
-                  <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du wakeword</li>
+                  <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du mot-clé</li>
               </p>
 
               <div class="notice"><h3>Validation d'échantillons audio</h3>
                 <ul>
-                  <li>Le wakeword attendu est écris en rouge au-dessus du player audio</li>
+                  <li>Le mot-clé attendu est écris en rouge au-dessus du player audio</li>
                   <li>Cliquez sur le bouton "<strong>Écouter</strong>" afin de jouer le son. </li>
                   <li>Après avoir écouté le son, des boutons vous permettant de voter apparaitrons</li>
                   <li>Cliquez sur le bouton "<strong>Valide</strong>" si vous estimez que l'échantillon est valide</li>
