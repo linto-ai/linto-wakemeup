@@ -1,0 +1,134 @@
+/*** HOME - Highlight ***/
+#highlight {
+  margin: 40px 0;
+
+  h2 {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-weight: 100;
+    font-size: 38px;
+    padding: 20px 0;
+    @include textShadow(1px,
+    1px,
+    2px,
+    rgba(0,
+    0,
+    0,
+    0.2))
+  }
+
+  .talk {
+    border-right: 1px solid #ccc;
+
+    h2 {
+      color: $redChart;
+    }
+  }
+
+  .listen h2 {
+    color: $greenChart;
+  }
+
+  .title-icon {
+    height: 180px;
+    width: 100%;
+    text-align: center;
+
+    img {
+      display: inline-block;
+      height: 100%;
+      width: auto;
+      vertical-align: top;
+    }
+  }
+
+  .highlight-content {
+    width: 75%;
+    margin: 40px auto;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .highlight-action {
+    margin: 20px 0;
+    text-align: center;
+  }
+}
+
+/*** END HOME - Highlight ***/
+
+/*** RESPONSIVE ***/
+
+@media screen and (max-width: 1024px) {
+  #highlight{
+    h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+    .title-icon{
+      height: 120px;
+    }
+    .highlight-content{
+      margin: 20px auto;
+      width: 90%;
+    }
+  } 
+}
+@media screen and (max-width: 960px) {
+  #highlight {
+    
+    .row > .col {
+      width: 95% !important;
+      float: none;
+      display: inline-block;
+      flex: none;
+      text-align: center;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      margin: 0 auto 20px auto;
+      padding-bottom: 10px;
+
+    }
+    h2,
+    .title-icon,
+    .highlight-content,
+    .highlight-action
+    {
+      width: 50%;
+      margin: 10px 0;
+      float: left;
+    }
+    .title-icon{
+      height: 100px;
+    }
+    h2{
+      height: 100px;
+      padding: 0;
+      line-height: 35px;
+      padding-top: 30px;
+    }
+    .highlight-action .button{
+      margin-top: 20px;
+      padding: 10px 5px;
+      width: 80%; 
+    }
+  }
+}
+@media screen and (max-width: 840px) {
+
+}
+@media screen and (max-width: 720px) {
+
+}
+@media screen and (max-width: 600px) {
+
+}
+@media screen and (max-width: 480px) {
+
+}
+@media screen and (max-width: 360px) {
+
+}

@@ -7460,6 +7460,87 @@ button {
     background-position: 0 0; }
 
 /*** APP NOTIFY ***/
+/*** GLOBAL ***/
+body {
+  background-color: #fff;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #444444; }
+
+#app {
+  background: #fafafa;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1; }
+
+#page-content {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  z-index: 2;
+  background: #fafafa;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 100px; }
+  #page-content .locked {
+    overflow: hidden; }
+
+.white-container {
+  width: 100%;
+  padding: 20px;
+  -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  text-align: center; }
+
+h2 {
+  display: inline-block;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 400;
+  color: #444444;
+  margin: 40px 0 20px 0; }
+
+h3 {
+  display: inline-block;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 500;
+  color: #444444;
+  margin: 20px 0; }
+
+.hidden {
+  display: none !important; }
+
+.red {
+  color: #c61e42; }
+
+.green {
+  color: #2da800; }
+
+.h-100 {
+  overflow: auto !important; }
+
+.text-center {
+  text-align: center; }
+
+/*** END GLOBAL ***/
+@media screen and (max-width: 1024px) {
+  #page-content {
+    top: 50px; } }
+
 /*** HEADER ***/
 #header {
   position: fixed;
@@ -7630,83 +7711,6 @@ button {
   #header .mobile-links {
     display: block; } }
 
-/*** GLOBAL ***/
-body {
-  background-color: #fff;
-  font-family: "Roboto", Arial, Helvetica, sans-serif;
-  font-weight: 400;
-  margin: 0 !important;
-  padding: 0 !important;
-  color: #444444; }
-
-#app {
-  background: #fafafa;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1; }
-
-#page-content {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  z-index: 2;
-  background: #fafafa;
-  overflow: auto;
-  width: 100%;
-  height: 100%;
-  padding-bottom: 100px; }
-  #page-content .locked {
-    overflow: hidden; }
-
-.white-container {
-  width: 100%;
-  padding: 20px;
-  -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  border: none;
-  background-color: #fff;
-  text-align: center; }
-
-h2 {
-  display: inline-block;
-  width: 100%;
-  font-size: 24px;
-  font-weight: 400;
-  color: #444444;
-  margin: 40px 0 20px 0; }
-
-h3 {
-  display: inline-block;
-  width: 100%;
-  font-size: 20px;
-  font-weight: 500;
-  color: #444444;
-  margin: 20px 0; }
-
-.hidden {
-  display: none !important; }
-
-.red {
-  color: #c61e42; }
-
-.green {
-  color: #2da800; }
-
-.h-100 {
-  overflow: auto !important; }
-
-.text-center {
-  text-align: center; }
-
-/*** END GLOBAL ***/
 /*** HOME - Highlight ***/
 #highlight {
   margin: 40px 0; }
@@ -7745,6 +7749,47 @@ h3 {
     text-align: center; }
 
 /*** END HOME - Highlight ***/
+/*** RESPONSIVE ***/
+@media screen and (max-width: 1024px) {
+  #highlight h2 {
+    font-size: 24px;
+    margin: 0; }
+  #highlight .title-icon {
+    height: 120px; }
+  #highlight .highlight-content {
+    margin: 20px auto;
+    width: 90%; } }
+
+@media screen and (max-width: 960px) {
+  #highlight .row > .col {
+    width: 95% !important;
+    float: none;
+    display: inline-block;
+    flex: none;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    margin: 0 auto 20px auto;
+    padding-bottom: 10px; }
+  #highlight h2,
+  #highlight .title-icon,
+  #highlight .highlight-content,
+  #highlight .highlight-action {
+    width: 50%;
+    margin: 10px 0;
+    float: left; }
+  #highlight .title-icon {
+    height: 100px; }
+  #highlight h2 {
+    height: 100px;
+    padding: 0;
+    line-height: 35px;
+    padding-top: 30px; }
+  #highlight .highlight-action .button {
+    margin-top: 20px;
+    padding: 10px 5px;
+    width: 80%; } }
+
 /*** USER PANEL ***/
 #user-panel {
   padding-bottom: 40px; }
