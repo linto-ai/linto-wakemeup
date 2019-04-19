@@ -3,7 +3,7 @@
     <div id="page-content" >
       <div class="container-fluid" id="user-panel" v-if="isAdmin && scenariosLoaded" >
         <div class="row justify-content-around">
-          <div class="col-5">
+          <div class="col-xl-5 col-lg-6 col-md-12">
             <h2>Ajouter un wakeword</h2>
             <div class="white-container">
               <table class="user-panel-tab">
@@ -24,7 +24,7 @@
               </table>
             </div>
           </div>
-          <div class="col-5">
+          <div class="col-xl-5 col-lg-6 col-md-12">
             <h2>Wakewords existants</h2>
             <div class="white-container">
               <div v-for="ww in scenarios" :key="ww._id" class="ww-container">

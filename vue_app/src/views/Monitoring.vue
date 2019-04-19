@@ -3,7 +3,7 @@
     <div id="page-content" >
       <div class="container-fluid" id="user-panel">
         <div class="row justify-content-around">
-          <div class="col-5" v-if="appStatsReady">
+          <div class="col-xl-4 col-lg-12 col-md-12" v-if="appStatsReady">
             <h2>Statistiques d'utilisation</h2>
             <div class="white-container">
               <div class="row">
@@ -34,14 +34,14 @@
               </div>
             </div>
           </div>
-          <div class="col-3" v-if="genderRatioReady">
+          <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" v-if="genderRatioReady">
             <h2>Répartition femme / homme</h2>
             <div class="white-container">
               <canvas id="genderRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
               <span class="monitoring-datas">Hommes: {{ genderRatio.pctMale.toFixed(1) }} % <br/> Femmes: {{ genderRatio.pctFemale.toFixed(1) }} %</span>
             </div>
           </div>
-          <div class="col-3" v-if="deviceRatioReady">
+          <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12" v-if="deviceRatioReady">
             <h2>Types de microphone</h2>
             <div class="white-container">
               <canvas id="devicesRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
