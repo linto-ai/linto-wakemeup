@@ -3,7 +3,7 @@
     <div id="page-content" class="locked">
       <div class="container-fluid h-100 talk green" id="player-container" >
         <div class="row h-100">
-          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden']">
+          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden', mobileView ? 'mobile': '']" >
             <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
             <h2 class="green">Écoutez et validez des enregistrements</h2>
             <div class="content green">
@@ -92,7 +92,9 @@ export default {
       audioHasBeenListen: false,
       noMoreAudio: false,
       userHash: '',
-      userAudios: ''
+      userAudios: '',
+      screenWidth: 0,
+      mobileView: false
     }
   }, 
   created () {
@@ -108,6 +110,13 @@ export default {
         this.showInfos = true
       }
     } 
+    this.screenWidth = this.getScreenWidth()
+    if(this.screenWidth <= 1280) {
+      this.showInfos = false
+    }
+    window.addEventListener('resize', () => {
+      this.screenWidth = this.getScreenWidth()
+    })
   },
   computed: {
     userInfos () {
@@ -118,6 +127,13 @@ export default {
     }
   },
   watch: {
+    screenWidth: function(data){
+      if(data <= 1280) {
+        this.mobileView = true
+      } else {
+        this.mobileView = false
+      }
+    },
     userInfos: function (data) {
       this.userHash = this.$store.state.userInfos.userHash
     },
@@ -145,6 +161,9 @@ export default {
     }
   },
   methods: {
+    getScreenWidth(){
+      return window.innerWidth
+    },
     toggleInfos() {
       this.showInfos = !this.showInfos
       this.setCookie('wmu_listeninfos', this.showInfos, 31)

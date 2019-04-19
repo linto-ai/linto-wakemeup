@@ -1,9 +1,8 @@
 <template>
-  
   <div id="page-content" class="h-100">
     <div class="container-fluid" id="user-panel">
       <div class="row justify-content-around">
-        <div class="col-5">
+        <div class="col-xl-5 col-lg-6 col-md-12">
           <h2>Informations utilisateur</h2>
           <div class="white-container">
             <table class="user-panel-tab">
@@ -122,7 +121,7 @@
             </table>
           </div>
         </div>
-        <div class="col-5">
+        <div class="col-xl-5 col-lg-6 col-md-12">
           <h2>Statistiques</h2>
           <div class="white-container">
             <div class="row">

@@ -3,7 +3,7 @@
     <div id="page-content" class="locked">
       <div class="container-fluid h-100 talk red" id="player-container">
         <div class="row h-100">
-          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden']">
+          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden', mobileView ? 'mobile': '']" >
             <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
             <h2 class="red">Enregistrez votre voix</h2>
             <div class="notice record">Dans la mesure du possible, l'enregistrement doit se dérouler dans un environnement silencieux afin d'éviter les bruits parasites.</div>
@@ -28,7 +28,7 @@
               </div>
             </div>
           </div>
-          <div :class="[showInfos ? 'col-8 h-100' : 'col-12 h-100']">
+          <div :class="[showInfos ? 'col-8 h-100' : 'col-12 h-100', mobileView ? 'col-12 h-100' : '' ]">
             <button @click="toggleInfos()" :class="[!showInfos ? 'visible' : 'hidden']" class="showInfos toggle-infos"></button>
             <div id="player-wrapper" v-if="dataReady && !allComplete">
               <div class="say-word">
@@ -128,7 +128,9 @@
         nbBar: 0,
         volumeBarContainer: null,
         vizualizerTop: null,
-        vizualizerBot: null
+        vizualizerBot: null,
+        screenWidth: 0,
+        mobileView: false
       }
     },
     created() {
@@ -169,8 +171,22 @@
           this.showInfos = true
         }
       } 
+      this.screenWidth = this.getScreenWidth()
+      if(this.screenWidth <= 1280) {
+        this.showInfos = false
+      }
+      window.addEventListener('resize', () => {
+        this.screenWidth = this.getScreenWidth()
+      })
     },
     watch: {
+      screenWidth: function(data){
+        if(data <= 1280) {
+          this.mobileView = true
+        } else {
+          this.mobileView = false
+        }
+      },
       userInfos: function(data)  {
         this.userReady = true
       },
@@ -194,6 +210,9 @@
       }
     },
     methods: {
+      getScreenWidth(){
+        return window.innerWidth
+      },
       setScenario() {
         if (!!this.userInfos.recordList && this.userInfos.recordList.length > 0) {
           this.userInfos.recordList.map(rec => {
