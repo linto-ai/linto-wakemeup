@@ -13,7 +13,7 @@
               <span class="required">*</span>
               <span class="label">Adresse email:</span>
             </div>
-            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']">
+            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
             <span
               class="error-field"
               :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -25,7 +25,7 @@
               <span class="label">Mot de passe :</span>
               <button class="info-label"></button>
             </div>
-            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']">
+            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
             <span
               class="error-field"
               :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -36,7 +36,7 @@
               <span class="required">*</span>
               <span class="label">Confirmation du mot de passe :</span>
             </div>
-            <input type="password" class="input" v-model="userPswdConfirm" :class="[userPswdConfirmValid === 'error' ? 'error' : '', userPswdConfirmValid === 'valid' ? 'valid' : '']">
+            <input type="password" class="input" v-model="userPswdConfirm" :class="[userPswdConfirmValid === 'error' ? 'error' : '', userPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
             <span
               class="error-field"
               :class="[userPswdConfirmdErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -46,7 +46,7 @@
             <div class="field-label">
               <span class="required">*</span>
               <span class="label">Sexe :</span>
-              <select class="select" v-model="userGender" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']">
+              <select class="select" v-model="userGender" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
                 <option value="" hidden>Sélectionner un sexe</option>
                 <option value="male">Homme</option>
                 <option value="female">Femme</option>

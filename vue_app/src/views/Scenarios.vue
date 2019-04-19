@@ -11,8 +11,8 @@
                     <tr>
                       <td class="tab-label">Wakeword :</td>
                       <td class="tab-input">
-                        <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']"/>
-                        <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ wakewordErrorMsg }}</span>
+                        <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']" v-on:keyup.13="addWakeword(wakeword)"/>
+                        <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ wakewordErrorMsg }}</span>
                       </td>
                     </tr>
                     <tr>

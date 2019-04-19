@@ -45,7 +45,6 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
-      showConnectModal: false,
       userConnected: false
     }
   },

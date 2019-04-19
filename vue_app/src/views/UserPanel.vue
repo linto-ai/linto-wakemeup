@@ -10,14 +10,14 @@
                 <tr>
                   <td class="tab-label">Adresse email :</td>
                   <td class="tab-input">
-                    <input class="input" v-model="userEmail"  :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']"/>
+                    <input class="input" v-model="userEmail"  :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updateProfil()"/>
                     <span class="error-field" :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userEmailErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Sexe :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="userInfos.gender">
+                    <select class="select" v-model="userInfos.gender" v-on:keyup.13="updateProfil()">
                       <option value="male">Homme</option>
                       <option value="female">Femme</option>
                     </select>
@@ -53,21 +53,21 @@
                 <tr>
                   <td class="tab-label">Nom :</td>
                   <td class="tab-input">
-                    <input class="input" v-model="userInfos.lastName" :class="[lastNameValid === 'error' ? 'error' : '', lastNameValid === 'valid' ? 'valid' : '']"/>
+                    <input class="input" v-model="userInfos.lastName" :class="[lastNameValid === 'error' ? 'error' : '', lastNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updateProfil()"/>
                     <span class="error-field" :class="[lastNameErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ lastNameErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Prénom :</td>
                   <td class="tab-input">
-                    <input class="input" v-model="userInfos.firstName" :class="[firstNameValid === 'error' ? 'error' : '', firstNameValid === 'valid' ? 'valid' : '']"/>
+                    <input class="input" v-model="userInfos.firstName" :class="[firstNameValid === 'error' ? 'error' : '', firstNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updateProfil()"/>
                     <span class="error-field" :class="[firstNameErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ firstNameErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Tranche d'âge :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="userInfos.ageRange">
+                    <select class="select" v-model="userInfos.ageRange" v-on:keyup.13="updateProfil()">
                       <option value="" hidden>Sélectionner votre tranche d'âge</option>
                       <option value="10-20">10 - 20 ans</option>
                       <option value="20-30">20 - 30 ans</option>
@@ -94,21 +94,21 @@
                 <tr>
                   <td class="tab-label">Mot de passe actuel :</td>
                   <td class="tab-input">
-                    <input class="input" type="password" v-model="currentPswd"  :class="[currentPswdValid === 'error' ? 'error' : '', currentPswdValid === 'valid' ? 'valid' : '']"/>
+                    <input class="input" type="password" v-model="currentPswd"  :class="[currentPswdValid === 'error' ? 'error' : '', currentPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
                     <span class="error-field" :class="[currentPswdErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ currentPswdErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Nouveau mot de passe :</td>
                   <td class="tab-input">
-                    <input class="input" type="password" v-model="newPswd"  :class="[newPswdValid === 'error' ? 'error' : '', newPswdValid === 'valid' ? 'valid' : '']"/>
+                    <input class="input" type="password" v-model="newPswd"  :class="[newPswdValid === 'error' ? 'error' : '', newPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
                     <span class="error-field" :class="[newPswdErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Confirmation du ouveau mot de passe :</td>
                   <td class="tab-input">
-                    <input class="input" type="password" v-model="newPswdConfirm"  :class="[newPswdConfirmValid === 'error' ? 'error' : '', newPswdConfirmValid === 'valid' ? 'valid' : '']"/>
+                    <input class="input" type="password" v-model="newPswdConfirm"  :class="[newPswdConfirmValid === 'error' ? 'error' : '', newPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
                     <span class="error-field" :class="[newPswdConfirmErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdConfirmErrorMsg }}</span>
                   </td>
                 </tr>

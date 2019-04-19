@@ -13,7 +13,7 @@
               <span class="icon user"></span>
               <span class="label">Adresse email:</span>
             </div>
-            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid  === 'valid' ? 'valid' : '']">
+            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid  === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
             <span
               class="error-field"
               :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -24,7 +24,7 @@
               <span class="icon pswd"></span>
               <span class="label">Mot de passe :</span>
             </div>
-            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']">
+            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
             <span
               class="error-field"
               :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
@@ -69,6 +69,7 @@ export default {
   methods: {
     toggleConnectionModal () {
       this.showConnectionModal = !this.showConnectionModal
+      
     },
     closeModal () {
       this.showConnectionModal = false
