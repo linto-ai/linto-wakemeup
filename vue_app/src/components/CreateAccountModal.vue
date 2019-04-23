@@ -11,13 +11,13 @@
           <div class="field-container">
             <div class="field-label">
               <span class="required">*</span>
-              <span class="label">Adresse email:</span>
+              <span class="label">Nom d'utilisateur:</span>
             </div>
-            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+            <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
             <span
               class="error-field"
-              :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userEmailErrorMsg }}</span>
+              :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
+            >{{ userNameErrorMsg }}</span>
           </div>
           <div class="field-container">
             <div class="field-label">
@@ -50,6 +50,7 @@
                 <option value="" hidden>Sélectionner un sexe</option>
                 <option value="male">Homme</option>
                 <option value="female">Femme</option>
+                <option value="other">Autre</option>
               </select>
             </div>
             <span
@@ -57,6 +58,49 @@
               :class="[userGenderErrorMsg.length > 0 ? 'visible' : 'hidden']"
             >{{ userGenderErrorMsg }}</span>
           </div>
+
+          <div class="field-container">
+            <div class="field-label">
+              <span class="required">*</span>
+              <span class="label">Tranche d'age :</span>
+              <select class="select" v-model="userAgeRange" :class="[userAgeRangeValid === 'error' ? 'error' : '', userAgeRangeValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+                <option value="" hidden>Sélectionner une tranche d'âge</option>
+                <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
+                <option value="90+">90+ ans</option>
+              </select>
+            </div>
+            <span
+              class="error-field"
+              :class="[userAgeRangeErrorMsg.length > 0 ? 'visible' : 'hidden']"
+            >{{ userAgeRangeErrorMsg }}</span>
+          </div>
+          
+          <div class="field-container">
+            <div class="field-label">
+              <span class="required">*</span>
+              <span class="label">Je suis français natif :</span>
+              <button class="custom-toggle-btn" @click="toggleNative()" :class="[nativeOn ? 'on': 'off']">
+                  <span class="cursor" ></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field-container" v-show="!nativeOn">
+            <div class="field-label">
+              <span class="required">*</span>
+              <span class="label">Langue maternelle :</span>
+              
+              <select class="select" v-model="selectedLanguage" v-on:keyup.13="sendForm()" :class="[selectedLanguageValid === 'error' ? 'error' : '', selectedLanguageValid === 'valid' ? 'valid' : '']">
+                <option value="" hidden>Sélectionner une langue maternelle</option>
+                <option v-for="country in countriesList" :key="country" :value="country" >{{country}}</option>
+              </select>
+            </div>
+            <span
+              class="error-field"
+              :class="[selectedLanguageErrorMsg.length > 0 ? 'visible' : 'hidden']"
+            >{{ selectedLanguageErrorMsg }}</span>
+          </div>
+
           <div class="field-container">
             <div class="field-label">
               <span class="required">*</span>
@@ -90,13 +134,13 @@
 import axios from 'axios'
 import { bus } from '../main.js'
 export default {
-  data() {
+  data () {
     return {
       showCreateAccountModal: false,
       deviceType: 'default',
-      userEmail: "",
-      userEmailValid: false,
-      userEmailErrorMsg: "",
+      userName: "",
+      userNameValid: false,
+      userNameErrorMsg: "",
       userPswd: "",
       userPswdValid: false,
       userPswdErrorMsg: "",
@@ -106,9 +150,18 @@ export default {
       userGender: '',
       userGenderValid: false,
       userGenderErrorMsg: '',
+      userAgeRange: '',
+      userAgeRangeValid: false,
+      userAgeRangeErrorMsg: '',
       btnCreateAccountLabel: 'Créer un compte',
       createAccountStatus: '',
-      createAccoutMsg: ''
+      createAccoutMsg: '',
+      nativeOn: true,
+      countriesList: ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"],
+      selectedLanguage: '',
+      language: 'français',
+      selectedLanguageValid: false,
+      selectedLanguageErrorMsg: ''
     }
   },
   mounted () {
@@ -116,7 +169,22 @@ export default {
       this.showCreateAccountModal = true
     })
   },
+  watch: {
+    nativeOn: function (data) {
+      if(data) {
+        this.language = 'français'
+      } 
+    },
+    selectedLanguage: function (data) {
+      if(!this.nativeOn) {
+        this.language = this.selectedLanguage
+      }
+    }
+  },
   methods: {
+    toggleNative () {
+      this.nativeOn = !this.nativeOn
+    },
     setMicrophone (selected) {
       this.deviceType = selected
     },
@@ -127,18 +195,18 @@ export default {
       this.showCreateAccountModal = false
       bus.$emit('toggle_connection_modal', () => {})
     },
-    validateEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-    },
     async sendForm () {
       const formValid = this.checkForm()
       if (formValid) {
         this.btnCreateAccountLabel = 'Création en cours...'
         const payload = {
-          email : this.userEmail,
+          userName: this.userName,
           pswd: this.userPswd,
           gender: this.userGender,
-          deviceType: this.deviceType
+          deviceType: this.deviceType,
+          userAgeRange: this.userAgeRange,
+          language: this.language,
+          nativeFrench: this.nativeOn
         }
         const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`,{
           method: 'post',
@@ -146,6 +214,10 @@ export default {
         })
         this.createAccountStatus = createUser.data.status
         this.createAccoutMsg = createUser.data.msg
+        if (createUser.data.code === 'userExist') {
+          this.userNameValid = 'error'  
+          this.userNameErrorMsg = createUser.data.msg
+        }
         if (createUser.data.status === 'success') {
           this.btnCreateAccountLabel = 'Succès'
           this.createAccoutMsg += ', vous allez être redirigé dans 3 sec'
@@ -161,16 +233,13 @@ export default {
       }
     },
     checkForm () {
-      // User Email 
-      if (this.userEmail.length === 0) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
-      } else if (!this.validateEmail(this.userEmail)) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Le format de l\'adresse email est invalide'
+      // User Name
+      if (this.userName.length === 0) {
+        this.userNameValid = 'error'
+        this.userNameErrorMsg = 'Veuillez renseigner une adresse email'
       } else {
-        this.userEmailValid = 'valid'
-        this.userEmailErrorMsg = ''
+        this.userNameValid = 'valid'
+        this.userNameErrorMsg = ''
       }
 
       // Password
@@ -188,8 +257,7 @@ export default {
       // Confrim password
       if (this.userPswdConfirm.length === 0) {
         this.userPswdConfirmValid = 'error'
-      }
-      else if (this.userPswdConfirm !== this.userPswd) {
+      } else if (this.userPswdConfirm !== this.userPswd) {
         this.userPswdConfirmValid = 'error'
         this.userPswdConfirmdErrorMsg = 'Les mots de passes doivent êtres identiques'
       } else {
@@ -205,8 +273,39 @@ export default {
         this.userGenderValid = 'valid'
         this.userGenderErrorMsg = ''
       }
+
+      // Age range
+      if (this.userAge === '') {
+        this.userAgeRangeValid = 'error'
+        this.userAgeRangeErrorMsg = 'Veuillez sélectionner une tranche d\'âge'
+      } else {
+        this.userAgeRangeValid = 'valid'
+        this.userAgeRangeErrorMsg = ''
+      }
       
-      if (this.userEmailValid === 'valid' && this.userPswdValid === 'valid' && this.userPswdConfirmValid === 'valid' && this.userGenderValid === 'valid') {
+      // Native Language
+      if (this.nativeOn) {
+        this.selectedLanguage = "français"
+        this.language = this.selectedLanguage
+        this.selectedLanguageValid = 'valid'
+        this.selectedLanguageErrorMsg = ''
+      }
+      else if (this.selectedLanguage !== '') {
+        this.selectedLanguageValid = 'valid'
+        this.language = this.selectedLanguage
+        this.selectedLanguageErrorMsg = ''
+      } else {
+        this.language = ''
+        this.selectedLanguageValid = 'error'
+        this.selectedLanguageErrorMsg = 'Veuillez sélectionner votre langue maternelle'
+      }
+
+      if (
+        this.userNameValid === 'valid' && 
+        this.userPswdValid === 'valid' && 
+        this.userPswdConfirmValid === 'valid' && 
+        this.userGenderValid === 'valid' && 
+        this.selectedLanguageValid === 'valid' && this.userAgeRangeValid === 'valid' ) {
         return true
       } else {
         return false

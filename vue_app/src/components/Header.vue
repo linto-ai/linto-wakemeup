@@ -14,7 +14,7 @@
         <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Se connecter/S'inscrire</button>
         <div v-if="userConnected" class="user-menu">
           <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']"> 
-            <span class="label">{{ userInfos.email }}</span>
+            <span class="label">{{ userInfos.userName }}</span>
             <span class="icon"></span>
           </button>
           <div class="user-submenu" :class="[showUserMenu ? 'visible' : 'hidden']">

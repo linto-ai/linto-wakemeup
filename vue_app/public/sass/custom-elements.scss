@@ -113,6 +113,49 @@ button {
   }
 }
 
+
+.custom-toggle-btn{
+  margin-top: 3px;
+  
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  width: 40px;
+  @include borderRadius(10px);
+  @include boxShadow(0px, 2px, 2px, 0px, rgba(0, 0, 0, 0.2));
+  @include transition(all 0.2s ease);
+  border: 1px solid #ccc;
+  position: relative;
+
+  .cursor{
+    display: inline-block;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    @include transition(all 0.2s ease);
+    @include borderRadius(10px);
+    top: 2px;
+  }
+
+  &.off{
+    background-color: #fff;
+    .cursor{
+      left: 3px;
+      background-color: $greenChart;
+    }
+  }
+  &.on{
+    background-color: $greenChart;
+    .cursor{
+      background-color: #fff;
+      left: 20px;
+    }
+  }
+  &:hover, &:focus{
+    outline: none;
+    cursor: pointer;
+  }
+}
 /*** END BUTTONS ***/
 
 /*** DIVIDER ***/

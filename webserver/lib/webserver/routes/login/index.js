@@ -8,12 +8,12 @@ module.exports = (webServer) => {
       path: '/userAuth',
       method: 'post',
       controller: async (req, res, next) => {
-        if (req.body.email != "undefined" && req.body.password != "undefined") { // get post datas
-          const email = req.body.email
+        if (req.body.userName != "undefined" && req.body.password != "undefined") { // get post datas
+          const userName = req.body.userName
           const password = req.body.password
           try {
             let user
-            let getUser = await model.getUserByEmail(email)
+            let getUser = await model.getUserByName(userName)
             if (getUser.length > 0) {
               user = getUser[0]
             }
@@ -80,24 +80,34 @@ module.exports = (webServer) => {
         const userInfos = req.body
         const createUser = await model.createUser(userInfos)
         if (createUser === 'success') {
-          const getUser = await model.getUserByEmail(userInfos.email)
+          const getUser = await model.getUserByName(userInfos.userName)
           req.session.logged = 'on'
           req.session.user = getUser[0].userHash
           req.session.save((err) => {
             if (err) {
               res.json({
-                "status": "error",
-                "msg": "Error on saving session"
+                status: "error",
+                msg: "Error on saving session",
+                code: "globalError"
               })
             } else {
               res.json({
                 status: 'success',
                 msg: 'Compte créé avec succès',
-                userHash: getUser[0].userHash
+                userHash: getUser[0].userHash,
+                code: "success"
               })
             }
           })
-        } else {
+        } 
+        else if (createUser === 'userExist') {
+          res.json({
+            status: 'error',
+            msg: 'Ce nom d\'utilisateur est déjà utilisé',
+            code: 'userExist'
+          })
+        }
+        else {
           res.json({
             status: 'error',
             msg: createUser

@@ -13,11 +13,11 @@
               <span class="icon user"></span>
               <span class="label">Adresse email:</span>
             </div>
-            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid  === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
+            <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid  === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
             <span
               class="error-field"
-              :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userEmailErrorMsg }}</span>
+              :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
+            >{{ userNameErrorMsg }}</span>
           </div>
           <div class="field-container">
             <div class="field-label">
@@ -53,9 +53,9 @@ export default {
   data () {
     return {
       showConnectionModal: false,
-      userEmail: '',
-      userEmailValid: false,
-      userEmailErrorMsg: '',
+      userName: '',
+      userNameValid: false,
+      userNameErrorMsg: '',
       userPswd: '',
       userPswdValid: false,
       userPswdErrorMsg: ''
@@ -69,7 +69,6 @@ export default {
   methods: {
     toggleConnectionModal () {
       this.showConnectionModal = !this.showConnectionModal
-      
     },
     closeModal () {
       this.showConnectionModal = false
@@ -78,20 +77,14 @@ export default {
       this.showConnectionModal = false
       bus.$emit('toggle_create_account_modal', {})
     },
-    validateEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-    },
     checkForm () {
       // Check email
-      if (this.userEmail.length === 0) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Vous devez renseigner une adresse email de connection'
-      } else if (!this.validateEmail(this.userEmail)) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Le format de l\'adresse email est invalide'
+      if (this.userName.length === 0) {
+        this.userNameValid = 'error'
+        this.userNameErrorMsg = 'Vous devez renseigner une adresse email de connection'
       } else {
-        this.userEmailValid = 'valid'
-        this.userEmailErrorMsg = ''
+        this.userNameValid = 'valid'
+        this.userNameErrorMsg = ''
       }
 
       // Check password
@@ -103,7 +96,7 @@ export default {
         this.userPswdErrorMsg = ''
       }
 
-      if (this.userEmailValid === 'valid' && this.userPswdValid === 'valid') {
+      if (this.userNameValid === 'valid' && this.userPswdValid === 'valid') {
         return true
       } else {
         return false
@@ -113,7 +106,7 @@ export default {
       const formValid = this.checkForm()
       if (formValid) {
         const payload = {
-          email: this.userEmail,
+          userName: this.userName,
           password: this.userPswd
         }
         const login = await axios(`${process.env.VUE_APP_URL}/login/userAuth`, {
@@ -122,8 +115,8 @@ export default {
         })
         if (login.data.status === 'error') {
           if (login.data.field === 'user') {
-            this.userEmailValid = 'error'
-            this.userEmailErrorMsg = login.data.msg
+            this.userNameValid = 'error'
+            this.userNameErrorMsg = login.data.msg
           } else if (login.data.field === 'password') {
             this.userPswdValid = 'error'
             this.userPswdErrorMsg = login.data.msg

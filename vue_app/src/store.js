@@ -15,7 +15,7 @@ export default new Vuex.Store({
   mutations: {
     SET_USER: (state, data) => {
       state.userInfos = {
-        email: data.email,
+        userName: data.userName,
         gender: data.gender,
         deviceType: data.deviceType,
         firstName: data.firstName,

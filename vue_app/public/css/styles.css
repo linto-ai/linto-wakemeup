@@ -7304,6 +7304,51 @@ button {
   .aslink:hover {
     text-decoration: underline; }
 
+.custom-toggle-btn {
+  margin-top: 3px;
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  width: 40px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  border: 1px solid #ccc;
+  position: relative; }
+  .custom-toggle-btn .cursor {
+    display: inline-block;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    top: 2px; }
+  .custom-toggle-btn.off {
+    background-color: #fff; }
+    .custom-toggle-btn.off .cursor {
+      left: 3px;
+      background-color: #2da800; }
+  .custom-toggle-btn.on {
+    background-color: #2da800; }
+    .custom-toggle-btn.on .cursor {
+      background-color: #fff;
+      left: 20px; }
+  .custom-toggle-btn:hover, .custom-toggle-btn:focus {
+    outline: none;
+    cursor: pointer; }
+
 /*** END BUTTONS ***/
 /*** DIVIDER ***/
 .spacer {
@@ -7530,7 +7575,8 @@ h3 {
   position: relative;
   width: auto;
   padding: 0 15px;
-  height: 100%; }
+  height: 100%;
+  min-width: 160px; }
   .user-menu .toggle-user-menu {
     display: inline-block;
     vertical-align: top;

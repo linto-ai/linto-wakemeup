@@ -53,13 +53,13 @@ class modelMongoDb {
   
   /**
    * Get a user from "users" collection, by its "_id" 
-   * @param {string} email
+   * @param {string} name
    * @returns {Array|Object}
    */
-  async getUserByEmail(email) {
+  async getUserByName(userName) {
     try {
       const query = {
-        email: email
+        userName: userName
       }
       return await this.mongoRequest('users', query)
     } catch (err) {
@@ -83,32 +83,32 @@ class modelMongoDb {
    */
   async createUser(payload) {
     try {
-      const getUser = await this.getUserByEmail(payload.email)
+      const getUser = await this.getUserByName(payload.userName)
       if (getUser.length === 0) {
         const salt = randomstring.generate(12)
         const userPayload = {
-          email : payload.email,
+          userName : payload.userName,
           passwordHash: sha1(payload.pswd + salt),
           salt: salt,
           gender: payload.gender,
           deviceType: payload.deviceType,
-          firstName: '',
-          lastName: '',
-          ageRange: '',
+          ageRange: payload.userAgeRange,
+          userHash : sha1(payload.userName),
+          language : payload.language,
+          nativeFrench: payload.nativeFrench,
+          recordList: [],
           nbListen: 0,
           nbRecord: 0,
-          userHash : sha1(payload.email),
-          recordList: [],
           role: 'user'
         }
         return await this.mongoInsert('users', userPayload)
         
       } else {
-        return 'Cet utilisateur existe déjà'
+        return 'userExist'
       }
-
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   /**
