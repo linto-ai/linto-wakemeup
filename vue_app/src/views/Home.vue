@@ -38,7 +38,6 @@
   </div>
 </template>
 <script>
-import Header from '@/components/Header.vue'
 import ConnectionModal from '@/components/ConnectionModal.vue'
 import CreateAccountModal from '@/components/CreateAccountModal.vue'
 import { bus } from '../main.js'
@@ -90,7 +89,6 @@ export default {
     }
   },
   components: {
-    Header,
     ConnectionModal,
     CreateAccountModal
   }

@@ -26,6 +26,7 @@ module.exports = (webServer) => {
     "/api/scenarios": require('./api/scenarios')(webServer),
     "/interface": require('./interface')(webServer),
     "/login": require('./login')(webServer),
-    "/logout": require('./logout')(webServer)
+    "/logout": require('./logout')(webServer),
+    "/mentions-legales": require('./mentions-legales')(webServer)
   }
 }
