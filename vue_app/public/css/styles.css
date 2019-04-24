@@ -8286,6 +8286,7 @@ circle {
     text-decoration: underline; }
 
 /*** END FOOTER ***/
+/*** FOOTER ***/
 .mentions-legales-container {
   max-width: 920px;
   width: 90%;
@@ -8312,6 +8313,7 @@ circle {
       font-weight: 600;
       color: #c61e42; }
 
+/*** RESPONSIVE ***/
 @media screen and (max-width: 960px) {
   .mentions-legales-container h1 {
     font-size: 24px; }

@@ -54,11 +54,11 @@ export default {
   },
   watch: {
     status: function (data) {
-      if(data === 'beforeRecording') {
+      if(data === 'beforeRecording') {
         this.hasRecorded = false
         this.animateBeforeRecording()
       }
-      else if(data === 'recording') {
+      else if(data === 'recording') {
         this.hasRecorded = false
         this.animateRecording()
       } 
@@ -77,9 +77,7 @@ export default {
     }
   },
   mounted () {
-
     this.svg = document.getElementById('recordBtn')
-    
     
     // Circle volume
     this.recordBtnShadow = document.getElementById('recordBtn-volume')
@@ -88,7 +86,6 @@ export default {
     this.recordBtnBg = document.getElementById('recordBtn-bg')
     this.recordBtnBg.setAttribute('fill', '#ffffff')
 
-    
     // Record icon
     this.recordIcon = document.getElementsByClassName('record-icon')
     for(let i = 0; i < this.recordIcon.length; i++){
@@ -115,8 +112,6 @@ export default {
       this.nb1.setAttribute('transform-origin', `${svgWidth / 2} ${svgHeight / 2}`)
     }, 500)
     
-    
-
     // Svg text
     this.svgText = document.getElementById('recordBtn-text')
     
@@ -133,7 +128,7 @@ export default {
   },
   methods: {
     clicBtn () {
-      if (this.status === 'notRecording'){
+      if (this.status === 'notRecording') {
         
         this.status = 'beforeRecording'
       }  else {
@@ -146,19 +141,19 @@ export default {
     },
     cancelAnimation () {
       this.status = 'notRecording'
-      for(let i = 0; i < this.svgElements.length; i++){
+      for (let i = 0; i < this.svgElements.length; i++) {
         this.svgElements[i].setAttribute('transform','translate(0 0)')
-        if(this.svgElements[i].classList.contains('record-icon')){
+        if (this.svgElements[i].classList.contains('record-icon')) {
           this.svgElements[i].setAttribute('fill', this.redChart)
         }
-        if(this.svgElements[i].classList.contains('btn-background')){
+        if (this.svgElements[i].classList.contains('btn-background')) {
           this.svgElements[i].setAttribute('fill', '#ffffff')
         }
       }
       this.svgText.setAttribute('opacity', 0)
     },
     animateBeforeRecording () {
-      for(let i = 0; i < this.recordIcon.length; i++){
+      for (let i = 0; i < this.recordIcon.length; i++) {
         this.recordIcon[i].setAttribute('opacity', 0)
       }
       setTimeout(()=>{
@@ -180,15 +175,14 @@ export default {
                       this.nb1.setAttribute('transform', `scale(1)`);
                       this.nb2.setAttribute('transform', `scale(1)`);
                       this.nb3.setAttribute('transform', `scale(1)`);
-                      for(let i = 0; i < this.recordIcon.length; i++){
+                      for (let i = 0; i < this.recordIcon.length; i++) {
                         this.recordIcon[i].setAttribute('opacity', 1)
                       }
                       this.offsetText =  this.svgText.getBBox().width - 20
-                      for(let j=0; j < this.svgElements.length; j++){
+                      for (let j=0; j < this.svgElements.length; j++) {
                         this.svgElements[j].setAttribute('transform', `translate(-${this.offsetText} 0)`)
                       }
                       this.svgText.setAttribute('opacity', 1)
-
                       this.status = 'recording'
                       bus.$emit('start_recording', {})
                   }, 300)
@@ -199,11 +193,11 @@ export default {
         }, 500)
       }, 300)
     },
-    animateRecording () {
-      if(this.status === 'recording'){
-        if(this.recordBtnBg.getAttribute('fill') === '#ffffff'){
+    animateRecording () {
+      if (this.status === 'recording') {
+        if (this.recordBtnBg.getAttribute('fill') === '#ffffff') {
           this.recordBtnBg.setAttribute('fill', this.redChart);
-          for(let i = 0; i < this.recordIcon.length; i++){
+          for (let i = 0; i < this.recordIcon.length; i++) {
             this.recordIcon[i].setAttribute('fill', '#ffffff')
           }
         } else {
@@ -220,8 +214,7 @@ export default {
       } else {
         this.recordBtnBg.setAttribute('fill', '#ffffff')
         // Record icon
-        
-        for(let i = 0; i < this.recordIcon.length; i++){
+        for (let i = 0; i < this.recordIcon.length; i++) {
           this.recordIcon[i].setAttribute('fill', this.redChart)
         }
       }

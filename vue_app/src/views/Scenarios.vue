@@ -62,26 +62,24 @@ export default {
       scenariosLoaded: false,
       wakeword: '',
       wakewordValid: false,
-      wakewordErrorMsg : ''
+      wakewordErrorMsg: ''
     }
-  }, 
+  },
   computed: {
     userInfos () {
       return this.$store.state.userInfos
-    }, 
+    },
     scenarios () {
       return this.$store.state.scenarios
     }
   },
   created () {
-    this.$store.dispatch('getScenarios').then((resp) => {}, error => {
-      console.error('error:', err)
-    })
+    this.$store.dispatch('getScenarios')
   },
   mounted () {
-      bus.$on('wakeword_deleted', () => {
-        this.$store.dispatch('getScenarios')
-      })
+    bus.$on('wakeword_deleted', () => {
+      this.$store.dispatch('getScenarios')
+    })
   },
   watch: {
     userInfos: function (data) {
@@ -118,7 +116,7 @@ export default {
     async addWakeword (data) {
       if (this.validWakeword(data)) {
         const addww = await axios(`${process.env.VUE_APP_URL}/api/scenarios`, {
-          method: 'post', 
+          method: 'post',
           data: { wakeword: data }
         })
         if (addww.data.addWakeword === 'success') {

@@ -59,7 +59,6 @@
 </template>
 <script>
 import Chart from 'chart.js'
-
 export default {
   data () {
     return {
@@ -93,7 +92,7 @@ export default {
   },
   watch: {
     scenarios: function (data) {
-      if(data.length > 0 ){
+      if (data.length > 0) {
         this.scenariosReady = true
       }
     },
@@ -101,7 +100,7 @@ export default {
       this.appStatsReady = true
     },
     audios: function (data) {
-      if (data.length > 0){
+      if (data.length > 0) {
         this.genderRatio = this.$store.getters.GENDER_RATIO
         this.deviceRatio = this.$store.getters.DEVICES_RATIO
       }
@@ -146,13 +145,13 @@ export default {
         options: {}
       })
     },
-    createChart(chartId, chartData) {
+    createChart (chartId, chartData) {
       const ctx = document.getElementById(chartId)
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
         options: chartData.options,
-      });
+      })
     }
   }
 }

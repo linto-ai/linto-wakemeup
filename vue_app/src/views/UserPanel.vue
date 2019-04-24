@@ -169,8 +169,7 @@ export default {
       userAgeRangeValid: false,
       userAgeRangeErrorMsg: '',
       userEmailValid: false,
-      userEmailErrorMsg: '',
-
+      userEmailErrorMsg: ''
     }
   },
   created () {
@@ -179,13 +178,13 @@ export default {
       console.error('error:', err)
     })
   },
-  computed : {
+  computed: {
     userInfos () {
       return this.$store.state.userInfos
     }
   },
   watch: {
-    userInfos: function (data){
+    userInfos: function (data) {
       if(!this.dataLoaded){
         this.nativeFrench = this.$store.state.userInfos.nativeFrench
         if(this.nativeFrench === false){
@@ -195,7 +194,7 @@ export default {
         this.dataLoaded = true
       }
     },
-    nativeFrench: function(data){
+    nativeFrench: function (data) {
       if (data) {
         this.selectedLanguage = 'français'
       } else {
@@ -204,7 +203,7 @@ export default {
     }
   },
   methods: {
-    getCookie(cname) {
+    getCookie (cname) {
       const name = cname + '='
       const ca = document.cookie.split(';')
       for (let i = 0; i < ca.length; i++) {
@@ -222,14 +221,14 @@ export default {
       return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
     },
     toggleNative () {
-      this.nativeFrench === true ? this.nativeFrench=false : this.nativeFrench=true
+      this.nativeFrench = !this.nativeFrench
     },
     setMicrophone (data) {
       this.userInfos.deviceType = data
     },
     checkProfil () {
       let profilValid = true
-      
+
       // Email address
       if (this.userInfos.email.length === 0) {
         this.userEmailValid = 'error'
@@ -244,7 +243,7 @@ export default {
         this.userEmailErrorMsg = ''
       }
 
-       // Gender
+      // Gender
       if (this.userInfos.gender === '') {
         this.userGenderValid = 'error'
         this.userGenderErrorMsg = 'Veuillez sélectionner un sexe'
@@ -263,15 +262,14 @@ export default {
         this.userAgeRangeValid = 'valid'
         this.userAgeRangeErrorMsg = ''
       }
-      
+
       // Native Language
       if (this.nativeFrench) {
         this.selectedLanguage = 'français'
         this.language = this.selectedLanguage
         this.selectedLanguageValid = 'valid'
         this.selectedLanguageErrorMsg = ''
-      }
-      else if (this.selectedLanguage !== '') {
+      } else if (this.selectedLanguage !== '') {
         this.selectedLanguageValid = 'valid'
         this.language = this.selectedLanguage
         this.selectedLanguageErrorMsg = ''
@@ -303,15 +301,12 @@ export default {
           this.$store.dispatch('getUserInfos', this.userInfos.userHash)
         }
       }
-      else {
-        return
-      }
     },
     checkPswd () {
       let pswdFormValid = true
 
       // check current password
-      if (this.currentPswd.length === 0 ) {
+      if (this.currentPswd.length === 0) {
         pswdFormValid = false
         this.currentPswdValid = 'error'
         this.currentPswdErrorMsg = 'Veuillez saisir votre mot de passe actuel'
@@ -321,16 +316,15 @@ export default {
       }
 
       // check new password
-      if (this.newPswd.length === 0 ) {
+      if (this.newPswd.length === 0) {
         pswdFormValid = false
         this.newPswdValid = 'error'
         this.newPswdErrorMsg = 'Veuillez saisir un nouveau mot de passe'
-      } else if (this.newPswd === this.currentPswd ) {
+      } else if (this.newPswd === this.currentPswd) {
         pswdFormValid = false
         this.newPswdValid = 'error'
         this.newPswdErrorMsg = 'Le nouveau mot de passe doit être différent de l\'actuel'
-
-      } else if (this.newPswd.length < 8 ) {
+      } else if (this.newPswd.length < 8) {
         pswdFormValid = false
         this.newPswdValid = 'error'
         this.newPswdErrorMsg = 'Votre mot de passe doit contenir au moins 8 caractères'
@@ -340,11 +334,11 @@ export default {
       }
 
       // check new password confirm
-      if (this.newPswdConfirm.length === 0 ) {
+      if (this.newPswdConfirm.length === 0) {
         pswdFormValid = false
         this.newPswdConfirmValid = 'error'
         this.newPswdConfirmErrorMsg = 'Veuillez confirmer votre nouveau mot de passe'
-      } else if (this.newPswdConfirm != this.newPswd ) {
+      } else if (this.newPswdConfirm !== this.newPswd) {
         pswdFormValid = false
         this.newPswdConfirmValid = 'error'
         this.newPswdConfirmErrorMsg = 'Les mots de passe saisis ne correspondent pas'
@@ -357,7 +351,7 @@ export default {
     },
     async updatePswd () {
       const pswdFormValid = this.checkPswd()
-      if (pswdFormValid) { 
+      if (pswdFormValid) {
         const payload = {
           currentPswd: this.currentPswd,
           newPswd: this.newPswd,
@@ -380,14 +374,12 @@ export default {
             this.currentPswdErrorMsg = 'Le mot de passe saisi est invalide'
           } else {
             bus.$emit('notify_app', {
-            status: updatePswd.status,
-            msg: updatePswd.data.msg,
-            redirect: false
-          })
+              status: updatePswd.status,
+              msg: updatePswd.data.msg,
+              redirect: false
+            })
           }
         }
-      } else {
-        return
       }
     }
   }

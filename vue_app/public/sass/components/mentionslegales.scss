@@ -1,3 +1,4 @@
+/*** FOOTER ***/
 .mentions-legales-container {
   max-width: 920px;
   width: 90%;
@@ -28,15 +29,18 @@
 
     strong {
       font-weight: 600;
-      color: $redChart
+      color: $redChart;
     }
   }
 }
+
+/*** RESPONSIVE ***/
 @media screen and (max-width: 960px) {
   .mentions-legales-container {
     h1 {
       font-size: 24px;
     }
+
     h2 {
       font-size: 18px;
     }

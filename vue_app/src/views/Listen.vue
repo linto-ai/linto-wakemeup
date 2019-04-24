@@ -103,15 +103,15 @@ export default {
     })
   },
   mounted () {
-    if(this.getCookie('wmu_listeninfos') !== 'undefined'){
-      if(this.getCookie('wmu_listeninfos') === 'false'){
+    if (this.getCookie('wmu_listeninfos') !== 'undefined') {
+      if (this.getCookie('wmu_listeninfos') === 'false') {
         this.showInfos = false
       } else if (this.getCookie('wmu_listeninfos') === 'true') {
         this.showInfos = true
       }
     } 
     this.screenWidth = this.getScreenWidth()
-    if(this.screenWidth <= 1280) {
+    if (this.screenWidth <= 1280) {
       this.showInfos = false
     }
     window.addEventListener('resize', () => {
@@ -127,8 +127,8 @@ export default {
     }
   },
   watch: {
-    screenWidth: function(data){
-      if(data <= 1280) {
+    screenWidth: function (data) {
+      if (data <= 1280) {
         this.mobileView = true
       } else {
         this.mobileView = false
@@ -138,17 +138,17 @@ export default {
       this.userHash = this.$store.state.userInfos.userHash
     },
     userHash: function (data) {
-      if(!!this.audios) {
+      if (!!this.audios) {
         this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
       }
     },
     audios: function (data) {
-      if(!!this.userHash) {
+      if (!!this.userHash) {
         this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash)
       }
     },
     userAudios: function (data) {
-      if(data.length > 0) {
+      if (data.length > 0) {
         this.noMoreAudio = false
         this.wakeword = data[0].wakeword
         this.audioFile = '/assets/audios/' + data[0].fieldname
@@ -161,10 +161,10 @@ export default {
     }
   },
   methods: {
-    getScreenWidth(){
+    getScreenWidth () {
       return window.innerWidth
     },
-    toggleInfos() {
+    toggleInfos () {
       this.showInfos = !this.showInfos
       this.setCookie('wmu_listeninfos', this.showInfos, 31)
     },
@@ -188,7 +188,7 @@ export default {
         data: payload
       })
 
-      if(sendVote.data.voteAudio === 'success'){
+      if (sendVote.data.voteAudio === 'success') {
         bus.$emit('notify_app', {
           status: 'success',
           msg: 'Vote pris en compte.',
@@ -202,7 +202,7 @@ export default {
         })
       }
     },
-    getCookie(cname) {
+    getCookie (cname) {
       const name = cname + '='
       const ca = document.cookie.split(';')
       for (let i = 0; i < ca.length; i++) {

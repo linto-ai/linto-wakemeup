@@ -251,7 +251,6 @@ export default {
       }
     },
     checkForm () {
-
       // Email address
       if (this.userEmail.length === 0) {
         this.userEmailValid = 'error'
