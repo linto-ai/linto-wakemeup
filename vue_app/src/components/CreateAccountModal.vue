@@ -22,6 +22,17 @@
           <div class="field-container">
             <div class="field-label">
               <span class="required">*</span>
+              <span class="label">Adresse email:</span>
+            </div>
+            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+            <span
+              class="error-field"
+              :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
+            >{{ userEmailErrorMsg }}</span>
+          </div>
+          <div class="field-container">
+            <div class="field-label">
+              <span class="required">*</span>
               <span class="label">Mot de passe :</span>
               <button class="info-label"></button>
             </div>
@@ -138,15 +149,18 @@ export default {
     return {
       showCreateAccountModal: false,
       deviceType: 'default',
-      userName: "",
+      userName: '',
       userNameValid: false,
-      userNameErrorMsg: "",
-      userPswd: "",
+      userNameErrorMsg: '',
+      userEmail: '',
+      userEmailValid: false,
+      userEmailErrorMsg: '',
+      userPswd: '',
       userPswdValid: false,
-      userPswdErrorMsg: "",
-      userPswdConfirm: "",
+      userPswdErrorMsg: '',
+      userPswdConfirm: '',
       userPswdConfirmValid: false,
-      userPswdConfirmdErrorMsg: "",
+      userPswdConfirmdErrorMsg: '',
       userGender: '',
       userGenderValid: false,
       userGenderErrorMsg: '',
@@ -157,7 +171,7 @@ export default {
       createAccountStatus: '',
       createAccoutMsg: '',
       nativeOn: true,
-      countriesList: ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Cape Verde","Cayman Islands","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cruise Ship","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kuwait","Kyrgyz Republic","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","Norway","Oman","Pakistan","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Satellite","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","South Africa","South Korea","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","St. Lucia","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Uganda","Ukraine","United Arab Emirates","United Kingdom","Uruguay","Uzbekistan","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"],
+      countriesList: ['Afghanistan','Albania','Algeria','Andorra','Angola','Anguilla','Antigua & Barbuda','Argentina','Armenia','Aruba','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bermuda','Bhutan','Bolivia','Bosnia & Herzegovina','Botswana','Brazil','British Virgin Islands','Brunei','Bulgaria','Burkina Faso','Burundi','Cambodia','Cameroon','Cape Verde','Cayman Islands','Chad','Chile','China','Colombia','Congo','Cook Islands','Costa Rica','Cote D Ivoire','Croatia','Cruise Ship','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Estonia','Ethiopia','Falkland Islands','Faroe Islands','Fiji','Finland','France','French Polynesia','French West Indies','Gabon','Gambia','Georgia','Germany','Ghana','Gibraltar','Greece','Greenland','Grenada','Guam','Guatemala','Guernsey','Guinea','Guinea Bissau','Guyana','Haiti','Honduras','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Isle of Man','Israel','Italy','Jamaica','Japan','Jersey','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyz Republic','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Macau','Macedonia','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Mauritania','Mauritius','Mexico','Moldova','Monaco','Mongolia','Montenegro','Montserrat','Morocco','Mozambique','Namibia','Nepal','Netherlands','Netherlands Antilles','New Caledonia','New Zealand','Nicaragua','Niger','Nigeria','Norway','Oman','Pakistan','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Puerto Rico','Qatar','Reunion','Romania','Russia','Rwanda','Saint Pierre & Miquelon','Samoa','San Marino','Satellite','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','St Kitts & Nevis','St Lucia','St Vincent','St. Lucia','Sudan','Suriname','Swaziland','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor L\'Este','Togo','Tonga','Trinidad & Tobago','Tunisia','Turkey','Turkmenistan','Turks & Caicos','Uganda','Ukraine','United Arab Emirates','United Kingdom','Uruguay','Uzbekistan','Venezuela','Vietnam','Virgin Islands (US)','Yemen','Zambia','Zimbabwe'],
       selectedLanguage: '',
       language: 'français',
       selectedLanguageValid: false,
@@ -191,6 +205,9 @@ export default {
     closeModal () {
       this.showCreateAccountModal = false
     },
+    validateEmail (email) {
+      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+    },
     backToLogin () {
       this.showCreateAccountModal = false
       bus.$emit('toggle_connection_modal', () => {})
@@ -200,6 +217,7 @@ export default {
       if (formValid) {
         this.btnCreateAccountLabel = 'Création en cours...'
         const payload = {
+          email:  this.userEmail,
           userName: this.userName,
           pswd: this.userPswd,
           gender: this.userGender,
@@ -233,10 +251,23 @@ export default {
       }
     },
     checkForm () {
+
+      // Email address
+      if (this.userEmail.length === 0) {
+        this.userEmailValid = 'error'
+        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
+      } else if (!this.validateEmail(this.userEmail)){
+        this.userEmailValid = 'error'
+        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
+      } else {
+        this.userEmailValid = 'valid'
+        this.userEmailErrorMsg = ''
+      }
+
       // User Name
       if (this.userName.length === 0) {
         this.userNameValid = 'error'
-        this.userNameErrorMsg = 'Veuillez renseigner une adresse email'
+        this.userNameErrorMsg = 'Veuillez renseigner un nom d\'utilisateur'
       } else {
         this.userNameValid = 'valid'
         this.userNameErrorMsg = ''
@@ -275,7 +306,7 @@ export default {
       }
 
       // Age range
-      if (this.userAge === '') {
+      if (this.userAgeRange === '') {
         this.userAgeRangeValid = 'error'
         this.userAgeRangeErrorMsg = 'Veuillez sélectionner une tranche d\'âge'
       } else {
@@ -302,10 +333,12 @@ export default {
 
       if (
         this.userNameValid === 'valid' && 
+        this.userEmailValid === 'valid' && 
         this.userPswdValid === 'valid' && 
         this.userPswdConfirmValid === 'valid' && 
         this.userGenderValid === 'valid' && 
-        this.selectedLanguageValid === 'valid' && this.userAgeRangeValid === 'valid' ) {
+        this.selectedLanguageValid === 'valid' && 
+        this.userAgeRangeValid === 'valid' ) {
         return true
       } else {
         return false

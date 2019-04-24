@@ -11,7 +11,7 @@
           <div class="field-container">
             <div class="field-label">
               <span class="icon user"></span>
-              <span class="label">Adresse email:</span>
+              <span class="label">Nom d'utilisateur:</span>
             </div>
             <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid  === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
             <span

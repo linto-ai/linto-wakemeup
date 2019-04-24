@@ -7345,6 +7345,8 @@ button {
     .custom-toggle-btn.on .cursor {
       background-color: #fff;
       left: 20px; }
+  .custom-toggle-btn.userpanel {
+    margin-top: 10px; }
   .custom-toggle-btn:hover, .custom-toggle-btn:focus {
     outline: none;
     cursor: pointer; }

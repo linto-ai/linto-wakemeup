@@ -151,6 +151,9 @@ button {
       left: 20px;
     }
   }
+  &.userpanel{
+    margin-top: 10px;
+  }
   &:hover, &:focus{
     outline: none;
     cursor: pointer;

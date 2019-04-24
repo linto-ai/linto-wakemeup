@@ -88,6 +88,7 @@ class modelMongoDb {
         const salt = randomstring.generate(12)
         const userPayload = {
           userName : payload.userName,
+          email: payload.email,
           passwordHash: sha1(payload.pswd + salt),
           salt: salt,
           gender: payload.gender,

@@ -1,6 +1,6 @@
 <template>
-  <div id="page-content" class="h-100">
-    <div class="container-fluid" id="user-panel">
+  <div id="page-content" class="h-100" >
+    <div class="container-fluid" id="user-panel" v-if="dataLoaded">
       <div class="row justify-content-around">
         <div class="col-xl-5 col-lg-6 col-md-12">
           <h2>Informations utilisateur</h2>
@@ -10,17 +10,18 @@
                 <tr>
                   <td class="tab-label">Adresse email :</td>
                   <td class="tab-input">
-                    <input class="input" v-model="userEmail"  :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updateProfil()"/>
-                    <span class="error-field" :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userEmailErrorMsg }}</span>
+                    <input type="text" class="input" v-model="userInfos.email"  :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" />
+                    <span class="error-field" :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ userEmailErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Sexe :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="userInfos.gender" v-on:keyup.13="updateProfil()">
+                    <select class="select" v-model="userInfos.gender" v-on:keyup.13="updateProfil()" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']">
                       <option value="male">Homme</option>
                       <option value="female">Femme</option>
                     </select>
+                    <span class="error-field" :class="[userGenderErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userGenderErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
@@ -42,41 +43,33 @@
                     </div>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-            <div class="spacer"></div>
-            <div class="divider grey"></div>
-            <div class="spacer"></div>
-            <span class="info">Les informations suivantes sont facultatives</span>
-            <table class="user-panel-tab">
-              <tbody>
-                <tr>
-                  <td class="tab-label">Nom :</td>
-                  <td class="tab-input">
-                    <input class="input" v-model="userInfos.lastName" :class="[lastNameValid === 'error' ? 'error' : '', lastNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updateProfil()"/>
-                    <span class="error-field" :class="[lastNameErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ lastNameErrorMsg }}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="tab-label">Prénom :</td>
-                  <td class="tab-input">
-                    <input class="input" v-model="userInfos.firstName" :class="[firstNameValid === 'error' ? 'error' : '', firstNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updateProfil()"/>
-                    <span class="error-field" :class="[firstNameErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ firstNameErrorMsg }}</span>
-                  </td>
-                </tr>
                 <tr>
                   <td class="tab-label">Tranche d'âge :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="userInfos.ageRange" v-on:keyup.13="updateProfil()">
-                      <option value="" hidden>Sélectionner votre tranche d'âge</option>
-                      <option value="10-20">10 - 20 ans</option>
-                      <option value="20-30">20 - 30 ans</option>
-                      <option value="30-40">30 - 40 ans</option>
-                      <option value="40-50">40 - 50 ans</option>
-                      <option value="50-60">50 - 60 ans</option>
-                      <option value="60-70">60 - 70 ans</option>
-                      <option value="70+">70+ ans</option>
+                    <select class="select" v-model="userInfos.ageRange" v-on:keyup.13="updateProfil()" :class="[userAgeRangeValid === 'error' ? 'error' : '', userAgeRangeValid === 'valid' ? 'valid' : '']">
+                      <option value="" hidden>Sélectionner une tranche d'âge</option>
+                      <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
+                      <option value="90+">90+ ans</option>
                     </select>
+                    <span class="error-field" :class="[userAgeRangeErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userAgeRangeErrorMsg }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="tab-label">Je suis français natif :</td>
+                  <td class="tab-input">
+                    <button class="custom-toggle-btn userpanel" @click="toggleNative()" :class="[nativeFrench ? 'on': 'off']">
+                        <span class="cursor" ></span>
+                    </button>
+                  </td>
+                </tr>
+                <tr v-if="!nativeFrench">
+                  <td class="tab-label">Je suis français natif :</td>
+                  <td class="tab-input">
+                    <select class="select" v-model="selectedLanguage" v-on:keyup.13="updateProfil()" :class="[selectedLanguageValid === 'error' ? 'error' : '', selectedLanguageValid === 'valid' ? 'valid' : '']">
+                      <option value="" hidden>Sélectionner une langue maternelle</option>
+                      <option v-for="country in countriesList" :key="country" :value="country" >{{country}}</option>
+                    </select>
+                      <span class="error-field" :class="[selectedLanguageErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ selectedLanguageErrorMsg }}</span>
                   </td>
                 </tr>
                 <tr>
@@ -87,6 +80,7 @@
               </tbody>
             </table>
           </div>
+
           <h2>Modifier le mot de passe</h2>
           <div class="white-container">
             <table class="user-panel-tab">
@@ -146,6 +140,7 @@
         </div>
       </div>
     </div>
+    <div v-else>LOADING</div>
   </div>
 </template>
 <script>
@@ -154,13 +149,6 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
-      userEmail: '',
-      userEmailValid: false,
-      userEmailErrorMsg: '',
-      lastNameValid: false,
-      lastNameErrorMsg: '',
-      firstNameValid: false,
-      firstNameErrorMsg: '',
       currentPswd: '',
       currentPswdValid: false,
       currentPswdErrorMsg: '',
@@ -169,60 +157,130 @@ export default {
       newPswdErrorMsg: '',
       newPswdConfirm: '',
       newPswdConfirmValid: false,
-      newPswdConfirmErrorMsg: ''
+      newPswdConfirmErrorMsg: '',
+      nativeFrench: false,
+      selectedLanguage: '',
+      selectedLanguageValid: true,
+      selectedLanguageErrorMsg: '',
+      dataLoaded: false,
+      countriesList: ['Afghanistan','Albania','Algeria','Andorra','Angola','Anguilla','Antigua & Barbuda','Argentina','Armenia','Aruba','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bermuda','Bhutan','Bolivia','Bosnia & Herzegovina','Botswana','Brazil','British Virgin Islands','Brunei','Bulgaria','Burkina Faso','Burundi','Cambodia','Cameroon','Cape Verde','Cayman Islands','Chad','Chile','China','Colombia','Congo','Cook Islands','Costa Rica','Cote D Ivoire','Croatia','Cruise Ship','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Estonia','Ethiopia','Falkland Islands','Faroe Islands','Fiji','Finland','France','French Polynesia','French West Indies','Gabon','Gambia','Georgia','Germany','Ghana','Gibraltar','Greece','Greenland','Grenada','Guam','Guatemala','Guernsey','Guinea','Guinea Bissau','Guyana','Haiti','Honduras','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Isle of Man','Israel','Italy','Jamaica','Japan','Jersey','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyz Republic','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Macau','Macedonia','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Mauritania','Mauritius','Mexico','Moldova','Monaco','Mongolia','Montenegro','Montserrat','Morocco','Mozambique','Namibia','Nepal','Netherlands','Netherlands Antilles','New Caledonia','New Zealand','Nicaragua','Niger','Nigeria','Norway','Oman','Pakistan','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Puerto Rico','Qatar','Reunion','Romania','Russia','Rwanda','Saint Pierre & Miquelon','Samoa','San Marino','Satellite','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','St Kitts & Nevis','St Lucia','St Vincent','St. Lucia','Sudan','Suriname','Swaziland','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor L\'Este','Togo','Tonga','Trinidad & Tobago','Tunisia','Turkey','Turkmenistan','Turks & Caicos','Uganda','Ukraine','United Arab Emirates','United Kingdom','Uruguay','Uzbekistan','Venezuela','Vietnam','Virgin Islands (US)','Yemen','Zambia','Zimbabwe'],
+      userGenderValid: false,
+      userGenderErrorMsg: '',
+      userAgeRangeValid: false,
+      userAgeRangeErrorMsg: '',
+      userEmailValid: false,
+      userEmailErrorMsg: '',
+
     }
+  },
+  created () {
+    const userCookie = this.getCookie('wmu_user')
+    this.$store.dispatch('getUserInfos', userCookie).then((resp) => {}, error => {
+      console.error('error:', err)
+    })
   },
   computed : {
     userInfos () {
-      this.userEmail = this.$store.state.userInfos.email
       return this.$store.state.userInfos
     }
   },
+  watch: {
+    userInfos: function (data){
+      if(!this.dataLoaded){
+        this.nativeFrench = this.$store.state.userInfos.nativeFrench
+        if(this.nativeFrench === false){
+          this.selectedLanguage = this.$store.state.userInfos.language
+          this.language = this.selectedLanguage
+        }
+        this.dataLoaded = true
+      }
+    },
+    nativeFrench: function(data){
+      if (data) {
+        this.selectedLanguage = 'français'
+      } else {
+        this.selectedLanguage = ''
+      }
+    }
+  },
   methods: {
-    setMicrophone (data) {
-      this.userInfos.deviceType = data
+    getCookie(cname) {
+      const name = cname + '='
+      const ca = document.cookie.split(';')
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1)
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length)
+        }
+      }
+      return ''
     },
     validateEmail (email) {
       return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
     },
-    validateNames (name) {
-      return (/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/.test(name))
+    toggleNative () {
+      this.nativeFrench === true ? this.nativeFrench=false : this.nativeFrench=true
+    },
+    setMicrophone (data) {
+      this.userInfos.deviceType = data
     },
     checkProfil () {
       let profilValid = true
-      // check email
-      if (this.validateEmail(this.userEmail)) {
+      
+      // Email address
+      if (this.userInfos.email.length === 0) {
+        this.userEmailValid = 'error'
+        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
+        profilValid = false
+      } else if (!this.validateEmail(this.userInfos.email)){
+        this.userEmailValid = 'error'
+        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
+        profilValid = false
+      } else {
         this.userEmailValid = 'valid'
         this.userEmailErrorMsg = ''
-      } else {
-        profilValid = false
-        if (this.userInfos.email.length === 0) {
-          this.userEmailValid = 'error'
-          this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
-        } else {
-          this.userEmailValid = 'error'
-          this.userEmailErrorMsg = 'Le format de l\'adresse email est invalide'
-        }
-      }
-      
-      // check lastname
-      if (this.validateNames(this.userInfos.lastName) || this.userInfos.lastName.length === 0) {
-        this.lastNameValid = 'valid'
-        this.lastNameErrorMsg = ''
-      } else {
-        profilValid = false
-        this.lastNameValid = 'error'
-        this.lastNameErrorMsg = 'Veuillez saisir un Nom valide'
       }
 
-      // check firstanme
-       if (this.validateNames(this.userInfos.firstName) || this.userInfos.firstName.length === 0) {
-        this.firstNameValid = 'valid'
-        this.firstNameErrorMsg = ''
+       // Gender
+      if (this.userInfos.gender === '') {
+        this.userGenderValid = 'error'
+        this.userGenderErrorMsg = 'Veuillez sélectionner un sexe'
+        profilValid = false
+      } else {
+        this.userGenderValid = 'valid'
+        this.userGenderErrorMsg = ''
+      }
+
+      // Age range
+      if (this.userInfos.ageRange === '') {
+        this.userAgeRangeValid = 'error'
+        this.userAgeRangeErrorMsg = 'Veuillez sélectionner une tranche d\'âge'
+        profilValid = false
+      } else {
+        this.userAgeRangeValid = 'valid'
+        this.userAgeRangeErrorMsg = ''
+      }
+      
+      // Native Language
+      if (this.nativeFrench) {
+        this.selectedLanguage = 'français'
+        this.language = this.selectedLanguage
+        this.selectedLanguageValid = 'valid'
+        this.selectedLanguageErrorMsg = ''
+      }
+      else if (this.selectedLanguage !== '') {
+        this.selectedLanguageValid = 'valid'
+        this.language = this.selectedLanguage
+        this.selectedLanguageErrorMsg = ''
       } else {
         profilValid = false
-        this.firstNameValid = 'error'
-        this.firstNameErrorMsg = 'Veuillez saisir un Prénom valide'
+        this.selectedLanguage = ''
+        this.language = this.selectedLanguage
+        this.selectedLanguageValid = 'error'
+        this.selectedLanguageErrorMsg = 'Veuillez sélectionner votre langue maternelle'
       }
       return profilValid
     },
@@ -230,15 +288,13 @@ export default {
       const profilValid = this.checkProfil()
       if (profilValid) {
         let payload = this.userInfos
-        payload.email = this.userEmail
+        payload.nativeFrench = this.nativeFrench
+        payload.language = this.language
         const updateUser = await axios(`${process.env.VUE_APP_URL}/api/user`, {
           method: 'put',
           data: payload
         })
         if (updateUser.data.status === 'success') {
-          this.userEmailValid = false
-          this.lastNameValid = false
-          this.firstNameValid = false
           bus.$emit('notify_app', {
             status: 'success',
             msg: 'Vos informations ont été mises à jour',

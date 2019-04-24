@@ -15,17 +15,17 @@ export default new Vuex.Store({
   mutations: {
     SET_USER: (state, data) => {
       state.userInfos = {
+        email: data.email,
         userName: data.userName,
         gender: data.gender,
         deviceType: data.deviceType,
-        firstName: data.firstName,
-        lastName: data.lastName,
         ageRange: data.ageRange,
         nbListen: data.nbListen,
         nbRecord: data.nbRecord,
         userHash: data.userHash,
         recordList: data.recordList,
-        role: data.role
+        nativeFrench: data.nativeFrench,
+        language: data.language,
       }
     },
     SET_SCENARIOS: (state, data) => {
