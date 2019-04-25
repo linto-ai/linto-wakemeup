@@ -8,6 +8,7 @@
           <button @click="backToLogin()" class="back-login-modal"></button>
         </div>
         <div class="modal-body">
+          <div v-if="!accountCreated">
           <div class="field-container">
             <div class="field-label">
               <span class="required">*</span>
@@ -61,7 +62,6 @@
                 <option value="" hidden>Sélectionner un sexe</option>
                 <option value="male">Homme</option>
                 <option value="female">Femme</option>
-                <option value="other">Autre</option>
               </select>
             </div>
             <span
@@ -137,6 +137,16 @@
             <span class="status-field" :class="[createAccountStatus.length > 0 ? 'visible ' + createAccountStatus : 'hidden']">{{ createAccoutMsg }}</span>
           </div>
         </div>
+        <div v-else class="account-success" >
+          <div class="account-success-title">
+            <span class="icon"></span>
+            <span class="label">Votre compte à bien été créé !</span>
+          </div>
+          <div class="account-succes-content">
+            Merci d'avoir créé un compte sur wakemeup.linto.ai. <br/>
+            {{ redirectMessage }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -147,8 +157,20 @@ import { bus } from '../main.js'
 export default {
   data () {
     return {
-      showCreateAccountModal: false,
+      accountCreated: false,
+      btnCreateAccountLabel: 'Créer un compte',
+      countriesList: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla', 'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia & Herzegovina', 'Botswana', 'Brazil', 'British Virgin Islands', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Cape Verde', 'Cayman Islands', 'Chad', 'Chile', 'China', 'Colombia', 'Congo', 'Cook Islands', 'Costa Rica', 'Cote D Ivoire', 'Croatia', 'Cruise Ship', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Estonia', 'Ethiopia', 'Falkland Islands', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Polynesia', 'French West Indies', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyz Republic', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macau', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Rwanda', 'Saint Pierre & Miquelon', 'Samoa', 'San Marino', 'Satellite', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St Kitts & Nevis', 'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga', 'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'],
+      createAccountStatus: '',
+      createAccoutMsg: '',
       deviceType: 'default',
+      formValid: false,
+      language: 'français',
+      nativeOn: true,
+      redirectMessage: 'Vous allez être redirigé dans 3 secondes...',
+      showCreateAccountModal: false,
+      selectedLanguage: '',
+      selectedLanguageValid: false,
+      selectedLanguageErrorMsg: '',
       userName: '',
       userNameValid: false,
       userNameErrorMsg: '',
@@ -167,30 +189,28 @@ export default {
       userAgeRange: '',
       userAgeRangeValid: false,
       userAgeRangeErrorMsg: '',
-      btnCreateAccountLabel: 'Créer un compte',
-      createAccountStatus: '',
-      createAccoutMsg: '',
-      nativeOn: true,
-      countriesList: ['Afghanistan','Albania','Algeria','Andorra','Angola','Anguilla','Antigua & Barbuda','Argentina','Armenia','Aruba','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bermuda','Bhutan','Bolivia','Bosnia & Herzegovina','Botswana','Brazil','British Virgin Islands','Brunei','Bulgaria','Burkina Faso','Burundi','Cambodia','Cameroon','Cape Verde','Cayman Islands','Chad','Chile','China','Colombia','Congo','Cook Islands','Costa Rica','Cote D Ivoire','Croatia','Cruise Ship','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Estonia','Ethiopia','Falkland Islands','Faroe Islands','Fiji','Finland','France','French Polynesia','French West Indies','Gabon','Gambia','Georgia','Germany','Ghana','Gibraltar','Greece','Greenland','Grenada','Guam','Guatemala','Guernsey','Guinea','Guinea Bissau','Guyana','Haiti','Honduras','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Isle of Man','Israel','Italy','Jamaica','Japan','Jersey','Jordan','Kazakhstan','Kenya','Kuwait','Kyrgyz Republic','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Macau','Macedonia','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Mauritania','Mauritius','Mexico','Moldova','Monaco','Mongolia','Montenegro','Montserrat','Morocco','Mozambique','Namibia','Nepal','Netherlands','Netherlands Antilles','New Caledonia','New Zealand','Nicaragua','Niger','Nigeria','Norway','Oman','Pakistan','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Puerto Rico','Qatar','Reunion','Romania','Russia','Rwanda','Saint Pierre & Miquelon','Samoa','San Marino','Satellite','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','South Africa','South Korea','Spain','Sri Lanka','St Kitts & Nevis','St Lucia','St Vincent','St. Lucia','Sudan','Suriname','Swaziland','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor L\'Este','Togo','Tonga','Trinidad & Tobago','Tunisia','Turkey','Turkmenistan','Turks & Caicos','Uganda','Ukraine','United Arab Emirates','United Kingdom','Uruguay','Uzbekistan','Venezuela','Vietnam','Virgin Islands (US)','Yemen','Zambia','Zimbabwe'],
-      selectedLanguage: '',
-      language: 'français',
-      selectedLanguageValid: false,
-      selectedLanguageErrorMsg: ''
     }
   },
   mounted () {
     bus.$on('toggle_create_account_modal', () => {
       this.showCreateAccountModal = true
     })
+    bus.$on('policy_agreement_response', (data) => {
+      if (data) {
+        this.showCreateAccountModal = true
+        this.accountCreated = true
+        this.createAccount()
+      }
+    })
   },
   watch: {
     nativeOn: function (data) {
-      if(data) {
+      if (data) {
         this.language = 'français'
       } 
     },
     selectedLanguage: function (data) {
-      if(!this.nativeOn) {
+      if (!this.nativeOn) {
         this.language = this.selectedLanguage
       }
     }
@@ -210,14 +230,20 @@ export default {
     },
     backToLogin () {
       this.showCreateAccountModal = false
-      bus.$emit('toggle_connection_modal', () => {})
+      bus.$emit('toggle_connection_modal', {})
     },
-    async sendForm () {
-      const formValid = this.checkForm()
-      if (formValid) {
+     sendForm () {
+      this.formValid = this.checkForm()
+      if (this.formValid) {
+        this.showCreateAccountModal = false
+        bus.$emit('show_policy_agreement', {})
+      }
+    },
+    async createAccount () {
+      if (this.formValid) {
         this.btnCreateAccountLabel = 'Création en cours...'
         const payload = {
-          email:  this.userEmail,
+          email: this.userEmail,
           userName: this.userName,
           pswd: this.userPswd,
           gender: this.userGender,
@@ -226,23 +252,28 @@ export default {
           language: this.language,
           nativeFrench: this.nativeOn
         }
-        const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`,{
+        const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`, {
           method: 'post',
           data: payload
         })
         this.createAccountStatus = createUser.data.status
         this.createAccoutMsg = createUser.data.msg
         if (createUser.data.code === 'userExist') {
-          this.userNameValid = 'error'  
+          this.userNameValid = 'error'
           this.userNameErrorMsg = createUser.data.msg
         }
         if (createUser.data.status === 'success') {
           this.btnCreateAccountLabel = 'Succès'
-          this.createAccoutMsg += ', vous allez être redirigé dans 3 sec'
           this.setCookie('wmu_user', createUser.data.userHash)
           setTimeout(() => {
-            document.location.href = '/'
-          },3000)
+            this.redirectMessage = 'Vous allez être redirigé dans 2 secondes...'
+            setTimeout(() => {
+              this.redirectMessage = 'Vous allez être redirigé dans 1 seconde...'
+              setTimeout(() => {
+                document.location.href = '/'
+              }, 1000)
+            }, 1000)
+          }, 1000)
         } else {
           this.btnCreateAccountLabel = 'Créer un compte'
         }
@@ -255,7 +286,7 @@ export default {
       if (this.userEmail.length === 0) {
         this.userEmailValid = 'error'
         this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
-      } else if (!this.validateEmail(this.userEmail)){
+      } else if (!this.validateEmail(this.userEmail)) {
         this.userEmailValid = 'error'
         this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
       } else {
@@ -312,15 +343,14 @@ export default {
         this.userAgeRangeValid = 'valid'
         this.userAgeRangeErrorMsg = ''
       }
-      
+
       // Native Language
       if (this.nativeOn) {
-        this.selectedLanguage = "français"
+        this.selectedLanguage = 'français'
         this.language = this.selectedLanguage
         this.selectedLanguageValid = 'valid'
         this.selectedLanguageErrorMsg = ''
-      }
-      else if (this.selectedLanguage !== '') {
+      } else if (this.selectedLanguage !== '') {
         this.selectedLanguageValid = 'valid'
         this.language = this.selectedLanguage
         this.selectedLanguageErrorMsg = ''
@@ -331,13 +361,13 @@ export default {
       }
 
       if (
-        this.userNameValid === 'valid' && 
-        this.userEmailValid === 'valid' && 
-        this.userPswdValid === 'valid' && 
-        this.userPswdConfirmValid === 'valid' && 
-        this.userGenderValid === 'valid' && 
-        this.selectedLanguageValid === 'valid' && 
-        this.userAgeRangeValid === 'valid' ) {
+        this.userNameValid === 'valid' &&
+        this.userEmailValid === 'valid' &&
+        this.userPswdValid === 'valid' &&
+        this.userPswdConfirmValid === 'valid' &&
+        this.userGenderValid === 'valid' &&
+        this.selectedLanguageValid === 'valid' &&
+        this.userAgeRangeValid === 'valid') {
         return true
       } else {
         return false
@@ -346,18 +376,18 @@ export default {
     setCookie (cname, cvalue, exdays) {
       const d = new Date()
       d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
-      const expires = 'expires='+d.toUTCString()
+      const expires = 'expires=' + d.toUTCString()
       document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
     },
     getCookie (cname) {
       const name = cname + '='
       const ca = document.cookie.split(';')
-      for(let i = 0; i < ca.length; i++) {
+      for (let i = 0; i < ca.length; i++) {
         let c = ca[i]
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
           c = c.substring(1)
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
           return c.substring(name.length, c.length)
         }
       }

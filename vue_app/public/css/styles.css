@@ -8220,6 +8220,9 @@ circle {
   -moz-border-radius: 10px;
   border-radius: 10px;
   padding: 20px; }
+  .modal .modal-container.large {
+    max-width: 100% !important;
+    width: 90% !important; }
 
 .modal-header {
   padding: 20px 0; }
@@ -8258,6 +8261,31 @@ circle {
   .modal-body .content strong {
     font-weight: 600;
     color: #c61e42; }
+
+.account-success {
+  text-align: center; }
+  .account-success .account-success-title {
+    height: 30px; }
+    .account-success .account-success-title > span {
+      display: inline-block;
+      vertical-align: top; }
+    .account-success .account-success-title .icon {
+      height: 30px;
+      background-image: url("../img/notif-icons@2x.png");
+      background-repeat: no-repeat;
+      background-size: 30px 90px;
+      background-position: 0 0; }
+    .account-success .account-success-title .label {
+      font-size: 22px;
+      font-weight: 600;
+      padding: 0 10px;
+      line-height: 30px;
+      color: #2da800; }
+  .account-success .account-success-content {
+    padding: 20px 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px; }
 
 /*** END MODAL ***/
 @media screen and (max-width: 960px) {
@@ -8544,13 +8572,13 @@ circle {
         background-position: 0 -30px; }
     .field-container .field-label .label {
       height: 30px;
-      line-height: 30px;
       font-weight: 400;
       margin-right: 10px; }
     .field-container .field-label .required {
       font-size: 18px;
       font-weight: 400;
-      color: #c61e42; }
+      color: #c61e42;
+      padding-right: 3px; }
 
 .input {
   display: inline-block;

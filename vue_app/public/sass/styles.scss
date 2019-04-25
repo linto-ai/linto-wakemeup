@@ -315,7 +315,6 @@
 
     .label {
       height: 30px;
-      line-height: 30px;
       font-weight: 400;
       margin-right: 10px;
     }
@@ -323,7 +322,8 @@
     .required {
       font-size: 18px;
       font-weight: 400;
-      color: $redChart
+      color: $redChart;
+      padding-right: 3px;
     }
   }
 }

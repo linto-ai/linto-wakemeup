@@ -35,11 +35,13 @@
     </div>
     <ConnectionModal></ConnectionModal>
     <CreateAccountModal></CreateAccountModal>
+    <PolicyAgreementModal></PolicyAgreementModal>
   </div>
 </template>
 <script>
 import ConnectionModal from '@/components/ConnectionModal.vue'
 import CreateAccountModal from '@/components/CreateAccountModal.vue'
+import PolicyAgreementModal from '@/components/PolicyAgreementModal.vue'
 import { bus } from '../main.js'
 export default {
   data () {
@@ -90,7 +92,8 @@ export default {
   },
   components: {
     ConnectionModal,
-    CreateAccountModal
+    CreateAccountModal,
+    PolicyAgreementModal
   }
 }
 </script>

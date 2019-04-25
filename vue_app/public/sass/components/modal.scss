@@ -24,8 +24,14 @@
     @include borderRadius(10px);
     padding: 20px;
 
+    &.large {
+      max-width: 100% !important;
+      width: 90% !important;
+
+    }
   }
 }
+
 .modal-header {
   padding: 20px 0;
 
@@ -67,48 +73,73 @@
   }
 }
 
-.modal-body{
-  .content{
-    font-size: 16px; 
+.modal-body {
+  .content {
+    font-size: 16px;
     line-height: 22px;
 
-    strong{
+    strong {
       font-weight: 600;
       color: $redChart;
 
     }
   }
 }
+
+.account-success {
+  text-align: center;
+
+  .account-success-title {
+    height: 30px;
+
+    &>span {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .icon {
+      height: 30px;
+      background-image: url('../img/notif-icons@2x.png');
+      background-repeat: no-repeat;
+      background-size: 30px 90px;
+      background-position: 0 0;
+    }
+
+    .label {
+      font-size: 22px;
+      font-weight: 600;
+      padding: 0 10px;
+      line-height: 30px;
+      color: $greenChart;
+    }
+  }
+
+  .account-success-content {
+    padding: 20px 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+}
+
 /*** END MODAL ***/
 @media screen and (max-width: 960px) {
-  .modal{
+  .modal {
     font-size: 14px;
-    .modal-container{
+
+    .modal-container {
       width: 90%;
     }
   }
+
   .modal-header {
-    h3{
+    h3 {
       font-size: 18px;
       margin: 0;
     }
   }
-  .field-container .field-label .label{
+
+  .field-container .field-label .label {
     font-size: 14px;
   }
-}
-@media screen and (max-width: 840px) {
-
-}
-@media screen and (max-width: 720px) {
-
-}
-@media screen and (max-width: 600px) {
-
-}
-@media screen and (max-width: 480px) {
-
-}
-@media screen and (max-width: 360px) {
-
 }
