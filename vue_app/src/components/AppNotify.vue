@@ -3,7 +3,7 @@
     <div id="notif-container" :class="status">
       <span  class="notif-line"></span>
       <span class="icon"></span>
-      <span class="label">{{msg}}</span>
+      <span class="label">{{msg}} <br/> {{ redirectMsg }}</span>
     </div>
   </div>
 </template>
@@ -16,7 +16,9 @@ export default {
       msg:'',
       status: '',
       redirect: '',
-      notifHeight: 'height: 0px;'
+      notifHeight: 'height: 0px;',
+      redirectMsg: ''
+
     }
   },
   async mounted () {
@@ -25,19 +27,30 @@ export default {
       this.status = data.status
       this.redirect = data.redirect
       if (this.redirect) {
-        this.msg += ' Vous serez redirigé dans 3sec...'
+        this.redirectMsg = 'Vous serez redirigé dans 3 secondes...'
       }
+
       setTimeout(() => {
         const notifHeight = document.getElementById('notif-container').offsetHeight;
-        this.notifHeight = 'height: '+ (notifHeight + 10) + 'px'
+        this.notifHeight = 'height: '+ (notifHeight + 45) + 'px'
       }, 200)
 
       setTimeout(() => {
-        this.notifHeight = 'height: 0px;'
-        if(this.redirect){
-          document.location.href= this.redirect
+        if (this.redirect) {
+          this.redirectMsg = 'Vous serez redirigé dans 2 secondes...'
         }
-      }, 3000)
+        setTimeout(() => {
+          if (this.redirect) {
+            this.redirectMsg = 'Vous serez redirigé dans 1 seconde...'
+          }
+          setTimeout(() => {
+            this.notifHeight = 'height: 0px;'
+            if (this.redirect) {
+              document.location.href= this.redirect
+            }
+          }, 1000)
+        }, 1000)
+      }, 1000)
     })
   }
 }
