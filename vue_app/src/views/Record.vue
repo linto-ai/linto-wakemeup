@@ -9,7 +9,7 @@
             <div class="notice record">Dans la mesure du possible, l'enregistrement doit se dérouler dans un environnement silencieux afin d'éviter les bruits parasites.</div>
             <div class="content red">
               <p>Bienvenue dans l'interface d'enregistrement de mots-clés.</p>
-              <p>L'enregistrement des mots-clés nécessite qu'un <strong>microphone</strong> soit detecté par votre navigateur. Lors de votre inscription, vous avez du sélectionner un type de périphérique. Vous pouvez mettre à jour ces informations en vous rendant dans l'interface utilisateur.</p>
+              <p>L'enregistrement des mots-clés nécessite qu'un <strong>microphone</strong> soit detecté par votre navigateur. Lors de votre inscription, vous avez du sélectionner un type de périphérique. Vous pouvez mettre à jour ces informations en vous rendant dans l'interface utilisateur en cliquant sur <strong class="green">Mon compte</strong> dans l'onglet utilisateur.</p>
               <p>Les données seront enregistrées de façon <strong>anonyme</strong> et renseignerons uniquement le sexe du locuteur et le type de microphone utilisé. </p>
 
               <p>Chaque mot-clé devra être enregistré 3 fois de suite afin que nous puissions avoir un comparatif des différents échantillons.</p>
@@ -60,7 +60,7 @@
               </div>
             </div>
             <div v-if="!dataReady && allComplete" class="record-complete white-container">
-              Vous n'avez pas de "wake-word" à enregistrer.<br/>
+              Vous n'avez pas de mot-clé à enregistrer.<br/>
               <a href="/">Retour à l'accueil</a>
             </div>
             <div v-if="!dataReady && !allComplete" class="loading">

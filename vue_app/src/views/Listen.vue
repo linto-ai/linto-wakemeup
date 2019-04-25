@@ -67,7 +67,7 @@
               <span class="label">Chargement...</span>
             </div>
             <div v-if="!audiosReady && noMoreAudio" class="record-complete white-container">
-                Vous n'avez pas de "wake-word" à valider.<br/>
+                Vous n'avez pas de mot-clé à valider.<br/>
                 <a href="/">Retour à l'accueil</a>
             </div>
           </div>
