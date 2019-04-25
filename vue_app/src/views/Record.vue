@@ -207,8 +207,8 @@ export default {
     },
     avgVolume: function (data) {
       this.nbBar++
-      this.vizualizerTop.innerHTML += '<span class="visualizer-bar" style="height: ' + (data + 5) + 'px; left: ' + this.nbBar * 6 + 'px;"></span>'
-      this.vizualizerBot.innerHTML += '<span class="visualizer-bar" style="height: ' + (data + 5) + 'px; left: ' + this.nbBar * 6 + 'px;"></span>'
+      this.vizualizerTop.innerHTML += '<span class="visualizer-bar" style="height: ' + (data + 5 >= 40 ? 40 : data + 5) + 'px; left: ' + this.nbBar * 6 + 'px;"></span>'
+      this.vizualizerBot.innerHTML += '<span class="visualizer-bar" style="height: ' + (data + 5 >= 40 ? 40 : data + 5) + 'px; left: ' + this.nbBar * 6 + 'px;"></span>'
     }
   },
   methods: {
@@ -276,6 +276,19 @@ export default {
         this.initRecorder(this.audioConfig)
       }
     },
+    startRecordTimeout () {
+      this.rencordEnded = false
+      setTimeout(() => {
+        if (this.isRecording) {
+          this.stopRecording()
+          bus.$emit('notify_app', {
+            status: 'warning',
+            msg: 'Temps d\'enregistrement dépassé',
+            redirect: false
+          })
+        }
+      }, 3500)
+    },
     startRecording () {
       if(!this.isRecording){
         this.leftchannel = []
@@ -285,6 +298,7 @@ export default {
         this.mediaStream.connect(this.analyser)
         this.analyser.connect(this.recorder)
         this.recorder.connect(this.context.destination)
+        this.startRecordTimeout()
       }
     },
     resetRecording () {
@@ -297,7 +311,7 @@ export default {
     },
     stopRecording () {
       const volumeBarWidth = this.nbBar * 6 + 20
-      this.volumeBarContainer.setAttribute('style', 'width:' + volumeBarWidth + 'px; ')
+      this.volumeBarContainer.setAttribute('style', 'width:' + parseInt(volumeBarWidth + 40) + 'px; ')
       var audio = new Audio()
       this.isRecording = false
       this.recorder.disconnect(this.context.destination)

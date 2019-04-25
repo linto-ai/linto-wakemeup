@@ -7438,6 +7438,12 @@ button {
     background-color: #2da800; }
   #notif-container.success .icon {
     background-position: 0 0; }
+  #notif-container.warning .label {
+    color: #ff9900; }
+  #notif-container.warning .notif-line {
+    background-color: #ff9900; }
+  #notif-container.warning .icon {
+    background-position: 0 -60px; }
 
 /*** APP NOTIFY ***/
 /*** GLOBAL ***/
@@ -8025,6 +8031,8 @@ h3 {
 
 #visualizer {
   width: 100%;
+  max-width: 340px;
+  padding: 0 20px;
   height: 100px;
   margin: 0 auto;
   position: relative;

@@ -267,5 +267,17 @@ button {
       background-position: 0 0;
     }
   }
+
+  &.warning{
+    .label{
+      color: $warning;
+    }
+    .notif-line{
+      background-color: $warning;
+    }
+    .icon{
+      background-position: 0 -60px;
+    }
+  }
 }
 /*** APP NOTIFY ***/
