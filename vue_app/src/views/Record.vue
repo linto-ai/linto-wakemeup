@@ -155,11 +155,17 @@ export default {
     }, 300)
 
     bus.$on('start_recording', () => {
+      this.isRecording = false
       this.startRecording()
     })
     bus.$on('reset_recording', () => {
       this.resetRecording()
     })
+
+    bus.$on('stop_recording', () => {
+      this.stopRecording()
+    })
+
     if (this.getCookie('wmu_recinfos') !== 'undefined') {
       if (this.getCookie('wmu_recinfos') === 'false') {
         this.showInfos = false
@@ -271,23 +277,25 @@ export default {
       }
     },
     startRecording () {
-      this.leftchannel = []
-      this.rightchannel = []
-      this.isRecording = true
-      this.mediaRecorder.start()
-      this.mediaStream.connect(this.analyser)
-      this.analyser.connect(this.recorder)
-      this.recorder.connect(this.context.destination)
+      if(!this.isRecording){
+        this.leftchannel = []
+        this.rightchannel = []
+        this.isRecording = true
+        this.mediaRecorder.start()
+        this.mediaStream.connect(this.analyser)
+        this.analyser.connect(this.recorder)
+        this.recorder.connect(this.context.destination)
+      }
     },
     resetRecording () {
       this.nbBar = 0
+      this.recordingLength = 0
       this.volumeBarContainer.setAttribute('style', 'width: 100%;')
       this.vizualizerTop.innerHTML = ''
       this.vizualizerBot.innerHTML = ''
       bus.$emit('before_recording', {})
     },
     stopRecording () {
-      bus.$emit('stop_recording', {})
       const volumeBarWidth = this.nbBar * 6 + 20
       this.volumeBarContainer.setAttribute('style', 'width:' + volumeBarWidth + 'px; ')
       var audio = new Audio()
@@ -355,9 +363,10 @@ export default {
         nbOutputs: nbOutputs,
         options: this.audioConfig.label
       }
+      bus.$emit('btn_stop_recording', {})
     },
     playRecord () {
-      if (this.blob === null) {
+      if (this.blob === null || this.isPlaying === 'active') {
         return
       }
       this.isPlaying = 'active'

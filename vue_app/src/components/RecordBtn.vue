@@ -32,7 +32,7 @@
 <script>
 import { bus } from '../main.js'
 export default {
-  props: ['wakeword'], 
+  props: ['wakeword'],
   data () {
     return {
       redChart: '#c61e42',
@@ -117,26 +117,31 @@ export default {
     
     this.svgElements = [this.recordBtnShadow, this.recordIcon[0], this.recordIcon[1], this.recordBtnBg, this.nb1, this.nb2, this.nb3, this.svgText]
     
+    bus.$on('btn_stop_recording', () => {
+      this.status = 'notRecording'
+      this.cancelAnimation()
+    })
     bus.$on('stop_recording', () => {
       this.hasRecorded = true
-      this.status = 'notRecording'
     })
 
     bus.$on('before_recording', () => {
       this.status = 'beforeRecording'
     })
+
   },
   methods: {
     clicBtn () {
-      if (this.status === 'notRecording') {
-        
-        this.status = 'beforeRecording'
-      }  else {
-        this.cancelAnimation()
-      }
-
-      if(this.hasRecorded) {
+      if(this.hasRecorded && this.status === 'notRecording') {
         bus.$emit('reset_recording', {})
+      } else {
+        if (this.status === 'notRecording') {
+          this.status = 'beforeRecording'
+        } else if (this.status === 'beforeRecording') {
+          return
+        } else if (this.status === 'recording') {
+          bus.$emit('stop_recording', {})
+        }
       }
     },
     cancelAnimation () {
@@ -151,6 +156,8 @@ export default {
         }
       }
       this.svgText.setAttribute('opacity', 0)
+      this.hasRecorded = true
+      this.status = 'notRecording'
     },
     animateBeforeRecording () {
       for (let i = 0; i < this.recordIcon.length; i++) {
