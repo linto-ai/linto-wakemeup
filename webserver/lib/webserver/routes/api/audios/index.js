@@ -78,7 +78,10 @@ module.exports = (webServer) => {
               status: 'vote',
               options: webAudioInfos.options,
               userVoted: [],
-              gender: userInfos.gender
+              gender: userInfos.gender,
+              ageRange: userInfos.ageRange,
+              nativeFrench: userInfos.nativeFrench,
+              language: userInfos.language
             }
             
             if(filePayload.mimetype == 'audio/wav') {

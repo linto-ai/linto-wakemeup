@@ -423,7 +423,10 @@ export default {
         wakeword: this.wakeword,
         deviceType: this.userInfos.deviceType,
         step: this.step,
-        gender: this.userInfos.gender
+        gender: this.userInfos.gender,
+        ageRange: this.userInfos.ageRange,
+        nativeFrench: this.userInfos.nativeFrench,
+        language: this.userInfos.language
       }
       let formData = new FormData()
       formData.append('webAudioInfos', JSON.stringify(webAudioInfos))
