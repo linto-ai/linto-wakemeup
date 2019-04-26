@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col logo-container">
         <a href="/"><img id="wakemeup-logo" src="/assets/img/wakemeup-logo.svg" alt="Wake Me Up" /></a>
-        <a href="/https://research.linagora.com" target="_blank"><img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" /></a>
+        <a href="https://research.linagora.com" target="_blank"><img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" /></a>
       </div>
       <div class="col links text-center">
         <button data-url='/interface/record' @click="navigate($event)" class="header-link red">S'enregistrer</button>
