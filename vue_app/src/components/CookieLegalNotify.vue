@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { bus } from '../main.js'
+import { bus } from '../main.js'
 export default {
   data () {
     return {

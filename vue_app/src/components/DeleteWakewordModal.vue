@@ -20,7 +20,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { bus } from '../main.js'
+import { bus } from '../main.js'
 export default {
   data () {
     return {

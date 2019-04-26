@@ -5,7 +5,7 @@
         <div class="white-container">
           <h2>Hébergement</h2>
           <p>Le site web <strong>wakemeup.linto.ai</strong> est publié et hébergé par: <br/><br/>
-            <strong>LINAGORA SAS</strong>, une société par actions simplifiée au capital de 1 552 980 €<br/>
+            <strong>LINAGORA SAS</strong>, une société par actions simplifiée au capital de 1 552 980 €<br/>
             Siège social: Tour Franklin, 100 Terrasse Boieldieu, 92800 Puteaux, France<br/>
             SIRET: 431 473 669 00114<br/>
             Code APE: 6202 A<br/>

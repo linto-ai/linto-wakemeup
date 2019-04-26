@@ -377,10 +377,10 @@ export default {
         nbOutputs: nbOutputs,
         options: this.audioConfig.label
       }
-      bus.$emit('btn_stop_recording', {})
+      bus.$emit('btn_stop_recording', {})
     },
     playRecord () {
-      if (this.blob === null || this.isPlaying === 'active') {
+      if (this.blob === null || this.isPlaying === 'active') {
         return
       }
       this.isPlaying = 'active'

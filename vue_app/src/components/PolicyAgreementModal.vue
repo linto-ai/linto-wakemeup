@@ -42,7 +42,7 @@ export default {
       this.showPolicyModal = true
     })
   },
-  methods: {
+  methods: {
     sendAgreement (data) {
       bus.$emit('policy_agreement_response', data)
       this.showPolicyModal = false

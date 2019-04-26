@@ -46,9 +46,9 @@
             <div class="white-container">
               <canvas id="devicesRatio" width="400" height="400">Your browser does not support the canvas element.</canvas>
               <span class="monitoring-datas">
-                Micro par défault: {{ deviceRatio.prctDefault.toFixed(1) }}% <br/>
+                Micro par défault: {{ deviceRatio.prctDefault.toFixed(1) }}% <br/>
                 Micro-casque: {{ deviceRatio.prctHeadphone.toFixed(1) }}% <br/>
-                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}% 
+                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}% 
               </span>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default {
     appStats: function (data) {
       this.appStatsReady = true
     },
-    audios: function (data) {
+    audios: function (data) {
       if (data.length > 0) {
         this.genderRatio = this.$store.getters.GENDER_RATIO
         this.deviceRatio = this.$store.getters.DEVICES_RATIO

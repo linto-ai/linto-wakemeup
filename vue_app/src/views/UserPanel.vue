@@ -123,7 +123,7 @@
                 <h3>Wake-words enregistrés</h3>
                 <div class="stats-container">
                   <span class="icon talk"></span>
-                  <span class="number talk">{{ userInfos.nbRecord }}</span>
+                  <span class="number talk">{{ userInfos.nbRecord }}</span>
                 </div>
                 <a href="/interface/record" class="button red">S'enregistrer</a>
               </div>
@@ -131,7 +131,7 @@
                 <h3>Wake-words écoutés</h3>
                 <div class="stats-container">
                   <span class="icon listen"></span>
-                  <span class="number listen">{{ userInfos.nbListen }}</span>
+                  <span class="number listen">{{ userInfos.nbListen }}</span>
                 </div>
                 <a href="/interface/listen" class="button green">Écouter</a>
               </div>

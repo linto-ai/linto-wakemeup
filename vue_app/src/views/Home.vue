@@ -70,7 +70,7 @@ export default {
     navigate (e) {
       if(!this.userConnected){
         bus.$emit('toggle_connection_modal', {})
-      } else {
+      } else {
         const url = e.target.getAttribute('data-url')
         window.location.href = url
       }

@@ -3,18 +3,18 @@
     <div class="row">
       <div class="col logo-container">
         <a href="/"><img id="wakemeup-logo" src="/assets/img/wakemeup-logo.svg" alt="Wake Me Up" /></a>
-        <img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" />
+        <a href="/https://research.linagora.com" target="_blank"><img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" /></a>
       </div>
       <div class="col links text-center">
         <button data-url='/interface/record' @click="navigate($event)" class="header-link red">S'enregistrer</button>
-        <span class="text-separator"> | </span>
+        <span class="text-separator"> | </span>
         <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
       </div>
       <div class="col user-panel">
         <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Se connecter/S'inscrire</button>
         <div v-if="userConnected" class="user-menu">
           <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']"> 
-            <span class="label">{{ userInfos.userName }}</span>
+            <span class="label">{{ userInfos.userName }}</span>
             <span class="icon"></span>
           </button>
           <div class="user-submenu" :class="[showUserMenu ? 'visible' : 'hidden']">
@@ -80,7 +80,7 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      if(data.role === 'administrator'){ 
+      if(data.role === 'administrator'){ 
         this.isAdmin = true
       }
     }
@@ -109,7 +109,7 @@ export default {
     navigate (e) {
       if(!this.userConnected){
         this.toggleConnectionModal()
-      } else {
+      } else {
         const url = e.target.getAttribute('data-url')
         window.location.href = url
       }

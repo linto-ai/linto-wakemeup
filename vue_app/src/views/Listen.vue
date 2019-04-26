@@ -32,7 +32,7 @@
             <button @click="toggleInfos()" :class="[!showInfos ? 'visible' : 'hidden']" class="showInfos toggle-infos" ></button>
             <div id="player-wrapper" v-if="audiosReady && !noMoreAudio">
               <div class="say-word">
-                <h3>"<span class="word">{{ wakeword }}</span>"</h3>
+                <h3>"<span class="word">{{ wakeword }}</span>"</h3>
               </div>
               <div> 
                 <div class="btn-container">
@@ -78,7 +78,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { bus } from '../main.js'
+import { bus } from '../main.js'
 export default {
   data () {
     return {
@@ -137,7 +137,7 @@ export default {
     userInfos: function (data) {
       this.userHash = this.$store.state.userInfos.userHash
     },
-    userHash: function (data) {
+    userHash: function (data) {
       if (!!this.audios) {
         this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
       }
@@ -148,7 +148,7 @@ export default {
       }
     },
     userAudios: function (data) {
-      if (data.length > 0) {
+      if (data.length > 0) {
         this.noMoreAudio = false
         this.wakeword = data[0].wakeword
         this.audioFile = '/assets/audios/' + data[0].fieldname
@@ -177,7 +177,7 @@ export default {
       })
     },
     async sendVote (vote) {
-      const payload = {
+      const payload = {
         audioId: this.userAudios[0]._id,
         vote: vote, 
         userHash: this.userInfos.userHash,
