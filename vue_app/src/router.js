@@ -25,12 +25,12 @@ export default new Router({
     },
     {
       path: '/interface/record',
-      name: 'Compte utilisateur',
+      name: 'Record',
       component: Record
     },
     {
       path: '/interface/listen',
-      name: 'Compte utilisateur',
+      name: 'Listen',
       component: Listen
     },
     {

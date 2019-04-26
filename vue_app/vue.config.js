@@ -1,8 +1,7 @@
 const path = require('path')
-const fs = require('fs')
+
 module.exports = {
   configureWebpack: config => {
-    config.mode = 'production';
     config.devtool = false;
   },
   outputDir: path.resolve(__dirname, '../webserver/dist'),
@@ -20,5 +19,5 @@ module.exports = {
       title: 'Index Page'
     }
   }
- 
 }
+

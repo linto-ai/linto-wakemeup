@@ -80,6 +80,7 @@ export default {
   },
   watch: {
     userInfos: function (data) {
+      console.log('>', data.role)
       if(data.role === 'administrator'){ 
         this.isAdmin = true
       }

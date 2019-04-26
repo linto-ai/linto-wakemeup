@@ -15,6 +15,7 @@
                   <li>Le mot-clé doit être <strong>clairement audible</strong></li>
                   <li>La commande prononcée doit être <strong>conforme avec la commande écrites au-dessus du player</strong></li>
                   <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du mot-clé</li>
+                </ul>
               </p>
 
               <div class="notice"><h3>Validation d'échantillons audio</h3>

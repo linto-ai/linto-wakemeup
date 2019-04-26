@@ -176,6 +176,16 @@ class modelMongoDb {
   /**************/
   /*** Audios ***/
   /*************/
+  async getAllAudios () {
+    try {
+      
+      const query = { options : 'noOpt'}
+      return await this.mongoRequest('audios', query)
+
+    } catch (err) {
+      console.error(err)
+    }
+  }
   async getAudioVotes (payload) {
     try {
       const query = {

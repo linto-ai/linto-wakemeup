@@ -23,7 +23,7 @@ module.exports = (webServer) => {
       method: 'get',
       requireAuth: true,
       controller: async (req,res,next) => {
-        const audios = await model.getAudioVotes()
+        const audios = await model.getAllAudios()
         res.json({ audios })
       }
     },

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build-app": "npm run build:css && vue-cli-service build",
+    "build-app": "npm run build:css && vue-cli-service build --mode production",
+    "build-dev": "npm run build:css && vue-cli-service build --mode development",
     "lint": "vue-cli-service lint",
     "test": "vue-cli-service build",
     "build:css": "./node_modules/node-sass/bin/node-sass ./public/sass/styles.scss ./public/css/styles.css"

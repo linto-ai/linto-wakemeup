@@ -26,6 +26,7 @@ export default new Vuex.Store({
         recordList: data.recordList,
         nativeFrench: data.nativeFrench,
         language: data.language,
+        role: data.role
       }
     },
     SET_SCENARIOS: (state, data) => {
@@ -67,17 +68,14 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
-    getAudios: async ({
-      commit,
-      state
-    }) => {
+    getAudios: async ({commit, state }) => {
       try {
         const getAudios = await axios(`${process.env.VUE_APP_URL}/api/audios`, {
           method: 'get'
         })
         const audios = getAudios.data.audios
-        
-        commit('SET_AUDIOS', getAudios.data.audios)
+        console.log('STORE:', audios)
+        commit('SET_AUDIOS', audios)
         return state.audios
       } catch (err) {
         console.error(err)
