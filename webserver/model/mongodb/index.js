@@ -178,10 +178,9 @@ class modelMongoDb {
   /*************/
   async getAllAudios () {
     try {
-      
-      const query = { options : 'noOpt'}
-      return await this.mongoRequest('audios', query)
-
+      const query = {}
+      const allAudios=  await this.mongoRequest('audios', query)
+      return allAudios
     } catch (err) {
       console.error(err)
     }

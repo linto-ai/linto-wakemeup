@@ -37,8 +37,14 @@ function isConnected(req, res, next) {
   }
   next()
 }
+
+function isAdmin(req, res, next) {
+  console.log(req.session)
+  next()
+}
 module.exports = {
   checkAuth,
   logger,
+  isAdmin,
   isConnected
 }

@@ -140,7 +140,7 @@
 
   .user-submenu-link {
     display: inline-block;
-    text-align: center;
+    text-align: left;
     width: 100%;
     line-height: 20px;
     padding: 10px 0;
@@ -176,7 +176,7 @@
       background-image: url('../img/user-panel-icons@2x.png');
       background-size: 20px 120px;
       background-repeat: no-repeat;
-      margin: 0 5px;
+      margin: 0 5px 0 10px;
 
       &.user {
         background-position: 0 0;
@@ -254,17 +254,9 @@
 }
 @media screen and (max-width: 960px) {
   #header{
-    & .row > div{
-      &.links{
-        display: none!important;
-      }
-    }
     .button,
     .header-link{
       font-size: 14px;
-    }
-    .mobile-links{
-      display: block;
     }
   }
 }
@@ -276,7 +268,19 @@
 
 }
 @media screen and (max-width: 600px) {
+  #header {
+    & .row .col-4,
+    & .row .col-8 {
+      padding: 0 !important;
+    }
+  }
+  .user-menu{
+    text-align: center;
 
+    .user-submenu{
+      left: -30px;
+    }
+  }
 }
 @media screen and (max-width: 480px) {
 

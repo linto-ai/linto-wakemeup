@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { cpus } from 'os';
 
 Vue.use(Vuex)
 
@@ -74,7 +73,6 @@ export default new Vuex.Store({
           method: 'get'
         })
         const audios = getAudios.data.audios
-        console.log('STORE:', audios)
         commit('SET_AUDIOS', audios)
         return state.audios
       } catch (err) {
@@ -96,6 +94,20 @@ export default new Vuex.Store({
         })
         return validAudios
       } catch (err) {
+        console.error(err)
+      }
+    },
+    NO_OPT_AUDIOS: (state) => {
+      try {
+        let audios = state.audios
+        let noOptAudios = []
+        audios.map(a => {
+          if(a.options === 'noOpt') {
+            noOptAudios.push(a)
+          }
+        })
+        return noOptAudios
+      } catch (err) {
         console.error(err)
       }
     },

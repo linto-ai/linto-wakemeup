@@ -1,0 +1,30 @@
+table.list{
+  width: 90%;
+  padding: 0;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 14px;
+  thead {
+    background-color: $greyUnactive;
+    tr{
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff;
+    }
+    td{
+      font-weight: 600;
+      color: $greyText;
+      border-right: 1px solid #ffffff;
+      border-left: 1px solid #ffffff;
+      vertical-align: middle;
+      padding: 5px;
+    }
+  }
+  tbody {
+    tr td {
+      border: 1px solid #ccc;  
+      vertical-align: middle;
+      padding: 5px;
+    }
+  }
+  
+}

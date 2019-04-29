@@ -1,17 +1,17 @@
 <template>
   <div class="header-container container-fluid">
     <div class="row">
-      <div class="col logo-container">
+      <div class="col-8 col-sm-8 col-md-4 col-lg-4 col-xl-4 logo-container">
         <a href="/"><img id="wakemeup-logo" src="/assets/img/wakemeup-logo.svg" alt="Wake Me Up" /></a>
         <a href="https://research.linagora.com" target="_blank"><img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" /></a>
       </div>
-      <div class="col links text-center">
+      <div class="col-4 d-none d-sm-none d-md-block d-lg-block d-xl-block links text-center">
         <button data-url='/interface/record' @click="navigate($event)" class="header-link red">S'enregistrer</button>
         <span class="text-separator"> | </span>
         <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
       </div>
-      <div class="col user-panel">
-        <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Se connecter/S'inscrire</button>
+      <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 user-panel">
+        <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Connection</button>
         <div v-if="userConnected" class="user-menu">
           <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']"> 
             <span class="label">{{ userInfos.userName }}</span>
@@ -22,7 +22,7 @@
               <span class="icon user"></span>
               <span class="label user">Mon compte</span>
             </a>
-            <div class="mobile-links">
+            <div class="mobile-links d-block d-sm-block d-md-none">
               <a href="/interface/record" class="user-submenu-link">
                 <span class="icon record"></span>
                 <span class="label record">S'enregistrer</span>
@@ -32,13 +32,17 @@
                 <span class="label listen">Écouter</span>
               </a>
             </div>
-             <a href="/interface/scenarios" class="user-submenu-link" v-if="isAdmin">
+             <a href="/admin/scenarios" class="user-submenu-link" v-if="isAdmin">
               <span class="icon wakewords"></span>
               <span class="label wakewords">Scénarios</span>
             </a>
-            <a href="/interface/monitoring" class="user-submenu-link" v-if="isAdmin">
+            <a href="/admin/monitoring" class="user-submenu-link" v-if="isAdmin">
               <span class="icon monitoring"></span>
               <span class="label monitoring">Monitoring</span>
+            </a>
+            <a href="/admin/audio-monitoring" class="user-submenu-link" v-if="isAdmin">
+              <span class="icon wakewords"></span>
+              <span class="label wakewords">Audio monitoring</span>
             </a>
             <a href="/logout" class="user-submenu-link logout">
               <span class="icon logout"></span>
@@ -80,7 +84,6 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      console.log('>', data.role)
       if(data.role === 'administrator'){ 
         this.isAdmin = true
       }

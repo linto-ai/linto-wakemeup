@@ -7626,7 +7626,7 @@ h3 {
     text-align: center; }
   .user-menu .user-submenu-link {
     display: inline-block;
-    text-align: center;
+    text-align: left;
     width: 100%;
     line-height: 20px;
     padding: 10px 0; }
@@ -7648,7 +7648,7 @@ h3 {
       background-image: url("../img/user-panel-icons@2x.png");
       background-size: 20px 120px;
       background-repeat: no-repeat;
-      margin: 0 5px; }
+      margin: 0 5px 0 10px; }
       .user-menu .user-submenu-link .icon.user {
         background-position: 0 0; }
       .user-menu .user-submenu-link .icon.logout {
@@ -7689,13 +7689,18 @@ h3 {
     top: 40px; } }
 
 @media screen and (max-width: 960px) {
-  #header .row > div.links {
-    display: none !important; }
   #header .button,
   #header .header-link {
-    font-size: 14px; }
-  #header .mobile-links {
-    display: block; } }
+    font-size: 14px; } }
+
+@media screen and (max-width: 600px) {
+  #header .row .col-4,
+  #header .row .col-8 {
+    padding: 0 !important; }
+  .user-menu {
+    text-align: center; }
+    .user-menu .user-submenu {
+      left: -30px; } }
 
 /*** HOME - Highlight ***/
 #highlight {
@@ -7775,6 +7780,21 @@ h3 {
     margin-top: 20px;
     padding: 10px 5px;
     width: 80%; } }
+
+@media screen and (max-width: 600px) {
+  #highlight h2,
+  #highlight .highlight-content,
+  #highlight .highlight-action {
+    height: auto;
+    width: 100%;
+    padding: 0;
+    padding: 0;
+    text-align: center; }
+  #highlight .title-icon {
+    display: none; }
+  #highlight .highlight-action .button {
+    margin-top: 0;
+    max-width: 320px; } }
 
 /*** RECORD ***/
 #player-container {
@@ -8355,6 +8375,67 @@ circle {
   .mentions-legales-container h2 {
     font-size: 18px; } }
 
+table.list {
+  width: 90%;
+  padding: 0;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 14px; }
+  table.list thead {
+    background-color: #bdccd4; }
+    table.list thead tr {
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff; }
+    table.list thead td {
+      font-weight: 600;
+      color: #444444;
+      border-right: 1px solid #ffffff;
+      border-left: 1px solid #ffffff;
+      vertical-align: middle;
+      padding: 5px; }
+  table.list tbody tr td {
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    padding: 5px; }
+
+/*** COOKIE NOTIFY ***/
+#cookie-notify {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  background-color: #4c4c4c;
+  position: absolute;
+  top: 100%;
+  z-index: 9;
+  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 18px; }
+  #cookie-notify.active {
+    margin-top: -100px; }
+
+.closeCookieModal {
+  display: inline-block;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: 500;
+  text-decoration: underline; }
+
+/*** END COOKIE NOTIFY ***/
+@media screen and (max-width: 840px) {
+  #cookie-notify {
+    font-size: 12px;
+    line-height: 16px; } }
+
 /*** USER PANEL ***/
 #user-panel {
   padding-bottom: 40px; }
@@ -8512,35 +8593,6 @@ circle {
     padding: 0; }
 
 /***  END LOADING ***/
-/*** COOKIE NOTIFY ***/
-#cookie-notify {
-  width: 100%;
-  text-align: center;
-  color: #fff;
-  background-color: #4c4c4c;
-  position: absolute;
-  top: 100%;
-  z-index: 9;
-  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 0;
-  font-size: 14px;
-  line-height: 18px; }
-  #cookie-notify.active {
-    margin-top: -100px; }
-
-.closeCookieModal {
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  padding-top: 10px;
-  font-weight: 500;
-  text-decoration: underline; }
-
-/*** END COOKIE NOTIFY ***/
 /*** FORM ***/
 .field-container {
   margin: 10px 0;

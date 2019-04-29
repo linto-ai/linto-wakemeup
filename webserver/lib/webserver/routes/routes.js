@@ -21,6 +21,7 @@ const debug = require('debug')('linto-admin:routes')
 module.exports = (webServer) => {
   return {
     "/": require('./home')(webServer),
+    "/admin": require('./admin')(webServer),
     "/api/audios": require('./api/audios')(webServer),
     "/api/user": require('./api/user')(webServer),
     "/api/scenarios": require('./api/scenarios')(webServer),

@@ -79,7 +79,7 @@
 }
 @media screen and (max-width: 960px) {
   #highlight {
-    
+
     .row > .col {
       width: 95% !important;
       float: none;
@@ -124,7 +124,25 @@
 
 }
 @media screen and (max-width: 600px) {
+  #highlight {
 
+    h2,
+    .highlight-content,
+    .highlight-action {
+      height: auto;
+      width: 100%;
+      padding: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .title-icon{
+      display: none;
+    }
+    .highlight-action .button{
+      margin-top: 0;
+      max-width: 320px;
+    }
+  }
 }
 @media screen and (max-width: 480px) {
 

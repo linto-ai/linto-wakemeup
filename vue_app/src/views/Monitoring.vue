@@ -81,16 +81,9 @@ export default {
       return this.$store.state.audios
     }
   },
-  mounted () {
-    setTimeout(() => {
-      console.log(this.$store)
-    }, 2000)
-  },
   created () {
     this.$store.dispatch('getScenarios').then((resp) => {
-      console.log('1 :' ,resp)
       this.$store.dispatch('getAudios').then((resp) => {}, error => {
-        console.log('2 :' ,resp)
         console.error('error:', err)
       })
     }, error => {

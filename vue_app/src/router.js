@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Listen from './views/Listen.vue'
 import MentionsLegales from  './views/MentionsLegales.vue'
+import AudioMonitoring from './views/AudioMonitoring.vue'
 import Monitoring from './views/Monitoring.vue'
 import Record from './views/Record.vue'
 import Scenarios from './views/Scenarios.vue'
@@ -34,14 +35,19 @@ export default new Router({
       component: Listen
     },
     {
-      path: '/interface/scenarios',
+      path: '/admin/scenarios',
       name: 'Ajouter des scenarios',
       component: Scenarios
     },
     {
-      path: '/interface/monitoring',
+      path: '/admin/monitoring',
       name: 'Monitoring',
       component: Monitoring
+    },
+    {
+      path: '/admin/audio-monitoring',
+      name: 'Audio monitoring',
+      component: AudioMonitoring
     },
     {
       path: '/mentions-legales',
