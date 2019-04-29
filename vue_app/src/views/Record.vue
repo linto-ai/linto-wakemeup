@@ -159,6 +159,7 @@ export default {
       this.startRecording()
     })
     bus.$on('reset_recording', () => {
+
       this.resetRecording()
     })
 
@@ -304,6 +305,8 @@ export default {
     resetRecording () {
       this.nbBar = 0
       this.recordingLength = 0
+      this.blob = null
+      this.mediaRecorderblob = null
       this.volumeBarContainer.setAttribute('style', 'width: 100%;')
       this.vizualizerTop.innerHTML = ''
       this.vizualizerBot.innerHTML = ''

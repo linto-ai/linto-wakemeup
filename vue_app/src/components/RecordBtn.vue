@@ -78,14 +78,12 @@ export default {
       }
     },
     windowWidth: function (data) {
-      console.log(data)
       if(data <= 860) {
         this.isMobile = true
       }
       else {
         this.isMobile = false
       }
-      console.log(this.isMobile)
     }
   },
   mounted () {

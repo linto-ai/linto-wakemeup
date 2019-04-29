@@ -1,4 +1,6 @@
 const debug = require('debug')('linto-admin:middlewares')
+const DBmodel = require(`${process.cwd()}/model/${process.env.BDD_TYPE}`)
+const model = new DBmodel()
 
 function isProduction() {
   return process.env.NODE_ENV === 'production'
@@ -38,9 +40,14 @@ function isConnected(req, res, next) {
   next()
 }
 
-function isAdmin(req, res, next) {
-  console.log(req.session)
-  next()
+async function isAdmin(req, res, next) {
+  const userHash = req.session.user
+  const getUser = await model.getUserByHash(userHash)
+  if(getUser[0].role === 'administrator') {
+    next()
+  } else {
+    res.redirect('/')
+  }
 }
 module.exports = {
   checkAuth,
