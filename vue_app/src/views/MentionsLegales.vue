@@ -1,5 +1,6 @@
 <template>
-    <div id="page-content" class="h-100">
+  <div class="h-100">
+    <div id="page-content">
       <div class="mentions-legales-container">
         <h1>Mentions légales - wakemeup.linto.ai</h1>
         <div class="white-container">
@@ -16,12 +17,25 @@
           <p><strong>M. Alexandre ZAPOLSKY</strong>, Président de LINAGORA</p>
           </div>
       </div>
+      
     </div>
+    <ConnectionModal></ConnectionModal>
+    <CreateAccountModal></CreateAccountModal>
+    <PolicyAgreementModal></PolicyAgreementModal>
+  </div>
 </template>
 <script>
+import ConnectionModal from '@/components/ConnectionModal.vue'
+import CreateAccountModal from '@/components/CreateAccountModal.vue'
+import PolicyAgreementModal from '@/components/PolicyAgreementModal.vue'
 export default {
   data () {
     return {}
+  }, 
+  components: {
+    ConnectionModal,
+    CreateAccountModal,
+    PolicyAgreementModal
   }
 }
 </script>
