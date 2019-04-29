@@ -8000,7 +8000,7 @@ h3 {
   text-align: center; }
   .sub-actions-container .action-container {
     display: inline-block;
-    height: 100%;
+    height: 100px;
     width: 80px;
     margin: 0 20px; }
     .sub-actions-container .action-container .btn-player {
@@ -8183,6 +8183,10 @@ svg {
   svg circle:hover,
   svg path:hover {
     cursor: pointer; }
+  .recordBtn-container text,
+  svg text {
+    font-size: 32px;
+    fill: #444444; }
   .recordBtn-container text:hover,
   svg text:hover {
     cursor: default; }
@@ -8208,9 +8212,25 @@ circle {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3); }
 
 /*** END RECORD BUTTON ***/
+/*** RESPONSIVE ***/
 @media screen and (max-width: 840px) {
+  .player-content {
+    padding-bottom: 80px; }
   .player-anim {
-    display: none; } }
+    display: none; }
+  #player-wrapper {
+    width: 90%; }
+    #player-wrapper h3 {
+      font-size: 20px; }
+  .sub-actions-container {
+    height: auto; }
+    .sub-actions-container .action-container {
+      margin: 5px 10px; }
+  .toggle-infos.showInfos {
+    top: 5px;
+    left: 10%; }
+  svg text {
+    font-size: 26px; } }
 
 /*** MODAL ***/
 .modal.visible {

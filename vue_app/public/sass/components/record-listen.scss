@@ -1,4 +1,3 @@
-
 /*** RECORD ***/
 #player-container {
   background-repeat: no-repeat;
@@ -16,7 +15,7 @@
 
 .player-content {
   background-color: #fff;
-  @include boxShadow(0px, 2px, 6px, 2px,rgba(0,0,0,0.2));
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
   overflow: auto;
   padding-bottom: 20px;
 
@@ -72,7 +71,7 @@
         }
       }
     }
-    
+
     &.green {
       strong {
         font-weight: 500;
@@ -86,7 +85,8 @@
       }
     }
   }
-  &.mobile{
+
+  &.mobile {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -268,7 +268,7 @@
 
   .action-container {
     display: inline-block;
-    height: 100%;
+    height: 100px;
     width: 80px;
     margin: 0 20px;
 
@@ -352,7 +352,7 @@
 
 #visualizer {
   width: 100%;
-  max-width:340px;
+  max-width: 340px;
   padding: 0 20px;
   height: 100px;
   margin: 0 auto;
@@ -515,6 +515,7 @@
     background-color: $redChart;
   }
 }
+
 /*** END RECORD ***/
 
 /*** RECORD BUTTON ***/
@@ -526,7 +527,10 @@ svg {
   path:hover {
     cursor: pointer;
   }
-
+  text {
+    font-size: 32px; 
+    fill: $greyText;
+  }
   text:hover {
     cursor: default;
   }
@@ -548,15 +552,48 @@ circle {
   transform-box: fill-box;
   transform-origin: center;
 }
-#recordBtn-bg{
-  @include boxShadow(0, 2px, 4px, 0, rgba(0,0,0,0.3))
+
+#recordBtn-bg {
+  @include boxShadow(0, 2px, 4px, 0, rgba(0, 0, 0, 0.3))
 }
 
 /*** END RECORD BUTTON ***/
 
+/*** RESPONSIVE ***/
 
 @media screen and (max-width: 840px) {
-  .player-anim{
+  .player-content {
+    padding-bottom: 80px;
+  }
+  .player-anim {
     display: none;
+  }
+
+  #player-wrapper {
+    width: 90%;
+    
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  .sub-actions-container {
+    height: auto;
+
+    .action-container {
+      margin: 5px 10px;
+    }
+  }
+
+  .toggle-infos {
+    &.showInfos {
+      top: 5px;
+      left: 10%;
+    }
+  }
+  svg {
+    text {
+      font-size: 26px; 
+    }
   }
 }

@@ -49,7 +49,9 @@ export default {
       nb2: null,
       nb1: null,
       svgElements: [],
-      hasRecorded: false
+      hasRecorded: false,
+      windowWidth: 0,
+      isMobile: false
     }
   },
   watch: {
@@ -74,6 +76,16 @@ export default {
           }
         }, 400)
       }
+    },
+    windowWidth: function (data) {
+      console.log(data)
+      if(data <= 860) {
+        this.isMobile = true
+      }
+      else {
+        this.isMobile = false
+      }
+      console.log(this.isMobile)
     }
   },
   mounted () {
@@ -110,7 +122,12 @@ export default {
       const svgWidth = svgContainer.offsetWidth
       const svgHeight = svgContainer.offsetHeight
       this.nb1.setAttribute('transform-origin', `${svgWidth / 2} ${svgHeight / 2}`)
+      this.windowWidth = this.getWindowWidth()
     }, 500)
+
+    window.addEventListener('resize', () => {
+      this.windowWidth = this.getWindowWidth()
+    })
     
     // Svg text
     this.svgText = document.getElementById('recordBtn-text')
@@ -131,6 +148,9 @@ export default {
 
   },
   methods: {
+    getWindowWidth () {
+      return window.innerWidth
+    },
     clicBtn () {
       if(this.hasRecorded && this.status === 'notRecording') {
         bus.$emit('reset_recording', {})
@@ -156,6 +176,13 @@ export default {
         }
       }
       this.svgText.setAttribute('opacity', 0)
+      if(this.isMobile){
+        for (let i = 0; i < this.recordIcon.length; i++) {
+          this.recordIcon[i].setAttribute('opacity', 1)
+        }
+        this.recordBtnBg.setAttribute('opacity', 1)
+        this.recordBtnShadow.setAttribute('opacity', 1)
+      }
       this.hasRecorded = true
       this.status = 'notRecording'
     },
@@ -182,10 +209,17 @@ export default {
                       this.nb1.setAttribute('transform', `scale(1)`);
                       this.nb2.setAttribute('transform', `scale(1)`);
                       this.nb3.setAttribute('transform', `scale(1)`);
-                      for (let i = 0; i < this.recordIcon.length; i++) {
-                        this.recordIcon[i].setAttribute('opacity', 1)
+                      if (!this.isMobile) {
+                        for (let i = 0; i < this.recordIcon.length; i++) {
+                          this.recordIcon[i].setAttribute('opacity', 1)
+                        }
+                        this.offsetText =  this.svgText.getBBox().width - 20
+                      } else {
+                        this.recordBtnBg.setAttribute('opacity', 0)
+                        this.recordBtnShadow.setAttribute('opacity', 0)
+                        this.offsetText =  this.svgText.getBBox().width 
                       }
-                      this.offsetText =  this.svgText.getBBox().width - 20
+                      
                       for (let j=0; j < this.svgElements.length; j++) {
                         this.svgElements[j].setAttribute('transform', `translate(-${this.offsetText} 0)`)
                       }
