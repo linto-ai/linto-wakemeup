@@ -33,7 +33,6 @@
           <div class="field-container btn">
             <button class="button red large" @click="sendLogin()">S'identifier</button>
           </div>
-          <!-- <button class="aslink">Identifiants oubliés ?</button> -->
           <div class="spacer"></div>
           <div class="divider red"></div>
           <div class="spacer"></div>

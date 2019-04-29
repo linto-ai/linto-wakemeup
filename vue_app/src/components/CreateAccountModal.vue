@@ -9,133 +9,133 @@
         </div>
         <div class="modal-body">
           <div v-if="!accountCreated">
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Nom d'utilisateur:</span>
-            </div>
-            <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-            <span
-              class="error-field"
-              :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userNameErrorMsg }}</span>
-          </div>
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Adresse email:</span>
-            </div>
-            <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-            <span
-              class="error-field"
-              :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userEmailErrorMsg }}</span>
-          </div>
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Mot de passe :</span>
-              <button class="info-label"></button>
-            </div>
-            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-            <span
-              class="error-field"
-              :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userPswdErrorMsg }}</span>
-          </div>
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Confirmation du mot de passe :</span>
-            </div>
-            <input type="password" class="input" v-model="userPswdConfirm" :class="[userPswdConfirmValid === 'error' ? 'error' : '', userPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-            <span
-              class="error-field"
-              :class="[userPswdConfirmdErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userPswdConfirmdErrorMsg }}</span>
-          </div>
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Sexe :</span>
-              <select class="select" v-model="userGender" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-                <option value="" hidden>Sélectionner un sexe</option>
-                <option value="male">Homme</option>
-                <option value="female">Femme</option>
-              </select>
-            </div>
-            <span
-              class="error-field"
-              :class="[userGenderErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userGenderErrorMsg }}</span>
-          </div>
-
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Tranche d'age :</span>
-              <select class="select" v-model="userAgeRange" :class="[userAgeRangeValid === 'error' ? 'error' : '', userAgeRangeValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-                <option value="" hidden>Sélectionner une tranche d'âge</option>
-                <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
-                <option value="90+">90+ ans</option>
-              </select>
-            </div>
-            <span
-              class="error-field"
-              :class="[userAgeRangeErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userAgeRangeErrorMsg }}</span>
-          </div>
-          
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Je suis français natif :</span>
-              <button class="custom-toggle-btn" @click="toggleNative()" :class="[nativeOn ? 'on': 'off']">
-                  <span class="cursor" ></span>
-              </button>
-            </div>
-          </div>
-
-          <div class="field-container" v-show="!nativeOn">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Langue maternelle :</span>
-              
-              <select class="select" v-model="selectedLanguage" v-on:keyup.13="sendForm()" :class="[selectedLanguageValid === 'error' ? 'error' : '', selectedLanguageValid === 'valid' ? 'valid' : '']">
-                <option value="" hidden>Sélectionner une langue maternelle</option>
-                <option v-for="country in countriesList" :key="country" :value="country" >{{country}}</option>
-              </select>
-            </div>
-            <span
-              class="error-field"
-              :class="[selectedLanguageErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ selectedLanguageErrorMsg }}</span>
-          </div>
-
-          <div class="field-container">
-            <div class="field-label">
-              <span class="required">*</span>
-              <span class="label">Type de mircophone (<i>Choix modifiable à posterior</i>):</span>
-            </div>
-            <div class="micro-type-container">
-              <div class="micro-type-item" @click="setMicrophone('default')" :class="[deviceType == 'default' ? 'active' : '']">
-                <span class="icon default"></span>
-                <span class="label">Micro par défaut</span>
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Nom d'utilisateur:</span>
               </div>
-              <div class="micro-type-item" @click="setMicrophone('casque')" :class="[deviceType == 'casque' ? 'active' : '']">
-                <span class="icon casque"></span>
-                <span class="label">Micro-casque</span>
+              <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+              <span
+                class="error-field"
+                :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ userNameErrorMsg }}</span>
+            </div>
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Adresse email:</span>
               </div>
-              <div @click="setMicrophone('pied')" class="micro-type-item" :class="[deviceType == 'pied' ? 'active' : '']">
-                <span class="icon pied"></span>
-                <span class="label">Micro à pied</span>
+              <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+              <span
+                class="error-field"
+                :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ userEmailErrorMsg }}</span>
+            </div>
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Mot de passe :</span>
+                <button class="info-label"></button>
+              </div>
+              <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+              <span
+                class="error-field"
+                :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ userPswdErrorMsg }}</span>
+            </div>
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Confirmation du mot de passe :</span>
+              </div>
+              <input type="password" class="input" v-model="userPswdConfirm" :class="[userPswdConfirmValid === 'error' ? 'error' : '', userPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+              <span
+                class="error-field"
+                :class="[userPswdConfirmdErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ userPswdConfirmdErrorMsg }}</span>
+            </div>
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Sexe :</span>
+                <select class="select" v-model="userGender" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+                  <option value="" hidden>Sélectionner un sexe</option>
+                  <option value="male">Homme</option>
+                  <option value="female">Femme</option>
+                </select>
+              </div>
+              <span
+                class="error-field"
+                :class="[userGenderErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ userGenderErrorMsg }}</span>
+            </div>
+
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Tranche d'age :</span>
+                <select class="select" v-model="userAgeRange" :class="[userAgeRangeValid === 'error' ? 'error' : '', userAgeRangeValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+                  <option value="" hidden>Sélectionner une tranche d'âge</option>
+                  <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
+                  <option value="90+">90+ ans</option>
+                </select>
+              </div>
+              <span
+                class="error-field"
+                :class="[userAgeRangeErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ userAgeRangeErrorMsg }}</span>
+            </div>
+            
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Je suis français natif :</span>
+                <button class="custom-toggle-btn" @click="toggleNative()" :class="[nativeOn ? 'on': 'off']">
+                    <span class="cursor" ></span>
+                </button>
               </div>
             </div>
-          </div>
-          <div class="field-container btn">
-            <button class="button green large" @click="sendForm()">{{ btnCreateAccountLabel }}</button>
-            <span class="status-field" :class="[createAccountStatus.length > 0 ? 'visible ' + createAccountStatus : 'hidden']">{{ createAccoutMsg }}</span>
-          </div>
+
+            <div class="field-container" v-show="!nativeOn">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Langue maternelle :</span>
+                
+                <select class="select" v-model="selectedLanguage" v-on:keyup.13="sendForm()" :class="[selectedLanguageValid === 'error' ? 'error' : '', selectedLanguageValid === 'valid' ? 'valid' : '']">
+                  <option value="" hidden>Sélectionner une langue maternelle</option>
+                  <option v-for="country in countriesList" :key="country" :value="country" >{{country}}</option>
+                </select>
+              </div>
+              <span
+                class="error-field"
+                :class="[selectedLanguageErrorMsg.length > 0 ? 'visible' : 'hidden']"
+              >{{ selectedLanguageErrorMsg }}</span>
+            </div>
+
+            <div class="field-container">
+              <div class="field-label">
+                <span class="required">*</span>
+                <span class="label">Type de mircophone (<i>Choix modifiable à posterior</i>):</span>
+              </div>
+              <div class="micro-type-container">
+                <div class="micro-type-item" @click="setMicrophone('default')" :class="[deviceType == 'default' ? 'active' : '']">
+                  <span class="icon default"></span>
+                  <span class="label">Micro par défaut</span>
+                </div>
+                <div class="micro-type-item" @click="setMicrophone('casque')" :class="[deviceType == 'casque' ? 'active' : '']">
+                  <span class="icon casque"></span>
+                  <span class="label">Micro-casque</span>
+                </div>
+                <div @click="setMicrophone('pied')" class="micro-type-item" :class="[deviceType == 'pied' ? 'active' : '']">
+                  <span class="icon pied"></span>
+                  <span class="label">Micro à pied</span>
+                </div>
+              </div>
+            </div>
+            <div class="field-container btn">
+              <button class="button green large" @click="sendForm()">{{ btnCreateAccountLabel }}</button>
+              <span class="status-field" :class="[createAccountStatus.length > 0 ? 'visible ' + createAccountStatus : 'hidden']">{{ createAccoutMsg }}</span>
+            </div>
         </div>
         <div v-else class="account-success" >
           <div class="account-success-title">
@@ -149,6 +149,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script>

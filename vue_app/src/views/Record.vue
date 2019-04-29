@@ -110,7 +110,7 @@ export default {
       recordingLength: 0,
       recordIsValid: '',
       rightchannel: [],
-      rightBufffer: '',
+      rightBuffer: '',
       sampleRate: 44100,
       screenWidth: 0,
       scenariosLoaded: false,
@@ -278,7 +278,6 @@ export default {
       }
     },
     startRecordTimeout () {
-      this.rencordEnded = false
       setTimeout(() => {
         if (this.isRecording) {
           this.stopRecording()
@@ -292,9 +291,16 @@ export default {
     },
     startRecording () {
       if(!this.isRecording){
+        this.nbBar = 0
+        this.recordingLength = 0
+        this.blob = null
+        this.mediaRecorderblob = null
+        this.mediaRecorderChunk = []
         this.leftchannel = []
         this.rightchannel = []
         this.isRecording = true
+        this.view = null
+        this.buffer = null
         this.mediaRecorder.start()
         this.mediaStream.connect(this.analyser)
         this.analyser.connect(this.recorder)
@@ -303,10 +309,6 @@ export default {
       }
     },
     resetRecording () {
-      this.nbBar = 0
-      this.recordingLength = 0
-      this.blob = null
-      this.mediaRecorderblob = null
       this.volumeBarContainer.setAttribute('style', 'width: 100%;')
       this.vizualizerTop.innerHTML = ''
       this.vizualizerBot.innerHTML = ''
