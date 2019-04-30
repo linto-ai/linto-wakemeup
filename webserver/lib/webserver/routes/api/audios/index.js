@@ -81,7 +81,8 @@ module.exports = (webServer) => {
               gender: userInfos.gender,
               ageRange: userInfos.ageRange,
               nativeFrench: userInfos.nativeFrench,
-              language: userInfos.language
+              language: userInfos.language,
+              recordDate: webAudioInfos.recordDate
             }
             
             if(filePayload.mimetype == 'audio/wav') {

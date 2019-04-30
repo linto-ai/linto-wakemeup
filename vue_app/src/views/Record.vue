@@ -380,7 +380,8 @@ export default {
         nbChannels: nbChannels,
         nbInputs: nbInputs,
         nbOutputs: nbOutputs,
-        options: this.audioConfig.label
+        options: this.audioConfig.label,
+        recordDate: new Date()
       }
       bus.$emit('btn_stop_recording', {})
     },

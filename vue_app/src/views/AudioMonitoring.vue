@@ -21,6 +21,7 @@
               <td @click="filterTab({key:'nbChannels',order:'asc'})" :class="[filterParams.key === 'nbChannels' ? 'active' : '', filterParams.order === 'asc' ? 'asc' : 'desc']">Nb channels</td>
               <td @click="filterTab({key:'nbVotes',order:'asc'})" :class="[filterParams.key === 'nbVotes' ? 'active' : '', filterParams.order === 'asc' ? 'asc' : 'desc']">Nb votes</td>
               <td @click="filterTab({key:'status',order:'asc'})" :class="[filterParams.key === 'status' ? 'active' : '', filterParams.order === 'asc' ? 'asc' : 'desc']">Status</td>
+              <td @click="filterTab({key:'recordDate',order:'asc'})" :class="[filterParams.key === 'recordDate' ? 'active' : '', filterParams.order === 'asc' ? 'asc' : 'desc']">Date d'enregistrement</td>
               <td>Ecouter</td>
             </tr>
           </thead>
@@ -41,6 +42,7 @@
               <td>{{ audio.nbChannels }}</td>
               <td>{{ audio.nbVotes }} (<span class="green">{{ audio.nbValidVote }}</span> / <span class="red">{{ audio.nbInvalidVote}})</span></td>
               <td>{{ audio.status }}</td>
+              <td>{{ audio.recordDate }}</td>
               <td class="listen"><button @click="playSound($event)" :data-url="'/assets/audios/' + audio.fieldname" class="play-button"></button></td>
             </tr>
           </tbody>
