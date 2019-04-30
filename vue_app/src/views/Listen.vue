@@ -150,8 +150,6 @@
       audios: function(data) {
         if (!!this.userHash) {
           this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash)
-          console.log('>', this.userAudios)
-
         }
       },
       userAudios: function(data) {

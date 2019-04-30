@@ -4,6 +4,31 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+function compareValues(param) {
+  return function(a, b) {
+    const key = param.key
+    const order = param.order
+    if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      // property doesn't exist on either object
+      return 0;
+    }
+    const varA = (typeof a[key] === 'string') ?
+      a[key].toUpperCase() : a[key];
+    const varB = (typeof b[key] === 'string') ?
+      b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return (
+      (order == 'desc') ? (comparison * -1) : comparison
+    )
+  }
+}
+
 export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production',
   state: {
@@ -33,6 +58,11 @@ export default new Vuex.Store({
     },
     SET_AUDIOS: (state, data) => {
       state.audios = data
+    }, 
+    SORT_AUDIOS: (state, param) => {
+      let audioList = state.audios
+      let sortTable = audioList.sort(compareValues(param))
+      state.audios = sortTable
     }
   },
   actions: {
@@ -74,6 +104,14 @@ export default new Vuex.Store({
         })
         const audios = getAudios.data.audios
         commit('SET_AUDIOS', audios)
+        return state.audios
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    sortAudios: async ({commit, state}, param) => {
+      try {
+        commit('SORT_AUDIOS', param)
         return state.audios
       } catch (err) {
         console.error(err)
