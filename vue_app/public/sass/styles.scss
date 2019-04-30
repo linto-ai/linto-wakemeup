@@ -264,7 +264,7 @@
       vertical-align: top;
       width: auto;
     }
-    i {
+    i {
       font-size: 14px;
     }
     .icon {
@@ -381,7 +381,7 @@
       height: 80px;
       background-image: url('../img/micro-type@2x.png');
       background-repeat: no-repeat;
-      background-size: 160px 240px;
+      background-size: 160px 320px;
 
       &.default {
         background-position: 0 0;
@@ -393,6 +393,10 @@
 
       &.pied {
         background-position: 0 -160px;
+      }
+
+      &.smartphone {
+        background-position: 0 -240px;
       }
     }
 
@@ -418,6 +422,10 @@
 
         &.pied {
           background-position: -80px -160px;
+        }
+
+        &.smartphone {
+          background-position: -80px -240px;
         }
       }
 

@@ -40,6 +40,10 @@
                         <span class="icon pied"></span>
                         <span class="label">Micro à pied</span>
                       </div>
+                      <div class="micro-type-item" @click="setMicrophone('smartphone')" :class="[userInfos.deviceType === 'smartphone' ? 'active' : '']">
+                        <span class="icon smartphone"></span>
+                        <span class="label">Smartphone</span>
+                      </div>
                     </div>
                   </td>
                 </tr>
