@@ -255,6 +255,14 @@ class modelMongoDb {
       console.error(err)
     }
   }
+
+  async deleteAudio (audioId) {
+    const query = {
+      _id: this.mongoDb.ObjectID(audioId)
+    }
+    const deleteAudio = await this.mongoDelete('audios', query)
+    return deleteAudio
+  }
   /*****************/
   /*** Scenarios ***/
   /*****************/

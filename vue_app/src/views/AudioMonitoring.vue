@@ -23,6 +23,7 @@
               <td @click="filterTab({key:'status',order:'asc'})" :class="[filterParams.key === 'status' ? 'active' : '', filterParams.order === 'asc' ? 'asc' : 'desc']">Status</td>
               <td @click="filterTab({key:'recordDate',order:'asc'})" :class="[filterParams.key === 'recordDate' ? 'active' : '', filterParams.order === 'asc' ? 'asc' : 'desc']">Date d'enregistrement</td>
               <td>Ecouter</td>
+              <td>Supprimer</td>
             </tr>
           </thead>
           <tbody>
@@ -43,73 +44,82 @@
               <td>{{ audio.nbVotes }} (<span class="green">{{ audio.nbValidVote }}</span> / <span class="red">{{ audio.nbInvalidVote}})</span></td>
               <td>{{ audio.status }}</td>
               <td>{{ audio.recordDate }}</td>
-              <td class="listen"><button @click="playSound($event)" :data-url="'/assets/audios/' + audio.fieldname" class="play-button"></button></td>
+              <td class="action"><button @click="playSound($event)" :data-url="'/assets/audios/' + audio.fieldname" class="action-button play"></button></td>
+              <td class="action"><button @click="deleteAudio(audio)" class="action-button delete"></button></td>
             </tr>
           </tbody>
         </table>
-  
       </div>
       <div v-else>
         Loading
       </div>
+      <DeleteAudioModal></DeleteAudioModal>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        dataLoaded: false,
-        audioList: [],
-        audioPlayer: null,
-        isPlaying: false,
-        filterParams: {
-          key: '', 
-          order: ''
-        }
-      }
-    },
-    created() {
-      this.$store.dispatch('getAudios').then((resp) => {}, error => {
-        console.error('error:', err)
-      })
-    },
-    computed: {
-      audios() {
-        return this.$store.state.audios
-      }
-    },
-    watch: {
-      audios: function(data) {
-        this.audioList = data
-        this.dataLoaded = true
-      }
-    },
-    methods: {
-      playSound (event) {
-        const audioNode = event.target
-        const url = audioNode.getAttribute('data-url')
-        if (!this.isPlaying) {
-          audioNode.classList.add('isplaying')
-          this.audioPlayer = new Audio(url);
-          this.audioPlayer.play(url)
-          this.isPlaying = true
-          this.audioPlayer.addEventListener('ended', () => {
-            this.isPlaying = false
-            audioNode.classList.remove('isplaying')
-          })
-        }
-      },
-      filterTab (options) {
-        if(this.filterParams.key === options.key) {
-          this.filterParams.order === 'asc' ? this.filterParams.order = 'desc' : this.filterParams.order = 'asc'
-        } else {
-          this.filterParams.order = options.order
-          this.filterParams.key = options.key
-        }
-        this.$store.dispatch('sortAudios', this.filterParams)
+import DeleteAudioModal from '@/components/DeleteAudioModal.vue'
+import { bus } from '../main.js'
+export default {
+  data() {
+    return {
+      dataLoaded: false,
+      audioList: [],
+      audioPlayer: null,
+      isPlaying: false,
+      filterParams: {
+        key: '', 
+        order: ''
       }
     }
+  },
+  created() {
+    this.$store.dispatch('getAudios').then((resp) => {}, error => {
+      console.error('error:', err)
+    })
+  },
+  computed: {
+    audios() {
+      return this.$store.state.audios
+    }
+  },
+  watch: {
+    audios: function(data) {
+      this.audioList = data
+      this.dataLoaded = true
+    }
+  },
+  methods: {
+    deleteAudio (audio) {
+      bus.$emit('toggle_delete_audio', audio)
+    },
+    playSound (event) {
+      const audioNode = event.target
+      const url = audioNode.getAttribute('data-url')
+      if (!this.isPlaying) {
+        audioNode.classList.add('isplaying')
+        this.audioPlayer = new Audio(url);
+        this.audioPlayer.play(url)
+        this.isPlaying = true
+        this.audioPlayer.addEventListener('ended', () => {
+          this.isPlaying = false
+          audioNode.classList.remove('isplaying')
+        })
+      }
+    },
+    filterTab (options) {
+      if(this.filterParams.key === options.key) {
+        this.filterParams.order === 'asc' ? this.filterParams.order = 'desc' : this.filterParams.order = 'asc'
+      } else {
+        this.filterParams.order = options.order
+        this.filterParams.key = options.key
+      }
+      this.$store.dispatch('sortAudios', this.filterParams)
+    }
+  },
+  components: {
+    DeleteAudioModal
   }
+}
 </script>

@@ -81,8 +81,14 @@
     strong {
       font-weight: 600;
       color: $redChart;
-
     }
+  }
+  .warning {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    font-style: italic;
+    color: $warning;
   }
 }
 

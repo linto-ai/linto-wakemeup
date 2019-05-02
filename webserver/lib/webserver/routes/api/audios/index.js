@@ -2,6 +2,7 @@ const debug = require('debug')('linto-admin:api')
 const DBmodel = require(`${process.cwd()}/model/${process.env.BDD_TYPE}`)
 const model = new DBmodel()
 const multer = require('multer')
+const fs = require('fs')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -125,6 +126,42 @@ module.exports = (webServer) => {
           })
         }
       ]
+    },
+    {
+      path: '/delete',
+      method: 'delete',
+      requireAuth: true,
+      controller: [
+        async (req, res, next) => {
+          try {
+            const audioId = req.body.audioId
+            const audioName = req.body.fieldname
+            const audioUrl = `${process.cwd()}/uploads/${audioName}` 
+            let deleteFile = false
+            
+            fs.unlink(audioUrl, (err) => {
+              if(err) {
+                console.err(err)
+              } else {
+                deleteFile = true
+              }
+            })
+            if (deleteFile) {
+              const deleteAudioFile = await model.deleteAudio(audioId)
+              if(deleteAudioFile === 'success') {
+                res.json({status: 'success', msg: 'Le fichier audio a été supprimé'})
+              } else {
+                res.json({status: 'error', msg: 'error on deleting audio file from database'})
+              }
+            } else {
+              res.json({status: 'error', msg: 'error on deleting audio file from server'})
+            }
+          } catch (err) { 
+            console.error (err)
+            res.json({status: 'error', msg: 'error on deleting audio file'})
+          }
+        } 
+      ] 
     }
   ]
 }

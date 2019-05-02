@@ -43,26 +43,38 @@ table.list{
       vertical-align: middle;
       padding: 5px;
 
-      &.listen {
+      &.action {
         text-align: center;
       }
     }
-    .play-button {
+    .action-button {
       display: inline-block;
       width: 30px;
       height: 30px;
       vertical-align: middle;
-      background-image: url('../img/play@2x.png');
-      background-size: 30px 90px;
       background-repeat: no-repeat;
       background-position: 0 0;
 
-      &:hover{
-        background-position: 0 -30px;
+      &.play {
+        background-image: url('../img/play@2x.png');
+        background-size: 30px 90px;
+
+        &:hover{
+          background-position: 0 -30px;
+        }
+        
+        &.isplaying,
+        &.isplaying:hover{
+          background-position: 0 -60px
+        }
       }
-      &.isplaying,
-      &.isplaying:hover{
-        background-position: 0 -60px
+      &.delete{
+        background-image: url('../img/delete-icon@2x.png');
+        background-size: 30px 60px;
+
+        &:hover{
+          background-position: 0 -30px;
+        }
       }
     }
   }

@@ -8300,6 +8300,13 @@ circle {
     font-weight: 600;
     color: #c61e42; }
 
+.modal-body .warning {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  font-style: italic;
+  color: #ff9900; }
+
 .account-success {
   text-align: center; }
   .account-success .account-success-title {
@@ -8430,21 +8437,27 @@ table.list {
     border: 1px solid #ccc;
     vertical-align: middle;
     padding: 5px; }
-    table.list tbody tr td.listen {
+    table.list tbody tr td.action {
       text-align: center; }
-  table.list tbody .play-button {
+  table.list tbody .action-button {
     display: inline-block;
     width: 30px;
     height: 30px;
     vertical-align: middle;
-    background-image: url("../img/play@2x.png");
-    background-size: 30px 90px;
     background-repeat: no-repeat;
     background-position: 0 0; }
-    table.list tbody .play-button:hover {
-      background-position: 0 -30px; }
-    table.list tbody .play-button.isplaying, table.list tbody .play-button.isplaying:hover {
-      background-position: 0 -60px; }
+    table.list tbody .action-button.play {
+      background-image: url("../img/play@2x.png");
+      background-size: 30px 90px; }
+      table.list tbody .action-button.play:hover {
+        background-position: 0 -30px; }
+      table.list tbody .action-button.play.isplaying, table.list tbody .action-button.play.isplaying:hover {
+        background-position: 0 -60px; }
+    table.list tbody .action-button.delete {
+      background-image: url("../img/delete-icon@2x.png");
+      background-size: 30px 60px; }
+      table.list tbody .action-button.delete:hover {
+        background-position: 0 -30px; }
 
 /*** COOKIE NOTIFY ***/
 #cookie-notify {
