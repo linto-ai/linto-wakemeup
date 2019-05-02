@@ -1,0 +1,93 @@
+/*** USER PANEL ***/
+#user-panel {
+  padding-bottom: 40px;
+}
+
+.col.user-stats:first-child {
+  border-right: 1px solid #ccc;
+}
+
+.user-stats {
+  .stats-container {
+    height: 60px;
+    text-align: center;
+    margin-bottom: 40px;
+
+    &>span {
+      display: inline-block;
+      height: 60px;
+      vertical-align: top;
+    }
+
+    .number {
+      font-size: 34px;
+      font-weight: 500;
+      line-height: 60px;
+
+      &.talk {
+        color: $redChart;
+      }
+
+      &.listen {
+        color: $greenChart;
+      }
+    }
+
+    .icon {
+      width: 60px;
+      margin-right: 10px;
+      background-image: url('../img/stats-icons@2x.png');
+      background-size: 60px 120px;
+      background-repeat: no-repeat;
+
+      &.talk {
+        background-position: 0 0;
+      }
+
+      &.listen {
+        background-position: 0 -60px;
+      }
+    }
+  }
+}
+/*** END USER PANEL ***/
+/*** TABLE USER PANEL ***/
+.user-panel-tab {
+  width: 100%;
+
+  tr td {
+    vertical-align: top;
+    padding: 0 0 20px 0;
+  }
+
+  td.tab-label {
+    text-align: right;
+    font-size: 14px;
+    padding: 10px 10px 0 0;
+    width: 30%;
+    font-weight: 500;
+  }
+
+  td.tab-input {
+    text-align: left;
+    margin-left: 10px;
+    width: 70%;
+    max-width: 460px;
+
+    .micro-type-container {
+      text-align: left;
+    }
+  }
+}
+
+.info {
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
+  color: #999999;
+  font-style: italic;
+  text-align: left;
+  padding: 10px 0;
+}
+
+/*** END TABLE USER PANEL ***/

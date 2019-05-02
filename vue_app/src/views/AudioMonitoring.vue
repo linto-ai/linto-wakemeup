@@ -1,7 +1,7 @@
 <template>
   <div class="h-100 ">
     <div id="page-content">
-      <div v-if="dataLoaded" class="container-fluid">
+      <div v-if="dataLoaded" class="container-fluid" id="audio-monitoring">
         <h2>Liste des audios enregistés</h2>
         <table class="list">
           <thead>
