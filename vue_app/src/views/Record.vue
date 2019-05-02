@@ -21,7 +21,7 @@
                   <li>Cliquez sur le bouton "<strong>enregistrer</strong>" afin de commencer la captation. Un compte à rebourd démarrera pour vous indiquer quand parler.</li>
                   <li><strong>Prononcez la commande</strong>. La captation s'arrêtera automatiquement après avoir détecté un silence.</li>
                   <li>Après avoir enregistré votre voix, vous pourrez <strong>réécouter</strong> votre enregistrement, et le <strong>recommencer</strong> si nécessaire.</li>
-                  <li> Si votre enregistrement vous semble valide, cliquez sur le bouton "<strong>valider</strong>" pour le confirmer et passer à un nouvel enregistrement.</li>
+                  <li> Si votre enregistrement vous semble pas valide, cliquez sur le bouton "<strong>valider</strong>" pour le confirmer et passer à un nouvel enregistrement.</li>
                 </ul>
               </div>
             </div>

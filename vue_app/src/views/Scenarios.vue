@@ -4,12 +4,12 @@
       <div class="container-fluid" id="user-panel" v-if="isAdmin && scenariosLoaded" >
         <div class="row justify-content-around">
           <div class="col-xl-5 col-lg-6 col-md-12">
-            <h2>Ajouter un wakeword</h2>
+            <h2>Ajouter un mot-clé</h2>
             <div class="white-container">
               <table class="user-panel-tab">
                   <tbody>
                     <tr>
-                      <td class="tab-label">Wakeword :</td>
+                      <td class="tab-label">Mot-clé :</td>
                       <td class="tab-input">
                         <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']" v-on:keyup.13="addWakeword(wakeword)"/>
                         <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ wakewordErrorMsg }}</span>
@@ -17,7 +17,7 @@
                     </tr>
                     <tr>
                       <td colspan="2" style="padding-top:10px;">
-                        <button class="button green large" @click="addWakeword(wakeword)">Ajouter un wakeword</button>
+                        <button class="button green large" @click="addWakeword(wakeword)">Ajouter un mot-clé</button>
                       </td>
                     </tr>
                   </tbody>
@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="col-xl-5 col-lg-6 col-md-12">
-            <h2>Wakewords existants</h2>
+            <h2>Mots-clés existants</h2>
             <div class="white-container">
               <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
                 <span class="wakeword">{{ ww.wakeword }}</span>

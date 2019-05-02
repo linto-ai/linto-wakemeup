@@ -3,12 +3,11 @@
     <div class="modal" :class="[showModal ? 'visible' : 'hidden']">
       <div class="modal-container">
         <div class="modal-header">
-          <h3 class="modal-title red">Supprimer un wakeword</h3>
+          <h3 class="modal-title red">Supprimer un mot-clé</h3>
           <button @click="closeModal" class="close-modal"></button>
         </div>
         <div class="modal-body">
-          <p class="content">Êtes-vous sûr de vouloir supprimer le wakeword "<strong>{{ wakeword }}</strong>" des scénarios d'enregistrement ?</p>
-
+          <p class="content">Êtes-vous sûr de vouloir supprimer le mot-clé "<strong>{{ wakeword }}</strong>" des scénarios d'enregistrement ?</p>
           <div class="modal-footer">
             <button class="button grey" @click="closeModal()">Annuler</button>
             <button class="button red" @click="deleteWakeword(wakeword)">Supprimer</button>
@@ -41,13 +40,13 @@ export default {
         bus.$emit('wakeword_deleted', {})
         bus.$emit('notify_app', {
           status: 'success',
-          msg: 'Wakeword supprimé avec succès.',
+          msg: 'Mot-clé supprimé avec succès.',
           redirect: false
         })
     } else {
         bus.$emit('notify_app', {
           status: 'error',
-          msg: 'Erreur lors de la suppression du wakeword',
+          msg: 'Erreur lors de la suppression du mot-clé',
           redirect: false
         })
       }

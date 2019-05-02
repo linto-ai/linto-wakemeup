@@ -9,7 +9,6 @@
 </template>
 <script>
 import { bus } from '../main'
-
 export default {
   data () {
     return {
@@ -18,7 +17,6 @@ export default {
       redirect: '',
       notifHeight: 'height: 0px;',
       redirectMsg: ''
-
     }
   },
   async mounted () {
@@ -34,7 +32,6 @@ export default {
         const notifHeight = document.getElementById('notif-container').offsetHeight;
         this.notifHeight = 'height: '+ (notifHeight + 45) + 'px'
       }, 200)
-
       setTimeout(() => {
         if (this.redirect) {
           this.redirectMsg = 'Vous serez redirigé dans 2 secondes...'

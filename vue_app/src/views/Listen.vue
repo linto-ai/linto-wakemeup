@@ -102,12 +102,12 @@
         mobileView: false
       }
     },
-    created() {
+    created () {
       this.$store.dispatch('getAudios').then((resp) => {}, error => {
         console.error('error:', err)
       })
     },
-    mounted() {
+    mounted () {
       if (this.getCookie('wmu_listeninfos') !== 'undefined') {
         if (this.getCookie('wmu_listeninfos') === 'false') {
           this.showInfos = false
@@ -132,22 +132,22 @@
       }
     },
     watch: {
-      screenWidth: function(data) {
+      screenWidth: function (data) {
         if (data <= 1280) {
           this.mobileView = true
         } else {
           this.mobileView = false
         }
       },
-      userInfos: function(data) {
+      userInfos: function (data) {
         this.userHash = this.$store.state.userInfos.userHash
       },
-      userHash: function(data) {
+      userHash: function (data) {
         if (!!this.audios) {
           this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
         }
       },
-      audios: function(data) {
+      audios: function (data) {
         if (!!this.userHash) {
           this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash)
         }
@@ -166,14 +166,14 @@
       }
     },
     methods: {
-      getScreenWidth() {
+      getScreenWidth () {
         return window.innerWidth
       },
-      toggleInfos() {
+      toggleInfos () {
         this.showInfos = !this.showInfos
         this.setCookie('wmu_listeninfos', this.showInfos, 31)
       },
-      playAudio() {
+      playAudio () {
         this.isPlaying = 'active'
         this.playerAudio.play()
         this.playerAudio.addEventListener('ended', () => {
@@ -181,7 +181,7 @@
           this.audioHasBeenListen = true
         })
       },
-      async sendVote(vote) {
+      async sendVote (vote) {
         const payload = {
           audioId: this.userAudios[0]._id,
           vote: vote,
@@ -207,7 +207,7 @@
           })
         }
       },
-      getCookie(cname) {
+      getCookie (cname) {
         const name = cname + '='
         const ca = document.cookie.split(';')
         for (let i = 0; i < ca.length; i++) {
@@ -221,7 +221,7 @@
         }
         return ''
       },
-      setCookie(cname, cvalue, exdays) {
+      setCookie (cname, cvalue, exdays) {
         const d = new Date()
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
         const expires = 'expires=' + d.toUTCString()

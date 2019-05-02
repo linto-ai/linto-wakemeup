@@ -115,7 +115,7 @@
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Type de mircophone (<i>Choix modifiable à posterior</i>):</span>
+                <span class="label">Type de mircophone (<i>Choix modifiable à posteriori</i>):</span>
               </div>
               <div class="micro-type-container">
                 <div class="micro-type-item" @click="setMicrophone('default')" :class="[deviceType == 'default' ? 'active' : '']">

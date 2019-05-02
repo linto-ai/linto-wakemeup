@@ -85,7 +85,7 @@ export default {
     }
   },
   watch: {
-    audios: function(data) {
+    audios: function (data) {
       this.audioList = data
       this.dataLoaded = true
     }
@@ -97,7 +97,7 @@ export default {
     playSound (event) {
       const audioNode = event.target
       const url = audioNode.getAttribute('data-url')
-      if (!this.isPlaying) {
+      if (!this.isPlaying) {
         audioNode.classList.add('isplaying')
         this.audioPlayer = new Audio(url);
         this.audioPlayer.play(url)
@@ -109,7 +109,7 @@ export default {
       }
     },
     filterTab (options) {
-      if(this.filterParams.key === options.key) {
+      if (this.filterParams.key === options.key) {
         this.filterParams.order === 'asc' ? this.filterParams.order = 'desc' : this.filterParams.order = 'asc'
       } else {
         this.filterParams.order = options.order
