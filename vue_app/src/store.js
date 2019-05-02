@@ -125,7 +125,7 @@ export default new Vuex.Store({
         let validAudios = []
         audios.map(a => {
           if (a.author !== userHash && !!a.userVoted) {
-            if (a.userVoted.indexOf(userHash) < 0 && a.options === 'noOpt' && a.mimetype === 'audio/wav') {
+            if (a.userVoted.indexOf(userHash) < 0 && a.options === 'noOpt' && a.mimetype === 'audio/wav' && a.status === 'vote') {
               validAudios.push(a)
             }
           }

@@ -3,6 +3,7 @@ const MONGODB_DBNAME = process.env.MONGODB_DBNAME
 const sha1 = require('sha1')
 const randomstring = require('randomstring')
 const mongoDb = require("mongodb")
+const fs = require('fs')
 let urlMongo = 'mongodb://'
 if (process.env.MONGODB_USER) {
   urlMongo += process.env.MONGODB_USER + ':' + process.env.MOGODB_PSWD + '@'
@@ -11,6 +12,28 @@ urlMongo += process.env.MONGODB_HOST + ':' + process.env.MONGODB_PORT + '/'
 if (process.env.MONGODB_USER) {
   urlMongo += '?authSource=' + process.env.MONGODB_DBNAME
 }
+
+
+const moveFile = function (file) {
+  //gets file name and adds it to dir2
+  const status = file.status
+  const newPath = file.destination + '/' + status + '/' + file.fieldname
+  fs.rename(file.path, newPath, (err)=>{
+    if(err) {
+      console.error(err)
+      return {
+        status: 'error',
+        error: err
+      }
+    }
+  })
+  return {
+    status: 'success',
+    path: newPath, 
+    dest: file.destination + '/' + status
+  }
+}
+
 class modelMongoDb {
   constructor() {
     this.mongoDb = mongoDb
@@ -218,6 +241,7 @@ class modelMongoDb {
     try{
       const getAudio = await this.getAudioById(payload.audioId)
       const getUser = await this.getUserByHash(payload.userHash)
+      let fileMove = null
       let user = getUser[0]
       let audioPayload = getAudio[0]
 
@@ -242,10 +266,21 @@ class modelMongoDb {
       if(!!audioPayload._id){
         delete audioPayload._id
       }
+
+      if(audioPayload.status !== 'vote') {
+        fileMove = moveFile(audioPayload)
+
+        if(fileMove.status === 'success') {
+          audioPayload.path = fileMove.path
+          audioPayload.destination = fileMove.dest
+        } else {
+          return 'error on moving file'
+        }
+      }
       const updateAudio = await this.mongoUpdate('audios', audioQuery, audioPayload)
       const updateUser = await this.updateUser(user)
       const updateScenarios =  await this.updateScenario({wakeword: payload.wakeword, action: 'increment_listen'})
-      
+
       if(updateAudio === 'success' && updateUser === 'success' && updateScenarios === 'success'){
         return 'success'
       } else {
