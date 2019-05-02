@@ -7636,16 +7636,15 @@ h3 {
     .user-menu .user-submenu-link .label {
       line-height: 20px;
       font-size: 14px;
-      font-weight: 500; }
-      .user-menu .user-submenu-link .label.user, .user-menu .user-submenu-link .label.wakewords, .user-menu .user-submenu-link .label.monitoring, .user-menu .user-submenu-link .label.record, .user-menu .user-submenu-link .label.listen {
-        color: #2da800; }
+      font-weight: 500;
+      color: #444444; }
       .user-menu .user-submenu-link .label.logout {
         color: #c61e42; }
     .user-menu .user-submenu-link .icon {
       width: 20px;
       height: 20px;
       background-image: url("../img/user-panel-icons@2x.png");
-      background-size: 20px 120px;
+      background-size: 40px 140px;
       background-repeat: no-repeat;
       margin: 0 5px 0 10px; }
       .user-menu .user-submenu-link .icon.user {
@@ -7660,10 +7659,28 @@ h3 {
         background-position: 0 -80px; }
       .user-menu .user-submenu-link .icon.listen {
         background-position: 0 -100px; }
+      .user-menu .user-submenu-link .icon.audio-monitoring {
+        background-position: 0 -120px; }
     .user-menu .user-submenu-link:hover {
       background: #f2f2f2; }
       .user-menu .user-submenu-link:hover .label {
-        text-decoration: underline; }
+        color: #2da800; }
+        .user-menu .user-submenu-link:hover .label.logout {
+          color: #c61e42; }
+      .user-menu .user-submenu-link:hover .icon.user {
+        background-position: -20px 0; }
+      .user-menu .user-submenu-link:hover .icon.logout {
+        background-position: -20px -20px; }
+      .user-menu .user-submenu-link:hover .icon.wakewords {
+        background-position: -20px -40px; }
+      .user-menu .user-submenu-link:hover .icon.monitoring {
+        background-position: -20px -60px; }
+      .user-menu .user-submenu-link:hover .icon.record {
+        background-position: -20px -80px; }
+      .user-menu .user-submenu-link:hover .icon.listen {
+        background-position: -20px -100px; }
+      .user-menu .user-submenu-link:hover .icon.audio-monitoring {
+        background-position: -20px -120px; }
 
 /*** END HEADER ***/
 @media screen and (max-width: 1024px) {

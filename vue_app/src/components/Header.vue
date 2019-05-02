@@ -41,8 +41,8 @@
               <span class="label monitoring">Monitoring</span>
             </a>
             <a href="/admin/audio-monitoring" class="user-submenu-link" v-if="isAdmin">
-              <span class="icon wakewords"></span>
-              <span class="label wakewords">Audio monitoring</span>
+              <span class="icon audio-monitoring"></span>
+              <span class="label audio-monitoring">Audio monitoring</span>
             </a>
             <a href="/logout" class="user-submenu-link logout">
               <span class="icon logout"></span>
