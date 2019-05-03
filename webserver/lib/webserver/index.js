@@ -38,7 +38,7 @@ class WebServer extends EventEmitter {
       secret: 'hippopoceros',
       cookie: {
         secure: false,
-        maxAge: 604800 // 7 days
+        maxAge: 60*60*3*1000 // 3 hours
       }
     }
     // Redis store if "production"
