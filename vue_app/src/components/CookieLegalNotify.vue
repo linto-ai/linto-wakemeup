@@ -42,7 +42,7 @@ export default {
     },
     closeModal () {
       this.cookieLegalShow = false
-      this.setCookie('wmu_legals', 'on', 310)
+      this.setCookie('wmu_legals', 'on', 365)
     },
     setCookie (cname, cvalue, exdays) {
       const d = new Date()

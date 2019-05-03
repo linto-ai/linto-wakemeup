@@ -7,7 +7,6 @@
     <transition>
       <keep-alive>
         <router-view></router-view>
-        
       </keep-alive>
     </transition>
     <FooterApp></FooterApp>
@@ -36,10 +35,10 @@ export default {
       const ca = document.cookie.split(';')
       for(let i = 0; i < ca.length; i++) {
         let c = ca[i]
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
           c = c.substring(1)
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
           return c.substring(name.length, c.length)
         }
       }
@@ -52,5 +51,5 @@ export default {
     FooterApp,
     cookieLegalNotify
   }
-};
+}
 </script>

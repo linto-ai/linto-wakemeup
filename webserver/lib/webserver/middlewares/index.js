@@ -33,7 +33,8 @@ function checkAuth(req, res, next) {
 
 function isConnected(req, res, next) {
   if ((typeof (req.session.logged) != 'undefined' || req.session.logged == 'on')) {
-    res.cookie('wmu_user', req.session.user)
+    console.log(new Date())
+    res.cookie('wmu_user', req.session.user, { expires: new Date(Date.now() + (24*60*60*1000)), })
   } else {
     res.cookie('wmu_user', 'disconnected')
   }

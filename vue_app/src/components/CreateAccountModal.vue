@@ -269,7 +269,7 @@ export default {
         }
         if (createUser.data.status === 'success') {
           this.btnCreateAccountLabel = 'Succès'
-          this.setCookie('wmu_user', createUser.data.userHash)
+          this.setCookie('wmu_user', createUser.data.userHash, 1)
           setTimeout(() => {
             this.redirectMessage = 'Vous allez être redirigé dans 2 secondes...'
             setTimeout(() => {
