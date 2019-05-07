@@ -33,6 +33,7 @@
           <div class="field-container btn">
             <button class="button red large" @click="sendLogin()">S'identifier</button>
           </div>
+          <a href="/reinit-password">Mot de passe oublié ?</a>
           <div class="spacer"></div>
           <div class="divider red"></div>
           <div class="spacer"></div>

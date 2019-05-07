@@ -84,7 +84,6 @@
               </tbody>
             </table>
           </div>
-
           <h2>Modifier le mot de passe</h2>
           <div class="white-container">
             <table class="user-panel-tab">
@@ -173,7 +172,8 @@ export default {
       userAgeRangeValid: false,
       userAgeRangeErrorMsg: '',
       userEmailValid: false,
-      userEmailErrorMsg: ''
+      userEmailErrorMsg: '',
+      userInfos: null
     }
   },
   created () {
@@ -183,19 +183,22 @@ export default {
     })
   },
   computed: {
-    userInfos () {
+    userStore () {
       return this.$store.state.userInfos
     }
   },
   watch: {
-    userInfos: function (data) {
-      if(!this.dataLoaded){
-        this.nativeFrench = this.$store.state.userInfos.nativeFrench
-        if(this.nativeFrench === false){
-          this.selectedLanguage = this.$store.state.userInfos.language
-          this.language = this.selectedLanguage
-        }
+    userStore: function (data) {
+      if(!this.dataLoaded) {
+        this.userInfos = data
         this.dataLoaded = true
+      }
+    },
+    userInfos: function (data) {
+      this.nativeFrench = data.nativeFrench
+      if(this.nativeFrench === false){
+        this.selectedLanguage = data.language
+        this.language = this.selectedLanguage
       }
     },
     nativeFrench: function (data) {

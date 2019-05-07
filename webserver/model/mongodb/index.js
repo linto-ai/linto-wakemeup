@@ -89,6 +89,17 @@ class modelMongoDb {
       console.error('get user ', err)
     }
   }
+  async getUserByMail(email) {
+    try {
+      const query = {
+        email
+      }
+      return await this.mongoRequest('users', query)
+    } catch (err) {
+      console.error('get user ', err)
+    }
+  }
+  
   async getUserByHash(hash) {
     try {
       const query = {
@@ -123,7 +134,8 @@ class modelMongoDb {
           recordList: [],
           nbListen: 0,
           nbRecord: 0,
-          role: 'user'
+          role: 'user',
+          reinit: {}
         }
         return await this.mongoInsert('users', userPayload)
         

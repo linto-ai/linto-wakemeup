@@ -34,7 +34,6 @@ function configureDefaults() {
     
     //Server properties
     process.env.HTTP_PORT = ifHas(process.env.HTTP_PORT, envdefault.HTTP_PORT)
-    
     //MongoDB
     process.env.BDD_TYPE = ifHas(process.env.BDD_TYPE, envdefault.BDD_TYPE)
     process.env.MONGODB_HOST = ifHas(process.env.MONGODB_HOST, envdefault.MONGODB_HOST)
@@ -43,10 +42,18 @@ function configureDefaults() {
     process.env.MONGODB_REQUIRE_LOGIN = ifHas(process.env.MONGODB_REQUIRE_LOGIN, envdefault.MONGODB_REQUIRE_LOGIN)
     process.env.MONGODB_USER = ifHas(process.env.MONGODB_USER, envdefault.MONGODB_USER)
     process.env.MOGODB_PSWD = ifHas(process.env.MOGODB_PSWD, envdefault.MOGODB_PSWD)
-
     //Redis 
     process.env.REDIS_HOST = ifHas(process.env.REDIS_HOST, envdefault.REDIS_HOST)
     process.env.REDIS_PORT = ifHas(process.env.REDIS_PORT, envdefault.REDIS_PORT)
+    //SMTP
+    process.env.SMTP_HOST = ifHas(process.env.SMTP_HOST, envdefault.SMTP_HOST)
+    process.env.SMTP_PORT = ifHas(process.env.SMTP_PORT, envdefault.SMTP_PORT)
+    process.env.SMTP_SECURE = ifHas(process.env.SMTP_SECURE, envdefault.SMTP_SECURE)
+    process.env.SMTP_REQUIRE_TLS = ifHas(process.env.SMTP_REQUIRE_TLS, envdefault.SMTP_REQUIRE_TLS)
+    process.env.SMTP_AUTH = ifHas(process.env.SMTP_AUTH, envdefault.SMTP_AUTH)
+    process.env.SMTP_PSWD = ifHas(process.env.SMTP_PSWD, envdefault.SMTP_PSWD)
+    // VUE APP
+    process.env.VUE_APP_URL = ifHas(process.env.VUE_APP_URL, envdefault.VUE_APP_URL)
   } catch (e) {
     console.error(debug.namespace, e)
     process.exit(1)

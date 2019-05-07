@@ -19,23 +19,13 @@
       </div>
       
     </div>
-    <ConnectionModal></ConnectionModal>
-    <CreateAccountModal></CreateAccountModal>
-    <PolicyAgreementModal></PolicyAgreementModal>
   </div>
 </template>
 <script>
-import ConnectionModal from '@/components/ConnectionModal.vue'
-import CreateAccountModal from '@/components/CreateAccountModal.vue'
-import PolicyAgreementModal from '@/components/PolicyAgreementModal.vue'
+
 export default {
   data () {
     return {}
-  }, 
-  components: {
-    ConnectionModal,
-    CreateAccountModal,
-    PolicyAgreementModal
   }
 }
 </script>

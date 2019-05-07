@@ -9,6 +9,11 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
+    
+    <ConnectionModal></ConnectionModal>
+    <CreateAccountModal></CreateAccountModal>
+    <PolicyAgreementModal></PolicyAgreementModal>
+
     <FooterApp></FooterApp>
     <cookieLegalNotify></cookieLegalNotify>
   </div>
@@ -18,6 +23,10 @@ import HeaderApp from '@/components/Header.vue'
 import AppNotify from '@/components/AppNotify.vue'
 import FooterApp from '@/components/Footer.vue'
 import cookieLegalNotify from '@/components/CookieLegalNotify.vue'
+import ConnectionModal from '@/components/ConnectionModal.vue'
+import CreateAccountModal from '@/components/CreateAccountModal.vue'
+import PolicyAgreementModal from '@/components/PolicyAgreementModal.vue'
+
 import { bus } from './main.js'
 export default {
   data() {
@@ -49,7 +58,10 @@ export default {
     HeaderApp,
     AppNotify,
     FooterApp,
-    cookieLegalNotify
+    cookieLegalNotify,
+    ConnectionModal,
+    CreateAccountModal,
+    PolicyAgreementModal
   }
 }
 </script>

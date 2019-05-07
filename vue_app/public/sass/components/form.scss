@@ -212,6 +212,35 @@
   }
 }
 
+
+/*** REINIT PASSWORD ***/
+.reinit-password-container{
+  margin: 40px auto;
+  max-width: 520px;
+  width: 50%;
+  text-align: left;
+  
+  .content {
+    text-align: left;
+    padding: 10px 0;
+  }
+  h1{
+    font-size: 24px;
+    text-align: center;
+  }
+
+  &.expired {
+    text-align: center;
+  }
+  span {
+    display: inline-block;
+    width: 100%;
+    padding: 5px 0;
+    text-align: left;
+  }
+}
+/*** END REINIT PASSWORD ***/
+
 /*** END FORM ***/
 
 @media screen and(max-width: 600px){

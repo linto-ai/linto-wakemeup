@@ -7968,6 +7968,27 @@ h3 {
     color: #c61e42;
     border-color: #c61e42; }
 
+/*** REINIT PASSWORD ***/
+.reinit-password-container {
+  margin: 40px auto;
+  max-width: 520px;
+  width: 50%;
+  text-align: left; }
+  .reinit-password-container .content {
+    text-align: left;
+    padding: 10px 0; }
+  .reinit-password-container h1 {
+    font-size: 24px;
+    text-align: center; }
+  .reinit-password-container.expired {
+    text-align: center; }
+  .reinit-password-container span {
+    display: inline-block;
+    width: 100%;
+    padding: 5px 0;
+    text-align: left; }
+
+/*** END REINIT PASSWORD ***/
 /*** END FORM ***/
 @media screen and (max-width: 600px) {
   .micro-type-container .micro-type-item {

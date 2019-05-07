@@ -28,6 +28,7 @@ module.exports = (webServer) => {
     "/interface": require('./interface')(webServer),
     "/login": require('./login')(webServer),
     "/logout": require('./logout')(webServer),
-    "/mentions-legales": require('./mentions-legales')(webServer)
+    "/mentions-legales": require('./mentions-legales')(webServer),
+    "/reinit-password": require('./reinit-password')(webServer)
   }
 }

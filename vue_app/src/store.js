@@ -66,10 +66,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getUserInfos: async ({
-      commit,
-      state
-    }, hash) => {
+    getUserInfos: async ({ commit, state }, hash) => {
       try {
         const getUser = await axios(`${process.env.VUE_APP_URL}/api/user/getInfos`, {
           method: 'post',
