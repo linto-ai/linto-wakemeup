@@ -9,16 +9,16 @@
             <div class="notice record">Dans la mesure du possible, l'enregistrement doit se dérouler dans un environnement silencieux afin d'éviter les bruits parasites.</div>
             <div class="content red">
               <p>Bienvenue dans l'interface d'enregistrement de mots-clés.</p>
-              <p>L'enregistrement des mots-clés nécessite qu'un <strong>microphone</strong> soit detecté par votre navigateur. Lors de votre inscription, vous avez du sélectionner un type de périphérique. Vous pouvez mettre à jour ces informations en vous rendant dans l'interface utilisateur en cliquant sur <strong class="green">Mon compte</strong> dans l'onglet utilisateur.</p>
-              <p>Les données seront enregistrées de façon <strong>anonyme</strong> et renseignerons uniquement le sexe du locuteur et le type de microphone utilisé. </p>
+              <p>L'enregistrement des mots-clés nécessite qu'un <strong>microphone</strong> soit détecté par votre navigateur. Lors de votre inscription, vous avez dû sélectionner un type de périphérique. Vous pouvez mettre à jour ces informations en vous rendant dans l'interface utilisateur en cliquant sur <strong class="green">Mon compte</strong> dans l'onglet utilisateur.</p>
+              <p>Les données seront enregistrées de façon <strong>anonyme</strong> et renseigneront uniquement le sexe du locuteur et le type de microphone utilisé. </p>
 
               <p>Chaque mot-clé devra être enregistré 3 fois de suite afin que nous puissions avoir un comparatif des différents échantillons.</p>
 
               <div class="notice">
                 <h3>Pour enregistrer votre voix</h3>
                 <ul>
-                  <li>La commmande à enregistrer est écrite au-dessus du bouton "enregistrer" sur la partie droite de la page.</li>
-                  <li>Cliquez sur le bouton "<strong>enregistrer</strong>" afin de commencer la captation. Un compte à rebourd démarrera pour vous indiquer quand parler.</li>
+                  <li>La commande à enregistrer est écrite au-dessus du bouton "enregistrer" sur la partie droite de la page.</li>
+                  <li>Cliquez sur le bouton "<strong>enregistrer</strong>" afin de commencer la captation. Un compte à rebours démarrera pour vous indiquer quand parler.</li>
                   <li><strong>Prononcez la commande</strong>. La captation s'arrêtera automatiquement après avoir détecté un silence.</li>
                   <li>Après avoir enregistré votre voix, vous pourrez <strong>réécouter</strong> votre enregistrement, et le <strong>recommencer</strong> si nécessaire.</li>
                   <li> Si votre enregistrement vous semble pas valide, cliquez sur le bouton "<strong>valider</strong>" pour le confirmer et passer à un nouvel enregistrement.</li>

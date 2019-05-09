@@ -3,7 +3,7 @@
     <div class=" container-fluid">
       <div class="row justify-content-around">
         <div class="cookie-content col-10 col-md-11">
-          En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de traceurs (cookies) afin d'améliorer votre expérience utilisateur et valider votre authentification. Les traceurs sont mis en place de manière anonyme et ne seront jamais utilisés à des fin commericales ou publicitaires.
+          En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de traceurs (cookies) afin d'améliorer votre expérience utilisateur et valider votre authentification. Les traceurs sont mis en place de manière anonyme et ne seront jamais utilisés à des fin commerciales ou publicitaires.
         </div>
         <div class="col-2 col-md-1">
           <button @click="closeModal" class="closeCookieModal">Fermer</button>
@@ -22,14 +22,14 @@ export default {
     }
   },
   mounted () {
-    bus.$on('showCookieLegasls', () => { 
+    bus.$on('showCookieLegasls', () => {
       this.cookieLegalShow = true
     })
-    
+
     setTimeout(() => {
-      this.resizeNotif()  
+      this.resizeNotif()
     }, 1000)
-    
+
     window.addEventListener('resize', () => {
        this.resizeNotif()
     })

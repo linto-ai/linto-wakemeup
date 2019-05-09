@@ -23,7 +23,7 @@
               </div>
               <div
                 class="highlight-content"
-              >Aidez-nous à confirmer la validité des échantillons audios créés par les utilisateurs. Écoutez ces échantillons et donnez-nous votre avis en nous indiquant si les mots-clés prononcés sont audibles et conformes aux consignes.</div>
+              >Aidez-nous à confirmer la validité des échantillons audio créés par les utilisateurs. Écoutez ces échantillons et donnez-nous votre avis en nous indiquant si les mots-clés prononcés sont audibles et conformes aux consignes.</div>
               <div class="highlight-action">
                 <button data-url="/interface/listen" @click="navigate($event)" class="button green">Écouter des enregistrements</button>
               </div>

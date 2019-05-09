@@ -2,7 +2,7 @@
   <div class="h-100 ">
     <div id="page-content">
       <div v-if="dataLoaded" class="container-fluid" id="audio-monitoring">
-        <h2>Liste des audios enregistés</h2>
+        <h2>Liste des fichiers audio enregistrés</h2>
         <table class="list">
           <thead>
             <tr>
@@ -69,7 +69,7 @@ export default {
       audioPlayer: null,
       isPlaying: false,
       filterParams: {
-        key: '', 
+        key: '',
         order: ''
       }
     }

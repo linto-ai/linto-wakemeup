@@ -103,7 +103,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td class="tab-label">Confirmation du ouveau mot de passe :</td>
+                  <td class="tab-label">Confirmation du nouveau mot de passe :</td>
                   <td class="tab-input">
                     <input class="input" type="password" v-model="newPswdConfirm"  :class="[newPswdConfirmValid === 'error' ? 'error' : '', newPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
                     <span class="error-field" :class="[newPswdConfirmErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdConfirmErrorMsg }}</span>
@@ -123,7 +123,7 @@
           <div class="white-container">
             <div class="row">
               <div class="col user-stats">
-                <h3>Wake-words enregistrés</h3>
+                <h3>Mots-clés enregistrés</h3>
                 <div class="stats-container">
                   <span class="icon talk"></span>
                   <span class="number talk">{{ userInfos.nbRecord }}</span>
@@ -131,7 +131,7 @@
                 <a href="/interface/record" class="button red">S'enregistrer</a>
               </div>
               <div class="col user-stats">
-                <h3>Wake-words écoutés</h3>
+                <h3>Mots-clés écoutés</h3>
                 <div class="stats-container">
                   <span class="icon listen"></span>
                   <span class="number listen">{{ userInfos.nbListen }}</span>
@@ -143,7 +143,7 @@
         </div>
       </div>
     </div>
-    <div v-else>LOADING</div>
+    <div v-else>Chargement...</div>
   </div>
 </template>
 <script>
@@ -189,14 +189,14 @@ export default {
   },
   watch: {
     userStore: function (data) {
-      if(!this.dataLoaded) {
+      if (!this.dataLoaded) {
         this.userInfos = data
         this.dataLoaded = true
       }
     },
     userInfos: function (data) {
       this.nativeFrench = data.nativeFrench
-      if(this.nativeFrench === false){
+      if (this.nativeFrench === false) {
         this.selectedLanguage = data.language
         this.language = this.selectedLanguage
       }

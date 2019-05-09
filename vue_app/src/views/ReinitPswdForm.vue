@@ -7,7 +7,7 @@
       </div>
       <div v-else class="col-6 white-container reinit-password-container expired">
         <h1 class="green"> Réinitialiser votre mot de passe</h1>
-        <span>Le lien à expiré ou n'est plus valide, veuillez cliquez sur le bouton suivant pour vous renvoyer un mail avec un lien à jour: </span>
+        <span>Le lien a expiré ou n'est plus valide, veuillez cliquez sur le bouton suivant pour vous renvoyer un mail avec un lien à jour: </span>
         <a class="button green" href="/reinit-password">Renvoyer un lien</a>
       </div>
     </div>

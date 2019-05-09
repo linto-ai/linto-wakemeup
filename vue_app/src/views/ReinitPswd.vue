@@ -10,7 +10,7 @@
           <SendReinitPswdForm></SendReinitPswdForm>
         </div>
         <div class="white-container reinit-password-container" v-else>
-          <span class="green">Un email contenant le lien de réinitialisation de votre mot de passe viens d'être envoyé.</span>
+          <span class="green">Un email contenant le lien de réinitialisation de votre mot de passe vient d'être envoyé.</span>
           <span>Veuillez suivre les instructions contenues dans cet email pour génerer un nouveau mot de passe.</span>
         </div>
       </div>
