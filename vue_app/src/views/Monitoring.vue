@@ -48,7 +48,7 @@
               <span class="monitoring-datas">
                 Micro par défault: {{ deviceRatio.prctDefault.toFixed(1) }}% <br/>
                 Micro-casque: {{ deviceRatio.prctHeadphone.toFixed(1) }}% <br/>
-                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}% 
+                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}%
               </span>
             </div>
           </div>
@@ -70,7 +70,7 @@ export default {
       deviceRatioReady: false
     }
   },
-   computed: {
+  computed: { 
     scenarios () {
       return this.$store.state.scenarios
     },
@@ -82,13 +82,8 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getScenarios').then((resp) => {
-      this.$store.dispatch('getAudios').then((resp) => {}, error => {
-        console.error('error:', err)
-      })
-    }, error => {
-      console.error('error:', err)
-    })
+    this.$store.dispatch('getScenarios')
+    this.$store.dispatch('getAudios')
   },
   watch: {
     scenarios: function (data) {
@@ -108,13 +103,13 @@ export default {
     genderRatio: function (data) {
       this.genderRatioReady = true
       setTimeout(() => {
-          this.setGenderChart()
+        this.setGenderChart()
       }, 500)
     },
     deviceRatio: function (data) {
       this.deviceRatioReady = true
       setTimeout(() => {
-          this.setDevicesChart()
+        this.setDevicesChart()
       }, 500)
     }
   },
@@ -123,7 +118,7 @@ export default {
       this.createChart('genderRatio', {
         type: 'pie',
         data: {
-          labels: ["Hommes", "Femmes"],
+          labels: ['Hommes', 'Femmes'],
           datasets: [{
             data: [this.genderRatio.pctMale, this.genderRatio.pctFemale],
             backgroundColor: ['#7ee557', '#ed4877']
@@ -136,10 +131,10 @@ export default {
       this.createChart('devicesRatio', {
         type: 'pie',
         data: {
-          labels: ["Default", "Micro-casque", "Micro à pied"],
+          labels: ['Default', 'Micro-casque', 'Micro à pied'],
           datasets: [{
             data: [this.deviceRatio.prctDefault, this.deviceRatio.prctHeadphone, this.deviceRatio.prctExternal],
-            backgroundColor: ['#7ee557', '#ed4877', '#22a8f2'],
+            backgroundColor: ['#7ee557', '#ed4877', '#22a8f2']
           }]
         },
         options: {}
@@ -147,10 +142,10 @@ export default {
     },
     createChart (chartId, chartData) {
       const ctx = document.getElementById(chartId)
-      const myChart = new Chart(ctx, {
+      return new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
-        options: chartData.options,
+        options: chartData.options
       })
     }
   }

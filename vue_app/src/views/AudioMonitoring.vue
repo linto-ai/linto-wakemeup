@@ -51,7 +51,7 @@
         </table>
       </div>
       <div v-else>
-        Loading
+        Chargement...
       </div>
       <DeleteAudioModal></DeleteAudioModal>
     </div>
