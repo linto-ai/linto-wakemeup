@@ -10,6 +10,7 @@ import ReinitPswd from './views/ReinitPswd.vue'
 import ReinitPswdForm from './views/ReinitPswdForm.vue'
 import Scenarios from './views/Scenarios.vue'
 import UserPanel from './views/UserPanel.vue'
+import Contact from './views/Contact.vue'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
     path: '/reinit-password',
     name: 'Réinitialisation du mot de passe',
     component: ReinitPswd
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact
   },
   {
     path: '/reinit-password/:user/:token',

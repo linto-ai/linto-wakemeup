@@ -58,7 +58,7 @@ export default {
         if (setReinit.data.status === 'success') {
           this.sendButtonLabel = 'Succès'
           this.mailSend = true
-          bus.$emit('mail_send', {})
+          bus.$emit('reinit_mail_send', {})
         } else {
           this.sendButtonLabel = 'Envoyer un lien de réinitialisation'
           bus.$emit('notify_app', {

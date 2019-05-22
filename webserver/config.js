@@ -31,7 +31,7 @@ function configureDefaults() {
   try {
     dotenv.config()
     const envdefault = dotenv.parse(fs.readFileSync('.envdefault'))
-    
+
     //Server properties
     process.env.HTTP_PORT = ifHas(process.env.HTTP_PORT, envdefault.HTTP_PORT)
     //MongoDB
@@ -42,7 +42,7 @@ function configureDefaults() {
     process.env.MONGODB_REQUIRE_LOGIN = ifHas(process.env.MONGODB_REQUIRE_LOGIN, envdefault.MONGODB_REQUIRE_LOGIN)
     process.env.MONGODB_USER = ifHas(process.env.MONGODB_USER, envdefault.MONGODB_USER)
     process.env.MOGODB_PSWD = ifHas(process.env.MOGODB_PSWD, envdefault.MOGODB_PSWD)
-    //Redis 
+    //Redis
     process.env.REDIS_HOST = ifHas(process.env.REDIS_HOST, envdefault.REDIS_HOST)
     process.env.REDIS_PORT = ifHas(process.env.REDIS_PORT, envdefault.REDIS_PORT)
     //SMTP
@@ -52,8 +52,8 @@ function configureDefaults() {
     process.env.SMTP_REQUIRE_TLS = ifHas(process.env.SMTP_REQUIRE_TLS, envdefault.SMTP_REQUIRE_TLS)
     process.env.SMTP_AUTH = ifHas(process.env.SMTP_AUTH, envdefault.SMTP_AUTH)
     process.env.SMTP_PSWD = ifHas(process.env.SMTP_PSWD, envdefault.SMTP_PSWD)
-    // VUE APP
-    process.env.VUE_APP_URL = ifHas(process.env.VUE_APP_URL, envdefault.VUE_APP_URL)
+    process.env.CONTACT_EMAIL = ifHas(process.env.CONTACT_EMAIL, envdefault.CONTACT_EMAIL)
+    process.env.NO_REPLY_EMAIL = ifHas(process.env.NO_REPLY_EMAIL, envdefault.NO_REPLY_EMAIL)
   } catch (e) {
     console.error(debug.namespace, e)
     process.exit(1)

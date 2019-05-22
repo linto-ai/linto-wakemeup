@@ -129,7 +129,7 @@ module.exports = (webServer) => {
           }
           const updateUser = await model.updateUser(user)
           const reinitLink = 'reinit-password/' + user.userName + '/' + user.reinit.resetToken
-          const sendmail = await mailer.send(email, user.userName, reinitLink)
+          const sendmail = await mailer.sendReinitPasswordMail(email, user.userName, reinitLink)
           if(sendmail === 'mailSend' && updateUser === 'success') {
             res.json({status: 'success'})
           } else {

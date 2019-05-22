@@ -24,11 +24,13 @@ module.exports = (webServer) => {
     "/admin": require('./admin')(webServer),
     "/api/audios": require('./api/audios')(webServer),
     "/api/user": require('./api/user')(webServer),
+    "/api/contact": require('./api/contact')(webServer),
     "/api/scenarios": require('./api/scenarios')(webServer),
+    "/contact": require('./home')(webServer),
     "/interface": require('./interface')(webServer),
     "/login": require('./login')(webServer),
     "/logout": require('./logout')(webServer),
-    "/mentions-legales": require('./mentions-legales')(webServer),
+    "/mentions-legales": require('./home')(webServer),
     "/reinit-password": require('./reinit-password')(webServer)
   }
 }

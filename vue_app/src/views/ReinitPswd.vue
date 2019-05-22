@@ -27,7 +27,7 @@ export default {
     }
   },
   mounted () {
-    bus.$on('mail_send', () => {
+    bus.$on('reinit_mail_send', () => {
       this.mailSend = true
     })
   },
