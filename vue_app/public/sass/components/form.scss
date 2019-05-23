@@ -64,6 +64,11 @@
   background-color: #fff;
   font-weight: 300;
   color: $greyText;
+  @include transition(all 0.2s ease-in-out);
+
+  &:focus{
+    background-color: #FCFCFC;
+  }
 
   &.error {
     border: 1px solid $redChart
@@ -107,6 +112,9 @@
 
   &:hover {
     cursor: pointer;
+  }
+  &:focus{
+    background-color: #FCFCFC;
   }
 }
 
@@ -219,7 +227,7 @@
   max-width: 520px;
   width: 50%;
   text-align: left;
-  
+
   .content {
     text-align: left;
     padding: 10px 0;

@@ -7562,17 +7562,36 @@ h3 {
     font-size: 16px;
     font-weight: 500;
     padding: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px; }
-    #header .header-link.red:hover {
-      background-color: #c61e42;
-      color: #fff;
-      text-decoration: none; }
-    #header .header-link.green:hover {
-      background-color: #2da800;
-      color: #fff;
-      text-decoration: none; }
+    position: relative;
+    z-index: 2; }
+    #header .header-link:hover {
+      color: #fff; }
+    #header .header-link.red:before {
+      background-color: #c61e42; }
+    #header .header-link.green:before {
+      background-color: #2da800; }
+    #header .header-link:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0px;
+      bottom: 0;
+      left: 0;
+      visibility: hidden;
+      -webkit-transition: all 0.2s ease-in-out;
+      -moz-transition: all 0.2s ease-in-out;
+      -o-transition: all 0.2s ease-in-out;
+      transition: all 0.2s ease-in-out;
+      z-index: -1; }
+    #header .header-link:hover:before {
+      visibility: visible;
+      height: 40px;
+      -moz-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 2px 6px 2px rgba(0, 0, 0, 0.2);
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px; }
   #header .mobile-links {
     display: none; }
 
@@ -7879,7 +7898,13 @@ h3 {
   border: none;
   background-color: #fff;
   font-weight: 300;
-  color: #444444; }
+  color: #444444;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out; }
+  .input:focus {
+    background-color: #FCFCFC; }
   .input.error {
     border: 1px solid #c61e42; }
   .input.valid {
@@ -7916,6 +7941,8 @@ h3 {
     border: 1px solid #2da800; }
   .select:hover {
     cursor: pointer; }
+  .select:focus {
+    background-color: #FCFCFC; }
 
 .micro-type-container {
   display: inline-block;
@@ -8975,7 +9002,7 @@ textarea {
     font-size: 16px;
     padding-bottom: 10px; }
     .captcha-container .captcha-label strong {
-      color: #2da800;
+      color: #c61e42;
       font-weight: 600; }
 
 .captcha-btn {

@@ -121,7 +121,6 @@
     this.log = function (msg) {
       if (this.logging && this.log_i < this.log_limit) {
         this.log_i++;
-        console.log(msg);
       } else {
         this.logging = false;
       }
