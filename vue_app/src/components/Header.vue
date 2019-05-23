@@ -11,9 +11,9 @@
         <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
       </div>
       <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 user-panel">
-        <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Connection</button>
+        <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Connexion</button>
         <div v-if="userConnected" class="user-menu">
-          <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']"> 
+          <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']">
             <span class="label">{{ userInfos.userName }}</span>
             <span class="icon"></span>
           </button>
@@ -84,7 +84,7 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      if(data.role === 'administrator'){ 
+      if(data.role === 'administrator'){
         this.isAdmin = true
       }
     }
