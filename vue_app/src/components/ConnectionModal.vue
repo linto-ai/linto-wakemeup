@@ -13,25 +13,41 @@
               <span class="icon user"></span>
               <span class="label">Nom d'utilisateur:</span>
             </div>
-            <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid  === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
-            <span
-              class="error-field"
-              :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userNameErrorMsg }}</span>
+            <input
+              type="text"
+              class="input"
+              v-model="userName"
+              :class="{error: $v.userName.$error || userNameErrorMsg.length > 0}"
+              @blur="$v.userName.$touch()"
+              @keyup.13="sendLogin($v)"
+            >
+            <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
+            <span class="error-field" v-if="!$v.userName.alphaNum">Le nom d'utilisateur ne doit contenir que des caractères alpha-numériques</span>
+            <span class="error-field" v-if="!$v.userName.minLength">Le nom d'utilisateur doit comporter au moins {{ $v.userName.$params.minLength.min }} caractères</span>
+            <span class="error-field" v-if="userNameErrorMsg.length > 0">{{ userNameErrorMsg }}</span>
           </div>
           <div class="field-container">
             <div class="field-label">
               <span class="icon pswd"></span>
               <span class="label">Mot de passe :</span>
             </div>
-            <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendLogin()">
-            <span
-              class="error-field"
-              :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
-            >{{ userPswdErrorMsg }}</span>
+            <input
+              type="password"
+              class="input"
+              v-model="userPswd"
+              :class="{error: $v.userPswd.$error || userPswdErrorMsg.length > 0}"
+              @keyup.13="sendLogin($v)">
+            <span class="error-field" v-if="!$v.userPswd.required">Ce champ est obligatoire</span>
+            <span class="error-field" v-if="!$v.userPswd.minLength">Le mot de passe doit contenir au moins {{ $v.userPswd.$params.minLength.min }}</span>
+            <span class="error-field" v-if="userPswdErrorMsg.length > 0">{{ userPswdErrorMsg }}</span>
+
           </div>
           <div class="field-container btn">
-            <button class="button red large" @click="sendLogin()">S'identifier</button>
+            <button
+              class="button green large"
+              @click.prevent="sendLogin($v)"
+              :disabled="$v.$invalid"
+            >{{ connexionBtnLabel }}</button>
           </div>
           <a href="/reinit-password">Mot de passe oublié ?</a>
           <div class="spacer"></div>
@@ -39,7 +55,7 @@
           <div class="spacer"></div>
           <span>Vous n'avez pas d'identifiants ?</span>
           <div class="field-container btn">
-            <button class="button green large" @click="toggleCreateAccountModal">Créer un compte</button>
+            <button class="button green large" @click="toggleCreateAccountModal" >Créer un compte</button>
           </div>
         </div>
       </div>
@@ -48,23 +64,34 @@
 </template>
 <script>
 import axios from 'axios'
+import { required, minLength, alphaNum } from 'vuelidate/lib/validators'
 import { bus } from '../main.js'
 export default {
   data () {
     return {
       showConnectionModal: false,
       userName: '',
-      userNameValid: false,
       userNameErrorMsg: '',
       userPswd: '',
-      userPswdValid: false,
-      userPswdErrorMsg: ''
+      userPswdErrorMsg: '',
+      connexionBtnLabel: 's\'identifier',
     }
   },
   mounted () {
     bus.$on('toggle_connection_modal', () => {
       this.toggleConnectionModal()
     })
+  },
+  validations: {
+    userName: {
+      required,
+      minLength: minLength(3),
+      alphaNum
+    },
+    userPswd: {
+      required,
+      minLength: minLength(6)
+    }
   },
   methods: {
     toggleConnectionModal () {
@@ -77,48 +104,24 @@ export default {
       this.showConnectionModal = false
       bus.$emit('toggle_create_account_modal', {})
     },
-    checkForm () {
-      // Check email
-      if (this.userName.length === 0) {
-        this.userNameValid = 'error'
-        this.userNameErrorMsg = 'Vous devez renseigner une adresse email de connection'
-      } else {
-        this.userNameValid = 'valid'
-        this.userNameErrorMsg = ''
-      }
-
-      // Check password
-      if (this.userPswd.length === 0) {
-        this.userPswdValid = 'error'
-        this.userPswdErrorMsg = 'Veuillez renseigner un mot de passe'
-      } else {
-        this.userPswdValid = 'valid'
-        this.userPswdErrorMsg = ''
-      }
-
-      if (this.userNameValid === 'valid' && this.userPswdValid === 'valid') {
-        return true
-      } else {
-        return false
-      }
-    },
-    async sendLogin () {
-      const formValid = this.checkForm()
-      if (formValid) {
+    async sendLogin (formValidator) {
+      this.connexionBtnLabel = 'Connexion...'
+      this.userPswdErrorMsg = ''
+      this.userNameErrorMsg = ''
+      if(!formValidator.$error && !formValidator.$invalid) {
         const payload = {
-          userName: this.userName,
-          password: this.userPswd
+        userName: this.userName,
+        password: this.userPswd
         }
         const login = await axios(`${process.env.VUE_APP_URL}/login/userAuth`, {
           method: 'post',
           data: payload
         })
         if (login.data.status === 'error') {
+          this.connexionBtnLabel = 's\'identifier'
           if (login.data.field === 'user') {
-            this.userNameValid = 'error'
             this.userNameErrorMsg = login.data.msg
           } else if (login.data.field === 'password') {
-            this.userPswdValid = 'error'
             this.userPswdErrorMsg = login.data.msg
           }
         } else if (login.data.status === 'success') {

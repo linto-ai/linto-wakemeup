@@ -9,89 +9,127 @@
         </div>
         <div class="modal-body">
           <div v-if="!accountCreated">
+
+            <!-- User Name -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Nom d'utilisateur:</span>
+                <span class="label" :class="{error: $v.userName.$error, valid: !$v.userName.$invalid}">Nom d'utilisateur:</span>
               </div>
-              <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-              <span
-                class="error-field"
-                :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ userNameErrorMsg }}</span>
+              <input
+                type="text"
+                class="input"
+                v-model="userName"
+                :class="{error: $v.userName.$error, valid: !$v.userName.$invalid}"
+                @blur="$v.userName.$touch()"
+                @keyup.13="sendForm($v)"
+              >
+              <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
+              <span class="error-field" v-if="!$v.userName.alphaNum">Le nom d'utilisateur ne doit contenir que des caractères alpha-numériques</span>
+              <span class="error-field" v-if="!$v.userName.minLength">Le nom d'utilisateur doit comporter au moins {{ $v.userName.$params.minLength.min }} caractères</span>
+              <span class="error-field" v-if="!$v.userName.unique">Ce nom d'utilisateur est déjà utilisé</span>
             </div>
+
+            <!-- User Email -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Adresse email:</span>
+                <span class="label" :class="{error: $v.userEmail.$error}">Adresse email:</span>
               </div>
-              <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-              <span
-                class="error-field"
-                :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ userEmailErrorMsg }}</span>
+              <input
+                type="text"
+                class="input"
+                v-model="userEmail"
+                :class="{error: $v.userEmail.$error, valid: !$v.userEmail.$invalid}"
+                @blur="$v.userEmail.$touch()"
+                @keyup.13="sendForm($v)"
+              >
+              <span class="error-field" v-if="!$v.userEmail.required">Ce champ est obligatoire</span>
+              <span class="error-field" v-if="!$v.userEmail.email">Le format de l'adresse email est invalide</span>
+              <span class="error-field" v-if="!$v.userEmail.unique">Cette adresse email est déjà utilisée</span>
+
             </div>
+
+            <!-- Password -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Mot de passe :</span>
+                <span class="label" :class="{error: $v.userPswd.$error}">Mot de passe :</span>
                 <button class="info-label"></button>
               </div>
-              <input type="password" class="input" v-model="userPswd" :class="[userPswdValid === 'error' ? 'error' : '', userPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-              <span
-                class="error-field"
-                :class="[userPswdErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ userPswdErrorMsg }}</span>
+              <input
+                type="password"
+                class="input"
+                v-model="userPswd"
+                :class="{error: $v.userPswd.$error, valid: !$v.userPswd.$invalid}"
+                @blur="$v.userPswd.$touch()"
+                @keyup.13="sendForm($v)"
+              >
+              <span class="error-field" v-if="!$v.userPswd.required">Ce champ est obligatoire</span>
+              <span class="error-field" v-if="!$v.userPswd.minLength">Le mot de passe doit contenir au moins {{ $v.userPswd.$params.minLength.min }} caractères</span>
             </div>
+            <!-- Password Confirm -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Confirmation du mot de passe :</span>
+                <span class="label" :class="{error: $v.userPswdConfirm.$error}">Confirmation du mot de passe :</span>
               </div>
-              <input type="password" class="input" v-model="userPswdConfirm" :class="[userPswdConfirmValid === 'error' ? 'error' : '', userPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-              <span
-                class="error-field"
-                :class="[userPswdConfirmdErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ userPswdConfirmdErrorMsg }}</span>
+              <input
+                type="password"
+                class="input"
+                v-model="userPswdConfirm"
+                :class="{error: $v.userPswdConfirm.$error}"
+                @blur="$v.userPswdConfirm.$touch()"
+              >
+              <span class="error-field" v-if="$v.userPswdConfirm.$error">Le mot de passe de confirmation est différent du mot de passe saisi.</span>
             </div>
+
+            <!-- User Gender -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Sexe :</span>
-                <select class="select" v-model="userGender" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+                <span class="label" :class="{error: $v.userGender.$error}">Sexe :</span>
+                <select
+                  class="select"
+                  v-model="userGender"
+                  @change="$v.userGender.$touch()"
+                  :class="{error: $v.userGender.$error, valid:!$v.userGender.$invalid}"
+                  v-on:keyup.13="sendForm($v)"
+                >
                   <option value="" hidden>Sélectionner un sexe</option>
                   <option value="male">Homme</option>
                   <option value="female">Femme</option>
                 </select>
+                <span class="error-field" v-if="$v.userGender.$error">Veuillez sélectionner un sexe</span>
               </div>
-              <span
-                class="error-field"
-                :class="[userGenderErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ userGenderErrorMsg }}</span>
             </div>
 
+            <!-- User Age Range -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Tranche d'age :</span>
-                <select class="select" v-model="userAgeRange" :class="[userAgeRangeValid === 'error' ? 'error' : '', userAgeRangeValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
+                <span class="label" :class="{error: $v.userAgeRange.$error}">Tranche d'age :</span>
+                <select
+                  class="select"
+                  v-model="userAgeRange"
+                  :class="{error: $v.userAgeRange.$error, valid:!$v.userAgeRange.$invalid}"
+                  v-on:keyup.13="sendForm($v)"
+                >
                   <option value="" hidden>Sélectionner une tranche d'âge</option>
                   <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
                   <option value="90+">90+ ans</option>
                 </select>
               </div>
-              <span
-                class="error-field"
-                :class="[userAgeRangeErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ userAgeRangeErrorMsg }}</span>
+              <span class="error-field" v-if="$v.userAgeRange.$error">Veuillez sélectionner une tranche d'âge</span>
             </div>
-            
+
+            <!-- Native Language -->
             <div class="field-container">
               <div class="field-label">
                 <span class="required">*</span>
                 <span class="label">Je suis français natif :</span>
                 <button class="custom-toggle-btn" @click="toggleNative()" :class="[nativeOn ? 'on': 'off']">
-                    <span class="cursor" ></span>
+                  <span class="cursor" ></span>
                 </button>
               </div>
             </div>
@@ -99,17 +137,19 @@
             <div class="field-container" v-show="!nativeOn">
               <div class="field-label">
                 <span class="required">*</span>
-                <span class="label">Langue maternelle :</span>
-                
-                <select class="select" v-model="selectedLanguage" v-on:keyup.13="sendForm()" :class="[selectedLanguageValid === 'error' ? 'error' : '', selectedLanguageValid === 'valid' ? 'valid' : '']">
+                <span class="label" :class="{error: $v.language.$error}">Langue maternelle :</span>
+                <select
+                  class="select"
+                  ref="languageSelectInput"
+                  v-model="selectedLanguage"
+                  v-on:keyup.13="sendForm($v)"
+                  :class="{error: $v.language.$error, valid:!$v.language.$invalid}"
+                >
                   <option value="" hidden>Sélectionner une langue maternelle</option>
                   <option v-for="country in countriesList" :key="country" :value="country" >{{country}}</option>
                 </select>
               </div>
-              <span
-                class="error-field"
-                :class="[selectedLanguageErrorMsg.length > 0 ? 'visible' : 'hidden']"
-              >{{ selectedLanguageErrorMsg }}</span>
+              <span class="error-field" v-if="$v.language.$error">Veuillez sélectionner une langue maternelle</span>
             </div>
 
             <div class="field-container">
@@ -137,7 +177,7 @@
               </div>
             </div>
             <div class="field-container btn">
-              <button class="button green large" @click="sendForm()">{{ btnCreateAccountLabel }}</button>
+              <button class="button green large" @click.prevent="sendForm($v)">{{ btnCreateAccountLabel }}</button>
               <span class="status-field" :class="[createAccountStatus.length > 0 ? 'visible ' + createAccountStatus : 'hidden']">{{ createAccoutMsg }}</span>
             </div>
         </div>
@@ -157,6 +197,7 @@
   </div>
 </template>
 <script>
+import { required, email, minLength, alphaNum, sameAs } from 'vuelidate/lib/validators'
 import axios from 'axios'
 import { bus } from '../main.js'
 export default {
@@ -174,26 +215,12 @@ export default {
       redirectMessage: 'Vous allez être redirigé dans 3 secondes...',
       showCreateAccountModal: false,
       selectedLanguage: '',
-      selectedLanguageValid: false,
-      selectedLanguageErrorMsg: '',
       userName: '',
-      userNameValid: false,
-      userNameErrorMsg: '',
       userEmail: '',
-      userEmailValid: false,
-      userEmailErrorMsg: '',
       userPswd: '',
-      userPswdValid: false,
-      userPswdErrorMsg: '',
       userPswdConfirm: '',
-      userPswdConfirmValid: false,
-      userPswdConfirmdErrorMsg: '',
       userGender: '',
-      userGenderValid: false,
-      userGenderErrorMsg: '',
       userAgeRange: '',
-      userAgeRangeValid: false,
-      userAgeRangeErrorMsg: '',
     }
   },
   mounted () {
@@ -209,15 +236,71 @@ export default {
     })
   },
   watch: {
+    userEmail: function (data) {
+      this.userEmail = data.toLowerCase()
+    },
     nativeOn: function (data) {
       if (data) {
         this.language = 'français'
-      } 
+      } else {
+        this.selectedLanguage = ''
+        this.language = ''
+      }
     },
     selectedLanguage: function (data) {
       if (!this.nativeOn) {
         this.language = this.selectedLanguage
       }
+    }
+  },
+  validations: {
+    userName: {
+      required,
+      minLength: minLength(3),
+      alphaNum,
+      unique: async (val) => {
+        const testUser = await axios(`${process.env.VUE_APP_URL}/api/user/userNameExist`, {
+          method: 'post',
+          data: {name: val}
+        })
+        if(testUser.data.status === 'success') {
+          return false
+        }
+        return true
+      }
+    },
+    userEmail: {
+      required,
+      email,
+      unique: async (val) => {
+        const testUser = await axios(`${process.env.VUE_APP_URL}/api/user/userEmailExist`, {
+          method: 'post',
+          data: {email: val}
+        })
+        if(testUser.data.status === 'success') {
+          return false
+        }
+        return true
+      }
+    },
+    userPswd: {
+      required,
+      minLength: minLength(6)
+    },
+    userPswdConfirm: {
+      sameAsPassword: sameAs('userPswd')
+    },
+    userGender: {
+      required,
+      minLength: minLength(1)
+    },
+    userAgeRange: {
+      required,
+      minLength: minLength(1)
+    },
+    language: {
+      required,
+      minLength: minLength(1)
     }
   },
   methods: {
@@ -230,152 +313,49 @@ export default {
     closeModal () {
       this.showCreateAccountModal = false
     },
-    validateEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-    },
     backToLogin () {
       this.showCreateAccountModal = false
       bus.$emit('toggle_connection_modal', {})
     },
-     sendForm () {
-      this.formValid = this.checkForm()
-      if (this.formValid) {
+    sendForm (validator) {
+      validator.$touch()
+      if(!validator.$invalid) {
         this.showCreateAccountModal = false
         bus.$emit('show_policy_agreement', {})
       }
     },
     async createAccount () {
-      if (this.formValid) {
-        this.btnCreateAccountLabel = 'Création en cours...'
-        const payload = {
-          email: this.userEmail,
-          userName: this.userName,
-          pswd: this.userPswd,
-          gender: this.userGender,
-          deviceType: this.deviceType,
-          userAgeRange: this.userAgeRange,
-          language: this.language,
-          nativeFrench: this.nativeOn
-        }
-        const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`, {
-          method: 'post',
-          data: payload
-        })
-        this.createAccountStatus = createUser.data.status
-        this.createAccoutMsg = createUser.data.msg
-        if (createUser.data.code === 'userExist') {
-          this.userNameValid = 'error'
-          this.userNameErrorMsg = createUser.data.msg
-        }
-        if (createUser.data.status === 'success') {
-          this.btnCreateAccountLabel = 'Succès'
-          this.setCookie('wmu_user', createUser.data.userHash, 1)
+      this.btnCreateAccountLabel = 'Création en cours...'
+      const payload = {
+        email: this.userEmail,
+        userName: this.userName,
+        pswd: this.userPswd,
+        gender: this.userGender,
+        deviceType: this.deviceType,
+        userAgeRange: this.userAgeRange,
+        language: this.language,
+        nativeFrench: this.nativeOn
+      }
+      const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`, {
+        method: 'post',
+        data: payload
+      })
+      this.createAccountStatus = createUser.data.status
+      this.createAccoutMsg = createUser.data.msg
+      if (createUser.data.status === 'success') {
+        this.btnCreateAccountLabel = 'Succès'
+        this.setCookie('wmu_user', createUser.data.userHash, 1)
+        setTimeout(() => {
+          this.redirectMessage = 'Vous allez être redirigé dans 2 secondes...'
           setTimeout(() => {
-            this.redirectMessage = 'Vous allez être redirigé dans 2 secondes...'
+            this.redirectMessage = 'Vous allez être redirigé dans 1 seconde...'
             setTimeout(() => {
-              this.redirectMessage = 'Vous allez être redirigé dans 1 seconde...'
-              setTimeout(() => {
-                document.location.href = '/'
-              }, 1000)
+              document.location.href = '/'
             }, 1000)
           }, 1000)
-        } else {
-          this.btnCreateAccountLabel = 'Créer un compte'
-        }
+        }, 1000)
       } else {
-        return
-      }
-    },
-    checkForm () {
-      // Email address
-      if (this.userEmail.length === 0) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
-      } else if (!this.validateEmail(this.userEmail)) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
-      } else {
-        this.userEmailValid = 'valid'
-        this.userEmailErrorMsg = ''
-      }
-
-      // User Name
-      if (this.userName.length === 0) {
-        this.userNameValid = 'error'
-        this.userNameErrorMsg = 'Veuillez renseigner un nom d\'utilisateur'
-      } else {
-        this.userNameValid = 'valid'
-        this.userNameErrorMsg = ''
-      }
-
-      // Password
-      if (this.userPswd.length === 0) {
-        this.userPswdValid = 'error'
-        this.userPswdErrorMsg = 'Veuillez renseigner un mot de passe'
-      } else if (this.userPswd.length < 8) {
-        this.userPswdValid = 'error'
-        this.userPswdErrorMsg = 'Le mot de passe doit contenir au moins 8 caractères'
-      } else {
-        this.userPswdValid = 'valid'
-        this.userPswdErrorMsg = ''
-      }
-
-      // Confrim password
-      if (this.userPswdConfirm.length === 0) {
-        this.userPswdConfirmValid = 'error'
-      } else if (this.userPswdConfirm !== this.userPswd) {
-        this.userPswdConfirmValid = 'error'
-        this.userPswdConfirmdErrorMsg = 'Les mots de passes doivent êtres identiques'
-      } else {
-        this.userPswdConfirmValid = 'valid'
-        this.userPswdConfirmdErrorMsg = ''
-      }
-
-      // Gender
-      if (this.userGender === '') {
-        this.userGenderValid = 'error'
-        this.userGenderErrorMsg = 'Veuillez sélectionner un sexe'
-      } else {
-        this.userGenderValid = 'valid'
-        this.userGenderErrorMsg = ''
-      }
-
-      // Age range
-      if (this.userAgeRange === '') {
-        this.userAgeRangeValid = 'error'
-        this.userAgeRangeErrorMsg = 'Veuillez sélectionner une tranche d\'âge'
-      } else {
-        this.userAgeRangeValid = 'valid'
-        this.userAgeRangeErrorMsg = ''
-      }
-
-      // Native Language
-      if (this.nativeOn) {
-        this.selectedLanguage = 'français'
-        this.language = this.selectedLanguage
-        this.selectedLanguageValid = 'valid'
-        this.selectedLanguageErrorMsg = ''
-      } else if (this.selectedLanguage !== '') {
-        this.selectedLanguageValid = 'valid'
-        this.language = this.selectedLanguage
-        this.selectedLanguageErrorMsg = ''
-      } else {
-        this.language = ''
-        this.selectedLanguageValid = 'error'
-        this.selectedLanguageErrorMsg = 'Veuillez sélectionner votre langue maternelle'
-      }
-
-      if (
-        this.userNameValid === 'valid' &&
-        this.userEmailValid === 'valid' &&
-        this.userPswdValid === 'valid' &&
-        this.userPswdConfirmValid === 'valid' &&
-        this.userGenderValid === 'valid' &&
-        this.selectedLanguageValid === 'valid' &&
-        this.userAgeRangeValid === 'valid') {
-        return true
-      } else {
-        return false
+        this.btnCreateAccountLabel = 'Créer un compte'
       }
     },
     setCookie (cname, cvalue, exdays) {

@@ -55,6 +55,25 @@ module.exports = (webServer) => {
       }
     },
     {
+      path: '/userNameExist',
+      method: 'post',
+      controller: async (req, res, next) => {
+        const name = req.body.name
+        const getUser = await model.getUserByName(name)
+        if(getUser.length > 0) {
+          res.json({
+            status: 'success',
+            msg: 'user found'
+          })
+        } else {
+          res.json({
+            status: 'error',
+            msg: 'user not found'
+          })
+        }
+      }
+    },
+    {
       path: '/pswd',
       method: 'put',
       requireAuth: true,

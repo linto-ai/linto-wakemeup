@@ -101,6 +101,19 @@ button {
     outline: none;
     text-decoration: none;
   }
+  &,
+  &.large {
+    &:disabled,
+    &[disabled],
+    &:disabled:hover,
+    &[disabled]:hover{
+      color: $disabled;
+      background-color: #fff;
+      border-color: $disabled;
+      @include cancelBoxShadow()
+    }
+  }
+
 }
 
 .aslink {
@@ -116,7 +129,7 @@ button {
 
 .custom-toggle-btn{
   margin-top: 3px;
-  
+
   display: inline-block;
   position: relative;
   height: 20px;

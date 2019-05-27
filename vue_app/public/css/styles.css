@@ -7296,6 +7296,13 @@ button {
     box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
     outline: none;
     text-decoration: none; }
+  .button:disabled, .button[disabled], .button:disabled:hover, .button[disabled]:hover, .button.large:disabled, .button.large[disabled], .button.large:disabled:hover, .button.large[disabled]:hover {
+    color: #cecece;
+    background-color: #fff;
+    border-color: #cecece;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none; }
 
 .aslink {
   display: inline-block;
@@ -7861,6 +7868,8 @@ h3 {
       display: inline-block;
       vertical-align: top;
       width: auto; }
+      .field-container .field-label > span.error-field {
+        width: 100%; }
     .field-container .field-label i {
       font-size: 14px; }
     .field-container .field-label .icon {
@@ -7878,6 +7887,8 @@ h3 {
       height: 30px;
       font-weight: 400;
       margin-right: 10px; }
+      .field-container .field-label .label.error {
+        color: #c61e42; }
     .field-container .field-label .required {
       font-size: 18px;
       font-weight: 400;
@@ -7919,6 +7930,8 @@ h3 {
   color: #c61e42;
   margin: 0;
   padding: 5px 0; }
+  .error-field.required {
+    color: #cecece; }
 
 .select {
   display: inline-block;
