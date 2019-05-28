@@ -5,50 +5,57 @@
         <span class="required">*</span>
         <span class="label">Adresse email:</span>
       </div>
-      <input type="text" v-model="userEmail" class="input" :class="[userEmailValid ? userEmailValid : '']" v-on:keyup.13="checkForm()"/>
-      <span
-        class="error-field"
-        :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
-      >{{ userEmailErrorMsg }}</span>
+      <input
+        type="text"
+        class="input"
+        v-model="userEmail"
+        :class="{error: $v.userEmail.$error, valid: !$v.userEmail.$invalid}"
+        @blur="$v.userEmail.$touch()"
+        @keyup.13="sendMail($v)"
+      >
+      <span class="error-field" v-if="!$v.userEmail.required">Ce champ est obligatoire</span>
+      <span class="error-field" v-if="!$v.userEmail.email">Le format de l'adresse email est invalide</span>
+      <span class="error-field" v-if="userEmail.length > 0 && !$v.userEmail.userExist">Cette adresse email n'est pas associée à un compte</span>
     </div>
     <div class="field-container btn">
-      <button class="button green large" @click="checkForm()">{{ sendButtonLabel }}</button>
+      <button class="button green large" @click.prevent="sendMail($v)">{{ sendButtonLabel }}</button>
     </div>
   </div>
 </template>
 <script>
+import { required, email } from 'vuelidate/lib/validators'
 import axios from 'axios'
 import { bus } from '../main.js'
 export default {
   data () {
     return {
       userEmail: '',
-      userEmailErrorMsg: '',
-      userEmailValid: false,
       sendButtonLabel: 'Envoyer un lien de réinitialisation',
       mailSend: false
     }
   },
-  methods: {
-    async checkForm () {
-      const isValid = this.validateEmail(this.userEmail)
-      if (isValid) {
-        this.userEmailErrorMsg = ''
-        this.userEmailValid = 'valid'
-        this.sendButtonLabel = 'Envoi en cours...'
-        await this.sendMail(this.userEmail)
-      } else {
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
-        this.userEmailValid = 'error'
+  validations: {
+    userEmail: {
+      required,
+      email,
+      userExist: async (val) => {
+        const testUser = await axios(`${process.env.VUE_APP_URL}/api/user/userEmailExist`, {
+          method: 'post',
+          data: {email: val}
+        })
+        if (testUser.data.status === 'success') {
+          return true
+        }
+        return false
       }
-    },
-    async sendMail (email) {
-      // Verify that the email is associated to a user
-      const userEmailExist = await axios(`${process.env.VUE_APP_URL}/api/user/userEmailExist`, {
-        method: 'post',
-        data: { email }
-      })
-      if (userEmailExist.data.status === 'success') {
+    }
+  },
+  methods: {
+    async sendMail (validator) {
+      validator.$touch()
+      if(!validator.$error) {
+        // Verify that the email is associated to a user
+        const email = this.userEmail
         this.sendButtonLabel = 'Envoi en cours, veuillez patienter...'
         // Generate reinitToken and send mail to user
         const setReinit = await axios(`${process.env.VUE_APP_URL}/api/user/setReinit`, {
@@ -67,14 +74,7 @@ export default {
             redirect: false
           })
         }
-      } else {
-        this.userEmailErrorMsg = 'Cette adresse email n\'est pas associées à un compte utilisateur'
-        this.userEmailValid = 'error'
-        this.sendButtonLabel = 'Envoyer un lien de réinitialisation'
       }
-    },
-    validateEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
     }
   }
 }

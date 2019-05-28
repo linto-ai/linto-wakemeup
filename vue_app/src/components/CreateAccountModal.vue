@@ -47,7 +47,6 @@
               <span class="error-field" v-if="!$v.userEmail.required">Ce champ est obligatoire</span>
               <span class="error-field" v-if="!$v.userEmail.email">Le format de l'adresse email est invalide</span>
               <span class="error-field" v-if="!$v.userEmail.unique">Cette adresse email est déjà utilisée</span>
-
             </div>
 
             <!-- Password -->

@@ -5,46 +5,54 @@
         <span class="required">*</span>
         <span class="label">Nom / Prénom :</span>
       </div>
-      <input type="text" class="input" v-model="userName" :class="[userNameValid === 'error' ? 'error' : '', userNameValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-      <span
-        class="error-field"
-        :class="[userNameErrorMsg.length > 0 ? 'visible' : 'hidden']"
-      >{{ userNameErrorMsg }}</span>
-    </div>
+       <input
+        type="text"
+        class="input"
+        v-model="userName"
+        :class="{error: $v.userName.$error, valid: !$v.userName.$invalid}"
+        @blur="$v.userName.$touch()"
+        @keyup.13="sendForm($v)"
+      >
+      <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
+      <span class="error-field" v-if="userName.length > 0 && !$v.userName.isName">Veuillez saisir un nom valide</span>
 
+    </div>
     <div class="field-container">
       <div class="field-label">
         <span class="label">Société :</span>
       </div>
-      <input type="text" class="input" v-model="userSociety" :class="[userSocietyValid === 'error' ? 'error' : '', userSocietyValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-      <span
-        class="error-field"
-        :class="[userSocietyErrorMsg.length > 0 ? 'visible' : 'hidden']"
-      >{{ userSocietyErrorMsg }}</span>
+      <input type="text" class="input" v-model="userSociety" v-on:keyup.13="sendForm()">
     </div>
-
     <div class="field-container">
       <div class="field-label">
         <span class="required">*</span>
         <span class="label">Email :</span>
       </div>
-      <input type="text" class="input" v-model="userEmail" :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-      <span
-        class="error-field"
-        :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']"
-      >{{ userEmailErrorMsg }}</span>
+      <input
+        type="text"
+        class="input"
+        v-model="userEmail"
+        :class="{error: $v.userEmail.$error, valid: !$v.userEmail.$invalid}"
+        @blur="$v.userEmail.$touch()"
+        @keyup.13="sendForm($v)"
+      >
+      <span class="error-field" v-if="!$v.userEmail.required">Ce champ est obligatoire</span>
+      <span class="error-field" v-if="!$v.userEmail.email">Le format de l'adresse email est invalide</span>
     </div>
-
     <div class="field-container">
       <div class="field-label">
         <span class="required">*</span>
         <span class="label">Objet :</span>
       </div>
-      <input type="text" class="input" v-model="userSubject" :class="[userSubjectValid === 'error' ? 'error' : '', userSubjectValid === 'valid' ? 'valid' : '']" v-on:keyup.13="sendForm()">
-      <span
-        class="error-field"
-        :class="[userSubjectErrorMsg.length > 0 ? 'visible' : 'hidden']"
-      >{{ userSubjectErrorMsg }}</span>
+      <input
+        type="text"
+        class="input"
+        v-model="userSubject"
+        :class="{error: $v.userSubject.$error, valid: !$v.userSubject.$invalid}"
+        @blur="$v.userSubject.$touch()"
+        @keyup.13="sendForm($v)"
+      >
+      <span class="error-field" v-if="!$v.userSubject.required">Ce champ est obligatoire</span>
     </div>
 
     <div class="field-container">
@@ -52,12 +60,16 @@
         <span class="required">*</span>
         <span class="label">Message :</span>
       </div>
-      <textarea class="input textarea" v-model="userMessage" :class="[userMessageValid === 'error' ? 'error' : '', userMessageValid === 'valid' ? 'valid' : '']"></textarea>
-      <span
-        class="error-field"
-        :class="[userMessageErrorMsg.length > 0 ? 'visible' : 'hidden']"
-      >{{ userMessageErrorMsg }}</span>
+      <textarea
+        class="input textarea"
+        v-model="userMessage"
+        :class="{error: $v.userMessage.$error, valid: !$v.userMessage.$invalid}"
+        @blur="$v.userMessage.$touch()"
+        @keyup.13="sendForm($v)"
+      ></textarea>
+      <span class="error-field" v-if="!$v.userMessage.required">Ce champ est obligatoire</span>
     </div>
+
     <div class="field-container captcha">
       <Captcha :status="captchaErrorMsg.length > 0 ? 'error' : ''"></Captcha>
       <span
@@ -65,14 +77,15 @@
         :class="[captchaErrorMsg.length > 0 ? 'visible' : 'hidden']"
       >{{ captchaErrorMsg }}</span>
     </div>
-    <div class="field-container btn">
-        <button class="button green large" @click="sendForm()">{{ btnLabel }}</button>
 
+    <div class="field-container btn">
+      <button class="button green large" @click="sendForm($v)">{{ btnLabel }}</button>
     </div>
 
   </div>
 </template>
 <script>
+import { required, email, regex } from 'vuelidate/lib/validators'
 import { bus } from '../main.js'
 import Captcha from './Captcha.vue'
 import axios from 'axios'
@@ -80,20 +93,10 @@ export default {
   data () {
     return {
       userName: '',
-      userNameValid: false,
-      userNameErrorMsg: '',
       userSociety: '',
-      userSocietyValid: false,
-      userSocietyErrorMsg: '',
       userEmail: '',
-      userEmailValid: false,
-      userEmailErrorMsg: '',
       userSubject: '',
-      userSubjectValid: false,
-      userSubjectErrorMsg: '',
       userMessage: '',
-      userMessageValid: false,
-      userMessageErrorMsg: '',
       btnLabel: 'Envoyer',
       captchaValid: false,
       captchaErrorMsg: ''
@@ -104,71 +107,45 @@ export default {
       this.captchaValid = data.value
     })
   },
+  validations: {
+    userName: {
+      required,
+      isName: (val) => {
+        const regExp = /^[a-zA-ZÀ-ÿ]+(([',. -][a-zA-ZÀ-ÿ ])?[a-zA-ZÀ-ÿ]*)*$/g
+        return (regExp.test(val))
+      }
+    },
+    userEmail: {
+      required,
+      email
+    },
+    userSubject: {
+      required
+    },
+    userMessage: {
+      required
+    }
+  },
+  watch: {
+    userEmail: function (data) {
+      this.userEmail = data.toLowerCase()
+    }
+  },
   methods: {
-    checkForm () {
-      let formValid = true
 
-        // Email address
-      if (this.userEmail.length === 0) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
-        formValid = false
-      } else if (!this.validateEmail(this.userEmail)) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
-        formValid = false
-      } else {
-        this.userEmailValid = 'valid'
-        this.userEmailErrorMsg = ''
-      }
-
-      // User Name
-      if (this.userName.length === 0) {
-        this.userNameValid = 'error'
-        this.userNameErrorMsg = 'Veuillez renseigner votre nom'
-        formValid = false
-      } else {
-        this.userNameValid = 'valid'
-        this.userNameErrorMsg = ''
-      }
-
-      // Subject
-      if (this.userSubject.length === 0) {
-        this.userSubjectValid = 'error'
-        this.userSubjectErrorMsg = 'Veuillez renseigner l\'objet de votre message'
-        formValid = false
-      } else {
-        this.userSubjectValid = 'valid'
-        this.userSubjectErrorMsg = ''
-      }
-
-      // Message
-      if (this.userMessage.length === 0) {
-        this.userMessageValid = 'error'
-        this.userMessageErrorMsg = 'Veuillez saisir un message'
-        formValid = false
-      } else {
-        this.userMessageValid = 'valid'
-        this.userMessageErrorMsg = ''
-      }
-
+    async sendForm (validator) {
+      validator.$touch()
       if (!this.captchaValid) {
         this.captchaErrorMsg = 'Le captcha est erroné'
-        formValid = false
       } else {
         this.captchaErrorMsg = ''
       }
-
-      return formValid
-    },
-    async sendForm () {
-      const formValid = this.checkForm()
-      if (formValid) {
+      if (!validator.$invalid && this.captchaValid) {
         const payload = {
           userName: this.userName,
           subject: this.userSubject,
           email: this.userEmail.toLowerCase(),
-          message: this.userMessage,
+          message: this.formatMessage(this.userMessage),
           society: this.userSociety
         }
         this.btnLabel = 'Envoi en cours...'
@@ -184,6 +161,7 @@ export default {
           })
           this.userMessage = ''
           this.btnLabel = 'Envoyer'
+          validator.$reset()
         } else {
           bus.$emit('notify_app', {
             status: 'error',
@@ -194,8 +172,13 @@ export default {
         }
       }
     },
-    validateEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+    formatMessage (msg) {
+      const formattedMsg = msg
+      .replace(/\n/g, '<br />')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      return formattedMsg
     }
   },
   components: {

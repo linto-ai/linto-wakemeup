@@ -1,5 +1,5 @@
 <template>
-  <div class="captcha-container" :class="[captchaError ? 'error' : '']">
+  <div class="captcha-container" :class="[captchaStatus]">
     <span class="captcha-label">Veuillez sélectionner <strong>{{captchaTextValue}}</strong></span>
     <div class="captcha-item-container">
       <button class="captcha-btn" :class="[captcha.value, captcha.value === captchaResponse ? 'selected' : '']" v-for="captcha in captchaValues" :key="captcha.value" @click="setCaptchaValue(captcha.value)"></button>
@@ -33,15 +33,16 @@
         captchaValue: '',
         captchaTextValue: '',
         captchaResponse: '',
-        captchaError: false
+        captchaStatus: null
       }
     },
     watch: {
       status: function (data) {
         if(data === 'error') {
-          this.captchaError = true
+          this.captchaStatus = 'error'
         } else {
-          this.captchaError = false
+          this.captchaStatus = 'valid'
+
         }
       }
     },

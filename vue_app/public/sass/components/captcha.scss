@@ -5,6 +5,9 @@
   &.error {
     border-color: $redChart;
   }
+  &.valid{
+    border-color: $greenChart;
+  }
   .captcha-label{
     display: inline-block;
     width: 100%;

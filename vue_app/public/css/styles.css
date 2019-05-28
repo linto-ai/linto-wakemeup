@@ -9009,6 +9009,8 @@ textarea {
   padding: 20px; }
   .captcha-container.error {
     border-color: #c61e42; }
+  .captcha-container.valid {
+    border-color: #2da800; }
   .captcha-container .captcha-label {
     display: inline-block;
     width: 100%;
