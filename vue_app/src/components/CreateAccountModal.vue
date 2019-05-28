@@ -79,6 +79,7 @@
                 v-model="userPswdConfirm"
                 :class="{error: $v.userPswdConfirm.$error}"
                 @blur="$v.userPswdConfirm.$touch()"
+                @keyup.13="sendForm($v)"
               >
               <span class="error-field" v-if="$v.userPswdConfirm.$error">Le mot de passe de confirmation est différent du mot de passe saisi.</span>
             </div>

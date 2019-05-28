@@ -29,6 +29,7 @@ module.exports = (webServer) => {
         for (let key in data) {
           payload[key] = data[key]
         }
+
         const updateUser = await model.updateUser(payload)
         res.json({
           'status': updateUser
@@ -107,6 +108,27 @@ module.exports = (webServer) => {
             status: 'error',
             msg: 'Le mot de passe actuel est erroné',
             code: 0
+          })
+        }
+      }
+    },
+    {
+      path: '/pswdcheck',
+      method: 'post',
+      requireAuth: true,
+      controller: async (req, res, next) => {
+        const pswd = req.body.pswd
+        const userHash = req.body.userHash
+        const getUserInfos = await model.getUserByHash(userHash)
+        let payload = getUserInfos[0]
+        // Check current password
+        if (sha1(pswd + payload.salt) === payload.passwordHash) {
+          res.json({
+            status: 'success'
+          })
+        } else {
+          res.json({
+            status: 'error'
           })
         }
       }
@@ -210,6 +232,6 @@ module.exports = (webServer) => {
           })
         }
       }
-    },
+    }
   ]
 }

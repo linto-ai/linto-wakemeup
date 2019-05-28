@@ -10,37 +10,53 @@
                 <tr>
                   <td class="tab-label">Adresse email :</td>
                   <td class="tab-input">
-                    <input type="text" class="input" v-model="userInfos.email"  :class="[userEmailValid === 'error' ? 'error' : '', userEmailValid === 'valid' ? 'valid' : '']" />
-                    <span class="error-field" :class="[userEmailErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ userEmailErrorMsg }}</span>
+                    <input
+                      type="text"
+                      class="input"
+                      v-model="userPrivateDatas.email"
+                      :class="{error: $v.userPrivateDatas.email.$error, valid: !$v.userPrivateDatas.email.$invalid}"
+                      @blur="$v.userPrivateDatas.email.$touch()"
+                      @keyup.13="updateProfil($v)"
+                    >
+                    <span class="error-field" v-if="!$v.userPrivateDatas.email.required">Ce champ est obligatoire</span>
+                    <span class="error-field" v-if="!$v.userPrivateDatas.email.email">Le format de l'adresse email est invalide</span>
+
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Sexe :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="userInfos.gender" v-on:keyup.13="updateProfil()" :class="[userGenderValid === 'error' ? 'error' : '', userGenderValid === 'valid' ? 'valid' : '']">
+                    <select
+                      class="select"
+                      v-model="userPrivateDatas.gender"
+                      @change="$v.userPrivateDatas.gender.$touch()"
+                      :class="{error: $v.userPrivateDatas.gender.$error, valid:!$v.userPrivateDatas.gender.$invalid}"
+                      v-on:keyup.13="updateProfil($v)"
+                    >
+                      <option value="" hidden>Sélectionner un sexe</option>
                       <option value="male">Homme</option>
                       <option value="female">Femme</option>
                     </select>
-                    <span class="error-field" :class="[userGenderErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userGenderErrorMsg }}</span>
+                    <span class="error-field" v-if="$v.userPrivateDatas.gender.$error">Veuillez sélectionner un sexe</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Type de microphone :</td>
                   <td class="tab-input">
                     <div class="micro-type-container">
-                      <div class="micro-type-item" @click="setMicrophone('default')" :class="[userInfos.deviceType === 'default' ? 'active' : '']">
+                      <div class="micro-type-item" @click="setMicrophone('default')" :class="[userPrivateDatas.deviceType === 'default' ? 'active' : '']">
                         <span class="icon default"></span>
                         <span class="label">Micro par défaut</span>
                       </div>
-                      <div class="micro-type-item" @click="setMicrophone('casque')" :class="[userInfos.deviceType === 'casque' ? 'active' : '']">
+                      <div class="micro-type-item" @click="setMicrophone('casque')" :class="[userPrivateDatas.deviceType === 'casque' ? 'active' : '']">
                         <span class="icon casque"></span>
                         <span class="label">Micro-casque</span>
                       </div>
-                      <div class="micro-type-item" @click="setMicrophone('pied')" :class="[userInfos.deviceType === 'pied' ? 'active' : '']">
+                      <div class="micro-type-item" @click="setMicrophone('pied')" :class="[userPrivateDatas.deviceType === 'pied' ? 'active' : '']">
                         <span class="icon pied"></span>
                         <span class="label">Micro à pied</span>
                       </div>
-                      <div class="micro-type-item" @click="setMicrophone('smartphone')" :class="[userInfos.deviceType === 'smartphone' ? 'active' : '']">
+                      <div class="micro-type-item" @click="setMicrophone('smartphone')" :class="[userPrivateDatas.deviceType === 'smartphone' ? 'active' : '']">
                         <span class="icon smartphone"></span>
                         <span class="label">Smartphone</span>
                       </div>
@@ -50,40 +66,53 @@
                 <tr>
                   <td class="tab-label">Tranche d'âge :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="userInfos.ageRange" v-on:keyup.13="updateProfil()" :class="[userAgeRangeValid === 'error' ? 'error' : '', userAgeRangeValid === 'valid' ? 'valid' : '']">
+                    <select
+                      class="select"
+                      v-model="userPrivateDatas.ageRange"
+                      :class="{error: $v.userPrivateDatas.ageRange.$error, valid:!$v.userPrivateDatas.ageRange.$invalid}"
+                      v-on:keyup.13="updateProfil($v)"
+                    >
                       <option value="" hidden>Sélectionner une tranche d'âge</option>
                       <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
                       <option value="90+">90+ ans</option>
                     </select>
-                    <span class="error-field" :class="[userAgeRangeErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ userAgeRangeErrorMsg }}</span>
+                    <span class="error-field" v-if="$v.userPrivateDatas.ageRange.$error">Veuillez sélectionner une tranche d'âge</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Je suis français natif :</td>
                   <td class="tab-input">
-                    <button class="custom-toggle-btn userpanel" @click="toggleNative()" :class="[nativeFrench ? 'on': 'off']">
+                    <button class="custom-toggle-btn userpanel" @click="toggleNative()" :class="[userPrivateDatas.nativeFrench ? 'on': 'off']">
                         <span class="cursor" ></span>
                     </button>
                   </td>
                 </tr>
-                <tr v-if="!nativeFrench">
-                  <td class="tab-label">Je suis français natif :</td>
+                <tr v-if="!userPrivateDatas.nativeFrench">
+                  <td class="tab-label">Langue maternelle :</td>
                   <td class="tab-input">
-                    <select class="select" v-model="selectedLanguage" v-on:keyup.13="updateProfil()" :class="[selectedLanguageValid === 'error' ? 'error' : '', selectedLanguageValid === 'valid' ? 'valid' : '']">
+                    <select
+                      class="select"
+                      ref="languageSelectInput"
+                      v-model="userPrivateDatas.language"
+                      :class="{error: $v.userPrivateDatas.language.$error, valid:!$v.userPrivateDatas.language.$invalid}"
+                      @keyup.13="updateProfil($v)"
+                      @change="$v.userPrivateDatas.language.$touch()"
+                    >
                       <option value="" hidden>Sélectionner une langue maternelle</option>
-                      <option v-for="country in countriesList" :key="country" :value="country" >{{country}}</option>
+                      <option v-for="country in countriesList" :key="country" :value="country" :selected="country === userPrivateDatas.language" >{{country}}</option>
                     </select>
-                      <span class="error-field" :class="[selectedLanguageErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ selectedLanguageErrorMsg }}</span>
+                    <span class="error-field" v-if="$v.userPrivateDatas.language.$error">Veuillez sélectionner une langue maternelle</span>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2" style="padding-top:10px;">
-                    <button class="button green large" @click="updateProfil()">Mettre mes informations à jour</button>
+                    <button class="button green large" @click.prevent="updateProfil($v)">Mettre mes informations à jour</button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+
           <h2>Modifier le mot de passe</h2>
           <div class="white-container">
             <table class="user-panel-tab">
@@ -91,27 +120,50 @@
                 <tr>
                   <td class="tab-label">Mot de passe actuel :</td>
                   <td class="tab-input">
-                    <input class="input" type="password" v-model="currentPswd"  :class="[currentPswdValid === 'error' ? 'error' : '', currentPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
-                    <span class="error-field" :class="[currentPswdErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ currentPswdErrorMsg }}</span>
+                    <input
+                      class="input"
+                      type="password"
+                      v-model="userPassword.oldPswd"
+                      :class="{error: $v.userPassword.oldPswd.$error, valid: !$v.userPassword.oldPswd.$invalid}"
+                      @blur="$v.userPassword.oldPswd.$touch()"
+                      @:keyup.13="updatePswd($v)"
+                    />
+                    <span class="error-field" v-if="!$v.userPassword.oldPswd.required">Ce champ est obligatoire</span>
+                    <span class="error-field" v-if="userPassword.oldPswd.length > 0 && !$v.userPassword.oldPswd.isValid">Le mot de passe saisi est incorrect</span>
+
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Nouveau mot de passe :</td>
                   <td class="tab-input">
-                    <input class="input" type="password" v-model="newPswd"  :class="[newPswdValid === 'error' ? 'error' : '', newPswdValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
-                    <span class="error-field" :class="[newPswdErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdErrorMsg }}</span>
+                    <input
+                      class="input"
+                      type="password"
+                      v-model="userPassword.newPswd"
+                      :class="{error: $v.userPassword.newPswd.$error, valid: !$v.userPassword.newPswd.$invalid}"
+                      @blur="$v.userPassword.newPswd.$touch()"
+                      @:keyup.13="updatePswd($v)"
+                    />
+                    <span class="error-field" v-if="!$v.userPassword.newPswd.required">Ce champ est obligatoire</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="tab-label">Confirmation du nouveau mot de passe :</td>
                   <td class="tab-input">
-                    <input class="input" type="password" v-model="newPswdConfirm"  :class="[newPswdConfirmValid === 'error' ? 'error' : '', newPswdConfirmValid === 'valid' ? 'valid' : '']" v-on:keyup.13="updatePswd()"/>
-                    <span class="error-field" :class="[newPswdConfirmErrorMsg.length > 0 ? 'visible' : 'hidden']">{{ newPswdConfirmErrorMsg }}</span>
+                    <input
+                      type="password"
+                      class="input"
+                      v-model="userPassword.newPswdConfirm"
+                      :class="{error: $v.userPassword.newPswdConfirm.$error}"
+                      @blur="$v.userPassword.newPswdConfirm.$touch()"
+                      @keyup.13="updatePswd($v)"
+                    >
+                    <span class="error-field" v-if="userPassword.newPswdConfirm.length > 0 && !$v.userPassword.newPswdConfirm.sameAsNewPswd">Le mot de passe de confirmation est différent du mot de passe saisi.</span>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2" style="padding-top:10px;">
-                    <button class="button red large" @click="updatePswd()">Modifier le mot de passe</button>
+                    <button class="button red large" @click.prevent="updatePswd($v)">Modifier le mot de passe</button>
                   </td>
                 </tr>
               </tbody>
@@ -126,7 +178,7 @@
                 <h3>Mots-clés enregistrés</h3>
                 <div class="stats-container">
                   <span class="icon talk"></span>
-                  <span class="number talk">{{ userInfos.nbRecord }}</span>
+                  <span class="number talk">{{ userStore.nbRecord }}</span>
                 </div>
                 <a href="/interface/record" class="button red">S'enregistrer</a>
               </div>
@@ -134,7 +186,7 @@
                 <h3>Mots-clés écoutés</h3>
                 <div class="stats-container">
                   <span class="icon listen"></span>
-                  <span class="number listen">{{ userInfos.nbListen }}</span>
+                  <span class="number listen">{{ userStore.nbListen }}</span>
                 </div>
                 <a href="/interface/listen" class="button green">Écouter</a>
               </div>
@@ -147,33 +199,30 @@
   </div>
 </template>
 <script>
+import { required, email, minLength, alphaNum, sameAs } from 'vuelidate/lib/validators'
 import axios from 'axios'
 import { bus } from '../main.js'
 export default {
   data () {
     return {
-      currentPswd: '',
-      currentPswdValid: false,
-      currentPswdErrorMsg: '',
-      newPswd: '',
-      newPswdValid: false,
-      newPswdErrorMsg: '',
-      newPswdConfirm: '',
-      newPswdConfirmValid: false,
-      newPswdConfirmErrorMsg: '',
-      nativeFrench: false,
+      userPrivateDatas : {
+        email: '',
+        gender: '',
+        ageRange: '',
+        nativeFrench: '',
+        language: '',
+        deviceType: '',
+        userHash: ''
+      },
+      userPassword: {
+        oldPswd: '',
+        newPswd: '',
+        newPswdConfirm: '',
+        userHash: ''
+      },
       selectedLanguage: '',
-      selectedLanguageValid: true,
-      selectedLanguageErrorMsg: '',
       dataLoaded: false,
       countriesList: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla', 'Antigua & Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia & Herzegovina', 'Botswana', 'Brazil', 'British Virgin Islands', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Cape Verde', 'Cayman Islands', 'Chad', 'Chile', 'China', 'Colombia', 'Congo', 'Cook Islands', 'Costa Rica', 'Cote D Ivoire', 'Croatia', 'Cruise Ship', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Estonia', 'Ethiopia', 'Falkland Islands', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Polynesia', 'French West Indies', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyz Republic', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macau', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Rwanda', 'Saint Pierre & Miquelon', 'Samoa', 'San Marino', 'Satellite', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St Kitts & Nevis', 'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor L\'Este', 'Togo', 'Tonga', 'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks & Caicos', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'],
-      userGenderValid: false,
-      userGenderErrorMsg: '',
-      userAgeRangeValid: false,
-      userAgeRangeErrorMsg: '',
-      userEmailValid: false,
-      userEmailErrorMsg: '',
-      userInfos: null
     }
   },
   created () {
@@ -187,26 +236,76 @@ export default {
       return this.$store.state.userInfos
     }
   },
+  validations: {
+    userPrivateDatas: {
+      email: {
+        required,
+        email
+      },
+      gender: {
+        required
+      },
+      ageRange: {
+        required
+      },
+      language: {
+        required
+      }
+    },
+    userPassword: {
+      oldPswd: {
+        required,
+        isValid: async (val, observer) => {
+          const pswdUser = await axios(`${process.env.VUE_APP_URL}/api/user/pswdcheck`, {
+            method: 'post',
+            data: {
+              pswd: val,
+              userHash: observer.userHash
+            }
+          })
+          if (pswdUser.data.status === 'success') {
+            return true
+          }
+          return false
+        }
+      },
+      newPswd: {
+        required,
+        minLength: minLength(6)
+      },
+      newPswdConfirm: {
+        sameAsNewPswd: sameAs(vm => {
+          return vm.newPswd
+        })
+      }
+    }
+  },
   watch: {
     userStore: function (data) {
+      this.selectedLanguage = data.language
+      this.userPrivateDatas = {
+        email: data.email,
+        gender: data.gender,
+        ageRange: data.ageRange,
+        nativeFrench: data.nativeFrench,
+        language: this.selectedLanguage,
+        deviceType: data.deviceType,
+        userHash: data.userHash
+      }
+      this.userPassword.userHash = data.userHash
       if (!this.dataLoaded) {
-        this.userInfos = data
         this.dataLoaded = true
       }
     },
-    userInfos: function (data) {
-      this.nativeFrench = data.nativeFrench
-      if (this.nativeFrench === false) {
-        this.selectedLanguage = data.language
-        this.language = this.selectedLanguage
-      }
-    },
-    nativeFrench: function (data) {
+    'userPrivateDatas.nativeFrench'(data) {
       if (data) {
         this.selectedLanguage = 'français'
       } else {
         this.selectedLanguage = ''
       }
+    },
+    selectedLanguage: function (data) {
+      this.userPrivateDatas.language = data
     }
   },
   methods: {
@@ -224,77 +323,16 @@ export default {
       }
       return ''
     },
-    validateEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-    },
     toggleNative () {
-      this.nativeFrench = !this.nativeFrench
+      this.userPrivateDatas.nativeFrench = !this.userPrivateDatas.nativeFrench
     },
     setMicrophone (data) {
-      this.userInfos.deviceType = data
+      this.userPrivateDatas.deviceType = data
     },
-    checkProfil () {
-      let profilValid = true
-
-      // Email address
-      if (this.userInfos.email.length === 0) {
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email'
-        profilValid = false
-      } else if (!this.validateEmail(this.userInfos.email)){
-        this.userEmailValid = 'error'
-        this.userEmailErrorMsg = 'Veuillez renseigner une adresse email valide'
-        profilValid = false
-      } else {
-        this.userEmailValid = 'valid'
-        this.userEmailErrorMsg = ''
-      }
-
-      // Gender
-      if (this.userInfos.gender === '') {
-        this.userGenderValid = 'error'
-        this.userGenderErrorMsg = 'Veuillez sélectionner un sexe'
-        profilValid = false
-      } else {
-        this.userGenderValid = 'valid'
-        this.userGenderErrorMsg = ''
-      }
-
-      // Age range
-      if (this.userInfos.ageRange === '') {
-        this.userAgeRangeValid = 'error'
-        this.userAgeRangeErrorMsg = 'Veuillez sélectionner une tranche d\'âge'
-        profilValid = false
-      } else {
-        this.userAgeRangeValid = 'valid'
-        this.userAgeRangeErrorMsg = ''
-      }
-
-      // Native Language
-      if (this.nativeFrench) {
-        this.selectedLanguage = 'français'
-        this.language = this.selectedLanguage
-        this.selectedLanguageValid = 'valid'
-        this.selectedLanguageErrorMsg = ''
-      } else if (this.selectedLanguage !== '') {
-        this.selectedLanguageValid = 'valid'
-        this.language = this.selectedLanguage
-        this.selectedLanguageErrorMsg = ''
-      } else {
-        profilValid = false
-        this.selectedLanguage = ''
-        this.language = this.selectedLanguage
-        this.selectedLanguageValid = 'error'
-        this.selectedLanguageErrorMsg = 'Veuillez sélectionner votre langue maternelle'
-      }
-      return profilValid
-    },
-    async updateProfil () {
-      const profilValid = this.checkProfil()
-      if (profilValid) {
-        let payload = this.userInfos
-        payload.nativeFrench = this.nativeFrench
-        payload.language = this.language
+    async updateProfil (validator) {
+      validator.userPrivateDatas.$touch()
+      if (!validator.userPrivateDatas.$error) {
+        let payload = this.userPrivateDatas
         const updateUser = await axios(`${process.env.VUE_APP_URL}/api/user`, {
           method: 'put',
           data: payload
@@ -305,64 +343,17 @@ export default {
             msg: 'Vos informations ont été mises à jour',
             redirect: false
           })
-          this.$store.dispatch('getUserInfos', this.userInfos.userHash)
+          this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash)
         }
       }
     },
-    checkPswd () {
-      let pswdFormValid = true
-
-      // check current password
-      if (this.currentPswd.length === 0) {
-        pswdFormValid = false
-        this.currentPswdValid = 'error'
-        this.currentPswdErrorMsg = 'Veuillez saisir votre mot de passe actuel'
-      } else {
-        this.currentPswdValid = 'valid'
-        this.currentPswdErrorMsg = ''
-      }
-
-      // check new password
-      if (this.newPswd.length === 0) {
-        pswdFormValid = false
-        this.newPswdValid = 'error'
-        this.newPswdErrorMsg = 'Veuillez saisir un nouveau mot de passe'
-      } else if (this.newPswd === this.currentPswd) {
-        pswdFormValid = false
-        this.newPswdValid = 'error'
-        this.newPswdErrorMsg = 'Le nouveau mot de passe doit être différent de l\'actuel'
-      } else if (this.newPswd.length < 8) {
-        pswdFormValid = false
-        this.newPswdValid = 'error'
-        this.newPswdErrorMsg = 'Votre mot de passe doit contenir au moins 8 caractères'
-      } else {
-        this.newPswdValid = 'valid'
-        this.newPswdErrorMsg = ''
-      }
-
-      // check new password confirm
-      if (this.newPswdConfirm.length === 0) {
-        pswdFormValid = false
-        this.newPswdConfirmValid = 'error'
-        this.newPswdConfirmErrorMsg = 'Veuillez confirmer votre nouveau mot de passe'
-      } else if (this.newPswdConfirm !== this.newPswd) {
-        pswdFormValid = false
-        this.newPswdConfirmValid = 'error'
-        this.newPswdConfirmErrorMsg = 'Les mots de passe saisis ne correspondent pas'
-      } else {
-        this.newPswdConfirmValid = 'valid'
-        this.newPswdConfirmErrorMsg = ''
-      }
-
-      return pswdFormValid
-    },
-    async updatePswd () {
-      const pswdFormValid = this.checkPswd()
-      if (pswdFormValid) {
+    async updatePswd (validator) {
+      validator.userPassword.$touch()
+      if (!validator.userPassword.$error) {
         const payload = {
-          currentPswd: this.currentPswd,
-          newPswd: this.newPswd,
-          userHash: this.userInfos.userHash
+          currentPswd: this.userPassword.oldPswd,
+          newPswd: this.userPassword.newPswd,
+          userHash: this.userPrivateDatas.userHash
         }
         const updatePswd = await axios(`${process.env.VUE_APP_URL}/api/user/pswd`, {
           method: 'put',
@@ -374,18 +365,7 @@ export default {
             msg: 'Votre mot de passe a été modifié',
             redirect: false
           })
-          this.$store.dispatch('getUserInfos', this.userInfos.userHash)
-        } else if (updatePswd.data.status === 'error') {
-          if (updatePswd.data.code === 0) {
-            this.currentPswdValid = 'error'
-            this.currentPswdErrorMsg = 'Le mot de passe saisi est invalide'
-          } else {
-            bus.$emit('notify_app', {
-              status: updatePswd.status,
-              msg: updatePswd.data.msg,
-              redirect: false
-            })
-          }
+          this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash)
         }
       }
     }
