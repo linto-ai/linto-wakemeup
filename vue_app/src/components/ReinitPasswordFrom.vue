@@ -28,7 +28,7 @@
         type="password"
         class="input"
         v-model="userPswdConfirm"
-        :class="{error: $v.userPswdConfirm.$error}"
+        :class="{error: $v.userPswdConfirm.$error, valid: $v.userPswdConfirm.sameAsPassword && userPswdConfirm.length > 0}"
         @blur="$v.userPswdConfirm.$touch()"
         @keyup.13="updatePswd($v)"
       >
