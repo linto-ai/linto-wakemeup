@@ -108,7 +108,7 @@ export default {
       this.connexionBtnLabel = 'Connexion...'
       this.userPswdErrorMsg = ''
       this.userNameErrorMsg = ''
-      if(!formValidator.$error && !formValidator.$invalid) {
+      if (!formValidator.$error && !formValidator.$invalid) {
         const payload = {
         userName: this.userName,
         password: this.userPswd

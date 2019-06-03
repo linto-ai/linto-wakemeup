@@ -31,6 +31,7 @@ module.exports = (webServer) => {
     "/login": require('./login')(webServer),
     "/logout": require('./logout')(webServer),
     "/mentions-legales": require('./home')(webServer),
+    "/policy": require('./home')(webServer),
     "/reinit-password": require('./reinit-password')(webServer)
   }
 }

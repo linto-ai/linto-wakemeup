@@ -43,6 +43,10 @@ body {
   border: none;
   background-color: #fff;
   text-align: center;
+
+  &.left{
+    text-align: left;
+  }
 }
 
 h1{

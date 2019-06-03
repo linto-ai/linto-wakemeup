@@ -7496,6 +7496,8 @@ body {
   border: none;
   background-color: #fff;
   text-align: center; }
+  .white-container.left {
+    text-align: left; }
 
 h1 {
   display: inline-block;
@@ -8225,40 +8227,6 @@ table.list {
     padding: 0; }
 
 /***  END LOADING ***/
-/*** FOOTER ***/
-.mentions-legales-container {
-  max-width: 920px;
-  width: 90%;
-  margin: 40px auto; }
-  .mentions-legales-container h1 {
-    font-size: 30px;
-    display: inline-block;
-    width: 100%;
-    color: #c61e42;
-    padding: 20px 0;
-    text-align: center; }
-  .mentions-legales-container h2 {
-    display: inline-block;
-    width: 100%;
-    font-size: 22px;
-    color: #2da800; }
-  .mentions-legales-container p {
-    display: inline-block;
-    width: 100%;
-    font-size: 16px;
-    color: #444444;
-    line-height: 22px; }
-    .mentions-legales-container p strong {
-      font-weight: 600;
-      color: #c61e42; }
-
-/*** RESPONSIVE ***/
-@media screen and (max-width: 960px) {
-  .mentions-legales-container h1 {
-    font-size: 24px; }
-  .mentions-legales-container h2 {
-    font-size: 18px; } }
-
 /*** MODAL ***/
 .modal.visible {
   display: block;
@@ -8322,6 +8290,8 @@ table.list {
     background-image: url("../img/back@2x.png"); }
 
 .modal-body .content {
+  max-height: 400px;
+  overflow: auto;
   font-size: 16px;
   line-height: 22px; }
   .modal-body .content strong {

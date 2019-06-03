@@ -11,7 +11,7 @@ import ReinitPswdForm from './views/ReinitPswdForm.vue'
 import Scenarios from './views/Scenarios.vue'
 import UserPanel from './views/UserPanel.vue'
 import Contact from './views/Contact.vue'
-
+import PolicyAgreement from './views/PolicyAgreement.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -71,5 +71,10 @@ export default new Router({
     path: '/mentions-legales',
     name: 'Mentions Légales',
     component: MentionsLegales
+  },
+  {
+    path: '/policy',
+    name: 'Privacy policy',
+    component: PolicyAgreement
   }]
 })

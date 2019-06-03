@@ -74,7 +74,10 @@
 }
 
 .modal-body {
+
   .content {
+    max-height: 400px;
+    overflow: auto;
     font-size: 16px;
     line-height: 22px;
 
