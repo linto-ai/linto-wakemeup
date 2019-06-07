@@ -83,13 +83,11 @@ export default {
   },
   watch: {
     userInfos: function (data) {
-      console.log(data)
       if (data.role === 'administrator') {
         this.isAdmin = true
       } else {
         this.isAdmin = false
       }
-      console.log(this.isAdmin)
     },
     scenarios: function (data) {
       this.scenariosLoaded = true
@@ -105,7 +103,7 @@ export default {
       })
       if (!unused) {
         this.wakewordValid = 'error'
-        this.wakewordErrorMsg = 'Ce wakeword fais déjà parti du scénario d\'enregistrement'
+        this.wakewordErrorMsg = 'Ce mot-clé fait déjà parti du scénario d\'enregistrement'
         return false
       } else {
         this.wakewordValid = 'valid'
@@ -123,7 +121,7 @@ export default {
           this.$store.dispatch('getScenarios')
           bus.$emit('notify_app', {
             status: 'success',
-            msg: 'Wakeword ajouté avec succès.',
+            msg: 'Mot-clé ajouté avec succès.',
             redirect: false
           })
         } else {
