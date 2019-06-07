@@ -83,16 +83,16 @@ export default {
   },
   watch: {
     userInfos: function (data) {
+      console.log(data)
       if (data.role === 'administrator') {
         this.isAdmin = true
       } else {
         this.isAdmin = false
       }
+      console.log(this.isAdmin)
     },
     scenarios: function (data) {
-      if (data.length > 0) {
-        this.scenariosLoaded = true
-      }
+      this.scenariosLoaded = true
     }
   },
   methods: {
