@@ -4,27 +4,25 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-function compareValues(param) {
-  return function(a, b) {
+function compareValues (param) {
+  return function (a, b) {
     const key = param.key
     const order = param.order
-    if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
       // property doesn't exist on either object
-      return 0;
+      return 0
     }
-    const varA = (typeof a[key] === 'string') ?
-      a[key].toUpperCase() : a[key];
-    const varB = (typeof b[key] === 'string') ?
-      b[key].toUpperCase() : b[key];
+    const varA = (typeof a[key] === 'string') ? a[key].toUpperCase() : a[key]
+    const varB = (typeof b[key] === 'string') ? b[key].toUpperCase() : b[key]
 
-    let comparison = 0;
+    let comparison = 0
     if (varA > varB) {
-      comparison = 1;
+      comparison = 1
     } else if (varA < varB) {
-      comparison = -1;
+      comparison = -1
     }
     return (
-      (order == 'desc') ? (comparison * -1) : comparison
+      (order === 'desc') ? (comparison * -1) : comparison
     )
   }
 }
@@ -37,6 +35,7 @@ export default new Vuex.Store({
     audios: ''
   },
   mutations: {
+    // Set user infos without sensitive datas
     SET_USER: (state, data) => {
       state.userInfos = {
         email: data.email,
@@ -53,12 +52,15 @@ export default new Vuex.Store({
         role: data.role
       }
     },
+    // Set recording scenarios
     SET_SCENARIOS: (state, data) => {
       state.scenarios = data
     },
+    // Set audio files
     SET_AUDIOS: (state, data) => {
       state.audios = data
-    }, 
+    },
+    // Sort audios list by key
     SORT_AUDIOS: (state, param) => {
       let audioList = state.audios
       let sortTable = audioList.sort(compareValues(param))
@@ -66,6 +68,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    // Get user informations after connexion
     getUserInfos: async ({ commit, state }, hash) => {
       try {
         const getUser = await axios(`${process.env.VUE_APP_URL}/api/user/getInfos`, {
@@ -80,10 +83,8 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
-    getScenarios: async ({
-      commit,
-      state
-    }) => {
+    // Get recording scenarios
+    getScenarios: async ({ commit, state }) => {
       try {
         const getScenarios = await axios(`${process.env.VUE_APP_URL}/api/scenarios`, {
           method: 'get'
@@ -94,7 +95,8 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
-    getAudios: async ({commit, state }) => {
+    // Get audio files
+    getAudios: async ({ commit, state }) => {
       try {
         const getAudios = await axios(`${process.env.VUE_APP_URL}/api/audios`, {
           method: 'get'
@@ -106,7 +108,8 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
-    sortAudios: async ({commit, state}, param) => {
+    // Sort audio list by key
+    sortAudios: async ({ commit, state }, param) => {
       try {
         commit('SORT_AUDIOS', param)
         return state.audios
@@ -116,8 +119,10 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    // Get audios that can be validate by an user
+    // (audios that the user didn't record or has already voted for)
     AUDIO_BY_USER: (state) => (userHash) => {
-      try {
+      try {
         let audios = state.audios
         let validAudios = []
         audios.map(a => {
@@ -128,16 +133,17 @@ export default new Vuex.Store({
           }
         })
         return validAudios
-      } catch (err) {
+      } catch (err) {
         console.error(err)
       }
     },
+    // Get audios that hasn't be modified by navigator
     NO_OPT_AUDIOS: (state) => {
       try {
         let audios = state.audios
         let noOptAudios = []
         audios.map(a => {
-          if(a.options === 'noOpt') {
+          if (a.options === 'noOpt') {
             noOptAudios.push(a)
           }
         })
@@ -146,69 +152,78 @@ export default new Vuex.Store({
         console.error(err)
       }
     },
+    // Get total number of "listened" and "recorded" audios
     APP_STATS: (state) => {
-      let scenarios = state.scenarios
-      if (scenarios.length > 0) {
-
-        let nbListen = 0
-        let nbRecord = 0
-        scenarios.map(s => {
-          nbListen += s.nbListen
-          nbRecord += s.nbRecord
+      try {
+        let scenarios = state.scenarios
+        if (scenarios.length > 0) {
+          let nbListen = 0
+          let nbRecord = 0
+          scenarios.map(s => {
+            nbListen += s.nbListen
+            nbRecord += s.nbRecord
+          })
+          return {
+            nbListen,
+            nbRecord
+          }
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    // Get the ratio between male and female
+    GENDER_RATIO: (state) => {
+      try {
+        let male = 0
+        let female = 0
+        let audios = state.audios
+        audios.map(a => {
+          if (a.gender === 'male') {
+            male += 1
+          } else if (a.gender === 'female') {
+            female += 1
+          }
         })
-
+        const total = male + female
+        const pctMale = male * 100 / total
+        const pctFemale = female * 100 / total
         return {
-          nbListen,
-          nbRecord
+          total,
+          pctMale,
+          pctFemale
         }
+      } catch (err) {
+        console.error(err)
       }
     },
-    GENDER_RATIO: (state) => {
-      let male = 0
-      let female = 0
-      let audios = state.audios
-      audios.map(a => {
-        if (a.gender === 'male') {
-          male += 1
-        } else if (a.gender === 'female') {
-          female += 1
-        }
-      })
-
-      const total = male + female
-      const pctMale = male * 100 / total
-      const pctFemale = female * 100 / total
-
-      return {
-        total,
-        pctMale,
-        pctFemale
-      }
-    },
+    // get the ratio of used devices
     DEVICES_RATIO: (state) => {
-      let audios = state.audios
-      let defaultDevice = 0
-      let headphone = 0
-      let external = 0
-
-      audios.map(a => {
-        if (a.deviceType === 'default'){
-          defaultDevice += 1
-        } else if (a.deviceType === 'casque') {
-          headphone += 1
-        } else if (a.deviceType === 'pied') { 
-          external += 1
+      try {
+        let audios = state.audios
+        let defaultDevice = 0
+        let headphone = 0
+        let external = 0
+        audios.map(a => {
+          if (a.deviceType === 'default') {
+            defaultDevice += 1
+          } else if (a.deviceType === 'casque') {
+            headphone += 1
+          } else if (a.deviceType === 'pied') {
+            external += 1
+          }
+        })
+        const total = parseInt(defaultDevice) + parseInt(headphone) + parseInt(external)
+        const prctDefault = defaultDevice * 100 / total
+        const prctHeadphone = headphone * 100 / total
+        const prctExternal = external * 100 / total
+        return {
+          prctDefault,
+          prctExternal,
+          prctHeadphone
         }
-      })
-
-      const total = parseInt(defaultDevice) + parseInt(headphone) + parseInt(external)
-      const prctDefault = defaultDevice * 100 / total
-      const prctHeadphone = headphone * 100 / total
-      const prctExternal = external * 100 / total 
-      return {
-        prctDefault,
-        prctExternal,
-        prctHeadphone
+      } catch (err) {
+        console.error(err)
       }
     }
   }
