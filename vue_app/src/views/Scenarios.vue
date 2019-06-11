@@ -53,7 +53,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { bus } from '../main.js'
+import { bus } from '../main.js'
 import DeleteWakewordModal from '@/components/DeleteWakewordModal.vue'
 export default {
   data () {
@@ -134,7 +134,7 @@ export default {
       }
     },
     deleteWakeword (data) {
-      bus.$emit('show_deleteWakeWord_modal', {wakeword: data})
+      bus.$emit('show_deleteWakeWord_modal', { wakeword: data })
     }
   },
   components: {

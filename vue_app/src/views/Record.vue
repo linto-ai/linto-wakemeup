@@ -434,6 +434,7 @@ export default {
         nativeFrench: this.userInfos.nativeFrench,
         language: this.userInfos.language
       }
+
       let formData = new FormData()
       formData.append('webAudioInfos', JSON.stringify(webAudioInfos))
       formData.append('userInfos', JSON.stringify(userPayload))

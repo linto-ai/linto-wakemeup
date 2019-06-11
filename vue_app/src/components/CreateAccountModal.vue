@@ -327,7 +327,7 @@ export default {
     async createAccount () {
       this.btnCreateAccountLabel = 'Création en cours...'
       const payload = {
-        email: this.userEmail,
+        email: this.userEmail.toLowerCase(),
         userName: this.userName,
         pswd: this.userPswd,
         gender: this.userGender,

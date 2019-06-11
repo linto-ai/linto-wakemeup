@@ -17,7 +17,6 @@
                   <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du mot-clé</li>
                 </ul>
               </p>
-
               <div class="notice">
                 <h3>Validation d'échantillons audio</h3>
                 <ul>
@@ -80,153 +79,150 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import {
-    bus
-  } from '../main.js'
-  export default {
-    data() {
-      return {
-        showInfos: true,
-        audiosReady: false,
-        wakeword: '',
-        audioFile: '',
-        userHash: '',
-        isPlaying: '',
-        playerAudio: null,
-        audioHasBeenListen: false,
-        noMoreAudio: false,
-        userHash: '',
-        userAudios: '',
-        screenWidth: 0,
-        mobileView: false
-      }
-    },
-    created () {
-      this.$store.dispatch('getAudios').then((resp) => {}, error => {
-        console.error('error:', err)
-      })
-    },
-    mounted () {
-      if (this.getCookie('wmu_listeninfos') !== 'undefined') {
-        if (this.getCookie('wmu_listeninfos') === 'false') {
-          this.showInfos = false
-        } else if (this.getCookie('wmu_listeninfos') === 'true') {
-          this.showInfos = true
-        }
-      }
-      this.screenWidth = this.getScreenWidth()
-      if (this.screenWidth <= 1280) {
+import axios from 'axios'
+import { bus } from '../main.js'
+export default {
+  data () {
+    return {
+      showInfos: true,
+      audiosReady: false,
+      wakeword: '',
+      audioFile: '',
+      userHash: '',
+      isPlaying: '',
+      playerAudio: null,
+      audioHasBeenListen: false,
+      noMoreAudio: false,
+      userAudios: '',
+      screenWidth: 0,
+      mobileView: false
+    }
+  },
+  created () {
+    this.$store.dispatch('getAudios').then((resp) => {}, error => {
+      console.error('error:', error)
+    })
+  },
+  mounted () {
+    if (this.getCookie('wmu_listeninfos') !== 'undefined') {
+      if (this.getCookie('wmu_listeninfos') === 'false') {
         this.showInfos = false
-      }
-      window.addEventListener('resize', () => {
-        this.screenWidth = this.getScreenWidth()
-      })
-    },
-    computed: {
-      userInfos() {
-        return this.$store.state.userInfos
-      },
-      audios() {
-        return this.$store.state.audios
-      }
-    },
-    watch: {
-      screenWidth: function (data) {
-        if (data <= 1280) {
-          this.mobileView = true
-        } else {
-          this.mobileView = false
-        }
-      },
-      userInfos: function (data) {
-        this.userHash = this.$store.state.userInfos.userHash
-      },
-      userHash: function (data) {
-        if (!!this.audios) {
-          this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
-        }
-      },
-      audios: function (data) {
-        if (!!this.userHash) {
-          this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash)
-        }
-      },
-      userAudios: function(data) {
-        if (data.length > 0) {
-          this.noMoreAudio = false
-          this.wakeword = data[0].wakeword
-          this.audioFile = '/assets/audios/' + data[0].fieldname
-          this.audiosReady = true
-          this.playerAudio = new Audio(this.audioFile)
-        } else {
-          this.audiosReady = false
-          this.noMoreAudio = true
-        }
-      }
-    },
-    methods: {
-      getScreenWidth () {
-        return window.innerWidth
-      },
-      toggleInfos () {
-        this.showInfos = !this.showInfos
-        this.setCookie('wmu_listeninfos', this.showInfos, 31)
-      },
-      playAudio () {
-        this.isPlaying = 'active'
-        this.playerAudio.play()
-        this.playerAudio.addEventListener('ended', () => {
-          this.isPlaying = ''
-          this.audioHasBeenListen = true
-        })
-      },
-      async sendVote (vote) {
-        const payload = {
-          audioId: this.userAudios[0]._id,
-          vote: vote,
-          userHash: this.userInfos.userHash,
-          wakeword: this.wakeword
-        }
-        const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audios/vote`, {
-          method: 'post',
-          data: payload
-        })
-
-        if (sendVote.data.voteAudio === 'success') {
-          bus.$emit('notify_app', {
-            status: 'success',
-            msg: 'Vote pris en compte.',
-            redirect: '/interface/listen'
-          })
-        } else {
-          bus.$emit('notify_app', {
-            status: 'error',
-            msg: 'Erreur lors de l\'enregistrement',
-            redirect: false
-          })
-        }
-      },
-      getCookie (cname) {
-        const name = cname + '='
-        const ca = document.cookie.split(';')
-        for (let i = 0; i < ca.length; i++) {
-          let c = ca[i]
-          while (c.charAt(0) == ' ') {
-            c = c.substring(1)
-          }
-          if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length)
-          }
-        }
-        return ''
-      },
-      setCookie (cname, cvalue, exdays) {
-        const d = new Date()
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
-        const expires = 'expires=' + d.toUTCString()
-        document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
+      } else if (this.getCookie('wmu_listeninfos') === 'true') {
+        this.showInfos = true
       }
     }
+    this.screenWidth = this.getScreenWidth()
+    if (this.screenWidth <= 1280) {
+      this.showInfos = false
+    }
+    window.addEventListener('resize', () => {
+      this.screenWidth = this.getScreenWidth()
+    })
+  },
+  computed: {
+    userInfos () {
+      return this.$store.state.userInfos
+    },
+    audios () {
+      return this.$store.state.audios
+    }
+  },
+  watch: {
+    screenWidth: function (data) {
+      if (data <= 1280) {
+        this.mobileView = true
+      } else {
+        this.mobileView = false
+      }
+    },
+    userInfos: function (data) {
+      this.userHash = this.$store.state.userInfos.userHash
+    },
+    userHash: function (data) {
+      if (!!this.audios) {
+        this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
+      }
+    },
+    audios: function (data) {
+      if (!!this.userHash) {
+        // Random sort audio list
+        this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
+      }
+    },
+    userAudios: function (data) {
+      if (data.length > 0) {
+        this.noMoreAudio = false
+        this.wakeword = data[0].wakeword
+        this.audioFile = '/assets/audios/' + data[0].fieldname
+        this.audiosReady = true
+        this.playerAudio = new Audio(this.audioFile)
+      } else {
+        this.audiosReady = false
+        this.noMoreAudio = true
+      }
+    }
+  },
+  methods: {
+    getScreenWidth () {
+      return window.innerWidth
+    },
+    toggleInfos () {
+      this.showInfos = !this.showInfos
+      this.setCookie('wmu_listeninfos', this.showInfos, 31)
+    },
+    playAudio () {
+      this.isPlaying = 'active'
+      this.playerAudio.play()
+      this.playerAudio.addEventListener('ended', () => {
+        this.isPlaying = ''
+        this.audioHasBeenListen = true
+      })
+    },
+    async sendVote (vote) {
+      const payload = {
+        audioId: this.userAudios[0]._id,
+        vote: vote,
+        userHash: this.userInfos.userHash,
+        wakeword: this.wakeword
+      }
+      const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audios/vote`, {
+        method: 'post',
+        data: payload
+      })
+      if (sendVote.data.voteAudio === 'success') {
+        bus.$emit('notify_app', {
+          status: 'success',
+          msg: 'Vote pris en compte.',
+          redirect: '/interface/listen'
+        })
+      } else {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Erreur lors de l\'enregistrement',
+          redirect: false
+        })
+      }
+    },
+    getCookie (cname) {
+      const name = cname + '='
+      const ca = document.cookie.split(';')
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) === ' ') {
+          c = c.substring(1)
+        }
+        if (c.indexOf(name) === 0) {
+          return c.substring(name.length, c.length)
+        }
+      }
+      return ''
+    },
+    setCookie (cname, cvalue, exdays) {
+      const d = new Date()
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
+      const expires = 'expires=' + d.toUTCString()
+      document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
+    }
   }
+}
 </script>

@@ -41,7 +41,7 @@ export default {
       userExist: async (val) => {
         const testUser = await axios(`${process.env.VUE_APP_URL}/api/user/userEmailExist`, {
           method: 'post',
-          data: {email: val}
+          data: { email: val }
         })
         if (testUser.data.status === 'success') {
           return true
@@ -50,12 +50,17 @@ export default {
       }
     }
   },
+  watch: {
+    userEmail: function (data) {
+      this.userEmail = data.toLowerCase()
+    }
+  },
   methods: {
     async sendMail (validator) {
       validator.$touch()
-      if(!validator.$error) {
+      if (!validator.$error) {
         // Verify that the email is associated to a user
-        const email = this.userEmail
+        const email = this.userEmail.toLowerCase()
         this.sendButtonLabel = 'Envoi en cours, veuillez patienter...'
         // Generate reinitToken and send mail to user
         const setReinit = await axios(`${process.env.VUE_APP_URL}/api/user/setReinit`, {

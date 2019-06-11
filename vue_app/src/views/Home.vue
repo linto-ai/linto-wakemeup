@@ -50,8 +50,8 @@ export default {
         if (resp) {
           this.userConnected = true
         }
-      }, error => {
-        console.error('error:', err)
+      }, (error) => {
+        console.error('error:', error)
       })
     }
   },
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     navigate (e) {
-      if(!this.userConnected){
+      if (!this.userConnected) {
         bus.$emit('toggle_connection_modal', {})
       } else {
         const url = e.target.getAttribute('data-url')
@@ -72,7 +72,7 @@ export default {
     getCookie (cname) {
       const name = cname + '='
       const ca = document.cookie.split(';')
-      for(let i = 0; i < ca.length; i++) {
+      for (let i = 0; i < ca.length; i++) {
         let c = ca[i]
         while (c.charAt(0) == ' ') {
           c = c.substring(1)

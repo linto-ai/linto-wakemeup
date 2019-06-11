@@ -192,19 +192,26 @@
               </div>
             </div>
           </div>
+          <h2 v-if="!isAdmin">Supprimer mon compte</h2>
+          <div v-if="!isAdmin" class="white-container">
+            <button @click="deleteAccount(userPrivateDatas.userHash)" class="button red">Supprimer mon compte</button>
+          </div>
         </div>
       </div>
     </div>
     <div v-else>Chargement...</div>
+    <DeleteAccountModal></DeleteAccountModal>
   </div>
 </template>
 <script>
+import DeleteAccountModal from '@/components/DeleteAccountModal.vue'
 import { required, email, minLength, alphaNum, sameAs } from 'vuelidate/lib/validators'
 import axios from 'axios'
 import { bus } from '../main.js'
 export default {
   data () {
     return {
+      isAdmin: false,
       userPrivateDatas : {
         email: '',
         gender: '',
@@ -293,11 +300,14 @@ export default {
         userHash: data.userHash
       }
       this.userPassword.userHash = data.userHash
+      if (data.role === 'administrator') {
+        this.isAdmin = true
+      }
       if (!this.dataLoaded) {
         this.dataLoaded = true
       }
     },
-    'userPrivateDatas.nativeFrench'(data) {
+    'userPrivateDatas.nativeFrench': function (data) {
       if (data) {
         this.selectedLanguage = 'français'
       } else {
@@ -306,6 +316,9 @@ export default {
     },
     selectedLanguage: function (data) {
       this.userPrivateDatas.language = data
+    },
+    'userPrivateDatas.email': function (data) {
+      this.userPrivateDatas.email = data.toLowerCase()
     }
   },
   methods: {
@@ -368,7 +381,13 @@ export default {
           this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash)
         }
       }
+    },
+    async deleteAccount(userHash) {
+      bus.$emit('toggle_deleteAccount_modal', { userHash })
     }
+  },
+  components: {
+    DeleteAccountModal
   }
 }
 </script>

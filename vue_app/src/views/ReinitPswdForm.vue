@@ -40,9 +40,6 @@ export default {
       this.userHash = checkToken.data.userHash
     } else {
       this.tokenValid = false
-      if (checkToken.data.msg === 'tokenInvalid' || checkToken.data.msg === 'tokenExpired') {
-        // Renvoyer un mail
-      }
     }
   },
   components: {
