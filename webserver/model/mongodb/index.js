@@ -18,8 +18,8 @@ const moveFile = function (file) {
   //gets file name and adds it to dir2
   const status = file.status
   const newPath = file.destination + '/' + status + '/' + file.fieldname
-  fs.rename(file.path, newPath, (err)=>{
-    if(err) {
+  fs.rename(file.path, newPath, (err) => {
+    if (err) {
       console.error(err)
       return {
         status: 'error',
@@ -29,7 +29,7 @@ const moveFile = function (file) {
   })
   return {
     status: 'success',
-    path: newPath, 
+    path: newPath,
     dest: file.destination + '/' + status
   }
 }
@@ -57,9 +57,9 @@ class modelMongoDb {
       console.error(error)
     }
   }
-  
+
   /**
-   * Get a user from "users" collection, by its "_id" 
+   * Get a user from "users" collection, by its "_id"
    * @param {string} id
    * @returns {Array|Object}
    */
@@ -73,9 +73,9 @@ class modelMongoDb {
       console.error('get user ', err)
     }
   }
-  
+
   /**
-   * Get a user from "users" collection, by its "_id" 
+   * Get a user from "users" collection, by its "_id"
    * @param {string} name
    * @returns {Array|Object}
    */
@@ -99,7 +99,7 @@ class modelMongoDb {
       console.error('get user ', err)
     }
   }
-  
+
   async getUserByHash(hash) {
     try {
       const query = {
@@ -121,15 +121,15 @@ class modelMongoDb {
       if (getUser.length === 0) {
         const salt = randomstring.generate(12)
         const userPayload = {
-          userName : payload.userName,
+          userName: payload.userName,
           email: payload.email,
           passwordHash: sha1(payload.pswd + salt),
           salt: salt,
           gender: payload.gender,
           deviceType: payload.deviceType,
           ageRange: payload.userAgeRange,
-          userHash : sha1(payload.userName),
-          language : payload.language,
+          userHash: sha1(payload.userName),
+          language: payload.language,
           nativeFrench: payload.nativeFrench,
           recordList: [],
           nbListen: 0,
@@ -138,7 +138,7 @@ class modelMongoDb {
           reinit: {}
         }
         return await this.mongoInsert('users', userPayload)
-        
+
       } else {
         return 'userExist'
       }
@@ -173,27 +173,27 @@ class modelMongoDb {
       const getUser = await this.getUserByHash(userHash)
       const user = getUser[0]
       let userRecord = user.recordList
-      if(userRecord.length > 0 ){
+      if (userRecord.length > 0) {
         let wwFound = false
         userRecord.map(ur => {
-          if(ur.wakeword == wakeword){
+          if (ur.wakeword == wakeword) {
             wwFound = true
             ur.step = step
-            if(step == 3){
+            if (step == 3) {
               ur.complete = true
             }
           }
         })
-        if (!wwFound){
-          userRecord.push({wakeword, step, complete: false})
+        if (!wwFound) {
+          userRecord.push({ wakeword, step, complete: false })
         }
       } else {
-        userRecord.push({wakeword, step, complete: false})
+        userRecord.push({ wakeword, step, complete: false })
       }
       user.recordList = userRecord
       user.nbRecord += 1
       const updateUser = await this.updateUser(user)
-      if(updateUser === 'success') {
+      if (updateUser === 'success') {
         return {
           status: 'success',
           msg: 'User datas has been updated'
@@ -208,22 +208,32 @@ class modelMongoDb {
       console.error(err)
     }
   }
+
+  async deleteUser(userHash) {
+    try {
+      const query = { userHash }
+      const deleteUser = await this.mongoDelete('users', query)
+      return deleteUser
+    } catch (err) {
+      console.error(err)
+    }
+  }
   /**************/
   /*** Audios ***/
   /*************/
-  async getAllAudios () {
+  async getAllAudios() {
     try {
       const query = {}
-      const allAudios=  await this.mongoRequest('audios', query)
+      const allAudios = await this.mongoRequest('audios', query)
       return allAudios
     } catch (err) {
       console.error(err)
     }
   }
-  async getAudioVotes (payload) {
+  async getAudioVotes(payload) {
     try {
       const query = {
-        options : 'noOpt',
+        options: 'noOpt',
         mimetype: 'audio/wav',
         status: 'vote',
       }
@@ -232,25 +242,35 @@ class modelMongoDb {
       console.error(err)
     }
   }
-  async addAudioSample (payload) {
-    try{
+  async addAudioSample(payload) {
+    try {
       return await this.mongoInsert('audios', payload)
     } catch (err) {
       console.error(err)
     }
   }
-  async getAudioById (id) {
+  async getAudioById(id) {
     try {
       const query = {
         _id: this.mongoDb.ObjectID(id)
       }
       return await this.mongoRequest('audios', query)
     } catch (err) {
-      console.error('get user ', err)
+      console.error(err)
     }
   }
-  async updateVoteAudio (payload) {
-    try{
+  async getAudiosByUserHash(userHash) {
+    try {
+      const query = {
+        author: userHash
+      }
+      return await this.mongoRequest('audios', query)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  async updateVoteAudio(payload) {
+    try {
       const getAudio = await this.getAudioById(payload.audioId)
       const getUser = await this.getUserByHash(payload.userHash)
       let fileMove = null
@@ -261,28 +281,28 @@ class modelMongoDb {
 
       audioPayload.userVoted.push(payload.userHash)
       audioPayload.nbVotes += 1
-      if(payload.vote === 'good'){
+      if (payload.vote === 'good') {
         audioPayload.nbValidVote += 1
       } else if (payload.vote === 'bad') {
         audioPayload.nbInvalidVote += 1
       }
-      if(audioPayload.nbValidVote >= 5) {
+      if (audioPayload.nbValidVote >= 5) {
         audioPayload.status = 'valid'
       }
-      if(audioPayload.nbInvalidVote >= 5) {
+      if (audioPayload.nbInvalidVote >= 5) {
         audioPayload.status = 'invalid'
       }
       const audioQuery = {
         _id: this.mongoDb.ObjectID(payload.audioId)
       }
-      if(!!audioPayload._id){
+      if (!!audioPayload._id) {
         delete audioPayload._id
       }
 
-      if(audioPayload.status !== 'vote') {
+      if (audioPayload.status !== 'vote') {
         fileMove = moveFile(audioPayload)
 
-        if(fileMove.status === 'success') {
+        if (fileMove.status === 'success') {
           audioPayload.path = fileMove.path
           audioPayload.destination = fileMove.dest
         } else {
@@ -291,24 +311,29 @@ class modelMongoDb {
       }
       const updateAudio = await this.mongoUpdate('audios', audioQuery, audioPayload)
       const updateUser = await this.updateUser(user)
-      const updateScenarios =  await this.updateScenario({wakeword: payload.wakeword, action: 'increment_listen'})
+      const updateScenarios = await this.updateScenario({ wakeword: payload.wakeword, action: 'increment_listen' })
 
-      if(updateAudio === 'success' && updateUser === 'success' && updateScenarios === 'success'){
+      if (updateAudio === 'success' && updateUser === 'success' && updateScenarios === 'success') {
         return 'success'
       } else {
         return 'error'
       }
-    } catch (err) {
+    } catch (err) {
       console.error(err)
     }
   }
 
-  async deleteAudio (audioId) {
-    const query = {
-      _id: this.mongoDb.ObjectID(audioId)
+  async deleteAudio(audioId) {
+    try {
+      const query = {
+        _id: this.mongoDb.ObjectID(audioId)
+      }
+      const deleteAudio = await this.mongoDelete('audios', query)
+      return deleteAudio
+    } catch (err) {
+      console.error(err)
     }
-    const deleteAudio = await this.mongoDelete('audios', query)
-    return deleteAudio
+
   }
   /*****************/
   /*** Scenarios ***/
@@ -323,38 +348,38 @@ class modelMongoDb {
   }
   async getScenarioByWakeword(wakeword) {
     try {
-      const query = {wakeword: wakeword}
+      const query = { wakeword: wakeword }
       return await this.mongoRequest('scenarios', query)
     } catch (error) {
       console.error(error)
     }
   }
   async postScenario(data) {
-    try{
+    try {
       const payload = {
         wakeword: data.wakeword,
-        scenario : {
-          noOpt : {
-              step : 1,
-              echoCancellation : true,
-              noiseSuppression : true
+        scenario: {
+          noOpt: {
+            step: 1,
+            echoCancellation: true,
+            noiseSuppression: true
           },
-          echoCancel : {
-              step : 2,
-              echoCancellation : true,
-              noiseSuppression : false
+          echoCancel: {
+            step: 2,
+            echoCancellation: true,
+            noiseSuppression: false
           },
-          noiseSuppr : {
-              step : 3,
-              echoCancellation : false,
-              noiseSuppression : true
+          noiseSuppr: {
+            step: 3,
+            echoCancellation: false,
+            noiseSuppression: true
           }
         },
         nbListen: 0,
         nbRecord: 0
       }
       return await this.mongoInsert('scenarios', payload)
-    } catch (err) {
+    } catch (err) {
       console.error(err)
     }
   }
@@ -364,13 +389,13 @@ class modelMongoDb {
     }
     return await this.mongoDelete('scenarios', query)
   }
-  async updateScenario (data) {
-    try {
+  async updateScenario(data) {
+    try {
       const wakeword = data.wakeword
       const action = data.action
       const getScenario = await this.getScenarioByWakeword(wakeword)
       const scenario = getScenario[0]
-      if(action === 'increment_listen') {
+      if (action === 'increment_listen') {
         scenario.nbListen += 1
       } else if (action === 'increment_record') {
         scenario.nbRecord += 1
@@ -378,11 +403,11 @@ class modelMongoDb {
       const query = {
         wakeword: wakeword
       }
-      if(!!scenario._id){
+      if (!!scenario._id) {
         delete scenario._id
       }
       return await this.mongoUpdate('scenarios', query, scenario)
-      
+
     } catch (err) {
       console.error(err)
     }
@@ -392,20 +417,20 @@ class modelMongoDb {
   /*** APP ***/
   /************/
 
-  async getAppStats () {
-    try {
+  async getAppStats() {
+    try {
       const query = {}
-      const appStats =  await this.mongoRequest('app_stats', query)
+      const appStats = await this.mongoRequest('app_stats', query)
       return appStats[0]
     } catch (err) {
       console.error(err)
     }
   }
 
-  async updateAppStats (payload) {
+  async updateAppStats(payload) {
     try {
       const appStats = await this.getAppStats()
-      if(payload.target === 'nbListen') {
+      if (payload.target === 'nbListen') {
         appStats.nbListen += 1
       } else if (payload.target === 'nbRecord') {
         appStats.nbRecord += 1
@@ -413,7 +438,7 @@ class modelMongoDb {
       const query = {
         _id: this.mongoDb.ObjectID(appStats._id)
       }
-      if(!!appStats._id) {
+      if (!!appStats._id) {
         delete appStats._id
       }
       return await this.mongoUpdate('app_stats', query, appStats)
@@ -428,9 +453,9 @@ class modelMongoDb {
   /******************/
   /**
    * Update function for mongoDB. This function will update an entry based on the "collection", the "query" and the "values" passed in parmaters.
-   * @param {string} collection 
-   * @param {Object} query 
-   * @param {Object} values 
+   * @param {string} collection
+   * @param {Object} query
+   * @param {Object} values
    * @returns {Pomise}
    */
   async mongoUpdate(collection, query, values) {
@@ -463,9 +488,9 @@ class modelMongoDb {
 
   /**
    * Insert/Create function for mongoDB. This function will create an entry based on the "collection", the "query" and the "values" passed in parmaters.
-   * @param {string} collection 
-   * @param {Object} query 
-   * @param {Object} values 
+   * @param {string} collection
+   * @param {Object} query
+   * @param {Object} values
    * @returns {Pomise}
    */
   async mongoInsert(collection, payload) {
@@ -493,8 +518,8 @@ class modelMongoDb {
 
   /**
    * Request function for mongoDB. This function will make a request on the "collection", filtered by the "query" passed in paramters.
-   * @param {string} collection 
-   * @param {Object} query 
+   * @param {string} collection
+   * @param {Object} query
    * @returns {Pomise}
    */
   async mongoRequest(collection, query) {
@@ -522,8 +547,8 @@ class modelMongoDb {
 
   /**
    * Delete function for mongoDB. This function will create an entry based on the "collection", the "query" passed in parmaters.
-   * @param {string} collection 
-   * @param {Object} query 
+   * @param {string} collection
+   * @param {Object} query
    * @returns {Pomise}
    */
   async mongoDelete(collection, query) {

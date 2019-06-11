@@ -47,8 +47,10 @@ module.exports = (webServer) => {
           upload(req, res, async (err) => {
             if (err instanceof multer.MulterError) {
               // A Multer error occurred when uploading.
+              console.error(err)
               res.json({'status': 'error'})
             } else if (err) {
+              console.error(err)
               // An unknown error occurred when uploading.
               res.json({'status': 'error'})
             }
@@ -59,7 +61,7 @@ module.exports = (webServer) => {
             const userInfos = JSON.parse(req.body.userInfos)
             const webAudioInfos = JSON.parse(req.body.webAudioInfos)
             const file = req.files[0]
-            
+
             const filePayload = {
               author: userInfos.userHash,
               wakeword: userInfos.wakeword,
@@ -85,7 +87,7 @@ module.exports = (webServer) => {
               language: userInfos.language,
               recordDate: webAudioInfos.recordDate
             }
-            
+
             if(filePayload.mimetype == 'audio/wav') {
               // update user records infos in DB
               const updateUserRecord = await model.updateUserRecords({userInfos})
@@ -95,7 +97,7 @@ module.exports = (webServer) => {
                 updateUser = false
                 errorMsg += 'Error on updating user'
               }
-  
+
               // Increment nbRecords of appStats in DB
               const updateScenarios = await model.updateScenario({wakeword: userInfos.wakeword, action: 'increment_record'})
               if(updateScenarios === 'success') {
@@ -108,7 +110,7 @@ module.exports = (webServer) => {
               updateUser = true
               updateScenario = true
             }
-            
+
             // Save Audio in DB
             const addFile = await model.addAudioSample(filePayload)
             if(addFile === 'success') {
@@ -117,7 +119,7 @@ module.exports = (webServer) => {
               addAudioFile = false
               errorMsg += 'Error on updating audio file'
             }
-  
+
             if(addAudioFile && updateUser && updateScenario) {
               res.json({status: 'success', msg:'File has been added'})
             } else {
@@ -135,10 +137,10 @@ module.exports = (webServer) => {
         async (req, res, next) => {
           try {
             const audioId = req.body.audioId
-            const audioName = req.body.fieldname
-            const audioUrl = `${process.cwd()}/uploads/${audioName}` 
+            const audioObj = await model.getAudioById(audioId)
+            const audioUrl = audioObj.path
             let deleteFile = false
-            
+
             fs.unlink(audioUrl, (err) => {
               if(err) {
                 console.err(err)
@@ -156,12 +158,12 @@ module.exports = (webServer) => {
             } else {
               res.json({status: 'error', msg: 'error on deleting audio file from server'})
             }
-          } catch (err) { 
+          } catch (err) {
             console.error (err)
             res.json({status: 'error', msg: 'error on deleting audio file'})
           }
-        } 
-      ] 
+        }
+      ]
     }
   ]
 }

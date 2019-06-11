@@ -37,6 +37,39 @@ module.exports = (webServer) => {
       }
     },
     {
+      path: '/',
+      method: 'delete',
+      requireAuth: true,
+      controller: async (req, res, next) => {
+        const userHash = req.body.userHash
+        const audioList = await model.getAudiosByUserHash(userHash)
+        let audioDelete = true
+        for (let i in audioList) {
+          let removeTrack = await model.deleteAudio(audioList[i]._id)
+          if(removeTrack === 'success') {
+            i++
+          } else {
+            audioDelete = false
+          }
+        }
+        if (audioDelete) {
+          const deleteUser = await model.deleteUser(userHash)
+          if(deleteUser === 'success') {
+          //  res.redirect('/logout')
+          res.json({
+            status: 'success',
+            msg:'l\'utilisateur à été supprimé'
+          })
+          }
+        } else {
+          res.json({
+            status: 'error',
+            msg: 'error on deleting audio file'
+          })
+        }
+      }
+    },
+    {
       path: '/userEmailExist',
       method: 'post',
       controller: async (req, res, next) => {
