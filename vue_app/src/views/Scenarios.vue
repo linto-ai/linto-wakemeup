@@ -74,11 +74,33 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getScenarios')
+    this.$store.dispatch('getScenarios').then((resp) => {
+      // Error handler
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      } else {
+        this.userConnected = true
+      }
+    })
   },
   mounted () {
     bus.$on('wakeword_deleted', () => {
-      this.$store.dispatch('getScenarios')
+      this.$store.dispatch('getScenarios').then((resp) => {
+        // Error handler
+        if (!!resp.error) {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+            redirect: false
+          })
+        } else {
+          this.userConnected = true
+        }
+      })
     })
   },
   watch: {
@@ -118,7 +140,18 @@ export default {
           data: { wakeword: data }
         })
         if (addww.data.addWakeword === 'success') {
-          this.$store.dispatch('getScenarios')
+          this.$store.dispatch('getScenarios').then((resp) => {
+            // Error handler
+            if (!!resp.error) {
+              bus.$emit('notify_app', {
+                status: 'error',
+                msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+                redirect: false
+              })
+            } else {
+              this.userConnected = true
+            }
+          })
           bus.$emit('notify_app', {
             status: 'success',
             msg: 'Mot-clé ajouté avec succès.',

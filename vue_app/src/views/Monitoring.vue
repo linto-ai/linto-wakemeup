@@ -59,6 +59,7 @@
 </template>
 <script>
 import Chart from 'chart.js'
+import { bus } from '../main.js'
 export default {
   data () {
     return {
@@ -70,7 +71,7 @@ export default {
       deviceRatioReady: false
     }
   },
-  computed: { 
+  computed: {
     scenarios () {
       return this.$store.state.scenarios
     },
@@ -82,8 +83,24 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getScenarios')
-    this.$store.dispatch('getAudios')
+    this.$store.dispatch('getScenarios').then((resp) => {
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      }
+    })
+    this.$store.dispatch('getAudios').then((resp) => {
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      }
+    })
   },
   watch: {
     scenarios: function (data) {

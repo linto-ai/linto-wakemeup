@@ -41,7 +41,7 @@
               <td>{{ audio.sampleRate }}</td>
               <td>{{ audio.buffersize }}</td>
               <td>{{ audio.nbChannels }}</td>
-              <td>{{ audio.nbVotes }} (<span class="green">{{ audio.nbValidVote }}</span> / <span class="red">{{ audio.nbInvalidVote}})</span></td>
+              <td>{{ audio.nbVotes }} (<span class="green">{{ audio.nbValidVote }}</span> / <span class="red">{{ audio.nbInvalidVote }})</span></td>
               <td>{{ audio.status }}</td>
               <td>{{ audio.recordDate }}</td>
               <td class="action"><button @click="playSound($event)" :data-url="'/assets/audios/' + audio.fieldname" class="action-button play"></button></td>
@@ -62,7 +62,7 @@
 import DeleteAudioModal from '@/components/DeleteAudioModal.vue'
 import { bus } from '../main.js'
 export default {
-  data() {
+  data () {
     return {
       dataLoaded: false,
       audioList: [],
@@ -74,13 +74,20 @@ export default {
       }
     }
   },
-  created() {
-    this.$store.dispatch('getAudios').then((resp) => {}, error => {
-      console.error('error:', err)
+  created () {
+    this.$store.dispatch('getAudios').then((resp) => {
+      // Error handler
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      }
     })
   },
   computed: {
-    audios() {
+    audios () {
       return this.$store.state.audios
     }
   },
@@ -99,7 +106,7 @@ export default {
       const url = audioNode.getAttribute('data-url')
       if (!this.isPlaying) {
         audioNode.classList.add('isplaying')
-        this.audioPlayer = new Audio(url);
+        this.audioPlayer = new Audio(url)
         this.audioPlayer.play(url)
         this.isPlaying = true
         this.audioPlayer.addEventListener('ended', () => {
@@ -115,7 +122,15 @@ export default {
         this.filterParams.order = options.order
         this.filterParams.key = options.key
       }
-      this.$store.dispatch('sortAudios', this.filterParams)
+      this.$store.dispatch('sortAudios', this.filterParams).then((resp) => {
+        if (!!resp.error) {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+            redirect: false
+          })
+        }
+      })
     }
   },
   components: {

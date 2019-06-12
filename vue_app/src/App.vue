@@ -9,7 +9,7 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
-    
+
     <ConnectionModal></ConnectionModal>
     <CreateAccountModal></CreateAccountModal>
     <PolicyAgreementModal></PolicyAgreementModal>
@@ -26,11 +26,10 @@ import cookieLegalNotify from '@/components/CookieLegalNotify.vue'
 import ConnectionModal from '@/components/ConnectionModal.vue'
 import CreateAccountModal from '@/components/CreateAccountModal.vue'
 import PolicyAgreementModal from '@/components/PolicyAgreementModal.vue'
-
 import { bus } from './main.js'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   mounted () {
     const cookieLegal = this.getCookie('wmu_legals')
@@ -42,7 +41,7 @@ export default {
     getCookie (cname) {
       const name = cname + '='
       const ca = document.cookie.split(';')
-      for(let i = 0; i < ca.length; i++) {
+      for (let i = 0; i < ca.length; i++) {
         let c = ca[i]
         while (c.charAt(0) === ' ') {
           c = c.substring(1)

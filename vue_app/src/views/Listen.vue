@@ -99,8 +99,15 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getAudios').then((resp) => {}, error => {
-      console.error('error:', error)
+    this.$store.dispatch('getAudios').then((resp) => {
+      // Error handler
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      }
     })
   },
   mounted () {

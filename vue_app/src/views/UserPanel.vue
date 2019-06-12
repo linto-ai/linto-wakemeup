@@ -234,8 +234,17 @@ export default {
   },
   created () {
     const userCookie = this.getCookie('wmu_user')
-    this.$store.dispatch('getUserInfos', userCookie).then((resp) => {}, error => {
-      console.error('error:', err)
+    this.$store.dispatch('getUserInfos', userCookie).then((resp) => {
+      // Error handler
+      if(!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      } else {
+        this.userConnected = true
+      }
     })
   },
   computed: {
@@ -327,10 +336,10 @@ export default {
       const ca = document.cookie.split(';')
       for (let i = 0; i < ca.length; i++) {
         let c = ca[i]
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) === ' ') {
           c = c.substring(1)
         }
-        if (c.indexOf(name) == 0) {
+        if (c.indexOf(name) === 0) {
           return c.substring(name.length, c.length)
         }
       }
@@ -356,7 +365,16 @@ export default {
             msg: 'Vos informations ont été mises à jour',
             redirect: false
           })
-          this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash)
+          this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash).then((resp) => {
+            // Error handler
+            if(!!resp.error) {
+              bus.$emit('notify_app', {
+                status: 'error',
+                msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+                redirect: false
+              })
+            }
+          })
         }
       }
     },
@@ -378,11 +396,20 @@ export default {
             msg: 'Votre mot de passe a été modifié',
             redirect: false
           })
-          this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash)
+          this.$store.dispatch('getUserInfos', this.userPrivateDatas.userHash).then((resp) => {
+            // Error handler
+            if(!!resp.error) {
+              bus.$emit('notify_app', {
+                status: 'error',
+                msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+                redirect: false
+              })
+            }
+          })
         }
       }
     },
-    async deleteAccount(userHash) {
+    async deleteAccount (userHash) {
       bus.$emit('toggle_deleteAccount_modal', { userHash })
     }
   },

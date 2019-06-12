@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-
 Vue.use(Vuex)
 
 function compareValues (param) {
@@ -33,6 +32,7 @@ export default new Vuex.Store({
     userInfos: '',
     scenarios: '',
     audios: ''
+
   },
   mutations: {
     // Set user infos without sensitive datas
@@ -73,14 +73,13 @@ export default new Vuex.Store({
       try {
         const getUser = await axios(`${process.env.VUE_APP_URL}/api/user/getInfos`, {
           method: 'post',
-          data: {
-            hash
-          }
+          data: { hash }
         })
         commit('SET_USER', getUser.data.user[0])
         return state.userInfos
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // Get recording scenarios
@@ -93,6 +92,7 @@ export default new Vuex.Store({
         return state.scenarios
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // Get audio files
@@ -106,6 +106,7 @@ export default new Vuex.Store({
         return state.audios
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // Sort audio list by key
@@ -115,6 +116,7 @@ export default new Vuex.Store({
         return state.audios
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     }
   },
@@ -135,6 +137,7 @@ export default new Vuex.Store({
         return validAudios
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // Get audios that hasn't be modified by navigator
@@ -150,6 +153,7 @@ export default new Vuex.Store({
         return noOptAudios
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // Get total number of "listened" and "recorded" audios
@@ -170,6 +174,7 @@ export default new Vuex.Store({
         }
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // Get the ratio between male and female
@@ -195,6 +200,7 @@ export default new Vuex.Store({
         }
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     },
     // get the ratio of used devices
@@ -204,6 +210,7 @@ export default new Vuex.Store({
         let defaultDevice = 0
         let headphone = 0
         let external = 0
+
         audios.map(a => {
           if (a.deviceType === 'default') {
             defaultDevice += 1
@@ -213,6 +220,7 @@ export default new Vuex.Store({
             external += 1
           }
         })
+
         const total = parseInt(defaultDevice) + parseInt(headphone) + parseInt(external)
         const prctDefault = defaultDevice * 100 / total
         const prctHeadphone = headphone * 100 / total
@@ -224,6 +232,7 @@ export default new Vuex.Store({
         }
       } catch (err) {
         console.error(err)
+        return { error: err }
       }
     }
   }

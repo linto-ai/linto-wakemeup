@@ -50,7 +50,16 @@ export default {
       })
       this.showDeleteAudioModal = false
       if(deleteAudio.data.status === 'success') {
-        this.$store.dispatch('getAudios')
+        this.$store.dispatch('getAudios').then((resp) => {
+          // Error handler
+          if(!!resp.error) {
+            bus.$emit('notify_app', {
+              status: 'error',
+              msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+              redirect: false
+            })
+          }
+        })
       }
     }
   }

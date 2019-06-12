@@ -131,9 +131,15 @@ export default {
   },
   created () {
     this.$store.dispatch('getScenarios').then((resp) => {
-      this.scenariosLoaded = true
-    }, error => {
-      console.error('error:', error)
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      } else {
+        this.scenariosLoaded = true
+      }
     })
   },
   computed: {
@@ -158,8 +164,8 @@ export default {
       this.isRecording = false
       this.startRecording()
     })
-    bus.$on('reset_recording', () => {
 
+    bus.$on('reset_recording', () => {
       this.resetRecording()
     })
 
@@ -290,7 +296,7 @@ export default {
       }, 3500)
     },
     startRecording () {
-      if(!this.isRecording){
+      if (!this.isRecording) {
         this.nbBar = 0
         this.recordingLength = 0
         this.blob = null

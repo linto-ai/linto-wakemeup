@@ -34,7 +34,10 @@
           <p>Vous aurez la possibilité de supprimer votre compte utilisateur à tout moment. Si vous effectuez cette action, vos données personnelles seront supprimées des bases de données de wakemeup.linto.ai.</p>
           <p>Pour cela :</p>
           <ul>
-            <li>Process à implémenter (Work in progress)</li>
+            <li>Connectez vous à votre compte</li>
+            <li>Ouvrez le menu en haut à droite de l'écran et cliquez sur "Mon compte"</li>
+            <li>Une fois sur la page "Mon compte", cliquez sur "Supprimer mon compte</li>
+            <li>Validez votre choix</li>
           </ul>
           <p>Les échantillons audio que vous aurez produits seront également supprimés de nos serveurs et ne serviront pas à alimenter les "futurs" corpora de données audio.</p>
           <p>Du fait que les enregistrements sont faits de manière anonyme, nous ne pourrons cependant pas les supprimer des modèles de données existants.</p>

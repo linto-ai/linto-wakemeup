@@ -69,11 +69,16 @@ export default {
     const userCookie = this.getCookie('wmu_user')
     if (userCookie !== 'disconnected') {
       this.$store.dispatch('getUserInfos', userCookie).then((resp) => {
-        if (resp) {
+        // Error handler
+        if(!!resp.error) {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+            redirect: false
+          })
+        } else {
           this.userConnected = true
         }
-      }, error => {
-        console.error('error:', err)
       })
     }
   },
@@ -99,7 +104,7 @@ export default {
     getCookie (cname) {
       const name = cname + '='
       const ca = document.cookie.split(';')
-      for(let i = 0; i < ca.length; i++) {
+      for (let i = 0; i < ca.length; i++) {
         let c = ca[i]
         while (c.charAt(0) == ' ') {
           c = c.substring(1)
