@@ -20,7 +20,7 @@ services:
     image: mongo:latest
     restart: always
     volumes:
-      - ${HOME}/linto-wake-me-up-dbdata:/data/db
+      - ${HOME}/.linto-wake-me-up-dbdata:/data/db
       - ./mongodb/seed:/docker-entrypoint-initdb.d
     environment:
       MONGO_INITDB_DATABASE: wakemeup
