@@ -46,7 +46,7 @@
                   <span class="label">Recommencer</span>
                 </div>
                 <div class="action-container">
-                  <button @click="validRecord()" class="btn-player validate" :class="recordIsValid"></button>
+                  <button @click="validRecord('scenario')" class="btn-player validate" :class="recordIsValid"></button>
                   <span class="label">Valider</span>
                 </div>
               </div>
@@ -59,10 +59,13 @@
                 </div>
               </div>
             </div>
-            <div v-if="!dataReady && allComplete" class="record-complete white-container">
-              Vous n'avez pas de mot-clé à enregistrer.<br/>
-              <a href="/">Retour à l'accueil</a>
+            <div v-if="dataReady && allComplete" class="record-complete white-container">
+              Vous avez validé tous les mots clés. Vous pouvez réaliser de nouveaux enregistrements en sélectionnant le mot clé que vous souhaitez enregistrer :
+              <ul class="keyword-list" v-for="scenario in scenarios" :key="scenario._id">
+                <li class="keyword-item"><button class="button" @click="setWwRecorder(scenario.wakeword)">{{ scenario.wakeword }}</button></li>
+              </ul>
             </div>
+
             <div v-if="!dataReady && !allComplete" class="loading">
               <img src="/assets/img/loading.gif" class="loading-img" />
               <span class="label">Chargement...</span>
@@ -154,12 +157,6 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.volumeBarContainer = document.getElementById('visualizer')
-      this.vizualizerTop = document.getElementById('visualizer-top')
-      this.vizualizerBot = document.getElementById('visualizer-bot')
-    }, 300)
-
     bus.$on('start_recording', () => {
       this.isRecording = false
       this.startRecording()
@@ -203,12 +200,14 @@ export default {
       this.scenariosReady = true
     },
     userReady: function (data) {
-      if (data === true && this.scenariosReady === true) {
+      if (data && this.scenariosReady === true) {
+        this.dataReady = true
         this.setScenario()
       }
     },
     scenariosReady: function (data) {
-      if (data === true && this.userReady === true) {
+      if (data && this.userReady === true) {
+        this.dataReady = true
         this.setScenario()
       }
     },
@@ -219,6 +218,18 @@ export default {
     }
   },
   methods: {
+    async setWwRecorder (wakeword) {
+      const updateUserScenario = await axios(`${process.env.VUE_APP_URL}/api/user/updateRecordList`, {
+        method: 'put',
+        data: {
+          wakeword,
+          userHash: this.userInfos.userHash
+        }
+      })
+      if (updateUserScenario.data.status === 'success') {
+        window.location.href = '/interface/record'
+      }
+    },
     getScreenWidth () {
       return window.innerWidth
     },
@@ -276,9 +287,9 @@ export default {
 
       if (this.audioConfig === null) {
         this.allComplete = true
-        this.dataReady = false
+
       } else {
-        this.dataReady = true
+
         this.allComplete = false
         this.initRecorder(this.audioConfig)
       }
@@ -430,6 +441,7 @@ export default {
       }
     },
     async sendDatas (audioBlob, webAudioInfos, name) {
+
       const userPayload = {
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword,
@@ -464,11 +476,11 @@ export default {
       }
       const fileName = `${wakeWord}-${opt}-${gender}-${date}`
 
-      let sendRaw, sendWebm
+      let sendWav, sendWebm
       if (this.step === 1) {
-        sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
+        sendWav = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
         sendWebm = await this.sendDatas(this.mediaRecorderblob, this.webAudioInfos, fileName + '.webm')
-        if (sendRaw.data.status === 'success' && sendWebm.data.status === 'success') {
+        if (sendWav.data.status === 'success' && sendWebm.data.status === 'success') {
           this.recordIsValid = 'active'
           bus.$emit('notify_app', {
             status: 'success',
@@ -483,8 +495,8 @@ export default {
           })
         }
       } else {
-        sendRaw = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
-        if (sendRaw.data.status === 'success') {
+        sendWav = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')
+        if (sendWav.data.status === 'success') {
           this.recordIsValid = 'active'
           bus.$emit('notify_app', {
             status: 'success',
@@ -520,6 +532,9 @@ export default {
           }
         }).then((e) => {
           window.AudioContext = window.AudioContext || window.webkitAudioContext
+          this.volumeBarContainer = document.getElementById('visualizer')
+          this.vizualizerTop = document.getElementById('visualizer-top')
+          this.vizualizerBot = document.getElementById('visualizer-bot')
           this.mediaRecorder = new MediaRecorder(e)
           this.context = new AudioContext()
           this.mediaStream = this.context.createMediaStreamSource(e)

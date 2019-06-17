@@ -129,28 +129,12 @@ export default new Vuex.Store({
         let validAudios = []
         audios.map(a => {
           if (a.author !== userHash && !!a.userVoted) {
-            if (a.userVoted.indexOf(userHash) < 0 && a.options === 'noOpt' && a.mimetype === 'audio/wav' && a.status === 'vote') {
+            if (a.userVoted.indexOf(userHash) && a.mimetype === 'audio/wav' && a.status === 'vote') {
               validAudios.push(a)
             }
           }
         })
         return validAudios
-      } catch (err) {
-        console.error(err)
-        return { error: err }
-      }
-    },
-    // Get audios that hasn't be modified by navigator
-    NO_OPT_AUDIOS: (state) => {
-      try {
-        let audios = state.audios
-        let noOptAudios = []
-        audios.map(a => {
-          if (a.options === 'noOpt') {
-            noOptAudios.push(a)
-          }
-        })
-        return noOptAudios
       } catch (err) {
         console.error(err)
         return { error: err }
