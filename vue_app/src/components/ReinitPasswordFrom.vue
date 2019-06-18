@@ -10,7 +10,7 @@
       <input
         type="password"
         class="input"
-        v-model="userPswd"
+        v-model.lazy="userPswd"
         :class="{error: $v.userPswd.$error, valid: !$v.userPswd.$invalid}"
         @blur="$v.userPswd.$touch()"
         @keyup.13="updatePswd($v)"
@@ -27,7 +27,7 @@
       <input
         type="password"
         class="input"
-        v-model="userPswdConfirm"
+        v-model.lazy="userPswdConfirm"
         :class="{error: $v.userPswdConfirm.$error, valid: $v.userPswdConfirm.sameAsPassword && userPswdConfirm.length > 0}"
         @blur="$v.userPswdConfirm.$touch()"
         @keyup.13="updatePswd($v)"

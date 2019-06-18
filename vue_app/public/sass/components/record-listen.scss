@@ -402,6 +402,34 @@
   font-size: 16px;
   padding: 20px;
 
+  .content{
+    color: #444444;
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+  }
+}
+
+.keyword-list{
+  display: block;
+  width: 90%;
+  margin: 20px auto;
+
+  .keyword-item{
+    list-style-type: circle;
+    display: inline-block;
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+    color: $greenChart;
+    padding-left: 40px;
+    height: 35px;
+    background-image: url('../img/record-icon@2x.png');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: 0 5px;
+
+  }
 }
 
 @-webkit-keyframes recordingBtn {
@@ -528,7 +556,7 @@ svg {
     cursor: pointer;
   }
   text {
-    font-size: 32px; 
+    font-size: 32px;
     fill: $greyText;
   }
   text:hover {
@@ -571,7 +599,7 @@ circle {
 
   #player-wrapper {
     width: 90%;
-    
+
     h3 {
       font-size: 20px;
     }
@@ -593,7 +621,7 @@ circle {
   }
   svg {
     text {
-      font-size: 26px; 
+      font-size: 26px;
     }
   }
 }

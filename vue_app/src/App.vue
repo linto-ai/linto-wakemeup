@@ -9,11 +9,9 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
-
     <ConnectionModal></ConnectionModal>
     <CreateAccountModal></CreateAccountModal>
     <PolicyAgreementModal></PolicyAgreementModal>
-
     <FooterApp></FooterApp>
     <cookieLegalNotify></cookieLegalNotify>
   </div>

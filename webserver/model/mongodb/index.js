@@ -164,7 +164,6 @@ class modelMongoDb {
       console.error(err)
     }
   }
-
   async updateUserRecords(payload) {
     try {
       const userHash = payload.userInfos.userHash
@@ -354,7 +353,7 @@ class modelMongoDb {
       console.error(error)
     }
   }
-  async postScenario(data) {
+  async addScenario(data) {
     try {
       const payload = {
         wakeword: data.wakeword,

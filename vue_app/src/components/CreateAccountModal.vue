@@ -19,7 +19,7 @@
               <input
                 type="text"
                 class="input"
-                v-model="userName"
+                v-model.lazy="userName"
                 :class="{error: $v.userName.$error, valid: !$v.userName.$invalid}"
                 @blur="$v.userName.$touch()"
                 @keyup.13="sendForm($v)"
@@ -39,7 +39,7 @@
               <input
                 type="text"
                 class="input"
-                v-model="userEmail"
+                v-model.lazy="userEmail"
                 :class="{error: $v.userEmail.$error, valid: !$v.userEmail.$invalid}"
                 @blur="$v.userEmail.$touch()"
                 @keyup.13="sendForm($v)"
@@ -59,7 +59,7 @@
               <input
                 type="password"
                 class="input"
-                v-model="userPswd"
+                v-model.lazy="userPswd"
                 :class="{error: $v.userPswd.$error, valid: !$v.userPswd.$invalid}"
                 @blur="$v.userPswd.$touch()"
                 @keyup.13="sendForm($v)"
@@ -76,7 +76,7 @@
               <input
                 type="password"
                 class="input"
-                v-model="userPswdConfirm"
+                v-model.lazy="userPswdConfirm"
                 :class="{error: $v.userPswdConfirm.$error, valid: $v.userPswdConfirm.sameAsPassword && userPswdConfirm.length > 0}"
                 @blur="$v.userPswdConfirm.$touch()"
                 @keyup.13="sendForm($v)"
@@ -91,7 +91,7 @@
                 <span class="label" :class="{error: $v.userGender.$error}">Sexe :</span>
                 <select
                   class="select"
-                  v-model="userGender"
+                  v-model.lazy="userGender"
                   @change="$v.userGender.$touch()"
                   :class="{error: $v.userGender.$error, valid:!$v.userGender.$invalid}"
                   v-on:keyup.13="sendForm($v)"
@@ -111,7 +111,7 @@
                 <span class="label" :class="{error: $v.userAgeRange.$error}">Tranche d'age :</span>
                 <select
                   class="select"
-                  v-model="userAgeRange"
+                  v-model.lazy="userAgeRange"
                   :class="{error: $v.userAgeRange.$error, valid:!$v.userAgeRange.$invalid}"
                   v-on:keyup.13="sendForm($v)"
                 >
@@ -141,7 +141,7 @@
                 <select
                   class="select"
                   ref="languageSelectInput"
-                  v-model="selectedLanguage"
+                  v-model.lazy="selectedLanguage"
                   v-on:keyup.13="sendForm($v)"
                   :class="{error: $v.language.$error, valid:!$v.language.$invalid}"
                 >

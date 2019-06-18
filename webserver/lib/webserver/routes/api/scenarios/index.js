@@ -22,7 +22,7 @@ module.exports = (webServer) => {
     requireAuth: true,
     controller: async (req, res, next) => {
       const payload = req.body
-      const addWakeword = await model.postScenario(payload)
+      const addWakeword = await model.addScenario(payload)
       res.json({
         addWakeword
       })

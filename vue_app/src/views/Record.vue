@@ -60,9 +60,10 @@
               </div>
             </div>
             <div v-if="dataReady && allComplete" class="record-complete white-container">
-              Vous avez validé tous les mots clés. Vous pouvez réaliser de nouveaux enregistrements en sélectionnant le mot clé que vous souhaitez enregistrer :
+              <div class="content"><strong class="red">Vous avez validé tous les mots clés. </strong><br/>
+                Vous pouvez réaliser de <strong class="green">nouveaux enregistrements</strong> en sélectionnant un mot clé ci-dessous :</div>
               <ul class="keyword-list" v-for="scenario in scenarios" :key="scenario._id">
-                <li class="keyword-item"><button class="button" @click="setWwRecorder(scenario.wakeword)">{{ scenario.wakeword }}</button></li>
+                <li class="keyword-item"><button class="button grey" @click="addScenario(scenario.wakeword)">{{ scenario.wakeword }}</button></li>
               </ul>
             </div>
 
@@ -94,7 +95,6 @@ export default {
       bufferSize: 4096,
       context: null,
       dataArray: [],
-      dataReady: false,
       gainNode: null,
       isRecording: false,
       isPlaying: '',
@@ -154,6 +154,9 @@ export default {
     },
     VAD () {
       return new VAD()
+    },
+    dataReady () {
+      return (this.userReady === true && this.scenariosReady === true)
     }
   },
   mounted () {
@@ -200,14 +203,12 @@ export default {
       this.scenariosReady = true
     },
     userReady: function (data) {
-      if (data && this.scenariosReady === true) {
-        this.dataReady = true
+      if (this.dataReady) {
         this.setScenario()
       }
     },
     scenariosReady: function (data) {
-      if (data && this.userReady === true) {
-        this.dataReady = true
+      if (this.dataReady) {
         this.setScenario()
       }
     },
@@ -218,7 +219,7 @@ export default {
     }
   },
   methods: {
-    async setWwRecorder (wakeword) {
+    async addScenario (wakeword) {
       const updateUserScenario = await axios(`${process.env.VUE_APP_URL}/api/user/updateRecordList`, {
         method: 'put',
         data: {

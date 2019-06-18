@@ -8,7 +8,7 @@
        <input
         type="text"
         class="input"
-        v-model="userName"
+        v-model.lazy="userName"
         :class="{error: $v.userName.$error, valid: !$v.userName.$invalid}"
         @blur="$v.userName.$touch()"
         @keyup.13="sendForm($v)"
@@ -21,7 +21,7 @@
       <div class="field-label">
         <span class="label">Société :</span>
       </div>
-      <input type="text" class="input" v-model="userSociety" v-on:keyup.13="sendForm()">
+      <input type="text" class="input" v-model.lazy="userSociety" v-on:keyup.13="sendForm()">
     </div>
     <div class="field-container">
       <div class="field-label">
@@ -31,7 +31,7 @@
       <input
         type="text"
         class="input"
-        v-model="userEmail"
+        v-model.lazy="userEmail"
         :class="{error: $v.userEmail.$error, valid: !$v.userEmail.$invalid}"
         @blur="$v.userEmail.$touch()"
         @keyup.13="sendForm($v)"
@@ -47,7 +47,7 @@
       <input
         type="text"
         class="input"
-        v-model="userSubject"
+        v-model.lazy="userSubject"
         :class="{error: $v.userSubject.$error, valid: !$v.userSubject.$invalid}"
         @blur="$v.userSubject.$touch()"
         @keyup.13="sendForm($v)"
@@ -62,7 +62,7 @@
       </div>
       <textarea
         class="input textarea"
-        v-model="userMessage"
+        v-model.lazy="userMessage"
         :class="{error: $v.userMessage.$error, valid: !$v.userMessage.$invalid}"
         @blur="$v.userMessage.$touch()"
         @keyup.13="sendForm($v)"

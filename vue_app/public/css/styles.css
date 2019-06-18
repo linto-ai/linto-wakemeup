@@ -7269,6 +7269,8 @@ button {
       background-color: #2da800;
       border-color: #2da800;
       color: #fff; }
+  .button.grey {
+    color: #444444; }
   .button.large {
     width: 100%;
     max-width: 620px;
@@ -8277,7 +8279,8 @@ table.list {
     top: 10px;
     background-size: 50px 100px;
     background-repeat: no-repeat;
-    background-position: 0 0; }
+    background-position: 0 0;
+    z-index: 16; }
     .modal-header .close-modal:hover,
     .modal-header .back-login-modal:hover {
       background-position: 0 -50px; }
@@ -8700,6 +8703,29 @@ table.list {
   text-align: center;
   font-size: 16px;
   padding: 20px; }
+  .record-complete .content {
+    color: #444444;
+    text-align: left;
+    width: 100%;
+    display: inline-block; }
+
+.keyword-list {
+  display: block;
+  width: 90%;
+  margin: 20px auto; }
+  .keyword-list .keyword-item {
+    list-style-type: circle;
+    display: inline-block;
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+    color: #2da800;
+    padding-left: 40px;
+    height: 35px;
+    background-image: url("../img/record-icon@2x.png");
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: 0 5px; }
 
 @-webkit-keyframes recordingBtn {
   0% {

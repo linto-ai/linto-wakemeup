@@ -16,7 +16,7 @@
             <input
               type="text"
               class="input"
-              v-model="userName"
+              v-model.lazy="userName"
               :class="{error: $v.userName.$error || userNameErrorMsg.length > 0}"
               @blur="$v.userName.$touch()"
               @keyup.13="sendLogin($v)"
@@ -34,7 +34,7 @@
             <input
               type="password"
               class="input"
-              v-model="userPswd"
+              v-model.lazy="userPswd"
               :class="{error: $v.userPswd.$error || userPswdErrorMsg.length > 0}"
               @keyup.13="sendLogin($v)">
             <span class="error-field" v-if="!$v.userPswd.required">Ce champ est obligatoire</span>

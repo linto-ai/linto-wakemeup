@@ -55,6 +55,7 @@
     background-size: 50px 100px;
     background-repeat: no-repeat;
     background-position: 0 0;
+    z-index: 16;
 
     &:hover {
       background-position: 0 -50px;

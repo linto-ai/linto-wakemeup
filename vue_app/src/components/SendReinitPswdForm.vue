@@ -8,7 +8,7 @@
       <input
         type="text"
         class="input"
-        v-model="userEmail"
+        v-model.lazy="userEmail"
         :class="{error: $v.userEmail.$error, valid: !$v.userEmail.$invalid}"
         @blur="$v.userEmail.$touch()"
         @keyup.13="sendMail($v)"
