@@ -23,7 +23,7 @@ module.exports = (webServer) => {
       path: '/',
       method: 'get',
       requireAuth: true,
-      controller: async (req,res,next) => {
+      controller: async (req, res, next) => {
         const audios = await model.getAllAudios()
         res.json({ audios })
       }
@@ -32,7 +32,7 @@ module.exports = (webServer) => {
       path: '/vote',
       method: 'post',
       requireAuth: true,
-      controller: async (req,res,next) => {
+      controller: async (req, res, next) => {
         const payload = req.body
         const voteAudio = await model.updateVoteAudio(payload)
         res.json({ voteAudio })
@@ -48,11 +48,11 @@ module.exports = (webServer) => {
             if (err instanceof multer.MulterError) {
               // A Multer error occurred when uploading.
               console.error(err)
-              res.json({'status': 'error'})
+              res.json({ 'status': 'error' })
             } else if (err) {
               console.error(err)
               // An unknown error occurred when uploading.
-              res.json({'status': 'error'})
+              res.json({ 'status': 'error' })
             }
             let updateUser = false
             let addAudioFile = false
@@ -72,9 +72,9 @@ module.exports = (webServer) => {
               destination: file.destination,
               path: file.path,
               size: file.size,
-              sampleRate: webAudioInfos.contextSampleRate || 'not set',
-              buffersize: webAudioInfos.bufferSize || 'not set',
-              nbChannels: webAudioInfos.nbChannels || 'not set',
+              sampleRate: webAudioInfos.contextSampleRate || 'not set',
+              buffersize: webAudioInfos.bufferSize || 'not set',
+              nbChannels: webAudioInfos.nbChannels || 'not set',
               nbVotes: 0,
               nbValidVote: 0,
               nbInvalidVote: 0,
@@ -88,10 +88,10 @@ module.exports = (webServer) => {
               recordDate: webAudioInfos.recordDate
             }
 
-            if(filePayload.mimetype == 'audio/wav') {
+            if (filePayload.mimetype == 'audio/wav') {
               // update user records infos in DB
-              const updateUserRecord = await model.updateUserRecords({userInfos})
-              if(updateUserRecord.status === 'success') {
+              const updateUserRecord = await model.updateUserRecords({ userInfos })
+              if (updateUserRecord.status === 'success') {
                 updateUser = true
               } else {
                 updateUser = false
@@ -99,8 +99,8 @@ module.exports = (webServer) => {
               }
 
               // Increment nbRecords of appStats in DB
-              const updateScenarios = await model.updateScenario({wakeword: userInfos.wakeword, action: 'increment_record'})
-              if(updateScenarios === 'success') {
+              const updateScenarios = await model.updateScenario({ wakeword: userInfos.wakeword, action: 'increment_record' })
+              if (updateScenarios === 'success') {
                 updateScenario = true
               } else {
                 updateScenario = false
@@ -113,17 +113,17 @@ module.exports = (webServer) => {
 
             // Save Audio in DB
             const addFile = await model.addAudioSample(filePayload)
-            if(addFile === 'success') {
+            if (addFile === 'success') {
               addAudioFile = true
             } else {
               addAudioFile = false
               errorMsg += 'Error on updating audio file'
             }
 
-            if(addAudioFile && updateUser && updateScenario) {
-              res.json({status: 'success', msg:'File has been added'})
+            if (addAudioFile && updateUser && updateScenario) {
+              res.json({ status: 'success', msg: 'File has been added' })
             } else {
-              res.json({status:'error', msg: errorMsg})
+              res.json({ status: 'error', msg: errorMsg })
             }
           })
         }
@@ -135,32 +135,28 @@ module.exports = (webServer) => {
       requireAuth: true,
       controller: [
         async (req, res, next) => {
-          try {
+          try {
             const audioId = req.body.audioId
             const audioObj = await model.getAudioById(audioId)
-            const audioUrl = audioObj.path
+            const audioUrl = audioObj[0].path
             let deleteFile = false
 
-            fs.unlink(audioUrl, (err) => {
-              if(err) {
-                console.err(err)
-              } else {
-                deleteFile = true
+            fs.unlink(audioUrl, async (err) => {
+              if (err) {
+                console.error(err)
+                res.json({ status: 'error', msg: 'error on deleting audio file from server' })
+              } else {
+                const deleteAudioFile = await model.deleteAudio(audioId)
+                if (deleteAudioFile === 'success') {
+                  res.json({ status: 'success', msg: 'Le fichier audio a été supprimé' })
+                } else {
+                  res.json({ status: 'error', msg: 'error on deleting audio file from database' })
+                }
               }
             })
-            if (deleteFile) {
-              const deleteAudioFile = await model.deleteAudio(audioId)
-              if(deleteAudioFile === 'success') {
-                res.json({status: 'success', msg: 'Le fichier audio a été supprimé'})
-              } else {
-                res.json({status: 'error', msg: 'error on deleting audio file from database'})
-              }
-            } else {
-              res.json({status: 'error', msg: 'error on deleting audio file from server'})
-            }
           } catch (err) {
-            console.error (err)
-            res.json({status: 'error', msg: 'error on deleting audio file'})
+            console.error(err)
+            res.json({ status: 'error', msg: 'error on deleting audio file' })
           }
         }
       ]

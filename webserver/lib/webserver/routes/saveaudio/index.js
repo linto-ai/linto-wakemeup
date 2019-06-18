@@ -37,7 +37,6 @@ module.exports = (webServer) => {
           const userInfos = JSON.parse(req.body.userInfos)
           const webAudioInfos = JSON.parse(req.body.webAudioInfos)
           const file = req.files[0]
-          
           const filePayload = {
             author: userInfos.userHash,
             wakeword: userInfos.wakeword,
@@ -58,7 +57,7 @@ module.exports = (webServer) => {
             userVoted: [],
             gender: userInfos.gender
           }
-          
+
           if(filePayload.mimetype == 'audio/wav') {
             // update user records infos in DB
             const updateUserRecord = await model.updateUserRecords({userInfos})
@@ -81,7 +80,7 @@ module.exports = (webServer) => {
             updateUser = true
             updateScenario = true
           }
-          
+
           // Save Audio in DB
           const addFile = await model.addAudioSample(filePayload)
           if(addFile === 'success') {
