@@ -442,7 +442,6 @@ export default {
       }
     },
     async sendDatas (audioBlob, webAudioInfos, name) {
-
       const userPayload = {
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword,
@@ -465,6 +464,9 @@ export default {
       })
       return saveAudios
     },
+    formatFileName (str) {
+      return str.trim().replace(' ', '')
+    },
     async validRecord () {
       const date = moment().format('YYYYDDMmmhhmmss')
       const wakeWord = this.wakeword
@@ -475,7 +477,8 @@ export default {
       } else if (this.userInfos.gender === 'female') {
         gender = 'F'
       }
-      const fileName = `${wakeWord}-${opt}-${gender}-${date}`
+
+      const fileName = `${wakeWord.trim().replace(' ', '')}-${opt}-${gender}-${date}`
 
       let sendWav, sendWebm
       if (this.step === 1) {
