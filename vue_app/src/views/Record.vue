@@ -288,9 +288,7 @@ export default {
 
       if (this.audioConfig === null) {
         this.allComplete = true
-
       } else {
-
         this.allComplete = false
         this.initRecorder(this.audioConfig)
       }
@@ -464,18 +462,33 @@ export default {
       })
       return saveAudios
     },
+    getDeviceCode (device) {
+      switch (device) {
+        case 'default':
+          return 'PC'
+        case 'casque':
+          return 'MC'
+        case 'pied':
+          return 'MP'
+        case 'smartphone':
+          return 'SP'
+        default:
+          return 'PC'
+      }
+    },
     async validRecord () {
-      const date = moment().format('YYYYDDMmmhhmmss')
-      const wakeWord = this.wakeword
+      const date = moment().format('YYYYDDMMhhmmss')
+      const wakeWord = this.wakeword.trim().replace(/\s/g, '')
       const opt = this.audioConfig.label
+      const device = this.getDeviceCode(this.userInfos.deviceType)
+      const nativeFr = this.userInfos.nativeFrench ? '1' : '0'
       let gender
       if (this.userInfos.gender === 'male') {
         gender = 'M'
       } else if (this.userInfos.gender === 'female') {
         gender = 'F'
       }
-      const fileName = `${wakeWord.trim().replace(/\s/g, '')}-${opt}-${this.userInfos.id}-${gender}-${date}`
-
+      const fileName = `${wakeWord}-${device}-${opt}-${gender}-${nativeFr}-${this.userInfos.id}-${date}`
       let sendWav, sendWebm
       if (this.step === 1) {
         sendWav = await this.sendDatas(this.blob, this.webAudioInfos, fileName + '.wav')

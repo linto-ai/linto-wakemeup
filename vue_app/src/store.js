@@ -32,7 +32,6 @@ export default new Vuex.Store({
     userInfos: '',
     scenarios: '',
     audios: ''
-
   },
   mutations: {
     // Set user infos without sensitive datas
