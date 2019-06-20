@@ -464,9 +464,6 @@ export default {
       })
       return saveAudios
     },
-    formatFileName (str) {
-      return str.trim().replace(' ', '')
-    },
     async validRecord () {
       const date = moment().format('YYYYDDMmmhhmmss')
       const wakeWord = this.wakeword
@@ -477,8 +474,7 @@ export default {
       } else if (this.userInfos.gender === 'female') {
         gender = 'F'
       }
-
-      const fileName = `${wakeWord.trim().replace(' ', '')}-${opt}-${gender}-${date}`
+      const fileName = `${wakeWord.trim().replace(/\s/g, '')}-${opt}-${this.userInfos.id}-${gender}-${date}`
 
       let sendWav, sendWebm
       if (this.step === 1) {

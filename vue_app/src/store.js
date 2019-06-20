@@ -49,7 +49,8 @@ export default new Vuex.Store({
         recordList: data.recordList,
         nativeFrench: data.nativeFrench,
         language: data.language,
-        role: data.role
+        role: data.role,
+        id: data._id
       }
     },
     // Set recording scenarios
