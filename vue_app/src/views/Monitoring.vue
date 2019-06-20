@@ -49,7 +49,7 @@
                 Micro par défault: {{ deviceRatio.prctDefault.toFixed(1) }}% <br/>
                 Micro-casque: {{ deviceRatio.prctHeadphone.toFixed(1) }}% <br/>
                 Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}% <br/>
-                Smartphone: {{ deviceRatio.prctExternal.toFixed(1) }}%
+                Smartphone: {{ deviceRatio.prctSmartphone.toFixed(1) }}%
               </span>
             </div>
           </div>
