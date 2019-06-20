@@ -48,7 +48,8 @@
               <span class="monitoring-datas">
                 Micro par défault: {{ deviceRatio.prctDefault.toFixed(1) }}% <br/>
                 Micro-casque: {{ deviceRatio.prctHeadphone.toFixed(1) }}% <br/>
-                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}%
+                Micro à pied: {{ deviceRatio.prctExternal.toFixed(1) }}% <br/>
+                Smartphone: {{ deviceRatio.prctExternal.toFixed(1) }}%
               </span>
             </div>
           </div>
@@ -148,9 +149,9 @@ export default {
       this.createChart('devicesRatio', {
         type: 'pie',
         data: {
-          labels: ['Default', 'Micro-casque', 'Micro à pied'],
+          labels: ['Default', 'Micro-casque', 'Micro à pied', 'Smartphone'],
           datasets: [{
-            data: [this.deviceRatio.prctDefault, this.deviceRatio.prctHeadphone, this.deviceRatio.prctExternal],
+            data: [this.deviceRatio.prctDefault, this.deviceRatio.prctHeadphone, this.deviceRatio.prctExternal, this.deviceRatio.prctSmartphone],
             backgroundColor: ['#7ee557', '#ed4877', '#22a8f2']
           }]
         },

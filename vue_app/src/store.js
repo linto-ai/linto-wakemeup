@@ -194,6 +194,7 @@ export default new Vuex.Store({
         let defaultDevice = 0
         let headphone = 0
         let external = 0
+        let smartphone = 0
 
         audios.map(a => {
           if (a.deviceType === 'default') {
@@ -202,6 +203,8 @@ export default new Vuex.Store({
             headphone += 1
           } else if (a.deviceType === 'pied') {
             external += 1
+          } else if (a.deviceType === 'smartphone') {
+            smartphone += 1
           }
         })
 
@@ -209,10 +212,12 @@ export default new Vuex.Store({
         const prctDefault = defaultDevice * 100 / total
         const prctHeadphone = headphone * 100 / total
         const prctExternal = external * 100 / total
+        const prctSmartphone = smartphone * 100 / total
         return {
           prctDefault,
           prctExternal,
-          prctHeadphone
+          prctHeadphone,
+          prctSmartphone
         }
       } catch (err) {
         console.error(err)
