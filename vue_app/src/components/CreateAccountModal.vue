@@ -27,7 +27,7 @@
               <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
               <span class="error-field" v-if="!$v.userName.alphaNum">Le nom d'utilisateur ne doit contenir que des caractères alpha-numériques</span>
               <span class="error-field" v-if="!$v.userName.minLength">Le nom d'utilisateur doit comporter au moins {{ $v.userName.$params.minLength.min }} caractères</span>
-              <span class="error-field" v-if="!$v.userName.unique">Ce nom d'utilisateur est déjà utilisé</span>
+              <span class="error-field" v-if="!$v.userName.unique && userName.length > 0">Ce nom d'utilisateur est déjà utilisé</span>
             </div>
 
             <!-- User Email -->
@@ -46,7 +46,7 @@
               >
               <span class="error-field" v-if="!$v.userEmail.required">Ce champ est obligatoire</span>
               <span class="error-field" v-if="!$v.userEmail.email">Le format de l'adresse email est invalide</span>
-              <span class="error-field" v-if="!$v.userEmail.unique">Cette adresse email est déjà utilisée</span>
+              <span class="error-field" v-if="!$v.userEmail.unique && userEmail.length > 0">Cette adresse email est déjà utilisée</span>
             </div>
 
             <!-- Password -->

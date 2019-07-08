@@ -73,8 +73,8 @@ export default new Router({
     component: MentionsLegales
   },
   {
-    path: '/policy',
-    name: 'Privacy policy',
+    path: '/cgu',
+    name: 'Conditions générales d\'utilisation',
     component: PolicyAgreement
   }]
 })
