@@ -1,7 +1,7 @@
 <template>
   <div class="h-100">
     <div id="page-content">
-      <h1 class="red">Condition Générales d'utilisation</h1>
+      <h1 class="red">Condition générales d'utilisation</h1>
       <div class="white-container container left">
         <CGU></CGU>
       </div>

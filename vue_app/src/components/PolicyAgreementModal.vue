@@ -3,7 +3,7 @@
     <div class="modal" :class="[showPolicyModal ? 'visible' : 'hidden']">
       <div class="modal-container large">
         <div class="modal-header">
-          <h3 class="modal-title red">Politique de traitement des données</h3>
+          <h3 class="modal-title red">Conditions générales d'utilisation</h3>
         </div>
         <div class="modal-body">
           <div class="content">
