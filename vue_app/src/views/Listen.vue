@@ -199,7 +199,7 @@ export default {
       if (sendVote.data.voteAudio === 'success') {
         bus.$emit('notify_app', {
           status: 'success',
-          msg: 'Vote pris en compte.',
+          msg: 'Votre vote à bien été pris en compte.',
           redirect: '/interface/listen'
         })
       } else {

@@ -3,7 +3,7 @@
     <div id="notif-container" :class="status">
       <span  class="notif-line"></span>
       <span class="icon"></span>
-      <span class="label">{{msg}} <br/> {{ redirectMsg }}</span>
+      <span class="label">{{msg}}</span>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
       this.status = data.status
       this.redirect = data.redirect
       if (this.redirect) {
-        this.redirectMsg = 'Vous serez redirigé dans 3 secondes...'
+        this.redirectMsg = 'Vous allez être redirigé...'
       }
 
       setTimeout(() => {
@@ -33,21 +33,11 @@ export default {
         this.notifHeight = 'height: '+ (notifHeight + 45) + 'px'
       }, 200)
       setTimeout(() => {
+        this.notifHeight = 'height: 0px;'
         if (this.redirect) {
-          this.redirectMsg = 'Vous serez redirigé dans 2 secondes...'
+          document.location.href= this.redirect
         }
-        setTimeout(() => {
-          if (this.redirect) {
-            this.redirectMsg = 'Vous serez redirigé dans 1 seconde...'
-          }
-          setTimeout(() => {
-            this.notifHeight = 'height: 0px;'
-            if (this.redirect) {
-              document.location.href= this.redirect
-            }
-          }, 1000)
-        }, 1000)
-      }, 1000)
+      }, 1500)
     })
   }
 }
