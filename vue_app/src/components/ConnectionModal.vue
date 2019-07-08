@@ -11,7 +11,7 @@
           <div class="field-container">
             <div class="field-label">
               <span class="icon user"></span>
-              <span class="label">Nom d'utilisateur:</span>
+              <span class="label">Nom d'utilisateur / email:</span>
             </div>
             <input
               type="text"
@@ -22,7 +22,6 @@
               @keyup.13="sendLogin($v)"
             >
             <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
-            <span class="error-field" v-if="!$v.userName.alphaNum">Le nom d'utilisateur ne doit contenir que des caractères alpha-numériques</span>
             <span class="error-field" v-if="!$v.userName.minLength">Le nom d'utilisateur doit comporter au moins {{ $v.userName.$params.minLength.min }} caractères</span>
             <span class="error-field" v-if="userNameErrorMsg.length > 0">{{ userNameErrorMsg }}</span>
           </div>
@@ -82,11 +81,17 @@ export default {
       this.toggleConnectionModal()
     })
   },
+  watch: {
+    userName: function (data) {
+      if (data.indexOf('@') >= 0) {
+        this.userName = data.toLowerCase()
+      }
+    }
+  },
   validations: {
     userName: {
       required,
-      minLength: minLength(3),
-      alphaNum
+      minLength: minLength(3)
     },
     userPswd: {
       required,

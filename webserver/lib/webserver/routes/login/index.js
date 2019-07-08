@@ -3,6 +3,10 @@ const sha1 = require('sha1')
 const DBmodel = require(`${process.cwd()}/model/${process.env.BDD_TYPE}`)
 const model = new DBmodel()
 
+const isEmail =  email => {
+  return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+}
+
 module.exports = (webServer) => {
   return [{
       path: '/userAuth',
@@ -12,8 +16,13 @@ module.exports = (webServer) => {
           const userName = req.body.userName
           const password = req.body.password
           try {
+            let getUser
             let user
-            let getUser = await model.getUserByName(userName)
+            if(isEmail(userName)) {
+              getUser = await model.getUserByMail(userName)
+            } else {
+              getUser = await model.getUserByName(userName)
+            }
             if (getUser.length > 0) {
               user = getUser[0]
             }
@@ -99,7 +108,7 @@ module.exports = (webServer) => {
               })
             }
           })
-        } 
+        }
         else if (createUser === 'userExist') {
           res.json({
             status: 'error',
@@ -114,8 +123,6 @@ module.exports = (webServer) => {
           })
         }
       }
-    },
-    
-    
+    }
   ]
 }

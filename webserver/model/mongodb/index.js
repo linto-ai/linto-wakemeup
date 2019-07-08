@@ -53,8 +53,9 @@ class modelMongoDb {
     try {
       const query = {}
       return await this.mongoRequest('users', query)
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err)
+      return err
     }
   }
 
@@ -70,7 +71,8 @@ class modelMongoDb {
       }
       return await this.mongoRequest('users', query)
     } catch (err) {
-      console.error('get user ', err)
+      console.error(err)
+      return err
     }
   }
 
@@ -86,7 +88,8 @@ class modelMongoDb {
       }
       return await this.mongoRequest('users', query)
     } catch (err) {
-      console.error('get user ', err)
+      console.error(err)
+      return err
     }
   }
   async getUserByMail(email) {
@@ -96,7 +99,8 @@ class modelMongoDb {
       }
       return await this.mongoRequest('users', query)
     } catch (err) {
-      console.error('get user ', err)
+      console.error(err)
+      return err
     }
   }
 
@@ -107,7 +111,8 @@ class modelMongoDb {
       }
       return await this.mongoRequest('users', query)
     } catch (err) {
-      console.error('get user ', err)
+      console.error(err)
+      return err
     }
   }
   /**
@@ -162,6 +167,7 @@ class modelMongoDb {
       return await this.mongoUpdate('users', query, mutableElements)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   async updateUserRecords(payload) {
@@ -205,6 +211,7 @@ class modelMongoDb {
       }
     } catch (err) {
       console.error(err)
+      return err
     }
   }
 
@@ -215,6 +222,7 @@ class modelMongoDb {
       return deleteUser
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   /**************/
@@ -239,6 +247,7 @@ class modelMongoDb {
       return await this.mongoRequest('audios', query)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   async addAudioSample(payload) {
@@ -246,6 +255,7 @@ class modelMongoDb {
       return await this.mongoInsert('audios', payload)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   async getAudioById(id) {
@@ -256,6 +266,7 @@ class modelMongoDb {
       return await this.mongoRequest('audios', query)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   async getAudiosByUserHash(userHash) {
@@ -266,6 +277,7 @@ class modelMongoDb {
       return await this.mongoRequest('audios', query)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   async updateVoteAudio(payload) {
@@ -277,7 +289,6 @@ class modelMongoDb {
       let audioPayload = getAudio[0]
 
       user.nbListen += 1
-
       audioPayload.userVoted.push(payload.userHash)
       audioPayload.nbVotes += 1
       if (payload.vote === 'good') {
@@ -297,7 +308,6 @@ class modelMongoDb {
       if (!!audioPayload._id) {
         delete audioPayload._id
       }
-
       if (audioPayload.status !== 'vote') {
         fileMove = moveFile(audioPayload)
 
@@ -319,6 +329,7 @@ class modelMongoDb {
       }
     } catch (err) {
       console.error(err)
+      return err
     }
   }
 
@@ -331,6 +342,7 @@ class modelMongoDb {
       return deleteAudio
     } catch (err) {
       console.error(err)
+      return err
     }
 
   }
@@ -341,16 +353,18 @@ class modelMongoDb {
     try {
       const query = {}
       return await this.mongoRequest('scenarios', query)
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err)
+      return err
     }
   }
   async getScenarioByWakeword(wakeword) {
     try {
       const query = { wakeword: wakeword }
       return await this.mongoRequest('scenarios', query)
-    } catch (error) {
-      console.error(error)
+    } catch (err) {
+      console.error(err)
+      return err
     }
   }
   async addScenario(data) {
@@ -380,6 +394,7 @@ class modelMongoDb {
       return await this.mongoInsert('scenarios', payload)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
   async deleteWakeword(data) {
@@ -409,6 +424,7 @@ class modelMongoDb {
 
     } catch (err) {
       console.error(err)
+      return err
     }
 
   }
@@ -423,6 +439,7 @@ class modelMongoDb {
       return appStats[0]
     } catch (err) {
       console.error(err)
+      return err
     }
   }
 
@@ -443,6 +460,7 @@ class modelMongoDb {
       return await this.mongoUpdate('app_stats', query, appStats)
     } catch (err) {
       console.error(err)
+      return err
     }
   }
 
