@@ -9,6 +9,11 @@ export const bus = new Vue()
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
 
+Vue.filter('formatAudioUrl', (dbPath) => {
+  let splitPath = dbPath.split('uploads/')
+  return '/assets/audios/' + splitPath[1]
+})
+
 new Vue({
   router,
   store,

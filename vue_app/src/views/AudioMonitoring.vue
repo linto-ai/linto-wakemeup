@@ -44,7 +44,7 @@
               <td>{{ audio.nbVotes }} (<span class="green">{{ audio.nbValidVote }}</span> / <span class="red">{{ audio.nbInvalidVote }})</span></td>
               <td>{{ audio.status }}</td>
               <td>{{ audio.recordDate }}</td>
-              <td class="action"><button @click="playSound($event)" :data-url="'/assets/audios/' + audio.fieldname" class="action-button play"></button></td>
+              <td class="action"><button @click="playSound($event)" :data-url="audio.path | formatAudioUrl" class="action-button play"></button></td>
               <td class="action"><button @click="deleteAudio(audio)" class="action-button delete"></button></td>
             </tr>
           </tbody>

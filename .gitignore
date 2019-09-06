@@ -1,8 +1,7 @@
 **/node_modules
 **/.env
 **/package-lock.json
-**/uploads/valid/*
-**/uploads/invalid/*
+**/uploads/*
 **/dist
 **/dump.rdb
 **/mongodb/data
