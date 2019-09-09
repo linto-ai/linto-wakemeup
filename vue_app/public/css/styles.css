@@ -7689,7 +7689,7 @@ h3 {
       width: 20px;
       height: 20px;
       background-image: url("../img/user-panel-icons@2x.png");
-      background-size: 40px 140px;
+      background-size: 40px 160px;
       background-repeat: no-repeat;
       margin: 0 5px 0 10px; }
       .user-menu .user-submenu-link .icon.user {
@@ -7727,6 +7727,39 @@ h3 {
       .user-menu .user-submenu-link:hover .icon.audio-monitoring {
         background-position: -20px -120px; }
 
+.user-metrics {
+  height: 30px;
+  margin: 15px 10px 15px 20px; }
+  .user-metrics > span {
+    display: inline-block;
+    vertical-align: top; }
+  .user-metrics .metrics {
+    height: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+    padding: 0;
+    margin: 0;
+    color: #444444;
+    padding-right: 10px; }
+    .user-metrics .metrics.record {
+      color: #c61e42; }
+    .user-metrics .metrics.listen {
+      color: #2da800;
+      border-right: 1px solid #ccc; }
+  .user-metrics .icon {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-image: url("../img/user-panel-icons@2x.png");
+    background-size: 40px 160px;
+    background-repeat: no-repeat;
+    margin: 5px; }
+    .user-metrics .icon.record {
+      background-position: 0 -140px; }
+    .user-metrics .icon.listen {
+      background-position: -20px -140px; }
+
 /*** END HEADER ***/
 @media screen and (max-width: 1024px) {
   #header {
@@ -7747,12 +7780,16 @@ h3 {
   .user-menu .toggle-user-menu.opened .icon {
     background-position: 0 -5px; }
   .user-menu .user-submenu {
-    top: 40px; } }
+    top: 40px; }
+  .user-metrics {
+    margin: 5px 10px 5px 20px !important; } }
 
 @media screen and (max-width: 960px) {
   #header .button,
   #header .header-link {
-    font-size: 14px; } }
+    font-size: 14px; }
+  .user-metrics {
+    display: none !important; } }
 
 @media screen and (max-width: 600px) {
   #header .row .col-4,

@@ -12,7 +12,11 @@
       </div>
       <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 user-panel">
         <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Connexion</button>
+
         <div v-if="userConnected" class="user-menu">
+          <div class="user-metrics" style="display: inline-block;">
+          <span class="icon record"></span><span class="metrics record">{{ userInfos.nbRecord }}</span> <span class="icon listen"></span><span class="metrics listen">{{ userInfos.nbListen }}</span>
+          </div>
           <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']">
             <span class="label">{{ userInfos.userName }}</span>
             <span class="icon"></span>
