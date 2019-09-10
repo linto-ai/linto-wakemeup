@@ -18,7 +18,7 @@ module.exports = (webServer) => {
       controller: async (req, res, next) => {
         const user = req.params.user
         const getUser = await model.getUserByName(user)
-        if (getUser.length <= 0){
+        if (getUser.length <= 0) {
           res.redirect('/')
         } else {
           res.setHeader("Content-Type", "text/html")

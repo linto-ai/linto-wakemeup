@@ -21,6 +21,7 @@
     "vue": "^2.6.6",
     "vue-recaptcha-v3": "^1.5.0",
     "vue-router": "^3.0.1",
+    "vue-session": "^1.0.0",
     "vuelidate": "^0.7.4",
     "vuex": "^3.0.1"
   },

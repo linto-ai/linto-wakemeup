@@ -8,14 +8,14 @@ const EventEmitter = require('eventemitter3')
 const HTTP_PORT = process.env.HTTP_PORT || 3003
 let redis, redisStore, redisClient
 
-if (process.env.NODE_ENV == 'production') {
+//if (process.env.NODE_ENV == 'production') {
   redis = require("redis")
   redisStore = require('connect-redis')(Session)
   redisClient = redis.createClient({
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
   })
-}
+//}
 class WebServer extends EventEmitter {
   constructor() {
     super()
@@ -42,13 +42,13 @@ class WebServer extends EventEmitter {
       }
     }
     // Redis store if "production"
-    if (process.env.NODE_ENV == 'production') {
+    //if (process.env.NODE_ENV == 'production') {
       sessionConfig.store = new redisStore({
         host: process.env.REDIS_HOST,
         port: process.env.REDIS_PORT,
         client: redisClient
       })
-    }
+    //}
 
     this.session = Session(sessionConfig)
     this.app.use(this.session)

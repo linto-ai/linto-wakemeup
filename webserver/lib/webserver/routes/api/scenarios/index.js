@@ -10,10 +10,15 @@ module.exports = (webServer) => {
     method: 'get',
     requireAuth: true,
     controller: async (req, res, next) => {
-      const scenarios = await model.getScenarios()
-      res.json({
-        scenarios
-      })
+      try {
+        const scenarios = await model.getScenarios()
+        res.json({
+          scenarios
+        })
+      } catch (error) {
+        console.error(error)
+        res.json({ error })
+      }
     }
   },
   {
@@ -21,12 +26,16 @@ module.exports = (webServer) => {
     method: 'post',
     requireAuth: true,
     controller: async (req, res, next) => {
-      const payload = req.body
-      const addWakeword = await model.addScenario(payload)
-      res.json({
-        addWakeword
-      })
-
+      try {
+        const payload = req.body
+        const addWakeword = await model.addScenario(payload)
+        res.json({
+          addWakeword
+        })
+      } catch (error) {
+        console.error(error)
+        res.json({ error })
+      }
     }
   },
   {
@@ -34,11 +43,16 @@ module.exports = (webServer) => {
     method: 'delete',
     requireAuth: true,
     controller: async (req, res, next) => {
-      const payload = req.body
-      const deleteWakeword = await model.deleteWakeword(payload)
-      res.json({
-        deleteWakeword
-      })
+      try {
+        const payload = req.body
+        const deleteWakeword = await model.deleteWakeword(payload)
+        res.json({
+          deleteWakeword
+        })
+      } catch (error) {
+        console.error(error)
+        res.json({ error })
+      }
     }
   }]
 }

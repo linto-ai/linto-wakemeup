@@ -1,7 +1,7 @@
 <template>
   <div id="app">
      <div id="header">
-      <HeaderApp></HeaderApp>
+      <HeaderApp :userConnected="userConnected"></HeaderApp>
       <AppNotify></AppNotify>
     </div>
     <transition>
@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 import HeaderApp from '@/components/Header.vue'
 import AppNotify from '@/components/AppNotify.vue'
 import FooterApp from '@/components/Footer.vue'
@@ -27,11 +28,46 @@ import PolicyAgreementModal from '@/components/PolicyAgreementModal.vue'
 import { bus } from './main.js'
 export default {
   data () {
-    return {}
+    return {
+      userConnected: {
+        status: false,
+        user: null,
+        email: null,
+        userNmae: null
+      }
+    }
+  },
+  async created () {
+    const checkSession = await axios({
+      url: `${process.env.VUE_APP_URL}/api/user/session`,
+      method: 'get'
+    })
+    this.$session.start()
+    // If user is connected
+    if (checkSession.data.response.connected === true) {
+      this.$session.set('cnxusr', checkSession.data.response.user)
+      this.$session.set('cnxusrname', checkSession.data.response.userName)
+      this.$session.set('cnxstatus', 'logged_on')
+      this.$session.set('cnxusrmail', checkSession.data.response.email)
+      this.userConnected = {
+        status: true,
+        user: checkSession.data.response.user,
+        email: checkSession.data.response.email,
+        userName: checkSession.data.response.userName
+      }
+    } else { // If user not conected
+      this.userConnected = {
+        status: false,
+        user: null,
+        email: null,
+        userName: null
+      }
+      this.$session.destroy()
+    }
   },
   mounted () {
     const cookieLegal = this.getCookie('wmu_legals')
-    if(cookieLegal !== 'on') {
+    if (cookieLegal !== 'on') {
       bus.$emit('showCookieLegasls', {})
     }
   },

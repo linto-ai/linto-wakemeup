@@ -11,14 +11,14 @@
         <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
       </div>
       <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 user-panel">
-        <button v-if="!userConnected" class="button red" @click="toggleConnectionModal()">Connexion</button>
+        <button v-if="!userConnected.status" class="button red" @click="toggleConnectionModal()">Connexion</button>
 
-        <div v-if="userConnected" class="user-menu">
+        <div v-if="userConnected.status" class="user-menu">
           <div class="user-metrics" style="display: inline-block;">
           <span class="icon record"></span><span class="metrics record">{{ userInfos.nbRecord }}</span> <span class="icon listen"></span><span class="metrics listen">{{ userInfos.nbListen }}</span>
           </div>
           <button class="toggle-user-menu" @click="toggleUserMenu" :class="[showUserMenu ? 'opened' : 'closed']">
-            <span class="label">{{ userInfos.userName }}</span>
+            <span class="label">{{ userConnected.userName }}</span>
             <span class="icon"></span>
           </button>
           <div class="user-submenu" :class="[showUserMenu ? 'visible' : 'hidden']">
@@ -48,10 +48,10 @@
               <span class="icon audio-monitoring"></span>
               <span class="label audio-monitoring">Audio monitoring</span>
             </a>
-            <a href="/logout" class="user-submenu-link logout">
+            <button @click="logout()" class="user-submenu-link logout">
               <span class="icon logout"></span>
               <span class="label logout">Déconnexion</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -62,28 +62,11 @@
 import { bus } from '../main.js'
 import axios from 'axios'
 export default {
+  props: ['userConnected'],
   data () {
     return {
-      userConnected: false,
       showUserMenu: false,
       isAdmin: false
-    }
-  },
-  created () {
-    const userCookie = this.getCookie('wmu_user')
-    if (userCookie !== 'disconnected') {
-      this.$store.dispatch('getUserInfos', userCookie).then((resp) => {
-        // Error handler
-        if(!!resp.error) {
-          bus.$emit('notify_app', {
-            status: 'error',
-            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
-            redirect: false
-          })
-        } else {
-          this.userConnected = true
-        }
-      })
     }
   },
   computed: {
@@ -92,6 +75,11 @@ export default {
     }
   },
   watch: {
+    userConnected: function (data) {
+      if (data.status === true) {
+        this.$store.dispatch('getUserInfos', data.user)
+      }
+    },
     userInfos: function (data) {
       if(data.role === 'administrator'){
         this.isAdmin = true
@@ -105,20 +93,6 @@ export default {
     toggleUserMenu () {
       this.showUserMenu = !this.showUserMenu
     },
-    getCookie (cname) {
-      const name = cname + '='
-      const ca = document.cookie.split(';')
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c.charAt(0) == ' ') {
-          c = c.substring(1)
-        }
-        if (c.indexOf(name) == 0) {
-          return c.substring(name.length, c.length)
-        }
-      }
-      return ''
-    },
     navigate (e) {
       if(!this.userConnected){
         this.toggleConnectionModal()
@@ -126,6 +100,10 @@ export default {
         const url = e.target.getAttribute('data-url')
         window.location.href = url
       }
+    },
+    logout () {
+      this.$session.destroy()
+      window.location.href = '/logout'
     }
   }
 }

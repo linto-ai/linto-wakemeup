@@ -75,7 +75,9 @@ export default new Vuex.Store({
           method: 'post',
           data: { hash }
         })
-        commit('SET_USER', getUser.data.user[0])
+        if (getUser.data.user.length > 0) {
+          commit('SET_USER', getUser.data.user[0])
+        }
         return state.userInfos
       } catch (err) {
         console.error(err)

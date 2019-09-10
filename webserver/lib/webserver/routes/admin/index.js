@@ -18,7 +18,7 @@ module.exports = (webServer) => {
           res.setHeader("Content-Type", "text/html")
           res.sendFile(process.cwd() + '/dist/index.html')
         }
-      ] 
+      ]
     }
   ]
 }
