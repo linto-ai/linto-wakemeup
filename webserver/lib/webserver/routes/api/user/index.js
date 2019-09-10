@@ -30,7 +30,6 @@ module.exports = (webServer) => {
     method: 'get',
     controller: async (req, res, next) => {
       try {
-        console.log('route session :' , req.session)
         let response = {}
         if(!!req.session.logged && !!req.session.user) {
           const user = await model.getUserByHash(req.session.user)
@@ -162,7 +161,6 @@ module.exports = (webServer) => {
           throw 'user not found'
         }
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error,

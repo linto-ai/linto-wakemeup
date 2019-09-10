@@ -16,14 +16,11 @@
             <input
               type="text"
               class="input"
-              v-model.lazy="userName"
-              :class="{error: $v.userName.$error || userNameErrorMsg.length > 0}"
-              @blur="$v.userName.$touch()"
-              @keyup.13="sendLogin($v)"
+              v-model="userName"
+              :class="[this.userNameErrorMsg.length > 0 ? 'error' : '']"
+              @keyup.13="handleLogin()"
             >
-            <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
-            <span class="error-field" v-if="!$v.userName.minLength">Le nom d'utilisateur doit comporter au moins {{ $v.userName.$params.minLength.min }} caractères</span>
-            <span class="error-field" v-if="userNameErrorMsg.length > 0">{{ userNameErrorMsg }}</span>
+            <span class="error-field">{{ userNameErrorMsg }}</span>
           </div>
           <div class="field-container">
             <div class="field-label">
@@ -33,19 +30,16 @@
             <input
               type="password"
               class="input"
-              v-model.lazy="userPswd"
-              :class="{error: $v.userPswd.$error || userPswdErrorMsg.length > 0}"
-              @keyup.13="sendLogin($v)">
-            <span class="error-field" v-if="!$v.userPswd.required">Ce champ est obligatoire</span>
-            <span class="error-field" v-if="!$v.userPswd.minLength">Le mot de passe doit contenir au moins {{ $v.userPswd.$params.minLength.min }}</span>
-            <span class="error-field" v-if="userPswdErrorMsg.length > 0">{{ userPswdErrorMsg }}</span>
-
+              v-model="userPswd"
+              :class="[this.userPswdErrorMsg.length > 0 ? 'error' : '']"
+              @keyup.13="handleLogin()"
+            >
+            <span class="error-field">{{ userPswdErrorMsg }}</span>
           </div>
           <div class="field-container btn">
             <button
               class="button green large"
-              @click.prevent="sendLogin($v)"
-              :disabled="$v.$invalid"
+              @click="handleLogin"
             >{{ connexionBtnLabel }}</button>
           </div>
           <a href="/reinit-password">Mot de passe oublié ?</a>
@@ -63,7 +57,6 @@
 </template>
 <script>
 import axios from 'axios'
-import { required, minLength, alphaNum } from 'vuelidate/lib/validators'
 import { bus } from '../main.js'
 export default {
   data () {
@@ -88,16 +81,6 @@ export default {
       }
     }
   },
-  validations: {
-    userName: {
-      required,
-      minLength: minLength(3)
-    },
-    userPswd: {
-      required,
-      minLength: minLength(6)
-    }
-  },
   methods: {
     toggleConnectionModal () {
       this.showConnectionModal = !this.showConnectionModal
@@ -109,29 +92,42 @@ export default {
       this.showConnectionModal = false
       bus.$emit('toggle_create_account_modal', {})
     },
-    async sendLogin (formValidator) {
-      this.connexionBtnLabel = 'Connexion...'
-      this.userPswdErrorMsg = ''
+    handleLogin () {
       this.userNameErrorMsg = ''
-      if (!formValidator.$error && !formValidator.$invalid) {
-        const payload = {
+      this.userPswdErrorMsg = ''
+      let valid = true
+
+      if (this.userName.length === 0 || this.userName === '') {
+        this.userNameErrorMsg = 'Ce champs est obligatoire'
+        valid = false
+      }
+      if (this.userPswd.length === 0 || this.userPswd === '') {
+        this.userPswdErrorMsg = 'Ce champs est obligatoire'
+        valid = false
+      }
+      if (valid) {
+        this.sendLogin()
+      }
+    },
+    async sendLogin () {
+      this.connexionBtnLabel = 'Connexion...'
+      const payload = {
         userName: this.userName,
         password: this.userPswd
+      }
+      const login = await axios(`${process.env.VUE_APP_URL}/login/userAuth`, {
+        method: 'post',
+        data: payload
+      })
+      if (login.data.status === 'error') {
+        this.connexionBtnLabel = 's\'identifier'
+        if (login.data.field === 'user') {
+          this.userNameErrorMsg = login.data.msg
+        } else if (login.data.field === 'password') {
+          this.userPswdErrorMsg = login.data.msg
         }
-        const login = await axios(`${process.env.VUE_APP_URL}/login/userAuth`, {
-          method: 'post',
-          data: payload
-        })
-        if (login.data.status === 'error') {
-          this.connexionBtnLabel = 's\'identifier'
-          if (login.data.field === 'user') {
-            this.userNameErrorMsg = login.data.msg
-          } else if (login.data.field === 'password') {
-            this.userPswdErrorMsg = login.data.msg
-          }
-        } else if (login.data.status === 'success') {
-          document.location.href = '/'
-        }
+      } else if (login.data.status === 'success') {
+        document.location.href = '/'
       }
     }
   }
