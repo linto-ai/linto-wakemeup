@@ -301,15 +301,6 @@ export default {
     }
   },
   methods: {
-    isRequired (obj) {
-      if(obj.value.length === 0 || obj.value === '') {
-        return false
-      }
-      return true
-    },
-    isEmail (email) {
-      return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-    },
     async handleCreateAccount () {
       let valid = true
       for(let field in this.formFields) {
@@ -318,7 +309,7 @@ export default {
       }
 
       // User name
-      if(!this.isRequired(this.formFields.userName)) {
+      if(!this.$options.filters.isRequired(this.formFields.userName)) {
         valid = false
         this.formFields.userName.error = 'ce champ est requis'
       } else {
@@ -335,7 +326,7 @@ export default {
       }
 
       // Email
-      if(!this.isRequired(this.formFields.userEmail)) {
+      if(!this.$options.filters.isRequired(this.formFields.userEmail)) {
         valid = false
         this.formFields.userEmail.error = 'ce champ est requis'
       } else {
@@ -343,7 +334,7 @@ export default {
           method: 'post',
           data: { email: this.formFields.userEmail.value }
         })
-        if(!this.isEmail(this.formFields.userEmail.value)) {
+        if(!this.$options.filters.isEmail(this.formFields.userEmail.value)) {
           valid = false
           this.formFields.userEmail.error = 'Le format de l\'adressse email saisie est invalide'
         } else if(emailExist.data.status === 'success') {
@@ -351,49 +342,38 @@ export default {
           this.formFields.userEmail.error = 'Cette adresse email est déjà utilisée'
         } else {
           this.formFields.userEmail.valid = true
-          }
         }
-
+      }
       // Password
-      if(!this.isRequired(this.formFields.userPswd)) {
+      if(!this.$options.filters.isRequired(this.formFields.userPswd)) {
         valid = false
         this.formFields.userPswd.error = 'ce champ est requis'
       } else if (this.formFields.userPswd.value.length < 6) {
         valid = false
         this.formFields.userPswd.error = 'Le mot de passe doit contenir au moins 6 caractères'
       }
-
       // Password Confirm
-      if(!this.isRequired(this.formFields.userPswdConfirm)) {
+      if(!this.$options.filters.isRequired(this.formFields.userPswdConfirm)) {
         valid = false
         this.formFields.userPswdConfirm.error = 'ce champ est requis'
       } else if (this.formFields.userPswdConfirm.value !== this.formFields.userPswd.value) {
         valid = false
         this.formFields.userPswdConfirm.error = 'Les deux mots de passe doivent être identiques'
       }
-
       // Gender
-      if(!this.isRequired(this.formFields.userGender)) {
+      this.formFields.userGender = this.$options.filters.validateRequired(this.formFields.userGender)
+      if(!this.formFields.userGender.valid ) {
         valid = false
-        this.formFields.userGender.error = 'Ce champ est requis'
-      } else {
-        this.formFields.userGender.valid = true
       }
-
       // Age range
-      if(!this.isRequired(this.formFields.userAgeRange)) {
+      this.formFields.userAgeRange = this.$options.filters.validateRequired(this.formFields.userAgeRange)
+      if(!this.formFields.userAgeRange.valid ) {
         valid = false
-        this.formFields.userAgeRange.error = 'Ce champ est requis'
-      } else {
-        this.formFields.userAgeRange.valid = true
       }
-
       // Native language
-      if(this.formFields.nativeLanguage.value.length === 0 || this.formFields.nativeLanguage.value === '') {
+      this.formFields.userAgeRange = this.$options.filters.validateRequired(this.formFields.userAgeRange)
+      if(!this.formFields.userAgeRange.valid ) {
         valid = false
-        this.formFields.nativeLanguage.error = 'Vous devez choisir une langue native'
-      } else {
-        this.formFields.nativeLanguage.valid = true
       }
 
       // Send Form
@@ -414,7 +394,7 @@ export default {
       this.showCreateAccountModal = false
       bus.$emit('toggle_connection_modal', {})
     },
-    sendForm (validator) {
+    sendForm () {
       this.showCreateAccountModal = false
       bus.$emit('show_policy_agreement', {})
     },
@@ -430,7 +410,6 @@ export default {
         language: this.formFields.nativeLanguage.value,
         nativeFrench: this.formFields.nativeFrench.value
       }
-
       const createUser = await axios(`${process.env.VUE_APP_URL}/login/createUser`, {
         method: 'post',
         data: payload
@@ -439,7 +418,6 @@ export default {
       this.createAccoutMsg = createUser.data.msg
       if (createUser.data.status === 'success') {
         this.btnCreateAccountLabel = 'Succès'
-        this.setCookie('wmu_user', createUser.data.userHash, 1)
         setTimeout(() => {
           this.redirectMessage = 'Vous allez être redirigé dans 2 secondes...'
           setTimeout(() => {
@@ -452,26 +430,6 @@ export default {
       } else {
         this.btnCreateAccountLabel = 'Créer un compte'
       }
-    },
-    setCookie (cname, cvalue, exdays) {
-      const d = new Date()
-      d.setTime(d.getTime() + (exdays * 24 * 60 * 60))
-      const expires = 'expires=' + d.toUTCString()
-      document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
-    },
-    getCookie (cname) {
-      const name = cname + '='
-      const ca = document.cookie.split(';')
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c.charAt(0) === ' ') {
-          c = c.substring(1)
-        }
-        if (c.indexOf(name) === 0) {
-          return c.substring(name.length, c.length)
-        }
-      }
-      return ''
     }
   }
 }

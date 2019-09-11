@@ -8,6 +8,7 @@
         </div>
         <div class="modal-body">
           <span>Veuillez renseigner vos identifiants</span>
+          <!-- User name / email -->
           <div class="field-container">
             <div class="field-label">
               <span class="icon user"></span>
@@ -22,6 +23,7 @@
             >
             <span class="error-field">{{ userNameErrorMsg }}</span>
           </div>
+          <!-- Password -->
           <div class="field-container">
             <div class="field-label">
               <span class="icon pswd"></span>
@@ -36,16 +38,19 @@
             >
             <span class="error-field">{{ userPswdErrorMsg }}</span>
           </div>
+          <!-- Submit button -->
           <div class="field-container btn">
             <button
               class="button green large"
               @click="handleLogin"
             >{{ connexionBtnLabel }}</button>
           </div>
+          <!-- Forgotten password -->
           <a href="/reinit-password">Mot de passe oublié ?</a>
           <div class="spacer"></div>
           <div class="divider red"></div>
           <div class="spacer"></div>
+          <!-- Create account -->
           <span>Vous n'avez pas d'identifiants ?</span>
           <div class="field-container btn">
             <button class="button green large" @click="toggleCreateAccountModal" >Créer un compte</button>
@@ -66,7 +71,7 @@ export default {
       userNameErrorMsg: '',
       userPswd: '',
       userPswdErrorMsg: '',
-      connexionBtnLabel: 's\'identifier',
+      connexionBtnLabel: 's\'identifier'
     }
   },
   mounted () {
@@ -96,7 +101,6 @@ export default {
       this.userNameErrorMsg = ''
       this.userPswdErrorMsg = ''
       let valid = true
-
       if (this.userName.length === 0 || this.userName === '') {
         this.userNameErrorMsg = 'Ce champs est obligatoire'
         valid = false

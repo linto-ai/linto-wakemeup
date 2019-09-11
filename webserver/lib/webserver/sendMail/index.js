@@ -45,6 +45,7 @@ async function sendReinitPasswordMail(to, userName, reinitLink){
     }
   } catch (err) {
     console.error('send mail error:', err)
+    return err
   }
 }
 
@@ -93,6 +94,7 @@ async function sendContactMail(payload){
     }
   } catch (err) {
     console.error('send mail error:', err)
+    return err
   }
 }
 

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Name -->
     <div class="field-container">
       <div class="field-label">
         <span class="required">*</span>
@@ -15,14 +16,15 @@
       >
       <span class="error-field" v-if="!$v.userName.required">Ce champ est obligatoire</span>
       <span class="error-field" v-if="userName.length > 0 && !$v.userName.isName">Veuillez saisir un nom valide</span>
-
     </div>
+    <!-- Society -->
     <div class="field-container">
       <div class="field-label">
         <span class="label">Société :</span>
       </div>
       <input type="text" class="input" v-model.lazy="userSociety" v-on:keyup.13="sendForm()">
     </div>
+    <!-- Email -->
     <div class="field-container">
       <div class="field-label">
         <span class="required">*</span>
@@ -39,6 +41,7 @@
       <span class="error-field" v-if="!$v.userEmail.required">Ce champ est obligatoire</span>
       <span class="error-field" v-if="!$v.userEmail.email">Le format de l'adresse email est invalide</span>
     </div>
+    <!-- Subject -->
     <div class="field-container">
       <div class="field-label">
         <span class="required">*</span>
@@ -54,7 +57,7 @@
       >
       <span class="error-field" v-if="!$v.userSubject.required">Ce champ est obligatoire</span>
     </div>
-
+    <!-- Message -->
     <div class="field-container">
       <div class="field-label">
         <span class="required">*</span>
@@ -69,7 +72,7 @@
       ></textarea>
       <span class="error-field" v-if="!$v.userMessage.required">Ce champ est obligatoire</span>
     </div>
-
+    <!-- Captcha -->
     <div class="field-container captcha">
       <Captcha :status="captchaErrorMsg.length > 0 ? 'error' : ''"></Captcha>
       <span
@@ -77,11 +80,10 @@
         :class="[captchaErrorMsg.length > 0 ? 'visible' : 'hidden']"
       >{{ captchaErrorMsg }}</span>
     </div>
-
+    <!-- Submit button -->
     <div class="field-container btn">
       <button class="button green large" @click="sendForm($v)">{{ btnLabel }}</button>
     </div>
-
   </div>
 </template>
 <script>
@@ -132,7 +134,6 @@ export default {
     }
   },
   methods: {
-
     async sendForm (validator) {
       validator.$touch()
       if (!this.captchaValid) {

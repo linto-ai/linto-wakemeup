@@ -90,7 +90,7 @@ module.exports = (webServer) => {
           const getUser = await model.getUserByName(userInfos.userName)
           req.session.logged = 'on'
           req.session.user = getUser[0].userHash
-          res.session.email = getUser[0].email
+          req.session.email= getUser[0].email
           req.session.userName = getUser[0].userName
           req.session.save((err) => {
             if (err) {

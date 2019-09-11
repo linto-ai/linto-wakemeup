@@ -38,55 +38,15 @@
 <script>
 import { bus } from '../main.js'
 export default {
-  data () {
-    return {
-      userConnected: false
-    }
-  },
-  created () {
-    const userCookie = this.getCookie('wmu_user')
-    if (userCookie !== 'disconnected') {
-      this.$store.dispatch('getUserInfos', userCookie).then((resp) => {
-        // Error handler
-        if (!!resp.error) {
-          bus.$emit('notify_app', {
-            status: 'error',
-            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
-            redirect: false
-          })
-        } else {
-          this.userConnected = true
-        }
-      })
-    }
-  },
-  computed: {
-    userInfos () {
-      return this.$store.state.userInfos
-    }
-  },
+  props: ['userConnected'],
   methods: {
     navigate (e) {
-      if (!this.userConnected) {
+      if (!this.userConnected.status) {
         bus.$emit('toggle_connection_modal', {})
       } else {
         const url = e.target.getAttribute('data-url')
         window.location.href = url
       }
-    },
-    getCookie (cname) {
-      const name = cname + '='
-      const ca = document.cookie.split(';')
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c.charAt(0) === ' ') {
-          c = c.substring(1)
-        }
-        if (c.indexOf(name) === 0) {
-          return c.substring(name.length, c.length)
-        }
-      }
-      return ''
     }
   }
 }

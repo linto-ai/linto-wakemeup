@@ -6,7 +6,7 @@
     </div>
     <transition>
       <keep-alive>
-        <router-view></router-view>
+        <router-view :userConnected="userConnected"></router-view>
       </keep-alive>
     </transition>
     <ConnectionModal></ConnectionModal>
@@ -42,6 +42,7 @@ export default {
       url: `${process.env.VUE_APP_URL}/api/user/session`,
       method: 'get'
     })
+
     this.$session.start()
     // If user is connected
     if (checkSession.data.response.connected === true) {

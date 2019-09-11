@@ -64,6 +64,5 @@
         return false
       }
    }
-
   }
 </script>

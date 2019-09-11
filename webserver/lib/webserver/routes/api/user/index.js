@@ -17,7 +17,6 @@ module.exports = (webServer) => {
           user
         })
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error
@@ -75,7 +74,6 @@ module.exports = (webServer) => {
           status: updateUser
         })
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error
@@ -103,7 +101,6 @@ module.exports = (webServer) => {
         if (audioDelete) {
           const deleteUser = await model.deleteUser(userHash)
           if (deleteUser === 'success') {
-            //  res.redirect('/logout')
             res.json({
               status: 'success',
               msg: 'l\'utilisateur à été supprimé'
@@ -196,14 +193,17 @@ module.exports = (webServer) => {
             throw 'Une erreur est survenue'
           }
         } else {
-          throw 'Le mot de passe actuel est erroné'
+          throw {
+            msg: 'Le mot de passe actuel est erroné',
+            field: 'currentPswd'
+          }
         }
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error,
-          msg: error
+          msg: !!error.msg ? error.msg : error,
+          field: !!error.field ? error.field : ''
         })
       }
     }
@@ -227,7 +227,6 @@ module.exports = (webServer) => {
           throw 'invalid password'
         }
       } catch (error) {
-        console.error(error)
         res.json({
           satus: 'error',
           error
@@ -256,7 +255,6 @@ module.exports = (webServer) => {
           throw 'User not found'
         }
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error
@@ -298,7 +296,6 @@ module.exports = (webServer) => {
           throw 'user not found'
         }
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error,
@@ -337,7 +334,6 @@ module.exports = (webServer) => {
           throw 'userNotFound'
         }
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error,
@@ -370,7 +366,6 @@ module.exports = (webServer) => {
          throw 'Une erreur est survenue, si le problème persiste, veuillez contactrer un administrateur.'
         }
       } catch (error) {
-        console.error(error)
         res.json({
           status: 'error',
           error,
