@@ -184,6 +184,50 @@ module.exports = (webServer) => {
           }
         }
       ]
+    },
+    {
+      path: '/vote/limit',
+      method: 'get',
+      requireAuth: true,
+      controller: async (req, res, next) => {
+        try {
+          const voteLimit = await model.getVoteLimit()
+          res.json({
+            value: voteLimit[0].limit
+          })
+        } catch (error) {
+          console.error(error)
+          res.json({ error })
+        }
+      }
+    },
+    {
+      path: '/vote/limit',
+      method: 'put',
+      requireAuth: true,
+      controller: async (req, res, next) => {
+        try {
+          const newValue = req.body.value
+          const update = await model.updateVoteLimit(newValue)
+          console.log(update)
+          if(update === 'success') {
+            res.json({
+              status: 'success',
+              msg: `Le nombre de vote est désormais limité à ${newValue}`
+            })
+          } else {
+            throw 'Une erreur est survenue lors de l\'actualisation du nombre limité de votes'
+          }
+
+        } catch (error) {
+          console.error(error)
+          res.json({
+            status: 'error',
+            msg: error,
+            error
+           })
+        }
+      }
     }
   ]
 }

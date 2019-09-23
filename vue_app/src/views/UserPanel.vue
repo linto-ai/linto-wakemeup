@@ -180,7 +180,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>-->
+          </div>
         </div>
         <div class="col-xl-5 col-lg-5 col-md-12">
           <h2>Statistiques</h2>
@@ -346,10 +346,7 @@ export default {
         valid = false
         this.userDatas.email.error = 'Ce champ est requis'
       } else {
-        let emailExist = await axios(`${process.env.VUE_APP_URL}/api/user/userEmailExist`,{
-          method: 'post',
-          data: { email: this.userDatas.email.value }
-        })
+        const emailExist = await this.$options.filters.emailExist(this.userDatas.email.value)
         if(!this.$options.filters.isEmail(this.userDatas.email.value)) {
           valid = false
           this.userDatas.email.error = 'Le format de l\'adressse email saisie est invalide'
@@ -377,6 +374,7 @@ export default {
         valid = false
       }
 
+      // Send Form
       if (valid) {
         const payload = this.getPayload(this.userDatas)
         this.updateProfil(payload)

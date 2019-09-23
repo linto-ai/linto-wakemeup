@@ -4,6 +4,24 @@
       <div class="container-fluid" id="user-panel" v-if="isAdmin && scenariosLoaded" >
         <div class="row justify-content-around">
           <div class="col-xl-5 col-lg-6 col-md-12">
+            <h2>Limite du nombre de votes</h2>
+            <div class="white-container">
+              <table class="user-panel-tab">
+                <tbody>
+                  <tr>
+                    <td class="tab-label">Nombre de votes requis :</td>
+                    <td class="tab-input">
+                      <input class="input" type="number" id="voteLimit" :value="voteLimit" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="padding-top:10px;">
+                      <button class="button green large" @click="updateVoteLimit()">Confirmer</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <h2>Ajouter un mot-clé</h2>
             <div class="white-container">
               <table class="user-panel-tab">
@@ -71,6 +89,9 @@ export default {
     },
     scenarios () {
       return this.$store.state.scenarios
+    },
+    voteLimit () {
+      return this.$store.state.voteLimit
     }
   },
   created () {
@@ -86,22 +107,11 @@ export default {
         this.userConnected = true
       }
     })
+
   },
   mounted () {
-    bus.$on('wakeword_deleted', () => {
-      this.$store.dispatch('getScenarios').then((resp) => {
-        // Error handler
-        if (!!resp.error) {
-          bus.$emit('notify_app', {
-            status: 'error',
-            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
-            redirect: false
-          })
-        } else {
-          this.userConnected = true
-        }
-      })
-    })
+    this.dispatchScenarios()
+    this.dispatchVoteLimit()
   },
   watch: {
     userInfos: function (data) {
@@ -168,6 +178,51 @@ export default {
     },
     deleteWakeword (data) {
       bus.$emit('show_deleteWakeWord_modal', { wakeword: data })
+    },
+    async updateVoteLimit () {
+      const field = document.getElementById('voteLimit')
+      const value = field.value
+      const updateVoteLimit = await axios(`${process.env.VUE_APP_URL}/api/audios/vote/limit`, {
+        method: 'put',
+        data: { value }
+      })
+      bus.$emit('notify_app', {
+        status: updateVoteLimit.data.status,
+        msg: updateVoteLimit.data.msg,
+        redirect: false
+      })
+
+      if (updateVoteLimit.data.status == 'success') {
+        this.dispatchVoteLimit()
+      }
+    },
+    dispatchVoteLimit () {
+      this.$store.dispatch('getVoteLimit').then((resp) => {
+        // Error handler
+        if (!!resp.error) {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+            redirect: false
+          })
+        }
+      })
+    },
+    dispatchScenarios () {
+      bus.$on('wakeword_deleted', () => {
+        this.$store.dispatch('getScenarios').then((resp) => {
+          // Error handler
+          if (!!resp.error) {
+            bus.$emit('notify_app', {
+              status: 'error',
+              msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+              redirect: false
+            })
+          } else {
+            this.userConnected = true
+          }
+        })
+      })
     }
   },
   components: {

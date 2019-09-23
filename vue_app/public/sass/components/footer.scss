@@ -6,9 +6,7 @@
   text-align: center;
   color: #fff;
   background-color: $redChart;
-  position: absolute;
-  top: 100%;
-  margin-top: -40px;
+  position: relative;
   z-index: 10;
   @include boxShadow(0px, -2px, 4px, 0px, rgba(0, 0, 0, 0.1));
   font-size: 14px;

@@ -33,12 +33,11 @@
     margin: 20px auto;
     font-weight: 600;
     text-align: center;
-
   }
 
   .content {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 20px 40px 20px;
     line-height: 20px;
     font-size: 14px;
     text-align: left;
@@ -213,6 +212,7 @@
       background-repeat: no-repeat;
       background-size: 120px 360px;
       background-position: 0 0;
+      vertical-align: top;
 
       &:hover {
         background-position: 0 -120px;
@@ -237,7 +237,7 @@
 .player-anim {
   display: inline-block;
   height: 120px;
-
+  vertical-align: top;
   .sound-bar {
     display: inline-block;
     width: 8px;

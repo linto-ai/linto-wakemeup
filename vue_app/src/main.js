@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import Vuelidate from 'vuelidate'
 import VueSession from 'vue-session'
+import axios from 'axios'
 
 export const bus = new Vue()
 
@@ -52,6 +53,14 @@ Vue.filter('validateRequired', (obj) => {
     resp.valid = true
   }
   return resp
+})
+
+Vue.filter('emailExist', async (email) => {
+  let emailExist = await axios(`${process.env.VUE_APP_URL}/api/user/userEmailExist`, {
+    method: 'post',
+    data: { email }
+  })
+  return emailExist
 })
 
 new Vue({

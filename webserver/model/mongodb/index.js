@@ -271,14 +271,33 @@ class modelMongoDb {
       return err
     }
   }
+  async getVoteLimit () {
+    const query = {}
+    return await this.mongoRequest('audioVoteLimit', query)
+  }
+  async updateVoteLimit (value) {
+    try {
+      const voteLimit = await this.getVoteLimit()
+      const id = voteLimit[0]._id
+      const query = {
+        _id: this.mongoDb.ObjectID(id)
+      }
+      const payload = {limit: value}
+
+      return await this.mongoUpdate('audioVoteLimit', query, payload)
+    } catch (error) {
+      return error
+    }
+  }
   async updateVoteAudio(payload) {
     try {
       const getAudio = await this.getAudioById(payload.audioId)
       const getUser = await this.getUserByHash(payload.userHash)
+      const getVoteLimit =  await this.getVoteLimit()
+      const voteLimit = getVoteLimit[0].limit || 3
       let fileMove = null
       let user = getUser[0]
       let audioPayload = getAudio[0]
-
       user.nbListen += 1
       audioPayload.userVoted.push(payload.userHash)
       audioPayload.nbVotes += 1
@@ -287,10 +306,10 @@ class modelMongoDb {
       } else if (payload.vote === 'bad') {
         audioPayload.nbInvalidVote += 1
       }
-      if (audioPayload.nbValidVote >= 5) {
+      if (audioPayload.nbValidVote >= voteLimit) {
         audioPayload.status = 'valid'
       }
-      if (audioPayload.nbInvalidVote >= 5) {
+      if (audioPayload.nbInvalidVote >= voteLimit) {
         audioPayload.status = 'invalid'
       }
       const audioQuery = {

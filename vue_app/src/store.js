@@ -31,7 +31,8 @@ export default new Vuex.Store({
   state: {
     userInfos: '',
     scenarios: '',
-    audios: ''
+    audios: '',
+    voteLimit: 3
   },
   mutations: {
     // Set user infos without sensitive datas
@@ -65,6 +66,9 @@ export default new Vuex.Store({
       let audioList = state.audios
       let sortTable = audioList.sort(compareValues(param))
       state.audios = sortTable
+    },
+    SET_VOTE_LIMIT: (state, data) => {
+      state.voteLimit = data
     }
   },
   actions: {
@@ -116,6 +120,21 @@ export default new Vuex.Store({
       try {
         commit('SORT_AUDIOS', param)
         return state.audios
+      } catch (err) {
+        console.error(err)
+        return { error: err }
+      }
+    },
+    // Get user informations after connexion
+    getVoteLimit: async ({ commit, state }) => {
+      try {
+        const voteLimit = await axios(`${process.env.VUE_APP_URL}/api/audios/vote/limit`, {
+          method: 'get'
+        })
+        if (!!voteLimit.data.value) {
+          commit('SET_VOTE_LIMIT', voteLimit.data.value)
+        }
+        return state.voteLimit
       } catch (err) {
         console.error(err)
         return { error: err }

@@ -7471,18 +7471,18 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 1; }
+  z-index: 1;
+  display: flex;
+  flex-direction: column; }
 
 #page-content {
-  position: fixed;
-  top: 70px;
-  left: 0;
   z-index: 2;
   background: #fafafa;
   overflow: auto;
   width: 100%;
   height: 100%;
-  padding-bottom: 120px; }
+  padding-top: 70px;
+  flex: 1; }
   #page-content .locked {
     overflow: hidden; }
 
@@ -7543,7 +7543,7 @@ h3 {
 /*** END GLOBAL ***/
 @media screen and (max-width: 1024px) {
   #page-content {
-    top: 50px; }
+    padding-top: 50px; }
   h1 {
     font-size: 24px; }
   h2 {
@@ -8149,7 +8149,8 @@ h3 {
 
 /*** END ADMIN PANEL ***/
 #audio-monitoring {
-  overflow: auto !important; }
+  overflow: auto !important;
+  padding-bottom: 60px; }
 
 table.list {
   width: 95%;
@@ -8461,7 +8462,7 @@ table.list {
     text-align: center; }
   .player-content .content {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 10px 20px 40px 20px;
     line-height: 20px;
     font-size: 14px;
     text-align: left;
@@ -8594,7 +8595,8 @@ table.list {
       background-image: url("../img/play@2x.png");
       background-repeat: no-repeat;
       background-size: 120px 360px;
-      background-position: 0 0; }
+      background-position: 0 0;
+      vertical-align: top; }
       #player-wrapper .btn-container .button-play:hover {
         background-position: 0 -120px; }
       #player-wrapper .btn-container .button-play.active {
@@ -8608,7 +8610,8 @@ table.list {
 
 .player-anim {
   display: inline-block;
-  height: 120px; }
+  height: 120px;
+  vertical-align: top; }
   .player-anim .sound-bar {
     display: inline-block;
     width: 8px;
@@ -8960,9 +8963,7 @@ circle {
   text-align: center;
   color: #fff;
   background-color: #c61e42;
-  position: absolute;
-  top: 100%;
-  margin-top: -40px;
+  position: relative;
   z-index: 10;
   -moz-box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0px -2px 4px 0px rgba(0, 0, 0, 0.1);
