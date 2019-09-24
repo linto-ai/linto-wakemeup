@@ -6,9 +6,9 @@
         <a href="https://research.linagora.com" target="_blank"><img id="linagora-labs-logo" src="/assets/img/linagora-labs.png" alt="Linagora Labs" /></a>
       </div>
       <div class="col-4 d-none d-sm-none d-md-block d-lg-block d-xl-block links text-center">
-        <button data-url='/interface/record' @click="navigate($event)" class="header-link red">S'enregistrer</button>
+        <button data-url='/interface/record' @click.prevent="navigate($event)" class="header-link red">S'enregistrer</button>
         <span class="text-separator"> | </span>
-        <button data-url='/interface/listen' @click="navigate($event)" class="header-link green">Écouter</button>
+        <button data-url='/interface/listen' @click.prevent="navigate($event)" class="header-link green">Écouter</button>
       </div>
       <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 user-panel">
         <button v-if="!userConnected.status" class="button red" @click="toggleConnectionModal()">Connexion</button>
@@ -94,7 +94,7 @@ export default {
       this.showUserMenu = !this.showUserMenu
     },
     navigate (e) {
-      if(!this.userConnected){
+      if(!this.userConnected.status){
         this.toggleConnectionModal()
       } else {
         const url = e.target.getAttribute('data-url')
@@ -108,3 +108,4 @@ export default {
   }
 }
 </script>
+

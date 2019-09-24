@@ -7481,7 +7481,6 @@ body {
   overflow: auto;
   width: 100%;
   height: 100%;
-  padding-top: 70px;
   flex: 1; }
   #page-content .locked {
     overflow: hidden; }
@@ -7553,9 +7552,7 @@ h3 {
 
 /*** HEADER ***/
 #header {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 70px;
   z-index: 5;
