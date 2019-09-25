@@ -35,6 +35,55 @@ module.exports = (webServer) => {
       }
     },
     {
+      path: '/validaudios',
+      method: 'get',
+      controller: async (req, res, next) => {
+        try {
+          const audios = await model.getAllAudios()
+          let nbValidAudios = 0
+          let validAudios = []
+          let scenarios = await model.getScenarios()
+
+          scenarios.map(s => {
+            let exist = false
+            for(let index in validAudios) {
+              if(validAudios[index].wakeword === s.wakeword) {
+                exist = true
+              }
+            }
+            if (!exist) {
+              validAudios.push({
+                validationGoal: s.validationGoal,
+                wakeword: s.wakeword,
+                value: 0
+              })
+            }
+          })
+
+          audios.map(a => {
+            if (a.status === 'valid') {
+              nbValidAudios++
+              for (let index in validAudios) {
+                if(validAudios[index].wakeword === a.wakeword) {
+                  validAudios[index].value += 1
+                }
+              }
+            }
+          })
+
+          if(validAudios.length> 0) {
+            res.json({ validAudios: validAudios , nbValidAudios })
+          } else {
+            throw 'Empty array'
+          }
+
+        } catch (error) {
+          console.error(error)
+          res.json({ error })
+        }
+      }
+    },
+    {
       path: '/vote',
       method: 'post',
       requireAuth: true,
@@ -209,7 +258,6 @@ module.exports = (webServer) => {
         try {
           const newValue = req.body.value
           const update = await model.updateVoteLimit(newValue)
-          console.log(update)
           if(update === 'success') {
             res.json({
               status: 'success',

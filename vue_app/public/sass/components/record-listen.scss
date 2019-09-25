@@ -32,7 +32,8 @@
     border: 1px solid $redChart;
     margin: 20px auto;
     font-weight: 600;
-    text-align: center;
+    text-align: left;
+
   }
 
   .content {
@@ -277,7 +278,7 @@
       height: 60px;
       width: 60px;
       background-image: url('../img/player-btn@2x.png');
-      background-size: 180px 180px;
+      background-size: 180px 240px;
       background-repeat: no-repeat;
 
       &.play {
@@ -311,7 +312,12 @@
           background-position: -120px -60px;
         }
       }
-
+      &.skip {
+        background-position: 0 -180px;
+          &:hover {
+            background-position: -60px -180px;
+          }
+      }
       &.votegood,
       &.votebad {
         background-image: url('../img/vote-icons@2x.png');
@@ -334,6 +340,7 @@
         }
       }
     }
+
 
     .label {
       display: inline-block;

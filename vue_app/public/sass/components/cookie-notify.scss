@@ -4,7 +4,7 @@
   text-align: center;
   color: #fff;
   background-color: #4c4c4c;
-  position: absolute;
+  position: fixed;
   top: 100%;
   z-index: 9;
   @include boxShadow(0px, 2px, 4px, 0px, rgba(0, 0, 0, 0.3));
@@ -13,10 +13,8 @@
   padding: 10px 0;
   font-size: 14px;
   line-height: 18px;
-
-  &.active {
-    margin-top: -100px;
-  }
+  border-top: 2px solid $redChart;
+  border-bottom: 2px solid $redChart;
 }
 
 .closeCookieModal {

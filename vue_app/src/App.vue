@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-     <div id="header">
-      <HeaderApp :userConnected="userConnected"></HeaderApp>
-      <AppNotify></AppNotify>
-    </div>
-    <transition>
-      <keep-alive>
-        <router-view :userConnected="userConnected"></router-view>
-      </keep-alive>
-    </transition>
-    <ConnectionModal></ConnectionModal>
-    <CreateAccountModal></CreateAccountModal>
-    <PolicyAgreementModal></PolicyAgreementModal>
-    <FooterApp></FooterApp>
-    <cookieLegalNotify></cookieLegalNotify>
+      <div id="header">
+        <HeaderApp :userConnected="userConnected"></HeaderApp>
+        <AppNotify></AppNotify>
+      </div>
+      <div id="page-content">
+        <transition>
+          <keep-alive>
+            <router-view :userConnected="userConnected"></router-view>
+          </keep-alive>
+        </transition>
+        <ConnectionModal></ConnectionModal>
+        <CreateAccountModal></CreateAccountModal>
+        <PolicyAgreementModal></PolicyAgreementModal>
+      </div>
+        <cookieLegalNotify></cookieLegalNotify>
+       <FooterApp></FooterApp>
   </div>
 </template>
 <script>

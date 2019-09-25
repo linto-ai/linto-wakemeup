@@ -9,7 +9,7 @@
               <table class="user-panel-tab">
                 <tbody>
                   <tr>
-                    <td class="tab-label">Nombre de votes requis :</td>
+                    <td class="tab-label">Nombre de votes requis pour validation:</td>
                     <td class="tab-input">
                       <input class="input" type="number" id="voteLimit" :value="voteLimit" />
                     </td>
@@ -29,13 +29,28 @@
                     <tr>
                       <td class="tab-label">Mot-clé :</td>
                       <td class="tab-input">
-                        <input class="input" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']" v-on:keyup.13="addWakeword(wakeword)"/>
+                        <input class="input" type="text" v-model="wakeword" :class="[wakewordValid === 'error' ? 'error' : '', wakewordValid === 'valid' ? 'valid' : '']" v-on:keyup.13="addWakeword(wakeword, validationGoal)"/>
                         <span class="error-field" :class="[wakewordErrorMsg.length > 0 ? 'visible' : 'hidden']" >{{ wakewordErrorMsg }}</span>
                       </td>
                     </tr>
                     <tr>
+                      <td class="tab-label">Objectif (nombre de validations souhaitées) :</td>
+                      <td class="tab-input">
+                        <input
+                          type="number"
+                          class="input"
+                          :class="[validationGoalError.length > 0 ? 'error': '']"
+                          v-model="validationGoal"
+                          v-on:keyup.13="addWakeword(wakeword, validationGoal)"
+                          min="100"
+                          step="100"
+                        />
+                        <span class="error-field" :class="[validationGoalError.length > 0 ? 'visible' : 'hidden']" >{{ validationGoalError }}</span>
+                      </td>
+                    </tr>
+                    <tr>
                       <td colspan="2" style="padding-top:10px;">
-                        <button class="button green large" @click="addWakeword(wakeword)">Ajouter un mot-clé</button>
+                        <button class="button green large" @click="addWakeword(wakeword, validationGoal)">Ajouter un mot-clé</button>
                       </td>
                     </tr>
                   </tbody>
@@ -46,7 +61,7 @@
             <h2>Mots-clés existants</h2>
             <div class="white-container">
               <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
-                <span class="wakeword">{{ ww.wakeword }}</span>
+                <span class="wakeword">{{ ww.wakeword }} - (objectif: {{ ww.validationGoal }})</span>
                 <div class="wakeword-info">
                   <span class="label listen">Ecoutes</span>
                   <span class="number listen">{{ww.nbListen}}</span>
@@ -80,7 +95,9 @@ export default {
       scenariosLoaded: false,
       wakeword: '',
       wakewordValid: false,
-      wakewordErrorMsg: ''
+      wakewordErrorMsg: '',
+      validationGoal: 100,
+      validationGoalError: ''
     }
   },
   computed: {
@@ -123,31 +140,50 @@ export default {
     },
     scenarios: function (data) {
       this.scenariosLoaded = true
+    },
+    validationGoal: function (data) {
+      const regex = /^[0-9]*$/g
+      if(regex.test(data)){
+        this.validationGoal = parseInt(data)
+      }
     }
   },
   methods: {
-    validWakeword (wakeword) {
+    validWakeword (wakeword, validationGoal) {
       let unused = true
+      let valid = true
+
+      // Test wakeword (unique ?)
       this.scenarios.map(s => {
         if (s.wakeword === wakeword) {
           unused = false
         }
       })
       if (!unused) {
+        valid = false
         this.wakewordValid = 'error'
         this.wakewordErrorMsg = 'Ce mot-clé fait déjà parti du scénario d\'enregistrement'
         return false
       } else {
         this.wakewordValid = 'valid'
         this.wakewordErrorMsg = ''
-        return true
       }
+
+      // Test validationGoal
+      if(typeof(validationGoal) !== 'number') {
+        valid = false
+        this.validationGoalError = 'Veuillez rentrer une valeur numérique.'
+      }
+      return valid
     },
-    async addWakeword (data) {
-      if (this.validWakeword(data)) {
+    async addWakeword (wakeword, validationGoal) {
+      if (this.validWakeword(wakeword, validationGoal)) {
         const addww = await axios(`${process.env.VUE_APP_URL}/api/scenarios`, {
           method: 'post',
-          data: { wakeword: data }
+          data: {
+            wakeword,
+            validationGoal
+           }
         })
         if (addww.data.addWakeword === 'success') {
           this.$store.dispatch('getScenarios').then((resp) => {
@@ -191,7 +227,6 @@ export default {
         msg: updateVoteLimit.data.msg,
         redirect: false
       })
-
       if (updateVoteLimit.data.status == 'success') {
         this.dispatchVoteLimit()
       }

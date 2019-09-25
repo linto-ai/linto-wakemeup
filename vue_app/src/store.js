@@ -32,7 +32,8 @@ export default new Vuex.Store({
     userInfos: '',
     scenarios: '',
     audios: '',
-    voteLimit: 3
+    voteLimit: 3,
+    validAudios: null
   },
   mutations: {
     // Set user infos without sensitive datas
@@ -69,6 +70,12 @@ export default new Vuex.Store({
     },
     SET_VOTE_LIMIT: (state, data) => {
       state.voteLimit = data
+    },
+    SET_RECORD_GOAL: (state, data) => {
+      state.recordGoal = data
+    },
+    SET_NB_VALID_AUDIOS: (state, data) => {
+      state.validAudios = data
     }
   },
   actions: {
@@ -125,7 +132,6 @@ export default new Vuex.Store({
         return { error: err }
       }
     },
-    // Get user informations after connexion
     getVoteLimit: async ({ commit, state }) => {
       try {
         const voteLimit = await axios(`${process.env.VUE_APP_URL}/api/audios/vote/limit`, {
@@ -135,6 +141,18 @@ export default new Vuex.Store({
           commit('SET_VOTE_LIMIT', voteLimit.data.value)
         }
         return state.voteLimit
+      } catch (err) {
+        console.error(err)
+        return { error: err }
+      }
+    },
+    getvalidAudios: async ({ commit, state }) => {
+      try {
+        const getvalidAudios = await axios(`${process.env.VUE_APP_URL}/api/audios/validaudios`, {
+          method: 'get'
+        })
+        commit('SET_NB_VALID_AUDIOS', getvalidAudios.data)
+        return state.validAudios
       } catch (err) {
         console.error(err)
         return { error: err }
@@ -161,6 +179,7 @@ export default new Vuex.Store({
         return { error: err }
       }
     },
+
     // Get total number of "listened" and "recorded" audios
     APP_STATS: (state) => {
       try {

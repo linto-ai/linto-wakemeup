@@ -25,9 +25,9 @@ body {
   z-index: 2;
   background: #fafafa;
   overflow: auto;
-  width: 100%;
   height: 100%;
-  flex: 1;
+  position: relative;
+
   .locked {
     overflow: hidden;
   }

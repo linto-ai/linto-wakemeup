@@ -37,7 +37,7 @@ export default {
   methods: {
     resizeNotif () {
       const cookieNotif = this.$refs.cookieNotif
-      const height = parseInt(cookieNotif.offsetHeight) + 45
+      const height = parseInt(cookieNotif.offsetHeight) + 2
       cookieNotif.setAttribute('style', 'margin-top: -'+ height +'px;')
     },
     closeModal () {

@@ -6,13 +6,19 @@
           <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden', mobileView ? 'mobile': '']" >
             <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
             <h2 class="red">Enregistrez votre voix</h2>
-            <div class="notice record">Dans la mesure du possible, l'enregistrement doit se dérouler dans un environnement silencieux afin d'éviter les bruits parasites.</div>
+            <div class="notice record">Assurez-vous d’être dans un  environnement calme:
+              <ul>
+                <li>Il peut il y avoir du bruit de fond (Bruit statique, ventilation, conversations lointaines, ...) si celui-ci est constant sur l’enregistrement et ne recouvre pas votre voix.</li>
+                <li>Seule votre voix doit être audible.</li>
+                <li>Seul les mots à enregistrer doivent être audibles.</li>
+              </ul>
+            </div>
             <div class="content red">
               <p>Bienvenue dans l'interface d'enregistrement de mots-clés.</p>
               <p>L'enregistrement des mots-clés nécessite qu'un <strong>microphone</strong> soit détecté par votre navigateur. Lors de votre inscription, vous avez dû sélectionner un type de périphérique. Vous pouvez mettre à jour ces informations en vous rendant dans l'interface utilisateur en cliquant sur <strong class="green">Mon compte</strong> dans l'onglet utilisateur.</p>
               <p>Les données seront enregistrées de façon <strong>anonyme</strong> et renseigneront uniquement le sexe du locuteur et le type de microphone utilisé. </p>
 
-              <p>Chaque mot-clé devra être enregistré 3 fois de suite afin que nous puissions avoir un comparatif des différents échantillons.</p>
+              <p>Chaque mot-clé devra être enregistré 3 fois de suite afin que nous puissions avoir un comparatif des différents échantillons. Les données sont enregistrées de façon anonyme et ne sont associées qu’aux caractéristiques du locuteur et au dispositif de capture. </p>
 
               <div class="notice">
                 <h3>Pour enregistrer votre voix</h3>
@@ -455,7 +461,6 @@ export default {
       formData.append('webAudioInfos', JSON.stringify(webAudioInfos))
       formData.append('userInfos', JSON.stringify(userPayload))
       formData.append(name, audioBlob, name)
-
       const saveAudios = axios(`${process.env.VUE_APP_URL}/api/audios/save`, {
         method: 'post',
         data: formData

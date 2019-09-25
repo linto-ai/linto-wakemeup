@@ -275,6 +275,7 @@ class modelMongoDb {
     const query = {}
     return await this.mongoRequest('audioVoteLimit', query)
   }
+
   async updateVoteLimit (value) {
     try {
       const voteLimit = await this.getVoteLimit()
@@ -289,6 +290,7 @@ class modelMongoDb {
       return error
     }
   }
+
   async updateVoteAudio(payload) {
     try {
       const getAudio = await this.getAudioById(payload.audioId)
@@ -301,16 +303,28 @@ class modelMongoDb {
       user.nbListen += 1
       audioPayload.userVoted.push(payload.userHash)
       audioPayload.nbVotes += 1
-      if (payload.vote === 'good') {
-        audioPayload.nbValidVote += 1
-      } else if (payload.vote === 'bad') {
-        audioPayload.nbInvalidVote += 1
+console.log(user)
+      if(user.role === 'administrator') {
+        if (payload.vote === 'good') {
+          audioPayload.status = 'valid'
+          audioPayload.nbValidVote = 'admin'
+        } else if (payload.vote === 'bad') {
+          audioPayload.status = 'invalid'
+          audioPayload.nbInvalidVote = 'admin'
+        }
       }
-      if (audioPayload.nbValidVote >= voteLimit) {
-        audioPayload.status = 'valid'
-      }
-      if (audioPayload.nbInvalidVote >= voteLimit) {
-        audioPayload.status = 'invalid'
+      else {
+        if (payload.vote === 'good') {
+          audioPayload.nbValidVote += 1
+        } else if (payload.vote === 'bad') {
+          audioPayload.nbInvalidVote += 1
+        }
+        if (audioPayload.nbValidVote >= voteLimit) {
+          audioPayload.status = 'valid'
+        }
+        if (audioPayload.nbInvalidVote >= voteLimit) {
+          audioPayload.status = 'invalid'
+        }
       }
       const audioQuery = {
         _id: this.mongoDb.ObjectID(payload.audioId)
@@ -382,6 +396,7 @@ class modelMongoDb {
     try {
       const payload = {
         wakeword: data.wakeword,
+        validationGoal: data.validationGoal,
         scenario: {
           noOpt: {
             step: 1,

@@ -33,6 +33,7 @@
   .title-icon {
     height: 180px;
     width: 100%;
+
     text-align: center;
 
     img {
@@ -60,6 +61,97 @@
 
 /*** END HOME - Highlight ***/
 
+/*** GOALS ***/
+.goal-container{
+  padding: 40px 0;
+  background-color: #fff;
+  border-bottom: 1px solid $redChart;
+  @include boxShadow(0,0px,4px,0,rgba(0,0,0,0.3));
+
+  h3{
+    display: inline-block;
+    color: $redChart;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+    font-size: 24px;
+    position: relative;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 160px;
+      height: 160px;
+      top: 0;
+      left: 0;
+      background-image: url(../img/target@2x.png);
+      background-size: 160px 160px;
+      background-position: 10% center;
+      background-repeat: no-repeat;
+      position: absolute;
+      z-index: 1;
+    }
+
+  }
+  .content {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: $greyText;
+    font-size: 16px;
+    padding-bottom: 20px;
+    strong{
+      color: $greenChart;
+    }
+  }
+  .goal {
+    margin: 10px auto;
+    vertical-align: top;
+    height: 20px;
+    width: 50%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    background: #fefefefe;
+    @include borderRadius(10px);
+    @include boxShadow(0,2px,2px,0,rgba(0,0,0,0.2));
+
+    .goal-value{
+      display: inline-block;
+      position: absolute;
+      height: 20px;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      width: 10px;
+      min-width: 10px;
+      background: $greenChart;
+    }
+    .text-value{
+      display: inline-block;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 4;
+      text-align: center;
+      line-height: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      text-shadow: 1px, 1px, 1px, rgba(255,255,255,0.5);
+    }
+  }
+}
+/*** END GOALS ***/
+.home-infos{
+  padding: 20px 0;
+  h3{
+    color: $redChart;
+    font-weight: 500;
+  }
+}
 /*** RESPONSIVE ***/
 
 @media screen and (max-width: 1280px) {
@@ -75,7 +167,16 @@
       margin: 20px auto;
       width: 90%;
     }
-  } 
+  }
+}
+@media screen and (max-width: 1024px) {
+  .goal-container{
+    h3{
+      &:before{
+        display: none;
+      }
+    }
+  }
 }
 @media screen and (max-width: 960px) {
   #highlight {
@@ -113,7 +214,7 @@
     .highlight-action .button{
       margin-top: 20px;
       padding: 10px 5px;
-      width: 80%; 
+      width: 80%;
     }
   }
 }

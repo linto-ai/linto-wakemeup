@@ -1,76 +1,79 @@
 <template>
-  <div class="h-100">
-    <div id="page-content" class="locked">
-      <div class="container-fluid h-100 talk green" id="player-container">
-        <div class="row h-100">
-          <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden', mobileView ? 'mobile': '']">
-            <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
-            <h2 class="green">Écoutez et validez des enregistrements</h2>
-            <div class="content green">
-              <p>Bienvenue dans l'interface de validation des mots-clés.</p>
 
-              <p><strong>Écoutez</strong> les enregistrements réalisés par les utilisateurs.</p>
-              <p> Pour qu'un son soit valide, il doit répondre à certains critères :
-                <ul>
-                  <li>Le mot-clé doit être <strong>clairement audible</strong></li>
-                  <li>La commande prononcée doit être <strong>conforme à la commande écrite au-dessus du player</strong></li>
-                  <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du mot-clé</li>
-                </ul>
-              </p>
-              <div class="notice">
-                <h3>Validation d'échantillons audio</h3>
-                <ul>
-                  <li>Le mot-clé attendu est écris en rouge au-dessus du player audio</li>
-                  <li>Cliquez sur le bouton "<strong>Écouter</strong>" afin de jouer le son. </li>
-                  <li>Après avoir écouté le son, des boutons vous permettant de voter apparaitront</li>
-                  <li>Cliquez sur le bouton "<strong>Valide</strong>" si vous estimez que l'échantillon est valide</li>
-                  <li>Cliquez sur le bouton "<strong>Non valide</strong>" si vous estimez que l'échantillon n'est pas valide</li>
-                </ul>
+  <div id="page-content" class="locked">
+    <div class="container-fluid h-100 talk green" id="player-container">
+      <div class="row h-100">
+        <div class="player-content" :class="[showInfos ? 'col-4 h-100' : 'hidden', mobileView ? 'mobile': '']">
+          <button @click="toggleInfos()" class="closeInfos toggle-infos"></button>
+          <h2 class="green">Écoutez et validez des enregistrements</h2>
+          <div class="content green">
+            <p>Bienvenue dans l'interface de validation des mots-clés.</p>
+
+            <p><strong>Écoutez</strong> les enregistrements réalisés par les utilisateurs.</p>
+            <p> Pour qu'un son soit valide, il doit répondre à certains critères :
+              <ul>
+                <li>Le mot-clé doit être <strong>clairement audible</strong></li>
+                <li>La commande prononcée doit être <strong>conforme à la commande écrite au-dessus du player</strong></li>
+                <li>Il ne doit <strong>pas</strong> y avoir de <strong>sons parasites</strong> pendant la prononciation du mot-clé</li>
+              </ul>
+            </p>
+            <div class="notice">
+              <h3>Validation d'échantillons audio</h3>
+              <ul>
+                <li>Le mot-clé attendu est écris en rouge au-dessus du player audio</li>
+                <li>Cliquez sur le bouton "<strong>Écouter</strong>" afin de jouer le son. </li>
+                <li>Après avoir écouté le son, des boutons vous permettant de voter apparaitront</li>
+                <li>Cliquez sur le bouton "<strong>Valide</strong>" si vous estimez que l'échantillon est valide</li>
+                <li>Cliquez sur le bouton "<strong>Non valide</strong>" si vous estimez que l'échantillon n'est pas valide</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div :class="[showInfos ? 'col-8 h-100' : 'col-12 h-100']">
+          <button @click="toggleInfos()" :class="[!showInfos ? 'visible' : 'hidden']" class="showInfos toggle-infos"></button>
+          <div id="player-wrapper" v-if="audiosReady && !noMoreAudio">
+            <div class="say-word">
+              <h3>"<span class="word">{{ wakeword }}</span>"</h3>
+            </div>
+            <div>
+              <div class="btn-container">
+                <div class="player-anim">
+                  <span class="sound-bar bsmall"></span>
+                  <span class="sound-bar bmed"></span>
+                  <span class="sound-bar bbig"></span>
+                </div>
+                <button @click="playAudio()" class="button-play" id="start" :class="isPlaying"></button>
+
+                <div class="player-anim">
+                  <span class="sound-bar bbig"></span>
+                  <span class="sound-bar bmed"></span>
+                  <span class="sound-bar bsmall"></span>
+                </div>
+                <span class="label">Écouter</span>
+              </div>
+              <div class="sub-actions-container" v-if="audioHasBeenListen && !isPlaying">
+                <div class="action-container">
+                  <button @click="sendVote('good')" class="btn-player votegood"></button>
+                  <span class="label green">Valide</span>
+                </div>
+                <div class="action-container">
+                  <button @click="sendVote('bad')" class="btn-player votebad"></button>
+                  <span class="label red">Non valide</span>
+                </div>
+                <div class="action-container">
+                  <a href="/interface/listen" class="btn-player skip"></a>
+                  <span class="label red">Passer</span>
+                </div>
               </div>
             </div>
           </div>
-          <div :class="[showInfos ? 'col-8 h-100' : 'col-12 h-100']">
-            <button @click="toggleInfos()" :class="[!showInfos ? 'visible' : 'hidden']" class="showInfos toggle-infos"></button>
-            <div id="player-wrapper" v-if="audiosReady && !noMoreAudio">
-              <div class="say-word">
-                <h3>"<span class="word">{{ wakeword }}</span>"</h3>
-              </div>
-              <div>
-                <div class="btn-container">
-                  <div class="player-anim">
-                    <span class="sound-bar bsmall"></span>
-                    <span class="sound-bar bmed"></span>
-                    <span class="sound-bar bbig"></span>
-                  </div>
-                  <button @click="playAudio()" class="button-play" id="start" :class="isPlaying"></button>
-
-                  <div class="player-anim">
-                    <span class="sound-bar bbig"></span>
-                    <span class="sound-bar bmed"></span>
-                    <span class="sound-bar bsmall"></span>
-                  </div>
-                  <span class="label">Écouter</span>
-                </div>
-                <div class="sub-actions-container" v-if="audioHasBeenListen && !isPlaying">
-                  <div class="action-container">
-                    <button @click="sendVote('good')" class="btn-player votegood"></button>
-                    <span class="label green">Valide</span>
-                  </div>
-                  <div class="action-container">
-                    <button @click="sendVote('bad')" class="btn-player votebad"></button>
-                    <span class="label red">Non valide</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-if="!audiosReady && !noMoreAudio" class="loading">
-              <img src="/assets/img/loading.gif" class="loading-img" />
-              <span class="label">Chargement...</span>
-            </div>
-            <div v-if="noMoreAudio" class="record-complete white-container">
-              Vous n'avez pas de mot-clé à valider.<br/>
-              <a href="/">Retour à l'accueil</a>
-            </div>
+          <div v-if="!audiosReady && !noMoreAudio" class="loading">
+            <img src="/assets/img/loading.gif" class="loading-img" />
+            <span class="label">Chargement...</span>
+          </div>
+          <div v-if="noMoreAudio" class="record-complete white-container">
+            Vous n'avez pas de mot-clé à valider.<br/>
+            <a href="/">Retour à l'accueil</a>
           </div>
         </div>
       </div>
@@ -150,12 +153,6 @@ export default {
         this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
       }
     },
-    audios: function (data) {
-      if (!!this.userHash) {
-        // Random sort audio list
-        this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
-      }
-    },
     userAudios: function (data) {
       if (data.length > 0) {
         this.noMoreAudio = false
@@ -170,6 +167,9 @@ export default {
     }
   },
   methods: {
+    refreshAudio () {
+      this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
+    },
     getScreenWidth () {
       return window.innerWidth
     },
