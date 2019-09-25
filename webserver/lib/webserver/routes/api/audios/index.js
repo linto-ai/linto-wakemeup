@@ -113,7 +113,7 @@ module.exports = (webServer) => {
               }
               let updateUser = false
               let addAudioFile = false
-              let updateScenario = false
+              let updateScenarioStats = false
               let errorMsg = ''
               const userInfos = JSON.parse(req.body.userInfos)
               const webAudioInfos = JSON.parse(req.body.webAudioInfos)
@@ -156,16 +156,16 @@ module.exports = (webServer) => {
                 }
 
                 // Increment nbRecords of appStats in DB
-                const updateScenarios = await model.updateScenario({ wakeword: userInfos.wakeword, action: 'increment_record' })
-                if (updateScenarios === 'success') {
-                  updateScenario = true
+                const updateScenarioStats = await model.updateScenarioStats({ wakeword: userInfos.wakeword, action: 'increment_record' })
+                if (updateScenarioStats === 'success') {
+                  updateScenarioStats = true
                 } else {
-                  updateScenario = false
+                  updateScenarioStats = false
                   errorMsg += 'Error on updating app stats'
                 }
               } else {
                 updateUser = true
-                updateScenario = true
+                updateScenarioStats = true
               }
 
               // Save Audio in DB
@@ -177,7 +177,7 @@ module.exports = (webServer) => {
                 errorMsg += 'Error on updating audio file'
               }
 
-              if (addAudioFile && updateUser && updateScenario) {
+              if (addAudioFile && updateUser && updateScenarioStats) {
                 res.json({
                   status: 'success',
                   msg: 'File has been added'

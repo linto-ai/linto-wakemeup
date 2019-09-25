@@ -40,6 +40,27 @@ module.exports = (webServer) => {
   },
   {
     path: '/',
+    method: 'put',
+    requireAuth: true,
+    controller: async (req, res, next) => {
+      try {
+        const payload = req.body
+        const updateScenario = await model.updateScenario(payload)
+        res.json({
+          status: updateScenario,
+          msg: `L'objecif pour le mot-clé "${payload.wakeword}" a été mis à jour`
+        })
+      } catch (error) {
+        console.error(error)
+        res.json({
+          status: 'error',
+          msg: 'Error on updating Validation goal value'
+        })
+      }
+    }
+  },
+  {
+    path: '/',
     method: 'delete',
     requireAuth: true,
     controller: async (req, res, next) => {

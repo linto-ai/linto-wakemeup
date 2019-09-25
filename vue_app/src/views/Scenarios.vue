@@ -61,7 +61,7 @@
             <h2>Mots-clés existants</h2>
             <div class="white-container">
               <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
-                <span class="wakeword">{{ ww.wakeword }} - (objectif: {{ ww.validationGoal }})</span>
+                <span class="wakeword">{{ ww.wakeword }}</span>
                 <div class="wakeword-info">
                   <span class="label listen">Ecoutes</span>
                   <span class="number listen">{{ww.nbListen}}</span>
@@ -69,6 +69,9 @@
                 <div class="wakeword-info">
                   <span class="label record">Enreg.</span>
                   <span class="number record">{{ww.nbRecord}}</span>
+                </div>
+                <div class="wakeword-info">
+                  <updateGoalBtn :ww="ww"></updateGoalBtn>
                 </div>
                 <button class="delete-btn" @click="deleteWakeword(ww.wakeword)"></button>
               </div>
@@ -87,6 +90,7 @@
 <script>
 import axios from 'axios'
 import { bus } from '../main.js'
+import updateGoalBtn from '@/components/updateGoalBtn.vue'
 import DeleteWakewordModal from '@/components/DeleteWakewordModal.vue'
 export default {
   data () {
@@ -129,6 +133,15 @@ export default {
   mounted () {
     this.dispatchScenarios()
     this.dispatchVoteLimit()
+
+    bus.$on('wakeword_deleted', () => {
+      this.dispatchScenarios()
+    })
+    bus.$on('wakeword_updated', () => {
+      console.log('ALLO?')
+      this.dispatchScenarios()
+    })
+
   },
   watch: {
     userInfos: function (data) {
@@ -215,6 +228,9 @@ export default {
     deleteWakeword (data) {
       bus.$emit('show_deleteWakeWord_modal', { wakeword: data })
     },
+    updateGoal (ww) {
+        console.log(ww)
+    },
     async updateVoteLimit () {
       const field = document.getElementById('voteLimit')
       const value = field.value
@@ -244,24 +260,23 @@ export default {
       })
     },
     dispatchScenarios () {
-      bus.$on('wakeword_deleted', () => {
-        this.$store.dispatch('getScenarios').then((resp) => {
-          // Error handler
-          if (!!resp.error) {
-            bus.$emit('notify_app', {
-              status: 'error',
-              msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
-              redirect: false
-            })
-          } else {
-            this.userConnected = true
-          }
-        })
+      this.$store.dispatch('getScenarios').then((resp) => {
+        // Error handler
+        if (!!resp.error) {
+          bus.$emit('notify_app', {
+            status: 'error',
+            msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+            redirect: false
+          })
+        } else {
+          this.userConnected = true
+        }
       })
     }
   },
   components: {
-    DeleteWakewordModal
+    DeleteWakewordModal,
+    updateGoalBtn
   }
 }
 </script>

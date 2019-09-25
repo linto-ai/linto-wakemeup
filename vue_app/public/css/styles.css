@@ -8214,7 +8214,8 @@ h3 {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    text-align: center; }
+    text-align: center;
+    vertical-align: top; }
     .ww-container .wakeword-info > span {
       display: inline-block;
       width: 100%;
@@ -8231,6 +8232,81 @@ h3 {
         color: #2da800; }
       .ww-container .wakeword-info > span.record {
         color: #c61e42; }
+    .ww-container .wakeword-info .update-goal-container {
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      position: relative; }
+      .ww-container .wakeword-info .update-goal-container button {
+        border-bottom: 1px solid #2da800;
+        display: inline-block;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none; }
+        .ww-container .wakeword-info .update-goal-container button > span {
+          display: inline-block;
+          width: 100%;
+          vertical-align: top; }
+          .ww-container .wakeword-info .update-goal-container button > span.label {
+            font-size: 13px;
+            line-height: 15px; }
+          .ww-container .wakeword-info .update-goal-container button > span.number {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px; }
+        .ww-container .wakeword-info .update-goal-container button:hover {
+          border-bottom: 2px solid #c61e42;
+          background: #f0f0f0; }
+      .ww-container .wakeword-info .update-goal-container .update-goal.visible {
+        text-align: left;
+        position: absolute;
+        top: 0px;
+        height: 44px;
+        width: 180px;
+        z-index: 15;
+        border: 1px solid #2da800;
+        -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3); }
+        .ww-container .wakeword-info .update-goal-container .update-goal.visible input {
+          width: 100px;
+          margin: 0;
+          padding: 0 0 0 5px;
+          height: 100%;
+          line-height: 40px;
+          -webkit-border-radius: 0px;
+          -moz-border-radius: 0px;
+          border-radius: 0px;
+          -moz-box-shadow: none;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          vertical-align: top; }
+        .ww-container .wakeword-info .update-goal-container .update-goal.visible button {
+          display: inline-block;
+          width: 78px;
+          margin: 0;
+          padding: 0;
+          height: 100%;
+          line-height: 40px;
+          text-align: center;
+          background: #fff;
+          color: #2da800;
+          border: none;
+          border-left: 1px solid #2da800;
+          /* Corrects font smoothing for webkit */
+          -webkit-font-smoothing: inherit;
+          -moz-osx-font-smoothing: inherit;
+          /* Corrects inability to style clickable `input` types in iOS */
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          vertical-align: top;
+          /* Remove excess padding and border in Firefox 4+ */ }
+          .ww-container .wakeword-info .update-goal-container .update-goal.visible button::-moz-focus-inner {
+            border: 0;
+            outline: none; }
+          .ww-container .wakeword-info .update-goal-container .update-goal.visible button:hover {
+            background: #2da800;
+            color: #fff; }
 
 /*** END ADMIN PANEL ***/
 #audio-monitoring {

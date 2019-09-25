@@ -303,7 +303,6 @@ class modelMongoDb {
       user.nbListen += 1
       audioPayload.userVoted.push(payload.userHash)
       audioPayload.nbVotes += 1
-console.log(user)
       if(user.role === 'administrator') {
         if (payload.vote === 'good') {
           audioPayload.status = 'valid'
@@ -343,9 +342,9 @@ console.log(user)
       }
       const updateAudio = await this.mongoUpdate('audios', audioQuery, audioPayload)
       const updateUser = await this.updateUser(user)
-      const updateScenarios = await this.updateScenario({ wakeword: payload.wakeword, action: 'increment_listen' })
+      const updateScenarioStats = await this.updateScenarioStats({ wakeword: payload.wakeword, action: 'increment_listen' })
 
-      if (updateAudio === 'success' && updateUser === 'success' && updateScenarios === 'success') {
+      if (updateAudio === 'success' && updateUser === 'success' && updateScenarioStats === 'success') {
         return 'success'
       } else {
         return 'error'
@@ -428,7 +427,24 @@ console.log(user)
     }
     return await this.mongoDelete('scenarios', query)
   }
-  async updateScenario(data) {
+
+  async updateScenario (payload) {
+    try {
+      const query = {
+        _id: this.mongoDb.ObjectID(payload._id)
+      }
+      let scenario = payload
+      if (!!scenario._id) {
+        delete scenario._id
+      }
+      return await this.mongoUpdate('scenarios', query, scenario)
+    } catch (err) {
+      return err
+
+    }
+  }
+
+  async updateScenarioStats(data) {
     try {
       const wakeword = data.wakeword
       const action = data.action
