@@ -138,7 +138,6 @@ export default {
       this.dispatchScenarios()
     })
     bus.$on('wakeword_updated', () => {
-      console.log('ALLO?')
       this.dispatchScenarios()
     })
 
@@ -227,9 +226,6 @@ export default {
     },
     deleteWakeword (data) {
       bus.$emit('show_deleteWakeWord_modal', { wakeword: data })
-    },
-    updateGoal (ww) {
-        console.log(ww)
     },
     async updateVoteLimit () {
       const field = document.getElementById('voteLimit')

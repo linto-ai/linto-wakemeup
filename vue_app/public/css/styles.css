@@ -7844,7 +7844,7 @@ h3 {
   box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.3); }
   .goal-container h3 {
     display: inline-block;
-    color: #c61e42;
+    color: #2da800;
     width: 100%;
     text-align: center;
     margin-bottom: 20px;
@@ -8379,7 +8379,7 @@ table.list {
   background-color: #4c4c4c;
   position: fixed;
   top: 100%;
-  z-index: 9;
+  z-index: 12;
   -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);

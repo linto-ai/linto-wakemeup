@@ -28,7 +28,6 @@ export default {
   watch: {
     valid_audios (data) {
       if (data.validAudios.length > 0) {
-        console.log(data)
         this.validAudiosLoaded = true
       }
     },

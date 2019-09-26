@@ -247,7 +247,6 @@ export default new Vuex.Store({
             smartphone += 1
           }
         })
-
         const total = parseInt(defaultDevice) + parseInt(headphone) + parseInt(external)
         const prctDefault = defaultDevice * 100 / total
         const prctHeadphone = headphone * 100 / total
@@ -262,6 +261,32 @@ export default new Vuex.Store({
       } catch (err) {
         console.error(err)
         return { error: err }
+      }
+    },
+    RECORD_BY_DAY: (state) => {
+      try {
+        let audios = state.audios
+        let datas = []
+        audios.map(a => {
+          let date = a.recordDate.split('T')[0]
+          let dateSet = false
+          datas.map(d => {
+            if (d.x === date) {
+              dateSet = true
+              d.y += 1
+            }
+          })
+          if (!dateSet) {
+            datas.push({
+              x: date,
+              y: 1
+            })
+          }
+        })
+        return datas
+      } catch (error) {
+        console.error(error)
+        return { error }
       }
     }
   }
