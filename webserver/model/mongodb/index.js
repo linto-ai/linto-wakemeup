@@ -318,7 +318,7 @@ class modelMongoDb {
       const baseName = fileNameSplit[0]
       const webmFile = await this.getWebmFile(baseName)
       // check if a webm file is associated to the related audio file
-      if (!!webmFile[0]._id) {
+      if (webmFile.length > 0  && !!webmFile[0]._id) {
         webmAssociated = true
         webmPayload = webmFile[0]
       }
@@ -412,7 +412,7 @@ class modelMongoDb {
 
     } catch (err) {
       console.error('Model:updateAudioVote:Error > ')
-      console.err(err)
+      console.error(err)
       return err
     }
   }

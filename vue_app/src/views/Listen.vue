@@ -1,5 +1,4 @@
 <template>
-
   <div id="page-content" class="locked">
     <div class="container-fluid h-100 talk green" id="player-container">
       <div class="row h-100">
@@ -192,7 +191,6 @@ export default {
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword
       }
-      console.log(payload)
       const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audios/vote`, {
         method: 'post',
         data: payload
