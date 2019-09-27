@@ -54,12 +54,6 @@
             </div>
           </div>
 
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" >
-            <h2>Enregistrement(s) par jour</h2>
-            <div class="white-container" style="max-height: 400px;">
-              <canvas id="recordByDay" maintainAspectRatio="true" responsive="true"> Your browser does not support the canvas element.</canvas>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -124,6 +118,7 @@ export default {
       if (data.length > 0) {
         this.genderRatio = this.$store.getters.GENDER_RATIO
         this.deviceRatio = this.$store.getters.DEVICES_RATIO
+        this.recordByDay = this.$store.getters.RECORD_BY_DAY
       }
     },
     genderRatio: function (data) {
@@ -164,6 +159,14 @@ export default {
           }]
         },
         options: {}
+      })
+    },
+    createChart (chartId, chartData) {
+      const ctx = document.getElementById(chartId)
+      return new Chart(ctx, {
+        type: chartData.type,
+        data: chartData.data,
+        options: chartData.options
       })
     }
   }

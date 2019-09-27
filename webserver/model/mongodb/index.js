@@ -291,6 +291,17 @@ class modelMongoDb {
     }
   }
 
+  async getWebmFile (filename) {
+    try {
+      const query = {
+        fieldname: filename + '.webm'
+      }
+      return await this.mongoRequest('audios', query)
+    } catch (error) {
+      return error
+    }
+  }
+
   async updateVoteAudio(payload) {
     try {
       const getAudio = await this.getAudioById(payload.audioId)
@@ -300,9 +311,21 @@ class modelMongoDb {
       let fileMove = null
       let user = getUser[0]
       let audioPayload = getAudio[0]
+      let webmAssociated = false
+      let webmPayload = null
+      let fileName = audioPayload.fieldname
+      let fileNameSplit = fileName.split('.')
+      const baseName = fileNameSplit[0]
+      const webmFile = await this.getWebmFile(baseName)
+      // check if a webm file is associated to the related audio file
+      if (!!webmFile[0]._id) {
+        webmAssociated = true
+        webmPayload = webmFile[0]
+      }
       user.nbListen += 1
       audioPayload.userVoted.push(payload.userHash)
       audioPayload.nbVotes += 1
+      // If "administator" vote, the vote status immediatly change
       if(user.role === 'administrator') {
         if (payload.vote === 'good') {
           audioPayload.status = 'valid'
@@ -312,6 +335,7 @@ class modelMongoDb {
           audioPayload.nbInvalidVote = 'admin'
         }
       }
+      // If "user" vote, validation need to reach [voteLimit] to change status
       else {
         if (payload.vote === 'good') {
           audioPayload.nbValidVote += 1
@@ -325,31 +349,70 @@ class modelMongoDb {
           audioPayload.status = 'invalid'
         }
       }
+
+      // If webm file associated, update webm file payload
+      if (webmAssociated) {
+        webmPayload.status = audioPayload.status
+        webmPayload.nbValidVote = audioPayload.nbValidVote
+        webmPayload.nbInvalidVote = audioPayload.nbInvalidVote
+        webmPayload.userVoted = audioPayload.userVoted
+        webmPayload.nbVotes = audioPayload.nbVotes
+      }
+
       const audioQuery = {
         _id: this.mongoDb.ObjectID(payload.audioId)
       }
       if (!!audioPayload._id) {
         delete audioPayload._id
       }
+
+      // if vote status change (valid or invalid), move file to related folder
       if (audioPayload.status !== 'vote') {
         fileMove = moveFile(audioPayload)
         if (fileMove.status === 'success') {
           audioPayload.path = fileMove.path
           audioPayload.destination = fileMove.dest
         } else {
-          return 'error on moving file'
+          throw 'error on moving file'
+        }
+        // If webm file associated, move webm file to related folder
+        if (webmAssociated) {
+          let moveWebm = moveFile(webmPayload)
+          if (moveWebm.status === 'success') {
+            webmPayload.path = moveWebm.path
+            webmPayload.destination = moveWebm.dest
+          } else {
+            throw 'error on moving file'
+          }
         }
       }
+
       const updateAudio = await this.mongoUpdate('audios', audioQuery, audioPayload)
       const updateUser = await this.updateUser(user)
       const updateScenarioStats = await this.updateScenarioStats({ wakeword: payload.wakeword, action: 'increment_listen' })
 
-      if (updateAudio === 'success' && updateUser === 'success' && updateScenarioStats === 'success') {
-        return 'success'
+      if (webmAssociated) {
+        const webmQuery = { _id: this.mongoDb.ObjectID(webmPayload._id) }
+        if (!!webmPayload._id) {
+          delete webmPayload._id
+        }
+        const updateWebm = await this.mongoUpdate('audios', webmQuery, webmPayload)
+        if (updateAudio === 'success' && updateUser === 'success' && updateScenarioStats === 'success' && updateWebm === 'success') {
+          return 'success'
+        } else {
+          throw 'error'
+        }
       } else {
-        return 'error'
+        if (updateAudio === 'success' && updateUser === 'success' && updateScenarioStats === 'success') {
+          return 'success'
+        } else {
+          throw 'error'
+        }
       }
+
     } catch (err) {
+      console.error('Model:updateAudioVote:Error > ')
+      console.err(err)
       return err
     }
   }

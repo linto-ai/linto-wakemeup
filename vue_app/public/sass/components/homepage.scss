@@ -92,7 +92,6 @@
       position: absolute;
       z-index: 1;
     }
-
   }
   .content {
     display: inline-block;
@@ -100,19 +99,58 @@
     text-align: center;
     color: $greyText;
     font-size: 16px;
-    padding-bottom: 20px;
     strong{
       color: $greenChart;
     }
   }
+}
+.goal-legend {
+  text-align: center;
+  &> span {
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 5px;
+    position: relative;
+    &.record-legend-text{
+      color: #848484;
+    }
+    &.validation-legend-text {
+      color: $greenChart
+    }
+    &:after{
+      display: none;
+    }
+  }
+}
+.goal-wrapper{
+  margin: 30px auto;
+  height: 20px;
+  text-align: center;
+  .label,
+  .validation-goal {
+    display: inline-block;
+    height: 20px;
+    width: 120px;
+    padding: 0 10px;
+    text-align: right;
+    font-size: 16px;
+    vertical-align: top;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .validation-goal {
+    text-align: left;
+    width: auto;
+    color: $redChart;
+
+  }
   .goal {
-    margin: 10px auto;
+    display: inline-block;
     vertical-align: top;
     height: 20px;
-    width: 50%;
+    width: 40%;
     max-width: 400px;
     position: relative;
-    overflow: hidden;
     z-index: 2;
     background: #fefefefe;
     @include borderRadius(10px);
@@ -124,10 +162,64 @@
       height: 20px;
       top: 0;
       left: 0;
-      z-index: 3;
-      width: 10px;
-      min-width: 10px;
+      z-index: 4;
+      min-width: 20px;
       background: $greenChart;
+      @include borderRadius(10px);
+
+      &:hover{
+        cursor: pointer;
+        background-color: #3ad003;
+        &:after{
+          content: attr(data-infos);
+          display: inline-block;
+          position: absolute;
+          z-index: 10;
+          top: -20px;
+          left: 0;
+          height: 30px;
+          vertical-align: top;
+          font-size: 12px;
+          font-weight: 500;
+          width: 100px;
+          padding-left: 5px;
+          border-left: 2px solid #3ad003;
+          color: $greenChart;
+        }
+      }
+    }
+
+    .recorded-value{
+      display: inline-block;
+      position: absolute;
+      height: 20px;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      min-width: 30px;
+      background: #dedede;
+      @include borderRadius(10px);
+      &:hover {
+        cursor: pointer;
+        background: #ccc;
+        &:after{
+          content: attr(data-infos);
+          display: inline-block;
+          position: absolute;
+          z-index: 10;
+          top: -20px;
+          left: 100%;
+          margin-left: -2px;
+          height: 30px;
+          vertical-align: top;
+          font-size: 12px;
+          font-weight: 500;
+          width: 130px;
+          padding-left: 5px;
+          border-left: 2px solid #ccc;
+          color: #848484;
+        }
+      }
     }
     .text-value{
       display: inline-block;
@@ -140,10 +232,11 @@
       line-height: 20px;
       font-size: 14px;
       font-weight: 500;
-      text-shadow: 1px, 1px, 1px, rgba(255,255,255,0.5);
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
     }
   }
 }
+
 /*** END GOALS ***/
 .home-infos{
   padding: 20px 0;

@@ -192,11 +192,13 @@ export default {
         userHash: this.userInfos.userHash,
         wakeword: this.wakeword
       }
+      console.log(payload)
       const sendVote = await axios(`${process.env.VUE_APP_URL}/api/audios/vote`, {
         method: 'post',
         data: payload
       })
-      if (sendVote.data.voteAudio === 'success') {
+      console.log(sendVote)
+      /* if (sendVote.data.voteAudio === 'success') {
         bus.$emit('notify_app', {
           status: 'success',
           msg: 'Votre vote à bien été pris en compte.',
@@ -208,7 +210,7 @@ export default {
           msg: 'Erreur lors de l\'enregistrement',
           redirect: false
         })
-      }
+      } */
     },
     getCookie (cname) {
       const name = cname + '='

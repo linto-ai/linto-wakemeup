@@ -405,9 +405,11 @@ export default {
         options: this.audioConfig.label,
         recordDate: new Date()
       }
+      console.log(this.webAudioInfos)
       bus.$emit('btn_stop_recording', {})
     },
     playRecord () {
+      console.log('blob:', this.blob)
       if (this.blob === null || this.isPlaying === 'active') {
         return
       }

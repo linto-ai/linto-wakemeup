@@ -2,9 +2,14 @@
   <div class="container" v-if="validAudiosLoaded">
     <h3>Aidez-nous à atteindre les objectifs d'enregistrement</h3>
     <span class="content">Nous souhaitons atteindre des objectifs d'enregistrements validés par mot-clé :</span><br/>
-    <div class="goal" v-for="audio in valid_audios.validAudios" :key="audio.wakeword">
-      <span class="text-value">{{ audio.wakeword }} - {{audio.value}}/{{audio.validationGoal}} ({{ Math.ceil((parseInt(audio.value) * 100) / parseInt(audio.validationGoal)) }}) %</span>
-      <span class="goal-value" :style="`width: ${ Math.ceil((parseInt(audio.value) * 100) / parseInt(audio.validationGoal)) }%;`"></span>
+
+    <div class="goal-wrapper" v-for="audio in valid_audios.validAudios" :key="audio.wakeword">
+      <span class="label">{{ audio.wakeword }} :</span>
+      <div class="goal">
+        <span class="goal-value" :style="`width: ${ Math.ceil((parseInt(audio.nbValid) * 100) / parseInt(audio.validationGoal)) }%;`" :data-infos="audio.nbValid + ' validation(s)'" ></span>
+        <span class="recorded-value" :style="`width: ${ Math.ceil((parseInt(audio.nbRecord) * 100) / parseInt(audio.validationGoal)) }%;`" :data-infos="`${audio.nbRecord} enregistrement(s)`"></span>
+      </div>
+      <span class="validation-goal">/ {{ audio.validationGoal }}</span>
     </div>
   </div>
 </template>
@@ -29,6 +34,7 @@ export default {
     valid_audios (data) {
       if (data.validAudios.length > 0) {
         this.validAudiosLoaded = true
+        console.log(data)
       }
     },
   },

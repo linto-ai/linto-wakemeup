@@ -40,7 +40,6 @@ module.exports = (webServer) => {
       controller: async (req, res, next) => {
         try {
           const audios = await model.getAllAudios()
-          let nbValidAudios = 0
           let validAudios = []
           let scenarios = await model.getScenarios()
 
@@ -53,26 +52,40 @@ module.exports = (webServer) => {
             }
             if (!exist) {
               validAudios.push({
-                validationGoal: s.validationGoal,
                 wakeword: s.wakeword,
-                value: 0
+                validationGoal: s.validationGoal,
+                nbRecord: 0,
+                nbValid: 0
               })
             }
           })
 
           audios.map(a => {
-            if (a.status === 'valid') {
-              nbValidAudios++
+            if (a.status === 'valid' && a.mimetype === "audio/wav") {
               for (let index in validAudios) {
                 if(validAudios[index].wakeword === a.wakeword) {
-                  validAudios[index].value += 1
+                  validAudios[index].nbValid += 1
+                  validAudios[index].nbRecord += 1
+                }
+              }
+            } else if (a.status === 'invalid' && a.mimetype === "audio/wav") {
+              for (let index in validAudios) {
+                if(validAudios[index].wakeword === a.wakeword) {
+                  validAudios[index].nbRecord -= 1
+                }
+              }
+
+            } else if (a.status === 'vote' && a.mimetype === "audio/wav") {
+              for (let index in validAudios) {
+                if(validAudios[index].wakeword === a.wakeword) {
+                  validAudios[index].nbRecord += 1
                 }
               }
             }
           })
 
           if(validAudios.length> 0) {
-            res.json({ validAudios: validAudios , nbValidAudios })
+            res.json({ validAudios: validAudios })
           } else {
             throw 'Empty array'
           }
@@ -156,11 +169,11 @@ module.exports = (webServer) => {
                 }
 
                 // Increment nbRecords of appStats in DB
-                const updateScenarioStats = await model.updateScenarioStats({ wakeword: userInfos.wakeword, action: 'increment_record' })
-                if (updateScenarioStats === 'success') {
+                const updateScenario = await model.updateScenarioStats({ wakeword: userInfos.wakeword, action: 'increment_record' })
+                if (updateScenario === 'success') {
                   updateScenarioStats = true
                 } else {
-                  updateScenarioStats = false
+                  updateScenario = false
                   errorMsg += 'Error on updating app stats'
                 }
               } else {
