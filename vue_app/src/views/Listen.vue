@@ -197,8 +197,7 @@ export default {
         method: 'post',
         data: payload
       })
-      console.log(sendVote)
-      /* if (sendVote.data.voteAudio === 'success') {
+      if (sendVote.data.voteAudio === 'success') {
         bus.$emit('notify_app', {
           status: 'success',
           msg: 'Votre vote à bien été pris en compte.',
@@ -210,7 +209,7 @@ export default {
           msg: 'Erreur lors de l\'enregistrement',
           redirect: false
         })
-      } */
+      }
     },
     getCookie (cname) {
       const name = cname + '='

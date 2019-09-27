@@ -34,7 +34,6 @@ export default {
     valid_audios (data) {
       if (data.validAudios.length > 0) {
         this.validAudiosLoaded = true
-        console.log(data)
       }
     },
   },
