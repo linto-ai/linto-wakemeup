@@ -163,12 +163,15 @@ export default {
         this.audiosReady = false
         this.noMoreAudio = true
       }
+    },
+    audios: function (data) {
+      if (!!this.userHash) {
+        // Random sort audio list
+        this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
+      }
     }
   },
   methods: {
-    refreshAudio () {
-      this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
-    },
     getScreenWidth () {
       return window.innerWidth
     },
