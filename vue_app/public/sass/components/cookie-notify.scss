@@ -1,0 +1,37 @@
+/*** COOKIE NOTIFY ***/
+#cookie-notify {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  background-color: #4c4c4c;
+  position: fixed;
+  top: 100%;
+  z-index: 12;
+  @include boxShadow(0px, 2px, 4px, 0px, rgba(0, 0, 0, 0.3));
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 18px;
+  border-top: 2px solid $redChart;
+  border-bottom: 2px solid $redChart;
+}
+
+.closeCookieModal {
+  display: inline-block;
+  @include transition(all 0.2s ease);
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+/*** END COOKIE NOTIFY ***/
+
+@media screen and (max-width: 840px) {
+  #cookie-notify {
+    font-size: 12px;
+    line-height: 16px;
+  }
+}

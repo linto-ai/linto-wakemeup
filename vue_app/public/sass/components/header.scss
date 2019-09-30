@@ -1,0 +1,378 @@
+/*** HEADER ***/
+#header {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  z-index: 5;
+  padding: 5px 20px;
+  background-color: #ffffff;
+  @include boxShadow(0,
+  2px,
+  4px,
+  0px,
+  rgba(0, 0, 0, .3));
+  border-bottom: 1px solid $redChart;
+
+  & .row > div {
+    height: 60px;
+    line-height: 60px;
+  }
+
+  .header-link {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px;
+    position: relative;
+    z-index: 2;
+
+    &:hover{
+      color: #fff;
+    }
+    &.red {
+      &:before {
+        background-color: $redChart;
+      }
+    }
+    &.green {
+      &:before {
+        background-color: $greenChart;
+      }
+    }
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 0px;
+      bottom: 0;
+      left: 0;
+      visibility: hidden;
+      @include transition(all 0.2s ease-in-out);
+      z-index: -1;
+    }
+    &:hover:before {
+      visibility: visible;
+      height: 40px;
+      @include boxShadow(0px,2px,6px,2px,rgba(0,0,0,0.2));
+      @include borderRadius(3px);
+
+    }
+
+  }
+  .mobile-links{
+    display: none;
+  }
+}
+
+.logo-container {
+  text-align: left;
+  height: 60px;
+  position: relative;
+
+  img {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+    vertical-align: top;
+  }
+}
+
+.user-panel {
+  text-align: right;
+
+  .button {
+    margin-top: 10px;
+  }
+}
+
+.user-menu {
+  display: inline-block;
+  position: relative;
+  width: auto;
+  padding: 0 15px;
+  height: 100%;
+  min-width: 160px;
+
+  .toggle-user-menu {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    width: auto;
+
+    &>span {
+      display: inline-block;
+      height: 50px;
+      vertical-align: top;
+    }
+
+    .label {
+      font-size: 16px;
+      font-weight: 500;
+      color: $redChart;
+      line-height: 50px;
+    }
+
+    .icon {
+      width: 30px;
+      margin-left: 5px;
+      background-image: url('../img/user-arrow@2x.png');
+      background-size: 30px 100px;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+    }
+
+    &:hover {
+      .label {
+        text-decoration: underline
+      }
+    }
+
+    &.closed {
+      .icon {
+        background-position: 0 -50px;
+      }
+    }
+  }
+
+  .user-submenu {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    background: #fff;
+    @include boxShadow(0px,2px,6px,2px,rgba(0,0,0,0.2));
+    @include borderRadius(5px);
+    line-height: 20px;
+    text-align: center;
+  }
+
+  .user-submenu-link {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    line-height: 20px;
+    padding: 10px 0;
+
+    &>span {
+      display: inline-block;
+      vertical-align: top;
+      height: 20px;
+    }
+
+    .label {
+      line-height: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      color: $greyText;
+
+      &.logout {
+        color: $redChart;
+      }
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      background-image: url('../img/user-panel-icons@2x.png');
+      background-size: 40px 160px;
+      background-repeat: no-repeat;
+      margin: 0 5px 0 10px;
+
+      &.user {
+        background-position: 0 0;
+      }
+
+      &.logout {
+        background-position: 0 -20px;
+      }
+
+      &.wakewords {
+        background-position: 0 -40px;
+      }
+
+      &.monitoring {
+        background-position: 0 -60px;
+      }
+      &.record{
+        background-position: 0 -80px;
+      }
+      &.listen{
+        background-position: 0 -100px;
+      }
+      &.audio-monitoring{
+        background-position: 0 -120px;
+      }
+
+    }
+
+    &:hover {
+      background: #f2f2f2;
+
+      .label {
+        color: $greenChart;
+
+        &.logout {
+          color: $redChart;
+        }
+      }
+      .icon {
+
+        &.user {
+          background-position: -20px 0;
+        }
+
+        &.logout {
+          background-position: -20px -20px;
+        }
+
+        &.wakewords {
+          background-position: -20px -40px;
+        }
+
+        &.monitoring {
+          background-position: -20px -60px;
+        }
+        &.record{
+          background-position: -20px -80px;
+        }
+        &.listen{
+          background-position: -20px -100px;
+        }
+        &.audio-monitoring{
+          background-position: -20px -120px;
+        }
+      }
+    }
+  }
+}
+
+.user-metrics {
+  height: 30px;
+  margin: 15px 10px 15px 20px;
+
+  & > span {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .metrics{
+    height: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 30px;
+    padding: 0;
+    margin: 0;
+    color: $greyText;
+    padding-right: 10px;
+
+    &.record{
+      color: $redChart;
+    }
+    &.listen{
+      color: $greenChart;
+      border-right: 1px solid #ccc;
+    }
+  }
+  .icon{
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+
+    background-image: url('../img/user-panel-icons@2x.png');
+    background-size: 40px 160px;
+    background-repeat: no-repeat;
+    margin: 5px ;
+
+    &.record {
+      background-position: 0 -140px;
+    }
+    &.listen{
+      background-position: -20px -140px;
+    }
+  }
+
+}
+/*** END HEADER ***/
+
+@media screen and (max-width: 1024px) {
+  #header {
+    height: 50px;
+    & .row > div {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+  .user-panel {
+    .button {
+      margin-top: 5px;
+      padding: 5px 15px;
+    }
+  }
+  .user-menu {
+    .toggle-user-menu {
+      &>span {
+        height: 40px;
+      }
+      .label {
+        font-size: 14px;
+        line-height: 40px;
+      }
+      &.closed{
+        .icon{
+          background-position: 0 -55px;
+        }
+      }
+      &.opened{
+        .icon{
+          background-position: 0 -5px;
+        }
+      }
+    }
+    .user-submenu{
+      top: 40px;
+    }
+  }
+  .user-metrics{
+    margin: 5px 10px 5px 20px !important;
+  }
+
+}
+@media screen and (max-width: 960px) {
+  #header{
+    .button,
+    .header-link{
+      font-size: 14px;
+    }
+  }
+  .user-metrics{
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 840px) {
+
+}
+@media screen and (max-width: 720px) {
+
+}
+@media screen and (max-width: 600px) {
+  #header {
+    & .row .col-4,
+    & .row .col-8 {
+      padding: 0 !important;
+    }
+  }
+  .user-menu{
+    text-align: center;
+
+    .user-submenu{
+      left: -30px;
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+
+}
+@media screen and (max-width: 360px) {
+
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #2da800;
+      }
+    </style>
+  </defs>
+  <title>Square captcha</title>
+  <g id="Square_captcha" data-name="Square captcha">
+    <path class="cls-1" d="M91.6,82H8.4L50,16.4ZM15.78,77.92H84.22L50,24Z"/>
+  </g>
+</svg>

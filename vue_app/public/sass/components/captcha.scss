@@ -1,0 +1,54 @@
+.captcha-container{
+  border: 1px solid #f1f1f1;
+  text-align: center;
+  padding: 20px;
+  &.error {
+    border-color: $redChart;
+  }
+  &.valid{
+    border-color: $greenChart;
+  }
+  .captcha-label{
+    display: inline-block;
+    width: 100%;
+    font-size: 16px;
+    padding-bottom: 10px;
+    strong{
+      color: $redChart;
+      font-weight: 600;
+    }
+  }
+}
+
+.captcha-btn{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 0 5px;
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  @include borderRadius(5px);
+
+  &.square{
+    background-image: url('../img/captcha/square.svg')
+  }
+  &.triangle{
+    background-image: url('../img/captcha/triangle.svg')
+  }
+  &.cross{
+    background-image: url('../img/captcha/cross.svg')
+  }
+  &.circle{
+    background-image: url('../img/captcha/circle.svg')
+  }
+
+  &:hover{
+    @include boxShadow(0px, 2px, 2px, 2px, rgba(0, 0, 0, 0.1));
+  }
+  &.selected{
+    background-color: #c8ecd0;
+    @include boxShadow(0px, 2px, 2px, 2px, rgba(0, 0, 0, 0.1));
+  }
+}

@@ -1,0 +1,17 @@
+**/.DS_Store
+**/.vscode
+**/node_modules
+**/.env
+**/.config.json.backup
+**/.editorconfig
+**/package-lock.json
+**/dump.rdb
+**/mongodb/data
+**/Dockerfile*
+**/.git
+**/.gitignore
+**/.gitlab-ci.yml
+**/docker-compose.yml
+**/package.lock.json
+**/cookies_list.md
+**/uploads/*

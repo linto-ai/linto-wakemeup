@@ -1,0 +1,299 @@
+/*** BUTTONS ***/
+*:focus {
+  outline: none !important;
+}
+
+button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Remove excess padding and border in Firefox 4+ */
+  &::-moz-focus-inner {
+    border: 0;
+    outline: none;
+  }
+}
+
+.button {
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  @include borderRadius(5px);
+  @include transition(all 0.3s ease);
+  @include noselect();
+  -webkit-appearance: none;
+
+  &.red {
+    border: 1px solid $redLight;
+    color: $redChart;
+    background-color: #fff;
+
+    &:hover {
+      background-color: $redChart;
+      border-color: $redChart;
+      color: #fff;
+    }
+  }
+
+  &.green {
+    border: 1px solid $greenLight;
+    color: $greenChart;
+    background-color: #fff;
+
+    &:hover {
+      background-color: $greenChart;
+      border-color: $greenChart;
+      color: #fff;
+    }
+  }
+
+  &.grey{
+    color: $greyText;
+  }
+
+  &.large {
+    width: 100%;
+    max-width: 620px;
+    padding: 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #fff;
+
+    &.red {
+      border: 1px solid $redChart;
+      color: $redChart;
+      &:hover {
+        background-color: $redChart;
+        border-color: $redChart;
+        color: #fff;
+      }
+    }
+
+    &.green {
+      border: 1px solid $greenChart;
+      color: $greenChart;
+      &:hover {
+        background-color: $greenChart;
+        border-color: $greenChart;
+        color: #fff;
+      }
+    }
+  }
+
+  &:hover{
+    @include lightShadow();
+    outline: none;
+    text-decoration: none;
+  }
+  &,
+  &.large {
+    &:disabled,
+    &[disabled],
+    &:disabled:hover,
+    &[disabled]:hover{
+      color: $disabled;
+      background-color: #fff;
+      border-color: $disabled;
+      @include cancelBoxShadow()
+    }
+  }
+
+}
+
+.aslink {
+  display: inline-block;
+  font-weight: 500;
+  color: $blueLink;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+.custom-toggle-btn{
+  margin-top: 3px;
+
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  width: 40px;
+  @include borderRadius(10px);
+  @include boxShadow(0px, 2px, 2px, 0px, rgba(0, 0, 0, 0.2));
+  @include transition(all 0.2s ease);
+  border: 1px solid #ccc;
+  position: relative;
+
+  .cursor{
+    display: inline-block;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    @include transition(all 0.2s ease);
+    @include borderRadius(10px);
+    top: 2px;
+  }
+
+  &.off{
+    background-color: #fff;
+    .cursor{
+      left: 3px;
+      background-color: $greenChart;
+    }
+  }
+  &.on{
+    background-color: $greenChart;
+    .cursor{
+      background-color: #fff;
+      left: 20px;
+    }
+  }
+  &.userpanel{
+    margin-top: 10px;
+  }
+  &:hover, &:focus{
+    outline: none;
+    cursor: pointer;
+  }
+}
+/*** END BUTTONS ***/
+
+/*** DIVIDER ***/
+.spacer {
+  width: 100%;
+  height: 20px;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  clear: both;
+  position: relative;
+  border-bottom: 1px solid;
+
+  &.grey {
+    border-color: #ccc;
+  }
+
+  &.red {
+    border-color: $redChart;
+  }
+
+  &.shadowTop {
+    @include boxShadow(0, -2px, 4px, 0px, rgba(0, 0, 0, .3));
+  }
+
+  &.shadowBottom {
+    @include boxShadow(0, 2px, 4px, 0px, rgba(0, 0, 0, .3));
+  }
+}
+
+/*** END DIVIDER ***/
+
+
+/*** APP NOTIFY ***/
+#notifyApp{
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 0px;
+  z-index: 11;
+  background: transparent;
+  text-align: center;
+  @include transition(height 0.5s ease);
+  overflow: hidden;
+}
+
+#notif-container{
+  position: relative;
+  height: auto;
+  padding: 20px ;
+  width: 40%;
+  margin: 0 auto;
+  @include boxShadow(0px, 2px, 4px, 0, rgba(0, 0, 0, 0.2));
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+
+  .notif-line{
+    display: inline-block;
+    position: absolute;
+    height: 90%;
+    width: 2px;
+    top: 5%;
+    left: 10px;
+  }
+  .icon{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    vertical-align: top;
+    margin-right: 10px;
+    background-image: url('../img/notif-icons@2x.png');
+    background-repeat: no-repeat;
+    background-size: 30px 90px;
+  }
+  .label{
+    display: inline-block;
+    line-height: 30px;
+    vertical-align: top;
+  }
+
+  &.error{
+    .label{
+      color: $redChart;
+    }
+    .notif-line{
+      background-color: $redChart;
+    }
+    .icon{
+      background-position: 0 -30px;
+    }
+  }
+
+  &.success{
+    .label{
+      color: $greenChart;
+    }
+    .notif-line{
+      background-color: $greenChart;
+    }
+    .icon{
+      background-position: 0 0;
+    }
+  }
+
+  &.warning{
+    .label{
+      color: $warning;
+    }
+    .notif-line{
+      background-color: $warning;
+    }
+    .icon{
+      background-position: 0 -60px;
+    }
+  }
+}
+/*** APP NOTIFY ***/

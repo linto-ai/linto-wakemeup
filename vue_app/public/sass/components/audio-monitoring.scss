@@ -1,0 +1,86 @@
+#audio-monitoring {
+  overflow: auto !important;
+  padding-bottom: 60px;
+}
+table.list{
+  width: 95%;
+  padding: 0;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 14px;
+  thead {
+    background-color: $redChart;
+    tr{
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+    td{
+      font-weight: 500;
+      height: 50px;
+      color: $greyText;
+      border-right: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      vertical-align: middle;
+      padding: 5px;
+      color: #fff;
+      padding-right: 20px;
+      cursor: pointer;
+
+      &.active{
+        font-weight: 600;
+        background-image: url('../img/table-filter-arrow@2x.png');
+        background-size: 20px 100px;
+        background-repeat: no-repeat;
+        background-color: #ff2050;
+        &.asc{
+          background-position: right -50px;
+        }
+        &.desc{
+          background-position: right -0;
+        }
+      }
+    }
+  }
+  tbody {
+    tr td {
+      border: 1px solid #ccc;
+      vertical-align: middle;
+      padding: 5px;
+
+      &.action {
+        text-align: center;
+      }
+    }
+    .action-button {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      vertical-align: middle;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+
+      &.play {
+        background-image: url('../img/play@2x.png');
+        background-size: 30px 90px;
+
+        &:hover{
+          background-position: 0 -30px;
+        }
+
+        &.isplaying,
+        &.isplaying:hover{
+          background-position: 0 -60px
+        }
+      }
+      &.delete{
+        background-image: url('../img/delete-icon@2x.png');
+        background-size: 30px 60px;
+
+        &:hover{
+          background-position: 0 -30px;
+        }
+      }
+    }
+  }
+}
+

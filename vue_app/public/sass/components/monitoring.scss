@@ -1,0 +1,67 @@
+/*** MONITORING ***/
+.monitoring-datas {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.monitoring-appstats {
+  &>span {
+    display: inline-block;
+    vertical-align: top;
+
+    &.label {
+      font-size: 18px;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    &.icon {
+      width: 60px;
+      height: 60px;
+      background-image: url('../img/stats-icons@2x.png');
+      background-size: 60px 120px;
+      background-repeat: no-repeat;
+    }
+
+    &.number {
+      width: 100%;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 600;
+      padding: 10px 0;
+    }
+  }
+
+  &.record {
+
+    .label,
+    .number {
+      color: $redChart
+    }
+
+    .icon {
+      background-position: 0 0;
+    }
+
+  }
+
+  &.listen {
+
+    .label,
+    .number {
+      color: $greenChart;
+    }
+
+    .icon {
+      background-position: 0 -60px;
+    }
+  }
+}
+
+/*** END MONITORING ***/

@@ -1,0 +1,346 @@
+/*** HOME - Highlight ***/
+#highlight {
+  margin: 40px 0;
+
+  h2 {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-weight: 100;
+    font-size: 38px;
+    padding: 20px 0;
+    @include textShadow(1px,
+    1px,
+    2px,
+    rgba(0,
+    0,
+    0,
+    0.2))
+  }
+
+  .talk {
+    border-right: 1px solid #ccc;
+
+    h2 {
+      color: $redChart;
+    }
+  }
+
+  .listen h2 {
+    color: $greenChart;
+  }
+
+  .title-icon {
+    height: 180px;
+    width: 100%;
+
+    text-align: center;
+
+    img {
+      display: inline-block;
+      height: 100%;
+      width: auto;
+      vertical-align: top;
+    }
+  }
+
+  .highlight-content {
+    width: 75%;
+    margin: 40px auto;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .highlight-action {
+    margin: 20px 0;
+    text-align: center;
+  }
+}
+
+/*** END HOME - Highlight ***/
+
+/*** GOALS ***/
+.goal-container{
+  padding: 40px 0;
+  background-color: #fff;
+  border-bottom: 1px solid $redChart;
+  @include boxShadow(0,0px,4px,0,rgba(0,0,0,0.3));
+
+  h3{
+    display: inline-block;
+    color: $greenChart;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 0;
+    font-size: 24px;
+    position: relative;
+
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 160px;
+      height: 160px;
+      top: 0;
+      left: 0;
+      background-image: url(../img/target@2x.png);
+      background-size: 160px 160px;
+      background-position: 10% center;
+      background-repeat: no-repeat;
+      position: absolute;
+      z-index: 1;
+    }
+  }
+  .content {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: $greyText;
+    font-size: 16px;
+    strong{
+      color: $greenChart;
+    }
+  }
+}
+.goal-legend {
+  text-align: center;
+  &> span {
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 5px;
+    position: relative;
+    &.record-legend-text{
+      color: #848484;
+    }
+    &.validation-legend-text {
+      color: $greenChart
+    }
+    &:after{
+      display: none;
+    }
+  }
+}
+.goal-wrapper{
+  margin: 30px auto;
+  height: 20px;
+  text-align: center;
+  .label,
+  .validation-goal {
+    display: inline-block;
+    height: 20px;
+    width: 120px;
+    padding: 0 10px;
+    text-align: right;
+    font-size: 16px;
+    vertical-align: top;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .validation-goal {
+    text-align: left;
+    width: auto;
+    color: $redChart;
+
+  }
+  .goal {
+    display: inline-block;
+    vertical-align: top;
+    height: 20px;
+    width: 40%;
+    max-width: 400px;
+    position: relative;
+    z-index: 2;
+    background: #fefefefe;
+    @include borderRadius(10px);
+    @include boxShadow(0,2px,2px,0,rgba(0,0,0,0.2));
+
+    .goal-value{
+      display: inline-block;
+      position: absolute;
+      height: 20px;
+      top: 0;
+      left: 0;
+      z-index: 4;
+      min-width: 20px;
+      background: $greenChart;
+      @include borderRadius(10px);
+
+      &:hover{
+        cursor: pointer;
+        background-color: #3ad003;
+        &:after{
+          content: attr(data-infos);
+          display: inline-block;
+          position: absolute;
+          z-index: 10;
+          top: -20px;
+          left: 0;
+          height: 30px;
+          vertical-align: top;
+          font-size: 12px;
+          font-weight: 500;
+          width: 100px;
+          padding-left: 5px;
+          border-left: 2px solid #3ad003;
+          color: $greenChart;
+        }
+      }
+    }
+
+    .recorded-value{
+      display: inline-block;
+      position: absolute;
+      height: 20px;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      min-width: 30px;
+      background: #dedede;
+      @include borderRadius(10px);
+      &:hover {
+        cursor: pointer;
+        background: #ccc;
+        &:after{
+          content: attr(data-infos);
+          display: inline-block;
+          position: absolute;
+          z-index: 10;
+          top: -20px;
+          left: 100%;
+          margin-left: -2px;
+          height: 30px;
+          vertical-align: top;
+          font-size: 12px;
+          font-weight: 500;
+          width: 130px;
+          padding-left: 5px;
+          border-left: 2px solid #ccc;
+          color: #848484;
+        }
+      }
+    }
+    .text-value{
+      display: inline-block;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 4;
+      text-align: center;
+      line-height: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+    }
+  }
+}
+
+/*** END GOALS ***/
+.home-infos{
+  padding: 20px 0;
+  h3{
+    color: $redChart;
+    font-weight: 500;
+  }
+}
+/*** RESPONSIVE ***/
+
+@media screen and (max-width: 1280px) {
+  #highlight{
+    h2 {
+      font-size: 24px;
+      margin: 0;
+    }
+    .title-icon{
+      height: 120px;
+    }
+    .highlight-content{
+      margin: 20px auto;
+      width: 90%;
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .goal-container{
+    h3{
+      &:before{
+        display: none;
+      }
+    }
+  }
+}
+@media screen and (max-width: 960px) {
+  #highlight {
+
+    .row > .col {
+      width: 95% !important;
+      float: none;
+      display: inline-block;
+      flex: none;
+      text-align: center;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      margin: 0 auto 20px auto;
+      padding-bottom: 10px;
+
+    }
+    h2,
+    .title-icon,
+    .highlight-content,
+    .highlight-action
+    {
+      width: 50%;
+      margin: 10px 0;
+      float: left;
+    }
+    .title-icon{
+      height: 100px;
+    }
+    h2{
+      height: 100px;
+      padding: 0;
+      line-height: 35px;
+      padding-top: 30px;
+    }
+    .highlight-action .button{
+      margin-top: 20px;
+      padding: 10px 5px;
+      width: 80%;
+    }
+  }
+}
+@media screen and (max-width: 840px) {
+
+}
+@media screen and (max-width: 720px) {
+
+}
+@media screen and (max-width: 600px) {
+  #highlight {
+
+    h2,
+    .highlight-content,
+    .highlight-action {
+      height: auto;
+      width: 100%;
+      padding: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .title-icon{
+      display: none;
+    }
+    .highlight-action .button{
+      margin-top: 0;
+      max-width: 320px;
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+
+}
+@media screen and (max-width: 360px) {
+
+}

@@ -1,0 +1,22 @@
+@charset "utf-8";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./variables.scss";
+@import "./mixins.scss";
+@import "./roboto.scss";
+@import "./custom-elements.scss";
+@import "./components/global.scss";
+
+@import "./components/header.scss";
+@import "./components/homepage.scss";
+@import "./components/form.scss";
+@import "./components/admin-panel.scss";
+@import "./components/audio-monitoring.scss";
+@import "./components/cookie-notify.scss";
+@import "./components/loading.scss";
+@import "./components/modal.scss";
+@import "./components/monitoring.scss";
+@import "./components/record-listen.scss";
+@import "./components/user-panel.scss";
+@import "./components/footer.scss";
+@import "./components/contact.scss";
+@import "./components/captcha.scss";

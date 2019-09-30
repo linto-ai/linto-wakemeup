@@ -1,0 +1,634 @@
+/*** RECORD ***/
+#player-container {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+
+  &.red {
+    background-image: url('../img/bg-player-red.jpg');
+  }
+
+  &.green {
+    background-image: url('../img/bg-player-green.jpg');
+  }
+}
+
+.player-content {
+  background-color: #fff;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+  overflow: auto;
+  padding-bottom: 20px;
+
+  h2 {
+    text-align: center;
+    padding-top: 40px;
+    margin-bottom: 0;
+  }
+
+  .notice.record {
+    color: $redChart;
+    padding: 10px;
+    @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+    border: 1px solid $redChart;
+    margin: 20px auto;
+    font-weight: 600;
+    text-align: left;
+
+  }
+
+  .content {
+    display: inline-block;
+    padding: 10px 20px 40px 20px;
+    line-height: 20px;
+    font-size: 14px;
+    text-align: left;
+    color: $greyText;
+
+    .notice {
+      padding: 10px;
+      margin-top: 20px;
+      @include boxShadow(0px, 2px, 6px, 2px, rgba(0, 0, 0, 0.2));
+
+      h3 {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+        padding: 20px 0;
+        margin: 0
+      }
+    }
+
+    &.red {
+      strong {
+        font-weight: 500;
+        color: $redChart;
+      }
+
+      .notice {
+        h3 {
+          color: $redChart;
+        }
+      }
+    }
+
+    &.green {
+      strong {
+        font-weight: 500;
+        color: $greenChart;
+      }
+
+      .notice {
+        h3 {
+          color: $greenChart;
+        }
+      }
+    }
+  }
+
+  &.mobile {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    flex: none;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    text-align: center;
+
+  }
+}
+
+.toggle-infos {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-size: 50px 100px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+
+  &.closeInfos {
+    position: absolute;
+    top: 20px;
+    left: 100%;
+    margin-left: -70px;
+    background-image: url('../img/back@2x.png');
+
+    &:hover {
+      background-position: 0 -50px;
+    }
+  }
+
+  &.showInfos {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    background-image: url('../img/open-infos@2x.png');
+
+    &:hover {
+      background-position: 0 -50px,
+    }
+  }
+
+}
+
+#player-wrapper {
+  padding: 20px;
+  width: 70%;
+  height: auto;
+  @include boxShadow(0px, 2px, 6px, 2px, rgba(127, 0, 35, 0.2));
+  @include borderRadius(5px);
+  border: none;
+  background-color: rgba(255, 255, 255, .9);
+  text-align: center;
+  margin: 60px auto 40px auto;
+
+  h3 {
+    font-size: 24px;
+    font-weight: 500;
+    color: $greyTextLight;
+
+    .word {
+      color: $redChart;
+    }
+  }
+
+  .btn-container {
+    display: inline-block;
+    margin: 20px auto;
+    width: 100%;
+    height: auto;
+
+    .button-record {
+      display: inline-block;
+      margin: 0 40px;
+      width: 120px;
+      height: 120px;
+      background-color: #fff;
+      @include boxShadow(0px, 2px, 6px, 2px, rgba(127, 0, 35, 0.2));
+      @include borderRadius(60px);
+
+      &:hover {
+        background-color: $redChart;
+        @include boxShadow(0px, 2px, 6px, 2px, rgba(127, 0, 35, 0.2));
+
+        .icon {
+          background-color: #fff;
+        }
+      }
+
+      &.isRecording {
+        -webkit-animation: recordingBtn 1s infinite;
+        -moz-animation: recordingBtn 1s infinite;
+        -o-animation: recordingBtn 1s infinite;
+        animation: recordingBtn 1s infinite;
+      }
+
+      .icon {
+        display: inline-block;
+        width: 120px;
+        height: 120px;
+        -webkit-mask: url(../img/record-icon.svg) no-repeat 50% 50%;
+        mask: url(../img/record-icon.svg) no-repeat 50% 50%;
+        -webkit-mask-size: cover;
+        mask-size: cover;
+        background-color: $redChart;
+
+        &.isRecording {
+          -webkit-animation: recordingIcon 1s infinite;
+          -moz-animation: recordingIcon 1s infinite;
+          -o-animation: recordingIcon 1s infinite;
+          animation: recordingIcon 1s infinite;
+        }
+      }
+    }
+
+    .button-play {
+      display: inline-block;
+      margin: 0 40px;
+      width: 120px;
+      height: 120px;
+      background-image: url('../img/play@2x.png');
+      background-repeat: no-repeat;
+      background-size: 120px 360px;
+      background-position: 0 0;
+      vertical-align: top;
+
+      &:hover {
+        background-position: 0 -120px;
+      }
+
+      &.active {
+        background-position: 0 -240px;
+      }
+    }
+
+    .label {
+      display: inline-block;
+      width: 100%;
+      font-size: 14px;
+      color: $greyUnactive;
+      text-align: center;
+    }
+  }
+
+}
+
+.player-anim {
+  display: inline-block;
+  height: 120px;
+  vertical-align: top;
+  .sound-bar {
+    display: inline-block;
+    width: 8px;
+    @include borderRadius(4px);
+    background-color: $greyUnactive;
+
+    &.bsmall {
+      height: 40px;
+      margin: 40px 10px;
+    }
+
+    &.bmed {
+      height: 80px;
+      margin: 20px 10px;
+    }
+
+    &.bbig {
+      height: 120px;
+      margin: 0px 10px;
+    }
+  }
+}
+
+.sub-actions-container {
+  margin-top: 20px;
+  height: 100px;
+  text-align: center;
+
+  .action-container {
+    display: inline-block;
+    height: 100px;
+    width: 80px;
+    margin: 0 20px;
+
+    .btn-player {
+      display: inline-block;
+      height: 60px;
+      width: 60px;
+      background-image: url('../img/player-btn@2x.png');
+      background-size: 180px 240px;
+      background-repeat: no-repeat;
+
+      &.play {
+        background-position: 0 0;
+
+        &:hover {
+          background-position: -60px 0;
+        }
+
+        &.active {
+          background-position: -120px 0;
+        }
+      }
+
+      &.reset {
+        background-position: 0 -120px;
+
+        &:hover {
+          background-position: -60px -120px;
+        }
+      }
+
+      &.validate {
+        background-position: 0 -60px;
+
+        &:hover {
+          background-position: -60px -60px;
+        }
+
+        &.active {
+          background-position: -120px -60px;
+        }
+      }
+      &.skip {
+        background-position: 0 -180px;
+          &:hover {
+            background-position: -60px -180px;
+          }
+      }
+      &.votegood,
+      &.votebad {
+        background-image: url('../img/vote-icons@2x.png');
+        background-size: 120px 120px;
+      }
+
+      &.votegood {
+        background-position: 0 0;
+
+        &:hover {
+          background-position: -60px 0;
+        }
+      }
+
+      &.votebad {
+        background-position: 0 -60px;
+
+        &:hover {
+          background-position: -60px -60px;
+        }
+      }
+    }
+
+
+    .label {
+      display: inline-block;
+      width: 100%;
+      font-size: 13px;
+      text-align: center;
+      color: $greyUnactive;
+    }
+  }
+}
+
+.player-visualizer {
+  width: 70%;
+  margin: 20px auto;
+}
+
+#visualizer {
+  width: 100%;
+  max-width: 340px;
+  padding: 0 20px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  @include boxShadow(0px, 2px, 4px, 0px, rgba(0, 0, 0, 0.3));
+
+  #visualizer-top,
+  #visualizer-bot {
+    width: 100%;
+    height: 50px;
+    position: relative;
+
+  }
+
+  .visualizer-bar {
+    position: absolute;
+    display: inline-block;
+    width: 4px;
+    margin: 0 1px;
+  }
+
+  #visualizer-top {
+    border-bottom: 1px solid #cecece;
+
+    .visualizer-bar {
+      bottom: 0;
+      background-image: linear-gradient(to bottom, $redLight, $redChart);
+      @include borderRadiusDif(2px, 2px, 0, 0)
+    }
+  }
+
+  #visualizer-bot {
+    .visualizer-bar {
+      top: 0;
+      background-image: linear-gradient(to bottom, $redChart, $redLight);
+      @include borderRadiusDif(0, 0, 2px, 2px)
+    }
+  }
+
+}
+
+.record-complete {
+  margin: 40px auto;
+  width: 70%;
+  text-align: center;
+  font-size: 16px;
+  padding: 20px;
+
+  .content{
+    color: #444444;
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+  }
+}
+
+.keyword-list{
+  display: block;
+  width: 90%;
+  margin: 20px auto;
+
+  .keyword-item{
+    list-style-type: circle;
+    display: inline-block;
+    width: 100%;
+    margin: 5px 0;
+    text-align: left;
+    color: $greenChart;
+    padding-left: 40px;
+    height: 35px;
+    background-image: url('../img/record-icon@2x.png');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: 0 5px;
+
+  }
+}
+
+@-webkit-keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+
+  50% {
+    background-color: $redChart;
+  }
+
+  100% {
+    background-color: #fff;
+  }
+}
+
+@-moz-keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+
+  50% {
+    background-color: $redChart;
+  }
+
+  100% {
+    background-color: #fff;
+  }
+}
+
+@-o-keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+
+  50% {
+    background-color: $redChart;
+  }
+
+  100% {
+    background-color: #fff;
+  }
+}
+
+@keyframes recordingBtn {
+  0% {
+    background-color: #fff;
+  }
+
+  50% {
+    background-color: $redChart;
+  }
+
+  100% {
+    background-color: #fff;
+  }
+}
+
+@-webkit-keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+
+  50% {
+    background-color: #fff;
+  }
+
+  100% {
+    background-color: $redChart;
+  }
+}
+
+@-moz-keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+
+  50% {
+    background-color: #fff;
+  }
+
+  100% {
+    background-color: $redChart;
+  }
+}
+
+@-o-keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+
+  50% {
+    background-color: #fff;
+  }
+
+  100% {
+    background-color: $redChart;
+  }
+}
+
+@keyframes recordingIcon {
+  0% {
+    background-color: $redChart;
+  }
+
+  50% {
+    background-color: #fff;
+  }
+
+  100% {
+    background-color: $redChart;
+  }
+}
+
+/*** END RECORD ***/
+
+/*** RECORD BUTTON ***/
+.recordBtn-container,
+svg {
+  width: 100%;
+
+  circle:hover,
+  path:hover {
+    cursor: pointer;
+  }
+  text {
+    font-size: 32px;
+    fill: $greyText;
+  }
+  text:hover {
+    cursor: default;
+  }
+
+  &.notRecording #recordBtnGroup:hover {
+    #recordBtn-bg {
+      fill: #c61e42;
+    }
+
+    .record-icon {
+      fill: #fff;
+    }
+  }
+}
+
+path,
+circle {
+  @include transition(all 0.3s ease);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+#recordBtn-bg {
+  @include boxShadow(0, 2px, 4px, 0, rgba(0, 0, 0, 0.3))
+}
+
+/*** END RECORD BUTTON ***/
+
+/*** RESPONSIVE ***/
+
+@media screen and (max-width: 840px) {
+  .player-content {
+    padding-bottom: 80px;
+  }
+  .player-anim {
+    display: none;
+  }
+
+  #player-wrapper {
+    width: 90%;
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  .sub-actions-container {
+    height: auto;
+
+    .action-container {
+      margin: 5px 10px;
+    }
+  }
+
+  .toggle-infos {
+    &.showInfos {
+      top: 5px;
+      left: 10%;
+    }
+  }
+  svg {
+    text {
+      font-size: 26px;
+    }
+  }
+}
