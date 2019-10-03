@@ -8276,7 +8276,11 @@ h3 {
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
       border-radius: 5px;
+<<<<<<< HEAD
       width: 50%; }
+=======
+      width: 35%; }
+>>>>>>> github/master
   .ww-container .delete-btn {
     width: 40px;
     height: 40px;
@@ -8297,6 +8301,11 @@ h3 {
     border-radius: 5px;
     text-align: center;
     vertical-align: top; }
+<<<<<<< HEAD
+=======
+    .ww-container .wakeword-info.status {
+      width: auto; }
+>>>>>>> github/master
     .ww-container .wakeword-info > span {
       display: inline-block;
       width: 100%;
@@ -8313,6 +8322,36 @@ h3 {
         color: #2da800; }
       .ww-container .wakeword-info > span.record {
         color: #c61e42; }
+<<<<<<< HEAD
+=======
+      .ww-container .wakeword-info > span.status {
+        font-weight: 700;
+        color: #c61e42; }
+    .ww-container .wakeword-info button.toggle-ww-status {
+      display: inline-block;
+      padding: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      vertical-align: top;
+      border: 1px solid;
+      -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      margin: 5px; }
+      .ww-container .wakeword-info button.toggle-ww-status:hover {
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none; }
+      .ww-container .wakeword-info button.toggle-ww-status.enabled {
+        color: #2da800;
+        border-color: #2da800; }
+      .ww-container .wakeword-info button.toggle-ww-status.disabled {
+        color: #c61e42;
+        border-color: #c61e42; }
+>>>>>>> github/master
     .ww-container .wakeword-info .update-goal-container {
       display: inline-block;
       text-align: center;
@@ -8343,14 +8382,22 @@ h3 {
         position: absolute;
         top: 0px;
         height: 44px;
+<<<<<<< HEAD
         width: 180px;
+=======
+        width: 160px;
+>>>>>>> github/master
         z-index: 15;
         border: 1px solid #2da800;
         -moz-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
         -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3); }
         .ww-container .wakeword-info .update-goal-container .update-goal.visible input {
+<<<<<<< HEAD
           width: 100px;
+=======
+          width: 80px;
+>>>>>>> github/master
           margin: 0;
           padding: 0 0 0 5px;
           height: 100%;

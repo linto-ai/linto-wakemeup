@@ -17,7 +17,7 @@
       font-weight: 500;
       line-height: 40px;
       @include borderRadius(5px);
-      width: 50%;
+      width: 35%;
     }
 
   }
@@ -45,6 +45,10 @@
     text-align: center;
     vertical-align: top;
 
+    &.status{
+      width: auto;
+    }
+
     &>span {
       display: inline-block;
       width: 100%;
@@ -68,6 +72,33 @@
 
       &.record {
         color: $redChart;
+      }
+      &.status {
+        font-weight: 700;
+        color: $redChart
+      }
+    }
+    button.toggle-ww-status {
+      display: inline-block;
+      padding: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      vertical-align: top;
+      border: 1px solid;
+      @include boxShadow(0,2px,2px,0,rgba(0,0,0,0.2));
+      @include borderRadius(3px);
+      margin: 5px;
+
+      &:hover{
+        @include cancelBoxShadow();
+      }
+      &.enabled{
+        color: $greenChart;
+        border-color: $greenChart;
+      }
+      &.disabled{
+        color: $redChart;
+        border-color: $redChart;
       }
     }
     .update-goal-container {
@@ -106,13 +137,13 @@
         position: absolute;
         top: 0px;
         height: 44px;
-        width: 180px;
+        width: 160px;
         z-index: 15;
         border: 1px solid $greenChart;
         @include boxShadow(0, 2px, 2px, 0, rgba(0,0,0,0.3));
 
         input {
-          width: 100px;
+          width: 80px;
           margin: 0;
           padding: 0 0 0 5px;
           height: 100%;

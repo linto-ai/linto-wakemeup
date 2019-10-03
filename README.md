@@ -2,8 +2,8 @@
 Wake me up is a collaborative interface to make audio sample aquisition and validation.
 Datas are collected anonymously, and can be used to feed audio corpus, and train language models.
 
-
 ### Download & Setup project
+
 ```
 cd your/project/folder
 git clone ssh://git@ci.linagora.com:7999/linagora/lgs/labs/Linto-Device/Linto-Backend/wake-me-up.git

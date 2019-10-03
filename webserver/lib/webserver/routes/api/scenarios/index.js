@@ -8,7 +8,6 @@ module.exports = (webServer) => {
   return [{
     path: '/',
     method: 'get',
-    requireAuth: true,
     controller: async (req, res, next) => {
       try {
         const scenarios = await model.getScenarios()
@@ -48,7 +47,7 @@ module.exports = (webServer) => {
         const updateScenario = await model.updateScenario(payload)
         res.json({
           status: updateScenario,
-          msg: `L'objecif pour le mot-clé "${payload.wakeword}" a été mis à jour`
+          msg: `Le mot-clé "${payload.wakeword}" a été mis à jour`
         })
       } catch (error) {
         console.error(error)
@@ -56,23 +55,6 @@ module.exports = (webServer) => {
           status: 'error',
           msg: 'Error on updating Validation goal value'
         })
-      }
-    }
-  },
-  {
-    path: '/',
-    method: 'delete',
-    requireAuth: true,
-    controller: async (req, res, next) => {
-      try {
-        const payload = req.body
-        const deleteWakeword = await model.deleteWakeword(payload)
-        res.json({
-          deleteWakeword
-        })
-      } catch (error) {
-        console.error(error)
-        res.json({ error })
       }
     }
   }]
