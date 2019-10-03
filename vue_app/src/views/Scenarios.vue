@@ -61,6 +61,9 @@
             <h2>Mots-clés existants</h2>
             <div class="white-container">
               <div v-for="ww in scenarios" :key="ww._id" class="ww-container">
+                <div class="wakeword-info status">
+                  <button class="toggle-ww-status" :class="ww.status" @click="toggleWWStatus(ww)">{{ ww.status }}</button>
+                </div>
                 <span class="wakeword">{{ ww.wakeword }}</span>
                 <div class="wakeword-info">
                   <span class="label listen">Ecoutes</span>
@@ -73,7 +76,7 @@
                 <div class="wakeword-info">
                   <updateGoalBtn :ww="ww"></updateGoalBtn>
                 </div>
-                <button class="delete-btn" @click="deleteWakeword(ww.wakeword)"></button>
+
               </div>
             </div>
           </div>
@@ -84,14 +87,13 @@
         <a href="/">Retour à la page d'accueil</a>
       </div>
     </div>
-    <DeleteWakewordModal></DeleteWakewordModal>
+
   </div>
 </template>
 <script>
 import axios from 'axios'
 import { bus } from '../main.js'
 import updateGoalBtn from '@/components/updateGoalBtn.vue'
-import DeleteWakewordModal from '@/components/DeleteWakewordModal.vue'
 export default {
   data () {
     return {
@@ -224,9 +226,6 @@ export default {
         }
       }
     },
-    deleteWakeword (data) {
-      bus.$emit('show_deleteWakeWord_modal', { wakeword: data })
-    },
     async updateVoteLimit () {
       const field = document.getElementById('voteLimit')
       const value = field.value
@@ -242,6 +241,32 @@ export default {
       if (updateVoteLimit.data.status == 'success') {
         this.dispatchVoteLimit()
       }
+    },
+    async toggleWWStatus (ww) {
+      let status = null
+      if (ww.status === 'enabled') {
+        status = 'disabled'
+      } else if (ww.status === 'disabled') {
+        status = 'enabled'
+      }
+      const payload = {
+        ...ww,
+        status
+      }
+
+      let updateScenario = await axios(`${process.env.VUE_APP_URL}/api/scenarios`, {
+        method: 'put',
+        data: payload
+      })
+      bus.$emit('notify_app', {
+        status: updateScenario.data.status,
+        msg: updateScenario.data.msg,
+        redirect: false
+      })
+      if (updateScenario.data.status == 'success') {
+        this.dispatchScenarios()
+      }
+
     },
     dispatchVoteLimit () {
       this.$store.dispatch('getVoteLimit').then((resp) => {
@@ -271,7 +296,6 @@ export default {
     }
   },
   components: {
-    DeleteWakewordModal,
     updateGoalBtn
   }
 }

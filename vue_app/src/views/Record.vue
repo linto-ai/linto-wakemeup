@@ -68,7 +68,7 @@
             <div v-if="dataReady && allComplete" class="record-complete white-container">
               <div class="content"><strong class="red">Vous avez validé tous les mots clés. </strong><br/>
                 Vous pouvez réaliser de <strong class="green">nouveaux enregistrements</strong> en sélectionnant un mot clé ci-dessous :</div>
-              <ul class="keyword-list" v-for="scenario in scenarios" :key="scenario._id">
+              <ul class="keyword-list" v-for="scenario in enabledScenarios" :key="scenario._id">
                 <li class="keyword-item"><button class="button grey" @click="addScenario(scenario.wakeword)">{{ scenario.wakeword }}</button></li>
               </ul>
             </div>
@@ -124,6 +124,8 @@ export default {
       screenWidth: 0,
       scenariosLoaded: false,
       scenariosReady: false,
+      enabledScenarios: null,
+      enabledScenariosLoaded: false,
       showInfos: true,
       sourceNode: null,
       step: 0,
@@ -162,7 +164,7 @@ export default {
       return new VAD()
     },
     dataReady () {
-      return (this.userReady === true && this.scenariosReady === true)
+      return (this.userReady === true && this.enabledScenariosLoaded === true)
     }
   },
   mounted () {
@@ -206,14 +208,22 @@ export default {
       this.userReady = true
     },
     scenarios: function (data) {
-      this.scenariosReady = true
+      if (!!data.length) {
+        this.scenariosReady = true
+        this.enabledScenarios = this.$store.getters.ENABLED_SCENARIOS
+      }
+    },
+    enabledScenarios (data) {
+      if(!!data.length) {
+        this.enabledScenariosLoaded = true
+      }
     },
     userReady: function (data) {
       if (this.dataReady) {
         this.setScenario()
       }
     },
-    scenariosReady: function (data) {
+    enabledScenariosLoaded: function (data) {
       if (this.dataReady) {
         this.setScenario()
       }
@@ -246,7 +256,7 @@ export default {
           if (!rec.complete) {
             this.wakeword = rec.wakeword
             this.step = parseInt(rec.step) + 1
-            this.scenarios.map(s => {
+            this.enabledScenarios.map(s => {
               if (s.wakeword === rec.wakeword) {
                 for (let key in s.scenario) {
                   if (s.scenario[key].step === this.step) {
@@ -260,7 +270,7 @@ export default {
               }
             })
           } else {
-            this.scenarios.map(s => {
+            this.enabledScenarios.map(s => {
               let ww = s.wakeword
               let wwfound = false
               this.userInfos.recordList.map(rec => {

@@ -160,15 +160,33 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    ENABLED_SCENARIOS: (state) => {
+      let scenarios = state.scenarios
+      let enabledScenarios = []
+      scenarios.map(s => {
+        if (s.status === 'enabled') {
+          enabledScenarios.push(s)
+        }
+      })
+      return enabledScenarios
+    },
     // Get audios that can be validate by an user
     // (audios that the user didn't record or has already voted for)
     AUDIO_BY_USER: (state) => (userHash) => {
       try {
         let audios = state.audios
+        let scenarios = state.scenarios
+        let enabledWakeword = []
+
+        scenarios.map(s => {
+          if (s.status === 'enabled') {
+            enabledWakeword.push(s.wakeword)
+          }
+        })
         let validAudios = []
         audios.map(a => {
-          if (a.author !== userHash && !!a.userVoted) {
-            if (a.userVoted.indexOf(userHash) && a.mimetype === 'audio/wav' && a.status === 'vote') {
+          if (enabledWakeword.indexOf(a.wakeword) >= 0) {
+            if (a.author !== userHash && a.userVoted.indexOf(userHash) < 0 && a.mimetype === 'audio/wav' && a.status === 'vote') {
               validAudios.push(a)
             }
           }
@@ -179,7 +197,6 @@ export default new Vuex.Store({
         return { error: err }
       }
     },
-
     // Get total number of "listened" and "recorded" audios
     APP_STATS: (state) => {
       try {

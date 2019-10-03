@@ -459,6 +459,7 @@ class modelMongoDb {
       const payload = {
         wakeword: data.wakeword,
         validationGoal: data.validationGoal,
+        status: 'enabled',
         scenario: {
           noOpt: {
             step: 1,
@@ -483,12 +484,6 @@ class modelMongoDb {
     } catch (err) {
       return err
     }
-  }
-  async deleteWakeword(data) {
-    const query = {
-      wakeword: data.wakeword
-    }
-    return await this.mongoDelete('scenarios', query)
   }
 
   async updateScenario (payload) {

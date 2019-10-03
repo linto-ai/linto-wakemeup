@@ -88,20 +88,34 @@ export default {
     return {
       showInfos: true,
       audiosReady: false,
+      audiosLoaded: false,
       wakeword: '',
       audioFile: '',
-      userHash: '',
+      userHash: null,
+      userHashLoaded: false,
       isPlaying: '',
       playerAudio: null,
       audioHasBeenListen: false,
       noMoreAudio: false,
       userAudios: '',
       screenWidth: 0,
-      mobileView: false
+      mobileView: false,
+      scenariosLoaded: false
+
     }
   },
   created () {
     this.$store.dispatch('getAudios').then((resp) => {
+      // Error handler
+      if (!!resp.error) {
+        bus.$emit('notify_app', {
+          status: 'error',
+          msg: 'Une erreur est survenue en voulant contacter la base de données. Si le problème persiste veuillez contacter un administrateur.',
+          redirect: false
+        })
+      }
+    })
+    this.$store.dispatch('getScenarios').then((resp) => {
       // Error handler
       if (!!resp.error) {
         bus.$emit('notify_app', {
@@ -134,9 +148,20 @@ export default {
     },
     audios () {
       return this.$store.state.audios
+    },
+    scenarios () {
+      return this.$store.state.scenarios
+    },
+    audioDatasLoaded () {
+      return (this.audiosLoaded && this.scenariosLoaded && this.userHashLoaded)
     }
   },
   watch: {
+    audioDatasLoaded (data) {
+      if (data) {
+        this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
+      }
+    },
     screenWidth: function (data) {
       if (data <= 1280) {
         this.mobileView = true
@@ -144,12 +169,17 @@ export default {
         this.mobileView = false
       }
     },
+    scenarios (data) {
+      if (!!data.length && data.length > 0) {
+        this.scenariosLoaded = true
+      }
+    },
     userInfos: function (data) {
       this.userHash = this.$store.state.userInfos.userHash
     },
     userHash: function (data) {
-      if (!!this.audios) {
-        this.userAudios = this.$store.getters.AUDIO_BY_USER(data)
+      if (data !== null) {
+        this.userHashLoaded = true
       }
     },
     userAudios: function (data) {
@@ -165,9 +195,11 @@ export default {
       }
     },
     audios: function (data) {
-      if (!!this.userHash) {
-        // Random sort audio list
-        this.userAudios = this.$store.getters.AUDIO_BY_USER(this.userHash).sort(() => { return 0.5 - Math.random() })
+      if (!!data.length) {
+        this.audiosLoaded = true
+        if (data.length === 0) {
+          this.noMoreAudio = true
+        }
       }
     }
   },
