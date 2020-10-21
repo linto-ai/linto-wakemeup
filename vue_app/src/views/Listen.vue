@@ -100,7 +100,8 @@ export default {
       userAudios: '',
       screenWidth: 0,
       mobileView: false,
-      scenariosLoaded: false
+      scenariosLoaded: false,
+      scenarioIndex: 0
     }
   },
   created () {
@@ -181,17 +182,8 @@ export default {
         this.userHashLoaded = true
       }
     },
-    userAudios: function (data) {
-      if (data.length > 0) {
-        this.noMoreAudio = false
-        this.wakeword = data[0].wakeword
-        this.audioFile = '/assets/audios/' + data[0].fieldname
-        this.audiosReady = true
-        this.playerAudio = new Audio(this.audioFile)
-      } else {
-        this.audiosReady = false
-        this.noMoreAudio = true
-      }
+    userAudios: async function (data) {
+      await this.setUserAudios()
     },
     audios: function (data) {
       if (!!data.length) {
@@ -203,6 +195,29 @@ export default {
     }
   },
   methods: {
+    async setUserAudios(){
+      if (this.userAudios.length > 0 && this.userAudios.length >= this.scenarioIndex + 1) {
+        this.noMoreAudio = false
+        this.wakeword = this.userAudios[this.scenarioIndex].wakeword
+        this.audioFile = '/assets/audios/' + this.userAudios[this.scenarioIndex].fieldname  
+        try {
+          const testFile = await axios.get(this.audioFile)
+          if(testFile.status === 200) {
+            this.audiosReady = true
+            this.playerAudio = new Audio(this.audioFile)
+          } else {
+      
+          }
+        } catch (error) {
+          this.audiosReady = false
+          this.scenarioIndex++
+          await this.setUserAudios()
+        }
+      } else {
+        this.audiosReady = false
+        this.noMoreAudio = true
+      }
+    },
     getScreenWidth () {
       return window.innerWidth
     },

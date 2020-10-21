@@ -60,6 +60,7 @@
 
 <script>
 import DeleteAudioModal from '@/components/DeleteAudioModal.vue'
+import axios from 'axios'
 import { bus } from '../main.js'
 export default {
   data () {
@@ -69,8 +70,8 @@ export default {
       audioPlayer: null,
       isPlaying: false,
       filterParams: {
-        key: '',
-        order: ''
+        key: 'recordDate',
+        order: 'desc'
       }
     }
   },
@@ -101,21 +102,34 @@ export default {
     deleteAudio (audio) {
       bus.$emit('toggle_delete_audio', audio)
     },
-    playSound (event) {
-      const audioNode = event.target
+    async playSound (event) {
+      const audioNode = event.srcElement
       const url = audioNode.getAttribute('data-url')
-      if (!this.isPlaying) {
-        audioNode.classList.add('isplaying')
-        this.audioPlayer = new Audio(url)
-        this.audioPlayer.play(url)
-        this.isPlaying = true
-        this.audioPlayer.addEventListener('ended', () => {
-          this.isPlaying = false
-          audioNode.classList.remove('isplaying')
-        })
+      try {
+        const testAudio = await axios.get(url)
+        if(testAudio.status === 200) {
+          if (!this.isPlaying) {
+            audioNode.classList.add('isplaying')
+            this.audioPlayer = new Audio(url)
+            this.audioPlayer.play(url)
+            this.isPlaying = true
+            this.audioPlayer.addEventListener('ended', () => {
+              this.isPlaying = false
+              audioNode.classList.remove('isplaying')
+            })
+          }  
+        } else {
+          throw 'Audio no found'
+        }
+      } catch (error) {
+          const audioNode = event.srcElement
+          audioNode.classList.add('broken')
+          console.error(error)
       }
+      
     },
     filterTab (options) {
+      
       if (this.filterParams.key === options.key) {
         this.filterParams.order === 'asc' ? this.filterParams.order = 'desc' : this.filterParams.order = 'asc'
       } else {
