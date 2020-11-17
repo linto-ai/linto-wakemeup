@@ -12,6 +12,6 @@
 **/.gitignore
 **/.gitlab-ci.yml
 **/docker-compose.yml
-**/package.lock.json
+**/package-lock.json
 **/cookies_list.md
 **/uploads/*

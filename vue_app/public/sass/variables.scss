@@ -1,14 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+$ubuntu: 'Ubuntu',
+'Helvetica',
+'Arial',
+'sans-serif';
 $greyText: #444444;
-$redChart: #c61e42; /* rgba(198,30,66,1) */
+$redChart: #c61e42;
+
+/* rgba(198,30,66,1) */
+
 $redLight: #ffb0c7;
-$greenChart: #2da800; /* rgba(49,198,0,1) */
+$greenChart: #238200;
+
+/* rgba(49,198,0,1) */
+
 $greenLight: #a3f286;
 $blueLink: #485eff;
 $greyUnactive: #bdccd4;
 $greyTextLight: #8faebf;
 $warning: #ff9900;
 $disabled: #cecece;
-
 $FontPath: "../fonts" !default;
 $FontName: "Roboto" !default;
 $FontVersion: "2.137" !default;
+$orangeLight: #ffc98f;
+$blueDark: #1f3279;

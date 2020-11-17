@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './AppOnePage.vue'
-import router from './router'
+import router from './router-onepage.js'
 import store from './store'
 import axios from 'axios'
 

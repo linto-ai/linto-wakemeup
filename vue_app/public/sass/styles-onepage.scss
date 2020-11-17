@@ -1,0 +1,876 @@
+@charset "utf-8";
+@import "./variables.scss";
+@import "./mixins.scss";
+@import "./reset.scss";
+
+/* GLOBAL */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: $ubuntu;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 0;
+    margin: 0;
+    color: #333;
+    background-color: #fcfcfc;
+}
+
+#app {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
+#app-wrapper {
+    overflow: hidden;
+}
+
+.flex {
+    display: flex;
+    &.col {
+        flex-direction: column;
+    }
+    &.row {
+        flex-direction: row;
+    }
+}
+
+.flex1 {
+    flex: 1;
+}
+
+.flex2 {
+    flex: 2;
+}
+
+.flex3 {
+    flex: 3;
+}
+
+.flex4 {
+    flex: 4;
+}
+
+strong {
+    font-weight: 600;
+    color: $redChart;
+}
+
+button {
+    font-family: $ubuntu;
+    outline: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* END GLOBAL */
+
+
+/* LEFT PART - WAKEMEUP INFOS */
+
+#wakemeup-infos {
+    flex: 2;
+    background-color: #111;
+    padding: 20px 40px;
+    overflow: auto;
+    .logo-container {
+        height: 80px;
+        margin: 0;
+        img {
+            display: inline-block;
+            height: 100%;
+            width: auto;
+            &.logo-linto-ai {
+                height: 40px;
+            }
+        }
+    }
+    h1 {
+        display: inline-block;
+        width: 100%;
+        padding: 20px 0 40px 0;
+        font-size: 32px;
+        line-height: 40px;
+        color: #fff;
+        text-align: center;
+        font-weight: 700;
+    }
+    p {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 24px;
+        margin: 10px 0;
+    }
+    .important {
+        background-color: #fff;
+        padding: 20px;
+        @include blockShadow();
+        margin-bottom: 20px;
+        @include borderRadius(3px);
+        h3 {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            color: $redChart;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 10px 0;
+        }
+    }
+    ul {
+        li {
+            display: inline-block;
+            padding: 5px 5px 5px 20px;
+            position: relative;
+            &:before {
+                content: '';
+                display: inline-block;
+                width: 5px;
+                height: 5px;
+                background-color: $redChart;
+                @include borderRadius(4px);
+                position: absolute;
+                top: 15px;
+                left: 5px;
+            }
+        }
+    }
+    .record-instructions {
+        border: 1px solid $redChart;
+        @include blockShadow();
+        padding: 20px;
+        @include borderRadius(3px);
+        margin: 10px 0;
+    }
+    .btn-container {
+        justify-content: center;
+        align-items: center;
+        #userdata-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            border: 2px solid #fff;
+            background-color: #111;
+            @include transition(all 0.3s ease);
+            @include borderRadius(3px);
+            position: relative;
+            .btn-icon {
+                @include transition(all 0.3s ease);
+                display: inline-block;
+                width: 25px;
+                height: 25px;
+                margin: 0 5px 0 0;
+                vertical-align: top;
+                @include maskImage('../img/svg/information-button.svg');
+                background-color: #fff;
+            }
+            .btn-label {
+                @include transition(all 0.3s ease);
+                display: inline-block;
+                font-size: 16px;
+                line-height: 25px;
+                color: #fff;
+                vertical-align: top;
+            }
+            &:hover {
+                background-color: #fff;
+                color: #111;
+                .btn-label {
+                    color: #111;
+                }
+                .btn-icon {
+                    background-color: #111;
+                }
+            }
+        }
+        .goto-recorder {
+            display: none;
+        }
+    }
+}
+
+.icon-record {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    @include borderRadius(15px);
+    @include btnShadow();
+    background-image: url('../img/record-icon.svg');
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    vertical-align: top;
+    margin: 0 5px;
+    margin-top: -3px;
+    border: 1px solid #ccc;
+}
+
+
+/* END LEFT PART - WAKEMEUP INFOS */
+
+
+/* RIGHT PART - USER INFOS */
+
+#user-infos {
+    margin-bottom: 40px;
+}
+
+#user-infos-form {
+    padding: 20px;
+    border: 1px solid #FFF;
+    @include borderRadius(3px);
+    @include blockShadow();
+    background-color: #FFF;
+    background-color: rgba(255, 255, 255, 0.9);
+    overflow: hidden;
+    height: 100%;
+    max-height: 660px;
+    @include transition(all 0.3s ease);
+    position: relative;
+    &>div {
+        padding: 10px 0;
+    }
+    .toggle-user-infos {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        border: 2px solid $blueDark;
+        background-color: #fff;
+        position: absolute;
+        top: 20px;
+        left: 100%;
+        margin-left: -50px;
+        z-index: 2;
+        @include transition(all 0.3s ease);
+        @include borderRadius(15px);
+        &:after {
+            content: '';
+            @include transition(all 0.3s ease);
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            @include maskImage('../img/svg/arrow-down.svg');
+            background-color: $blueDark;
+            z-index: 3;
+            transform: rotate(-90deg);
+        }
+        &.closed {
+            &:after {
+                transform: rotate(-90deg);
+            }
+        }
+        &.opened {
+            &:after {
+                transform: rotate(0deg);
+            }
+        }
+        &:hover {
+            border-color: $greenChart;
+            &:after {
+                background-color: $greenChart;
+            }
+        }
+    }
+    h2 {
+        font-size: 22px;
+        padding: 0 0 20px 0;
+        color: $blueDark;
+    }
+    .form-field {
+        padding-left: 40px;
+    }
+    .radio {
+        padding: 5px 0;
+        height: 20px;
+        .form__radio {
+            vertical-align: top;
+            margin: 4px 10px 0 0 !important;
+            position: relative;
+            &:after {
+                content: '';
+                display: inline-block;
+                width: 13px;
+                height: 13px;
+                background: #fff;
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                z-index: 2;
+                cursor: pointer;
+                @include borderRadius(10px);
+                border: 2px solid #111;
+            }
+            &:checked {
+                &:after {
+                    border: 2px solid $greenChart;
+                }
+                &:before {
+                    content: '';
+                    display: inline-block;
+                    width: 9px;
+                    height: 9px;
+                    background: #2da800;
+                    position: absolute;
+                    top: 2px;
+                    left: 2px;
+                    z-index: 3;
+                    @include borderRadius(10px);
+                }
+            }
+        }
+        .form__radio-label {
+            vertical-align: top;
+            line-height: 20px;
+            font-size: 16px;
+            padding-left: 5px;
+            cursor: pointer;
+        }
+    }
+    .form__label {
+        display: inline-block;
+        color: $blueDark;
+        padding-bottom: 5px;
+        &.valid {
+            color: $greenChart;
+        }
+        &.error {
+            color: $redChart;
+        }
+    }
+    .form__select {
+        display: inline-block;
+        max-width: 260px;
+        width: 100%;
+        padding: 5px;
+        margin: 0;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        font-size: 16px;
+        option {
+            font-size: 16px;
+        }
+    }
+    .form__submit {
+        display: inline-block;
+        padding: 7px 15px;
+        background-color: #fff;
+        color: $greenChart;
+        border: 1px solid $greenChart;
+        font-size: 16px;
+        @include borderRadius(3px);
+        @include btnShadow();
+        @include transition(all 0.3s ease);
+        &:hover {
+            background-color: $greenChart;
+            color: #fff;
+            @include cancelBoxShadow();
+        }
+    }
+    &.closed {
+        height: 30px;
+    }
+}
+
+
+/* END RIGHT PART - USER INFOS */
+
+
+/* RIGHT PART - WAKEMEUP RECODER*/
+
+#recorder {
+    background-image: url('../img/bg-player-red.jpg');
+    padding: 40px;
+    overflow: auto;
+    flex: 3;
+    .recorder-container {
+        &.visible {
+            padding: 0;
+            display: block;
+            overflow: hidden;
+        }
+    }
+}
+
+#recorder-ui {
+    @include transition(all 0.3s ease);
+    background-color: #FFF;
+    background-color: rgba(255, 255, 255, 0.9);
+    @include borderRadius(3px);
+    @include blockShadow();
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 20px;
+    &.opened {
+        height: 320px;
+        &.recording {
+            height: 480px;
+        }
+    }
+    &.closed {
+        height: 0px;
+        @include cancelBoxShadow();
+    }
+    .player-visualizer {
+        width: 70%;
+        margin: 20px auto;
+    }
+    .recorder-wakeword {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        font-size: 26px;
+        padding: 40px 0;
+        strong {
+            color: $redChart;
+            font-weight: 600;
+        }
+    }
+}
+
+.recordBtn-container,
+svg {
+    width: 100%;
+    circle:hover,
+    path:hover {
+        cursor: pointer;
+    }
+    text {
+        font-size: 32px;
+        fill: $greyText;
+    }
+    text:hover {
+        cursor: default;
+    }
+    &.notRecording #recordBtnGroup:hover {
+        #recordBtn-bg {
+            fill: #c61e42;
+        }
+        .record-icon {
+            fill: #fff;
+        }
+    }
+    path,
+    circle {
+        @include transition(all 0.3s ease);
+        transform-box: fill-box;
+        transform-origin: center;
+    }
+}
+
+#recordBtn-bg {
+    @include boxShadow(0,
+    2px,
+    4px,
+    0,
+    rgba(0,
+    0,
+    0,
+    0.3))
+}
+
+#visualizer {
+    width: 100%;
+    max-width: 340px;
+    padding: 0;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    @include boxShadow(0px,
+    2px,
+    4px,
+    0px,
+    rgba(0,
+    0,
+    0,
+    0.3));
+    #visualizer-top,
+    #visualizer-bot {
+        height: 50px;
+        position: relative;
+        margin: 0 20px;
+    }
+    .visualizer-bar {
+        position: absolute;
+        display: inline-block;
+        width: 4px;
+        margin: 0 1px;
+    }
+    #visualizer-top {
+        border-bottom: 1px solid #cecece;
+        .visualizer-bar {
+            bottom: 0;
+            background-image: linear-gradient(to bottom, $redLight, $redChart);
+            @include borderRadiusDif(2px,
+            2px,
+            0,
+            0)
+        }
+    }
+    #visualizer-bot {
+        .visualizer-bar {
+            top: 0;
+            background-image: linear-gradient(to bottom, $redChart, $redLight);
+            @include borderRadiusDif(0,
+            0,
+            2px,
+            2px)
+        }
+    }
+}
+
+.recorder-actions {
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 20px 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    @include blockShadow();
+    .recorder-action-item {
+        align-items: center;
+        margin: 0 20px;
+    }
+    .recorder-action-btn {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-color: #fff;
+        @include blockShadow();
+        @include borderRadius(30px);
+        @include transition(all 0.3s ease);
+        border: none;
+        position: relative;
+        &:after {
+            content: '';
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            @include transition(all 0.3s ease);
+            background-color: $greyTextLight;
+        }
+        &.play {
+            &:after {
+                @include maskImage('../img/svg/play.svg');
+            }
+            &.playing {
+                background-color: $blueDark;
+                &:after {
+                    background-color: #fff;
+                }
+            }
+        }
+        &.reset {
+            &:after {
+                @include maskImage('../img/svg/refresh.svg');
+            }
+        }
+        &.validate {
+            &:after {
+                @include maskImage('../img/svg/checked.svg');
+            }
+        }
+        &:hover {
+            @include blockShadowLight();
+            &:after {
+                background-color: $greenChart;
+            }
+        }
+    }
+    .recorder-action-label {
+        padding-top: 10px;
+        display: inline-block;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: $greyTextLight;
+    }
+}
+
+
+/* NOTIFICATION */
+
+#notification {
+    margin-bottom: 20px;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
+    @include blockShadowLight();
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    .notif-icon {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: red;
+        margin-right: 10px;
+        position: relative;
+        background-color: #fff;
+        @include borderRadius(30px);
+        &:after {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 0;
+            left: 0px;
+        }
+        &.success {
+            border: 2px solid $greenChart;
+            &:after {
+                background-color: $greenChart;
+                @include maskImage('../img/svg/checked.svg');
+            }
+        }
+        &.error {
+            border: 2px solid $redChart;
+            &:after {
+                background-color: $redChart;
+                @include maskImage('../img/svg/close.svg');
+            }
+        }
+    }
+    .notif-label {
+        display: inline-block;
+        font-size: 16px;
+        vertical-align: top;
+        line-height: 30px;
+        padding: 5px 0;
+        &.success {
+            color: $greenChart;
+        }
+        &.error {
+            color: $redChart;
+        }
+    }
+}
+
+
+/* END NOTIFICATION */
+
+
+/* MODAL */
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.75);
+    align-items: center;
+    justify-content: center;
+    .modal {
+        padding: 40px;
+        background-color: #fff;
+        @include borderRadius(3px);
+        @include blockShadow();
+        max-width: 1200px;
+    }
+}
+
+.modal-header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    height: 30px;
+    h2.modal-title {
+        font-size: 22px;
+        color: $blueDark;
+        line-height: 30px;
+        font-weight: 600;
+    }
+    .modal-close {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background-color: #fff;
+        border: 1px solid $redChart;
+        position: relative;
+        @include transition(all 0.3s ease);
+        @include blockShadow();
+        @include borderRadius(3px);
+        &:after {
+            content: "";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 0;
+            left: -1px;
+            @include maskImage('../img/svg/close.svg');
+            @include transition(all 0.3s ease);
+            background-color: $redChart;
+        }
+        &:hover {
+            background-color: $redChart;
+            &:after {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.modal-body {
+    padding: 20px 0;
+    overflow: auto;
+    max-height: 520px;
+    p {
+        font-size: 16px;
+        font-family: $ubuntu;
+        line-height: 22px;
+    }
+    h3 {
+        font-size: 22px;
+        color: $blueDark;
+        padding: 20px 0;
+    }
+}
+
+
+/* END MODAL */
+
+
+/* FOOTER */
+
+#footer {
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    background-color: #222;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    .footer-btn {
+        display: inline-block;
+        background-color: transparent;
+        border: none;
+        font-size: 14px;
+        color: #fff;
+        font-family: $ubuntu;
+        text-decoration: underline;
+        padding: 0 3px;
+    }
+}
+
+
+/* END FOOTER */
+
+
+/* RESPONSIVE */
+
+@media screen and (max-width:1280px) {
+    #wakemeup-infos {
+        flex: 1;
+        /* logo */
+        .logo-container {
+            height: 60px;
+        }
+        h1 {
+            font-size: 28px;
+            line-height: 34px;
+            padding: 20px 0;
+        }
+    }
+    #recorder {
+        flex: 1;
+    }
+    .modal-wrapper {
+        .modal {
+            max-width: 80%;
+        }
+    }
+}
+
+@media screen and (max-width:1024px) {
+    #app-wrapper {
+        display: block !important;
+        overflow: auto;
+        scroll-behavior: smooth;
+        height: auto;
+    }
+    #wakemeup-infos {
+        padding-bottom: 40px;
+        .btn-container {
+            .goto-recorder {
+                display: inline-block;
+                padding: 10px 15px;
+                text-align: center;
+                border: 2px solid $greenChart;
+                background-color: #fff;
+                @include transition(all 0.3s ease);
+                @include borderRadius(3px);
+                position: relative;
+                margin: 20px 0;
+                .btn-icon {
+                    @include transition(all 0.3s ease);
+                    display: inline-block;
+                    width: 25px;
+                    height: 25px;
+                    margin: 0 5px 0 0;
+                    vertical-align: top;
+                    @include maskImage('../img/svg/mic.svg');
+                    background-color: $greenChart;
+                }
+                .btn-label {
+                    @include transition(all 0.3s ease);
+                    display: inline-block;
+                    font-size: 16px;
+                    line-height: 25px;
+                    color: $greenChart;
+                    vertical-align: top;
+                }
+                &:hover {
+                    background-color: $greenChart;
+                    .btn-label {
+                        color: #fff;
+                    }
+                    .btn-icon {
+                        background-color: #fff;
+                    }
+                }
+            }
+        }
+    }
+    .modal-wrapper {
+        .modal {
+            padding: 20px;
+        }
+    }
+    .modal-body {
+        h3 {
+            font-size: 18px;
+        }
+    }
+}
+
+@media screen and (max-width:960px) {}
+
+@media screen and (max-width:840px) {}
+
+@media screen and (max-width:720px) {}
+
+@media screen and (max-width:600px) {}
+
+@media screen and (max-width:480px) {}
+
+@media screen and (max-width:360px) {}

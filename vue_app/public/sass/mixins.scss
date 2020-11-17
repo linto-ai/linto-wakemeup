@@ -1,124 +1,160 @@
-@mixin boxShadow($offsetX, $offsetY, $blurRadius, $spreadRadius, $color) {
-  -moz-box-shadow: $offsetX $offsetY $blurRadius $spreadRadius $color;
-  -webkit-box-shadow: $offsetX $offsetY $blurRadius $spreadRadius $color;
-  box-shadow: $offsetX $offsetY $blurRadius $spreadRadius $color;
+@mixin maskImage($path) {
+    mask-image: url($path);
+    -webkit-mask-image: url($path);
+    mask-size: cover;
+    -webkit-mask-size: cover;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
 }
-@mixin lightShadow(){
-  -moz-box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.1);
-  -webkit-box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.1);
-  box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.1);
+
+@mixin boxShadow($offsetX, $offsetY, $blurRadius, $spreadRadius, $color) {
+    -moz-box-shadow: $offsetX $offsetY $blurRadius $spreadRadius $color;
+    -webkit-box-shadow: $offsetX $offsetY $blurRadius $spreadRadius $color;
+    box-shadow: $offsetX $offsetY $blurRadius $spreadRadius $color;
+}
+
+@mixin lightShadow() {
+    -moz-box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+@mixin blockShadow() {
+    -moz-box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.2);
+}
+
+@mixin blockShadowLight() {
+    -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+@mixin btnShadow() {
+    -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
 @mixin cancelBoxShadow() {
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
+
 @mixin textShadow($offsetX, $offsetY, $blurRadius, $color) {
-  text-shadow: $offsetX $offsetY $blurRadius $color;
-}
-@mixin transition($value){
-  -webkit-transition: $value;
--moz-transition: $value;
--o-transition: $value;
-transition: $value;
+    text-shadow: $offsetX $offsetY $blurRadius $color;
 }
 
-@mixin opacity($value){
--moz-opacity: $value; /* Netscape */
--khtml-opacity: $value; /* Safari 1.x */
-opacity: $value; /* Good browsers */
-}
-@mixin selectable($value){
-  -webkit-user-select: $value; /* Safari */
-  -moz-user-select: $value; /* Firefox */
-  -ms-user-select: $value; /* IE10+/Edge */
-  user-select: $value; /* Standard */
+@mixin transition($value) {
+    -webkit-transition: $value;
+    -moz-transition: $value;
+    -o-transition: $value;
+    transition: $value;
 }
 
-@mixin borderRadius($value){
--webkit-border-radius: $value;
--moz-border-radius: $value;
-border-radius: $value;
+@mixin borderRadius($value) {
+    -webkit-border-radius: $value;
+    -moz-border-radius: $value;
+    border-radius: $value;
 }
-@mixin borderRadiusDif($topLeft, $topRight, $botRight, $botLeft){
-  -webkit-border-top-left-radius: $topLeft;
-  -moz-border-radius-topleft: $topLeft;
-  border-top-left-radius: $topLeft;
-  -webkit-border-top-right-radius: $topRight;
-  -moz-border-radius-topright: $topRight;
-  border-top-right-radius: $topRight;
-  -webkit-border-bottom-right-radius: $botRight;
-  -moz-border-radius-bottomright: $botRight;
-  border-bottom-right-radius: $botRight;
-  -webkit-border-bottom-left-radius: $botLeft;
-  -moz-border-radius-bottomleft: $botLeft;
-  border-bottom-left-radius: $botLeft;
-  }
 
-@mixin placeholder($color){
-&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-  color: $color
+@mixin borderRadiusDif($topLeft, $topRight, $botRight, $botLeft) {
+    -webkit-border-top-left-radius: $topLeft;
+    -moz-border-radius-topleft: $topLeft;
+    border-top-left-radius: $topLeft;
+    -webkit-border-top-right-radius: $topRight;
+    -moz-border-radius-topright: $topRight;
+    border-top-right-radius: $topRight;
+    -webkit-border-bottom-right-radius: $botRight;
+    -moz-border-radius-bottomright: $botRight;
+    border-bottom-right-radius: $botRight;
+    -webkit-border-bottom-left-radius: $botLeft;
+    -moz-border-radius-bottomleft: $botLeft;
+    border-bottom-left-radius: $botLeft;
 }
-&::-moz-placeholder { /* Firefox 19+ */
-  color: $color
+
+@mixin playerAppear {
+    -webkit-animation: blockAppear 1s linear 0.5s;
+    -moz-animation: blockAppear 1s linear 0.5s;
+    -ms-animation: blockAppear 1s linear 0.5s;
+    -o-animation: blockAppear 1s linear 0.5s;
+    animation: blockAppear 1s linear 0.5s;
 }
-&:-ms-input-placeholder { /* IE 10+ */
-  color: $color
-}
-&:-moz-placeholder { /* Firefox 18- */
-  color: $color
-}
-}
+
 
 /* Safari and Chrome */
-@-webkit-keyframes rotating  {
-from {
-  -webkit-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-to {
-  -webkit-transform: rotate(360deg);
-  -o-transform: rotate(360deg);
-  transform: rotate(360deg);
-}
-}
-@keyframes rotating {
-from {
-  -ms-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -webkit-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-}
-to {
-  -ms-transform: rotate(360deg);
-  -moz-transform: rotate(360deg);
-  -webkit-transform: rotate(360deg);
-  -o-transform: rotate(360deg);
-  transform: rotate(360deg);
-}
-}
-@mixin rotating {
--webkit-animation: rotating 2s linear infinite;
--moz-animation: rotating 2s linear infinite;
--ms-animation: rotating 2s linear infinite;
--o-animation: rotating 2s linear infinite;
-animation: rotating 2s linear infinite;
+
+@-webkit-keyframes blockAppear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-@mixin noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-     -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome and Opera */
+@keyframes blockAppear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-@mixin fontdef-woff($FontPath, $FontName, $FontVersion:"1.0.0", $FontType:"Regular") {
-	src:	url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.woff2?v=#{$FontVersion}') format('woff2'),
-			url('#{$FontPath}/#{$FontType}/#{$FontName}-#{$FontType}.woff?v=#{$FontVersion}') format('woff');
+@mixin blinkGreenToWhite () {
+    -webkit-animation: greenToWhite 0.5s linear infinite;
+    -moz-animation: greenToWhite 0.5s linear infinite;
+    -ms-animation: greenToWhite 0.5s linear infinite;
+    -o-animation: greenToWhite 0.5s linear infinite;
+    animation: greenToWhite 0.5s linear infinite;
+}
+
+@mixin blinkWhiteToGreen () {
+    -webkit-animation: whiteToGreen 0.5s linear infinite;
+    -moz-animation: whiteToGreen 0.5s linear infinite;
+    -ms-animation: whiteToGreen 0.5s linear infinite;
+    -o-animation: whiteToGreen 0.5s linear infinite;
+    animation: whiteToGreen 0.5s linear infinite;
+}
+
+
+/* Safari and Chrome */
+
+@-webkit-keyframes greenToWhite {
+    from {
+        background-color: $greenChart;
+    }
+    to {
+        background-color: #fff;
+    }
+}
+
+@keyframes greenToWhite {
+    from {
+        background-color: $greenChart;
+    }
+    to {
+        background-color: #fff;
+    }
+}
+
+@-webkit-keyframes whiteToGreen {
+    from {
+        background-color: #fff;
+    }
+    to {
+        background-color: $greenChart;
+    }
+}
+
+@keyframes whiteToGreen {
+    from {
+        background-color: #fff;
+    }
+    to {
+        background-color: $greenChart;
+    }
 }

@@ -22,7 +22,7 @@
         </g>
       </g>
       <g class="text">
-          <text x="100%"  y="50%" opacity="0" id="recordBtn-text" style="font-size: 32px; fill: #444444">
+          <text x="0"  y="200" opacity="0" id="recordBtn-text" style="font-size: 26px; fill: #444444">
             Dites : "<tspan :fill="redChart">{{ wakeword }}</tspan>"
           </text>
       </g>
@@ -30,9 +30,9 @@
   </div>
 </template>
 <script>
-import { bus } from '../main.js'
+import { bus } from '../main-onepage.js'
 export default {
-  props: ['wakeword'],
+  props: ['wakeword', 'recordAllowed'],
   data () {
     return {
       redChart: '#c61e42',
@@ -143,23 +143,31 @@ export default {
     bus.$on('before_recording', () => {
       this.status = 'beforeRecording'
     })
-
+    bus.$on('reset_record_btn', () => {
+      for(let i = 0; i < this.recordIcon.length; i++){
+          this.recordIcon[i].setAttribute('fill', this.redChart)
+        }
+    })
   },
   methods: {
     getWindowWidth () {
       return window.innerWidth
     },
     clicBtn () {
-      if(this.hasRecorded && this.status === 'notRecording') {
-        bus.$emit('reset_recording', {})
-      } else {
-        if (this.status === 'notRecording') {
-          this.status = 'beforeRecording'
-        } else if (this.status === 'beforeRecording') {
-          return
-        } else if (this.status === 'recording') {
-          bus.$emit('stop_recording', {})
+      if(this.recordAllowed) {
+        if(this.hasRecorded && this.status === 'notRecording') {
+          bus.$emit('reset_recording', {})
+        } else {
+          if (this.status === 'notRecording') {
+            this.status = 'beforeRecording'
+          } else if (this.status === 'beforeRecording') {
+            return
+          } else if (this.status === 'recording') {
+            bus.$emit('stop_recording', {})
+          }
         }
+      } else {
+        console.log('not allowed')
       }
     },
     cancelAnimation () {
@@ -219,7 +227,7 @@ export default {
                       }
                       
                       for (let j=0; j < this.svgElements.length; j++) {
-                        this.svgElements[j].setAttribute('transform', `translate(-${this.offsetText} 0)`)
+                        this.svgElements[j].setAttribute('transform', `translate(0 -20)`)
                       }
                       this.svgText.setAttribute('opacity', 1)
                       this.status = 'recording'

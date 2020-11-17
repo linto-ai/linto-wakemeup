@@ -1,63 +1,63 @@
 {
-  "name": "wakemeup",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build-app": "npm run build:css && vue-cli-service build --mode production",
-    "build-dev": "npm run build:css && vue-cli-service build --mode development",
-    "lint": "vue-cli-service lint",
-    "test": "vue-cli-service build",
-    "build:css": "./node_modules/node-sass/bin/node-sass ./public/sass/styles.scss ./public/css/styles.css"
-  },
-  "dependencies": {
-    "@vue/eslint-config-standard": "^4.0.0",
-    "axios": "^0.18.0",
-    "bootstrap": "^4.3.1",
-    "chart.js": "^2.8.0",
-    "jquery": "^3.4.0",
-    "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
-    "vue": "^2.6.6",
-    "vue-recaptcha-v3": "^1.5.0",
-    "vue-router": "^3.0.1",
-    "vue-session": "^1.0.0",
-    "vuelidate": "^0.7.4",
-    "vuex": "^3.0.1"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.5.0",
-    "@vue/cli-plugin-eslint": "^3.5.0",
-    "@vue/cli-service": "^3.5.0",
-    "@vue/eslint-config-prettier": "^4.0.1",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "wakemeup",
+    "version": "0.2.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build-app": "npm run build:css && vue-cli-service build --mode production",
+        "build-dev": "npm run build:css && vue-cli-service build --mode development",
+        "lint": "vue-cli-service lint",
+        "test": "vue-cli-service build",
+        "build:css": "./node_modules/node-sass/bin/node-sass ./public/sass/styles.scss ./public/css/styles.css",
+        "build:cssonepage": "./node_modules/node-sass/bin/node-sass ./public/sass/styles-onepage.scss ./public/css/styles.css",
+        "build-onepage": "npm run build:cssonepage && vue-cli-service build --mode development",
+        "build-onepage-prod": "npm run build:cssonepage && vue-cli-service build --mode production"
     },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/prettier"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "dependencies": {
+        "@vue/eslint-config-standard": "^4.0.0",
+        "axios": "^0.18.0",
+        "bootstrap": "^4.3.1",
+        "chart.js": "^2.8.0",
+        "jquery": "^3.4.0",
+        "moment": "^2.24.0",
+        "node-sass": "^4.11.0",
+        "vue": "^2.6.6",
+        "vue-recaptcha-v3": "^1.5.0",
+        "vue-router": "^3.0.1",
+        "vue-session": "^1.0.0",
+        "vuelidate": "^0.7.4",
+        "vuex": "^3.0.1"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^3.5.0",
+        "@vue/cli-plugin-eslint": "^3.5.0",
+        "@vue/cli-service": "^3.5.0",
+        "@vue/eslint-config-prettier": "^4.0.1",
+        "babel-eslint": "^10.0.1",
+        "eslint": "^5.8.0",
+        "eslint-plugin-vue": "^5.0.0",
+        "sass-loader": "^7.1.0",
+        "vue-template-compiler": "^2.5.21"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "@vue/prettier"
+        ],
+        "rules": {},
+    },
+    "postcss": {
+        "plugins": {
+            "autoprefixer": {}
+        }
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ]
 }
