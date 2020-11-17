@@ -226,13 +226,11 @@ export default {
       formData.append('audioConfig',JSON.stringify(this.audioConfig))
       formData.append(name, audioBlob, name)
       let saveAudios = null
-      if(this.user.gender.value === 'homme'){
-          saveAudios = axios(`${process.env.VUE_APP_URL}/api/audios/save/single`, {
-          method: 'post',
-          data: formData
-        })
-      }
-      return saveAudios
+      return await axios(`${process.env.VUE_APP_URL}/api/audios/save/single`, {
+        method: 'post',
+        data: formData
+      })
+      
     },
     initRecorder (config) {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {

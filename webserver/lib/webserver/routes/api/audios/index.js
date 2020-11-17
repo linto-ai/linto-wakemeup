@@ -50,11 +50,12 @@ module.exports = (webServer) => {
                         const currentPath = req.files[0].path
 
                         let finalPath = `${process.cwd()}/uploads/${process.env.WAKEWORD}/${userInfos.gender.value}/${audioConfig.label}`
-                            // create destination folder if it doesn't exist
+
+                        // create destination folder if it doesn't exist
                         if (!fs.existsSync(finalPath)) {
-                            fs.mkdirSync(finalPath, { recursive: true, mode: 0766 }, function(err) {
+                            fs.mkdirSync(finalPath, { recursive: true }, function(err) {
                                 if (err) {
-                                    console.error(err);
+                                    console.error(err)
                                     res.json({ status: "ERROR! Can't create the folder!" })
                                 }
                             })

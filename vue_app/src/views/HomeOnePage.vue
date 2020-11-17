@@ -65,7 +65,7 @@
               :class="[user.age.error !== null ? 'error' : '', user.age.valid === true ? 'valid' : '']"
             >Tranche d'âge : {{user.age.error !== null ? user.age.error : ''}}</span> 
             <select class="form__select" v-model="user.age.value" @change="testField(user.age)">
-              <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 10)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+10)}} ans</option>
+              <option v-for="i in 8" :key="i" :value="parseInt(i*10) + '-' + parseInt((i*10) + 9)">{{parseInt(i*10) + ' - ' + parseInt((i*10)+9)}} ans</option>
               <option value="90+">90+ ans</option>
             </select>
           </div>
