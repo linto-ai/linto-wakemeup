@@ -48,7 +48,7 @@
             "plugin:vue/essential",
             "@vue/prettier"
         ],
-        "rules": {},
+        "rules": {}
     },
     "postcss": {
         "plugins": {
