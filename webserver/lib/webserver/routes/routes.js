@@ -19,19 +19,8 @@
 const debug = require('debug')('linto-admin:routes')
 
 module.exports = (webServer) => {
-  return {
-    "/": require('./home')(webServer),
-    "/admin": require('./admin')(webServer),
-    "/api/audios": require('./api/audios')(webServer),
-    "/api/user": require('./api/user')(webServer),
-    "/api/contact": require('./api/contact')(webServer),
-    "/api/scenarios": require('./api/scenarios')(webServer),
-    "/contact": require('./home')(webServer),
-    "/interface": require('./interface')(webServer),
-    "/login": require('./login')(webServer),
-    "/logout": require('./logout')(webServer),
-    "/mentions-legales": require('./home')(webServer),
-    "/cgu": require('./home')(webServer),
-    "/reinit-password": require('./reinit-password')(webServer)
-  }
+    return {
+        "/": require('./home')(webServer),
+        "/api/audios": require('./api/audios')(webServer),
+    }
 }
