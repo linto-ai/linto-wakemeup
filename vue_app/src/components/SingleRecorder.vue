@@ -27,7 +27,7 @@
         <span class="recorder-action-label reset">Recommencer</span>
       </div>
       <div class="flex col recorder-action-item">
-        <button class="recorder-action-btn validate" @click="validateRecord()"></button>
+        <button class="recorder-action-btn validate" :class="sending ? 'sending' : ''" @click="validateRecord()"></button>
         <span class="recorder-action-label validate">Valider</span>
       </div>
     </div>
@@ -125,7 +125,8 @@ export default {
       notificationMsg: '',
       notificationStatus: '',
       reseting: false,
-      audioPlayer: null
+      audioPlayer: null,
+      sending: false
     }
   },
   mounted () {
@@ -207,20 +208,23 @@ export default {
         const fileName = this.generateFileName()
         const send = await this.sendDatas(this.blob, fileName + '.wav')
         if(send.data.status === 'success') {
+          this.sending = false
           let nextStep = this.currentStep === this.maxStep ? 1 : (this.currentStep + 1)
           this.audioConfig = this.audioConfigSteps[this.audioConfigSteps.findIndex(acs => acs.step === nextStep)]
           await this.resetContext(this.audioConfig)
           this.notificationMsg = `Enregistrement validé ! Merci de votre contribution. Vous pouvez continuer en cliquant sur le bouton <span class="icon-record"></span>`
           this.notificationStatus = 'success'
         } else {
+          this.sending = false
           this.notificationMsg = `Une erreur est survenue lors de la validation. Veuillez rééssayer ulterieurement.`
           this.notificationStatus = 'error'
         }
         this.showNotification = true
-        this.$parent.scrollToRecorder()
+        bus.$emit('scrolldown', {})
       }
     },
     async sendDatas (audioBlob, name) {
+      this.sending = true
       let formData = new FormData()
       formData.append('userInfos', JSON.stringify(this.user))
       formData.append('audioConfig',JSON.stringify(this.audioConfig))
@@ -249,7 +253,6 @@ export default {
           this.volumeBarContainer = document.getElementById('visualizer')
           this.vizualizerTop = document.getElementById('visualizer-top')
           this.vizualizerBot = document.getElementById('visualizer-bot')
- 
           this.mediaRecorder = new MediaRecorder(e)
           this.context = new AudioContext() 
           this.mediaStream = this.context.createMediaStreamSource(e)

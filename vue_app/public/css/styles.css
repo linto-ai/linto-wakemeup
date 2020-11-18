@@ -39,6 +39,30 @@
   to {
     background-color: #238200; } }
 
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
 html,
 body,
 div,
@@ -451,6 +475,7 @@ button {
         background-color: #238200; }
   #user-infos-form h2 {
     font-size: 22px;
+    line-height: 30px;
     padding: 0 0 20px 0;
     color: #1f3279; }
   #user-infos-form .form-field {
@@ -751,6 +776,18 @@ svg {
       -webkit-mask-size: cover;
       mask-repeat: no-repeat;
       -webkit-mask-repeat: no-repeat; }
+    .recorder-actions .recorder-action-btn.validate.sending:after {
+      mask-image: url("../img/svg/loading.svg");
+      -webkit-mask-image: url("../img/svg/loading.svg");
+      mask-size: cover;
+      -webkit-mask-size: cover;
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-animation: rotating 2s linear infinite;
+      -moz-animation: rotating 2s linear infinite;
+      -ms-animation: rotating 2s linear infinite;
+      -o-animation: rotating 2s linear infinite;
+      animation: rotating 2s linear infinite; }
     .recorder-actions .recorder-action-btn:hover {
       -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);
       -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.2);

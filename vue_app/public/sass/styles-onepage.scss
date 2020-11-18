@@ -590,6 +590,12 @@ svg {
             &:after {
                 @include maskImage('../img/svg/checked.svg');
             }
+            &.sending {
+                &:after {
+                    @include maskImage('../img/svg/loading.svg');
+                    @include rotate()
+                }
+            }
         }
         &:hover {
             @include blockShadowLight();
