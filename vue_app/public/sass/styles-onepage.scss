@@ -879,6 +879,10 @@ svg {
 
 @media screen and (max-width:720px) {
     .recorder-actions {
+        flex-wrap: wrap;
+        .recorder-action-item {
+            margin: 10px 15px;
+        }
         .recorder-action-btn {
             display: inline-block;
             width: 40px;

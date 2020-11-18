@@ -41,7 +41,7 @@
         <div id="user-infos-form" class="opened">
           <div class="flex col">
             <button class="toggle-user-infos" :class="recordAllowed ? '' : 'hidden'" @click="toggleUserInfos($event)"></button>
-            <h2>Informations sur votre profil</h2>
+            <h2>Votre profil</h2>
           </div>
           <!-- Sexe -->
           <div class="flex col form-field">
