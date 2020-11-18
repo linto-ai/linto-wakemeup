@@ -400,6 +400,8 @@ button {
   position: relative; }
   #user-infos-form > div {
     padding: 10px 0; }
+    #user-infos-form > div:first-child {
+      padding: 0 0 10px 0; }
   #user-infos-form .toggle-user-infos {
     display: inline-block;
     width: 30px;
@@ -455,7 +457,7 @@ button {
     padding-left: 40px; }
   #user-infos-form .radio {
     padding: 5px 0;
-    height: 20px; }
+    min-height: 20px; }
     #user-infos-form .radio .form__radio {
       vertical-align: top;
       margin: 4px 10px 0 0 !important;
@@ -1007,4 +1009,16 @@ svg {
   .modal-wrapper .modal {
     padding: 20px; }
   .modal-body h3 {
+    font-size: 18px; } }
+
+@media screen and (max-width: 720px) {
+  .recorder-actions .recorder-action-btn {
+    display: inline-block;
+    width: 40px;
+    height: 40px; }
+    .recorder-actions .recorder-action-btn:after {
+      content: '';
+      width: 40px;
+      height: 40px; }
+  #user-infos-form h2 {
     font-size: 18px; } }

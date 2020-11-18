@@ -241,6 +241,9 @@ button {
     position: relative;
     &>div {
         padding: 10px 0;
+        &:first-child {
+            padding: 0 0 10px 0;
+        }
     }
     .toggle-user-infos {
         display: inline-block;
@@ -288,6 +291,7 @@ button {
     }
     h2 {
         font-size: 22px;
+        line-height: 30px;
         padding: 0 0 20px 0;
         color: $blueDark;
     }
@@ -296,7 +300,7 @@ button {
     }
     .radio {
         padding: 5px 0;
-        height: 20px;
+        min-height: 20px;
         .form__radio {
             vertical-align: top;
             margin: 4px 10px 0 0 !important;
@@ -867,7 +871,23 @@ svg {
 
 @media screen and (max-width:840px) {}
 
-@media screen and (max-width:720px) {}
+@media screen and (max-width:720px) {
+    .recorder-actions {
+        .recorder-action-btn {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            &:after {
+                content: '';
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+    #user-infos-form h2 {
+        font-size: 18px;
+    }
+}
 
 @media screen and (max-width:600px) {}
 
