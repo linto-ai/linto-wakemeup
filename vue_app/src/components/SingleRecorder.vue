@@ -171,24 +171,17 @@ export default {
     }
   },
   methods: {
-    async resetContext (audioConfig) {
+    async resetContext () {
       try {
-        await this.context.close()
-        this.audioConfig = audioConfig
-        this.currentStep = audioConfig.step
         this.blob = null
-        this.context = null
-        this.mediaStream = null
-        this.analyser = null
-        this.gainNode = null
         setTimeout(() => {
-          this.initRecorder(this.audioConfig)
-          this.showVizualizer = false
-          bus.$emit('reset_record_btn', {})
           if(this.isVerticalDesign) {
-          this.showVizualizer = true
+            this.showVizualizer = true
+          } else {
+            this.showVizualizer = false
           }
-        }, 500)  
+          bus.$emit('reset_record_btn', {})
+        }, 500)
       } catch (error) {
         console.error(error)
       }
@@ -217,9 +210,9 @@ export default {
           const send = await this.sendDatas(this.blob, fileName + '.wav')
           if (send.data.status === 'success') {
             this.sending = false
-            let nextStep = this.currentStep === this.maxStep ? 1 : (this.currentStep + 1)
-            this.audioConfig = this.audioConfigSteps[this.audioConfigSteps.findIndex(acs => acs.step === nextStep)]
-            await this.resetContext(this.audioConfig)
+            /*let nextStep = this.currentStep === this.maxStep ? 1 : (this.currentStep + 1)
+            this.audioConfig = this.audioConfigSteps[this.audioConfigSteps.findIndex(acs => acs.step === nextStep)]*/
+            this.resetContext()
             this.notificationMsg = `Enregistrement validé ! Merci de votre contribution. Vous pouvez continuer en cliquant sur le bouton <span class="icon-record"></span>`
             this.notificationStatus = 'success'
           } else {
