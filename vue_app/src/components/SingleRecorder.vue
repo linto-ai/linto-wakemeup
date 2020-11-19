@@ -172,16 +172,25 @@ export default {
   },
   methods: {
     async resetContext (audioConfig) {
-      await this.context.close()
-      this.audioConfig = audioConfig
-      this.currentStep = audioConfig.step
-      this.blob = null
-      this.initRecorder(this.audioConfig)
-      this.showVizualizer = false
-      bus.$emit('reset_record_btn', {})
-
-      if(this.isVerticalDesign) {
-        this.showVizualizer = true
+      try {
+        await this.context.close()
+        this.audioConfig = audioConfig
+        this.currentStep = audioConfig.step
+        this.blob = null
+        this.context = null
+        this.mediaStream = null
+        this.analyser = null
+        this.gainNode = null
+        setTimeout(() => {
+          this.initRecorder(this.audioConfig)
+          this.showVizualizer = false
+          bus.$emit('reset_record_btn', {})
+          if(this.isVerticalDesign) {
+          this.showVizualizer = true
+          }
+        }, 500)  
+      } catch (error) {
+        console.error(error)
       }
     },
     generateFileName () {
@@ -190,13 +199,11 @@ export default {
       const wakeword = this.wakeword.trim().replace(/\s/g, '')
       let gender = null
       let nativeFrench = 'FR'
-
-      if(user.gender.value === 'homme') {
+      if (user.gender.value === 'homme') {
         gender = 'M'
       } else if (user.gender.value === 'femme') { 
         gender = 'F'
       }
-
       if (!user.nativeFrench.value) {
         nativeFrench = 'notFR'
       } 
@@ -204,23 +211,27 @@ export default {
 
     },
     async validateRecord () {
-      if(!this.reseting && !this.isPlaying){
-        const fileName = this.generateFileName()
-        const send = await this.sendDatas(this.blob, fileName + '.wav')
-        if(send.data.status === 'success') {
-          this.sending = false
-          let nextStep = this.currentStep === this.maxStep ? 1 : (this.currentStep + 1)
-          this.audioConfig = this.audioConfigSteps[this.audioConfigSteps.findIndex(acs => acs.step === nextStep)]
-          await this.resetContext(this.audioConfig)
-          this.notificationMsg = `Enregistrement validé ! Merci de votre contribution. Vous pouvez continuer en cliquant sur le bouton <span class="icon-record"></span>`
-          this.notificationStatus = 'success'
-        } else {
-          this.sending = false
-          this.notificationMsg = `Une erreur est survenue lors de la validation. Veuillez rééssayer ulterieurement.`
-          this.notificationStatus = 'error'
+      try {
+        if (!this.reseting && !this.isPlaying) {
+          const fileName = this.generateFileName()
+          const send = await this.sendDatas(this.blob, fileName + '.wav')
+          if (send.data.status === 'success') {
+            this.sending = false
+            let nextStep = this.currentStep === this.maxStep ? 1 : (this.currentStep + 1)
+            this.audioConfig = this.audioConfigSteps[this.audioConfigSteps.findIndex(acs => acs.step === nextStep)]
+            await this.resetContext(this.audioConfig)
+            this.notificationMsg = `Enregistrement validé ! Merci de votre contribution. Vous pouvez continuer en cliquant sur le bouton <span class="icon-record"></span>`
+            this.notificationStatus = 'success'
+          } else {
+            this.sending = false
+            this.notificationMsg = `Une erreur est survenue lors de la validation. Veuillez rééssayer ulterieurement.`
+            this.notificationStatus = 'error'
+          }
+          this.showNotification = true
+          bus.$emit('scrolldown', {})
         }
-        this.showNotification = true
-        bus.$emit('scrolldown', {})
+      } catch (error) {
+        console.error(error)
       }
     },
     async sendDatas (audioBlob, name) {
@@ -234,97 +245,108 @@ export default {
         method: 'post',
         data: formData
       })
-      
     },
     initRecorder (config) {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({
-          audio: {
-            channelCount: {
-              min: 1,
-              ideal: 2
-            },
-            echoCancellation: this.audioConfig.echoCancellation,
-            noiseSuppression: this.audioConfig.noiseSuppression
-          }
-        }).then((e) => {
-          window.AudioContext = window.AudioContext || window.webkitAudioContext
-          
-          this.volumeBarContainer = document.getElementById('visualizer')
-          this.vizualizerTop = document.getElementById('visualizer-top')
-          this.vizualizerBot = document.getElementById('visualizer-bot')
-          this.mediaRecorder = new MediaRecorder(e)
-          this.context = new AudioContext() 
-          this.mediaStream = this.context.createMediaStreamSource(e)
-          this.analyser = this.context.createAnalyser()
-          this.analyser.fftSize = 1024
-          this.analyser.smoothingTimeConstant = 0.3
-          this.gainNode = this.context.createGain()
-          this.gainNode.connect(this.analyser)
-          this.sampleRate = this.analyser.context.sampleRate
+      try {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({
+            audio: {
+              channelCount: {
+                min: 1,
+                ideal: 2
+              },
+              echoCancellation: this.audioConfig.echoCancellation,
+              noiseSuppression: this.audioConfig.noiseSuppression
+            }
+          }).then((e) => {
+            window.AudioContext = window.AudioContext || window.webkitAudioContext
+            
+            this.volumeBarContainer = document.getElementById('visualizer')
+            this.vizualizerTop = document.getElementById('visualizer-top')
+            this.vizualizerBot = document.getElementById('visualizer-bot')
+            this.mediaRecorder = new MediaRecorder(e)
+            this.context = new AudioContext() 
+            this.mediaStream = this.context.createMediaStreamSource(e)
+            this.analyser = this.context.createAnalyser()
+            this.analyser.fftSize = 1024
+            this.analyser.smoothingTimeConstant = 0.3
+            this.gainNode = this.context.createGain()
+            this.gainNode.connect(this.analyser)
+            this.sampleRate = this.analyser.context.sampleRate
 
-          // Set Recorder (script processor)
-          if (this.context.createScriptProcessor) {
-            this.recorder = this.context.createScriptProcessor(this.bufferSize, this.numberOfInputChannels, this.numberOfOutputChannels)
-          } else {
-            this.recorder = this.context.createJavaScriptNode(this.bufferSize, this.numberOfInputChannels, this.numberOfOutputChannels)
-          }
+            this.mediaRecorder.onerror = function(e) {
+              alert('An error has occured with the media recorder, please refresh the webpage.')
+            }
 
-          // MediaRecorder data
-          this.mediaRecorderChunk = []
-          this.mediaRecorder.ondataavailable = (e) => {
-            this.mediaRecorderChunk.push(e.data)
-            this.mediaRecorderblob = new Blob(this.mediaRecorderChunk, {
-              'type': 'audio/webm; codecs=opus'
-            })
-          }
+            // Set Recorder (script processor)
+            if (this.context.createScriptProcessor) {
+              this.recorder = this.context.createScriptProcessor(this.bufferSize, this.numberOfInputChannels, this.numberOfOutputChannels)
+            } else {
+              this.recorder = this.context.createJavaScriptNode(this.bufferSize, this.numberOfInputChannels, this.numberOfOutputChannels)
+            }
 
-          // Recorder (script processor) raw data
-          this.recorder.onaudioprocess = (e) => {
-            this.leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)))
-            this.rightchannel.push(new Float32Array(e.inputBuffer.getChannelData(1)))
-            this.recordingLength += this.bufferSize
+            // MediaRecorder data
+            this.mediaRecorderChunk = []
+            this.mediaRecorder.ondataavailable = (e) => {
+              this.mediaRecorderChunk.push(e.data)
+              this.mediaRecorderblob = new Blob(this.mediaRecorderChunk, {
+                'type': 'audio/webm; codecs=opus'
+              })
+            }
 
-            const tempArray = new Uint8Array(this.analyser.frequencyBinCount)
-            this.analyser.getByteFrequencyData(tempArray)
-            this.avgVolume = this.getAverageVolume(tempArray)
-          }
-          // Voice activity detection
-          this.vadOptions = {
-            source: this.mediaStream,
-            voice_start: () => {},
-            voice_stop: () => {
-              if (this.isRecording) {
-                this.stopRecording()
-              }
-            },
-            context: this.context
-          }
-          this.vad = new VAD(this.vadOptions)
-        }).catch(err => {
-          console.error(err)
-        })
+            // Recorder (script processor) raw data
+            this.recorder.onaudioprocess = (e) => {
+              this.leftchannel.push(new Float32Array(e.inputBuffer.getChannelData(0)))
+              this.rightchannel.push(new Float32Array(e.inputBuffer.getChannelData(1)))
+              this.recordingLength += this.bufferSize
+              const tempArray = new Uint8Array(this.analyser.frequencyBinCount)
+              this.analyser.getByteFrequencyData(tempArray)
+              this.avgVolume = this.getAverageVolume(tempArray)
+            }
+            // Voice activity detection
+            this.vadOptions = {
+              source: this.mediaStream,
+              voice_start: () => {},
+              voice_stop: () => {
+                if (this.isRecording) {
+                  this.stopRecording()
+                }
+              },
+              context: this.context
+            }
+            this.vad = new VAD(this.vadOptions)
+            
+          }).catch(err => {
+            console.error(err)
+          })
+        }
+      } catch (err){
+        console.error(error) 
       }
     },
     startRecording () {
-      this.showNotification = false
-      if (!this.isRecording) {
-        this.nbBar = 0
-        this.recordingLength = 0
-        this.blob = null
-        this.mediaRecorderblob = null
-        this.mediaRecorderChunk = []
-        this.leftchannel = []
-        this.rightchannel = []
-        this.isRecording = true
-        this.view = null
-        this.buffer = null
-        this.mediaRecorder.start()
-        this.mediaStream.connect(this.analyser)
-        this.analyser.connect(this.recorder)
-        this.recorder.connect(this.context.destination)
-        this.startRecordTimeout()
-        this.showVizualizer = true
+      try {
+        this.showNotification = false
+        if (!this.isRecording) {
+          this.nbBar = 0
+          this.recordingLength = 0
+          this.blob = null
+          this.mediaRecorderblob = null
+          this.mediaRecorderChunk = []
+          this.leftchannel = []
+          this.rightchannel = []
+          this.isRecording = true
+          this.view = null
+          this.buffer = null
+          this.mediaRecorder.start()
+          this.mediaStream.connect(this.analyser)
+          this.analyser.connect(this.recorder)
+          this.recorder.connect(this.context.destination)
+          this.startRecordTimeout()
+          this.showVizualizer = true
+        }  
+      } catch (error) {
+        console.error(error)
       }
     },
     resetRecording () {
@@ -340,76 +362,84 @@ export default {
       bus.$emit('scrolldown', {})
     },
     stopRecording () {
-      const volumeBarWidth = this.nbBar * 6 + 20
-      
-      var audio = new Audio()
-      this.isRecording = false
-      this.recorder.disconnect(this.context.destination)
-      this.analyser.disconnect(this.recorder)
-      this.mediaStream.disconnect(this.analyser)
-      this.mediaRecorder.stop()
-      this.sourceNode = this.context.createMediaElementSource(audio)
-      this.sourceNode.connect(this.context.destination)
+      try {
+        const volumeBarWidth = this.nbBar * 6 + 20
+        let audio = new Audio()
+        this.isRecording = false
+        this.recorder.disconnect(this.context.destination)
+        this.analyser.disconnect(this.recorder)
+        this.mediaStream.disconnect(this.analyser)
+        this.mediaRecorder.stop()
+        this.sourceNode = this.context.createMediaElementSource(audio)
+        this.sourceNode.connect(this.context.destination)
 
-      // we flat the left and right channels down
-      // Float32Array[] => Float32Array
-      this.leftBuffer = this.flattenArray(this.leftchannel, this.recordingLength)
-      this.rightBuffer = this.flattenArray(this.rightchannel, this.recordingLength)
-      // we interleave both channels together
-      // [left[0],right[0],left[1],right[1],...]
-      var interleaved = this.interleave(this.leftBuffer, this.rightBuffer)
+        // we flat the left and right channels down
+        // Float32Array[] => Float32Array
+        this.leftBuffer = this.flattenArray(this.leftchannel, this.recordingLength)
+        this.rightBuffer = this.flattenArray(this.rightchannel, this.recordingLength)
+        // we interleave both channels together
+        // [left[0],right[0],left[1],right[1],...]
+        var interleaved = this.interleave(this.leftBuffer, this.rightBuffer)
 
-      // we create our wav file
-      this.buffer = new ArrayBuffer(44 + interleaved.length * 2)
-      this.view = new DataView(this.buffer)
+        // we create our wav file
+        this.buffer = new ArrayBuffer(44 + interleaved.length * 2)
+        this.view = new DataView(this.buffer)
 
-      // RIFF chunk descriptor
-      this.writeUTFBytes(this.view, 0, 'RIFF')
-      this.view.setUint32(4, 44 + interleaved.length * 2, true)
-      this.writeUTFBytes(this.view, 8, 'WAVE')
-      // FMT sub-chunk
+        // RIFF chunk descriptor
+        this.writeUTFBytes(this.view, 0, 'RIFF')
+        this.view.setUint32(4, 44 + interleaved.length * 2, true)
+        this.writeUTFBytes(this.view, 8, 'WAVE')
+        // FMT sub-chunk
 
-      this.writeUTFBytes(this.view, 12, 'fmt ')
-      this.view.setUint32(16, 16, true) // chunkSize
-      this.view.setUint16(20, 1, true) // wFormatTag
-      this.view.setUint16(22, 2, true) // wChannels: stereo (2 channels)
-      this.view.setUint32(24, this.sampleRate, true) // dwSamplesPerSec
-      this.view.setUint32(28, this.sampleRate * 4, true) // dwAvgBytesPerSec
-      this.view.setUint16(32, 4, true) // wBlockAlign
-      this.view.setUint16(34, 16, true) // wBitsPerSample
-      // data sub-chunk
-      this.writeUTFBytes(this.view, 36, 'data')
-      this.view.setUint32(40, interleaved.length * 2, true)
+        this.writeUTFBytes(this.view, 12, 'fmt ')
+        this.view.setUint32(16, 16, true) // chunkSize
+        this.view.setUint16(20, 1, true) // wFormatTag
+        this.view.setUint16(22, 2, true) // wChannels: stereo (2 channels)
+        this.view.setUint32(24, this.sampleRate, true) // dwSamplesPerSec
+        this.view.setUint32(28, this.sampleRate * 4, true) // dwAvgBytesPerSec
+        this.view.setUint16(32, 4, true) // wBlockAlign
+        this.view.setUint16(34, 16, true) // wBitsPerSample
+        // data sub-chunk
+        this.writeUTFBytes(this.view, 36, 'data')
+        this.view.setUint32(40, interleaved.length * 2, true)
 
-      // write the PCM samples
-      var index = 44
-      var volume = 1
-      for (var i = 0; i < interleaved.length; i++) {
-        this.view.setInt16(index, interleaved[i] * (0x7FFF * volume), true)
-        index += 2
+        // write the PCM samples
+        var index = 44
+        var volume = 1
+        for (var i = 0; i < interleaved.length; i++) {
+          this.view.setInt16(index, interleaved[i] * (0x7FFF * volume), true)
+          index += 2
+        }
+
+        // our final blob
+        this.blob = new Blob([this.view], {
+          type: 'audio/wav'
+        })
+
+        // Format datas to send
+        const nbChannels = this.analyser.channelCount
+        const nbInputs = this.analyser.numberOfInputs
+        const nbOutputs = this.analyser.numberOfOutputs
+        const bufferSize = this.recorder.bufferSize
+        this.webAudioInfos = {
+          contextSampleRate: this.sampleRate,
+          bufferSize: bufferSize,
+          nbChannels: nbChannels,
+          nbInputs: nbInputs,
+          nbOutputs: nbOutputs,
+          options: this.audioConfig.label,
+          recordDate: new Date()
+        }
+
+        if(this.blob === null || !this.blob.size || this.blob.size === 0) {
+          alert('une erreur est survenue, si le problème persiste, veuillez recharger la page.')
+        }
+
+        bus.$emit('btn_stop_recording', {})
+        bus.$emit('scrolldown', {})
+      } catch (error) {
+        console.error(error) 
       }
-
-      // our final blob
-      this.blob = new Blob([this.view], {
-        type: 'audio/wav'
-      })
-
-      // Format datas to send
-      const nbChannels = this.analyser.channelCount
-      const nbInputs = this.analyser.numberOfInputs
-      const nbOutputs = this.analyser.numberOfOutputs
-      const bufferSize = this.recorder.bufferSize
-      this.webAudioInfos = {
-        contextSampleRate: this.sampleRate,
-        bufferSize: bufferSize,
-        nbChannels: nbChannels,
-        nbInputs: nbInputs,
-        nbOutputs: nbOutputs,
-        options: this.audioConfig.label,
-        recordDate: new Date()
-      }
-      bus.$emit('btn_stop_recording', {})
-      bus.$emit('scrolldown', {})
     },
     startRecordTimeout () {
       setTimeout(() => {

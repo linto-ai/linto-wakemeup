@@ -894,8 +894,14 @@ svg {
             }
         }
     }
-    #user-infos-form h2 {
-        font-size: 18px;
+    #user-infos-form {
+        h2 {
+            font-size: 18px;
+        }
+        .form-field {
+            padding-left: 10px;
+            ;
+        }
     }
 }
 

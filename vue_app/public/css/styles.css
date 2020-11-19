@@ -1062,4 +1062,6 @@ svg {
         width: 40px;
         height: 40px; }
   #user-infos-form h2 {
-    font-size: 18px; } }
+    font-size: 18px; }
+  #user-infos-form .form-field {
+    padding-left: 10px; } }

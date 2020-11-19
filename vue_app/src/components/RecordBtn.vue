@@ -166,8 +166,6 @@ export default {
             bus.$emit('stop_recording', {})
           }
         }
-      } else {
-        console.log('not allowed')
       }
     },
     cancelAnimation () {
