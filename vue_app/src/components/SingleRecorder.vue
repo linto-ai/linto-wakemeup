@@ -205,7 +205,11 @@ export default {
     },
     async validateRecord () {
       try {
-        if (!this.reseting && !this.isPlaying) {
+        if (this.isPlaying) {
+          this.audioPlayer.pause()
+          this.isPlaying = false
+        }
+        if (!this.reseting) {
           const fileName = this.generateFileName()
           const send = await this.sendDatas(this.blob, fileName + '.wav')
           if (send.data.status === 'success') {
