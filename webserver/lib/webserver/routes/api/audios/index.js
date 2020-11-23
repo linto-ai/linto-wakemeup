@@ -39,16 +39,18 @@ module.exports = (webServer) => {
         method: 'post',
         controller: async(req, res, next) => {
             try {
-
                 uploadFile(req, res, async(error) => {
                     if (error ||  error instanceof multer.MulterError) {
                         // A Multer error occurred when uploading.
-                        throw error
+                        console.error(error)
+                        res.json({
+                            status: 'error',
+                            msg: 'error on uploading generated audio file.'
+                        })
                     } else {
                         const userInfos = JSON.parse(req.body.userInfos)
                         const audioConfig = JSON.parse(req.body.audioConfig)
                         const currentPath = req.files[0].path
-
                         let finalPath = `${process.cwd()}/uploads/${process.env.WAKEWORD}/${userInfos.gender.value}/${audioConfig.label}`
 
                         // create destination folder if it doesn't exist
@@ -56,7 +58,10 @@ module.exports = (webServer) => {
                             fs.mkdirSync(finalPath, { recursive: true }, function(err) {
                                 if (err) {
                                     console.error(err)
-                                    res.json({ status: "ERROR! Can't create the folder!" })
+                                    res.json({
+                                        status: 'error',
+                                        msg: "Error on creating the folder"
+                                    })
                                 }
                             })
                         }
@@ -64,9 +69,14 @@ module.exports = (webServer) => {
                         finalPath += `/${req.files[0].fieldname}`
                         const moveToFolder = await moveFile(currentPath, finalPath)
                         if (moveToFolder === 'success') {
-                            res.json({ status: 'success' })
+                            res.json({
+                                status: 'success'
+                            })
                         } else {
-                            throw 'File uploaded but error on moving to dedicated folder'
+                            res.json({
+                                status: 'error',
+                                msg: 'File uploaded but error on moving to dedicated folder'
+                            })
                         }
                     }
                 })
