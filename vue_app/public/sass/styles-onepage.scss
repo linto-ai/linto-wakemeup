@@ -96,6 +96,15 @@ button {
                 height: 40px;
             }
         }
+        .linto-ai-logo {
+            justify-content: flex-end;
+            align-items: center;
+            img {
+                display: inline-block;
+                height: 35px;
+                width: auto;
+            }
+        }
     }
     h1 {
         display: inline-block;
@@ -794,6 +803,11 @@ svg {
         /* logo */
         .logo-container {
             height: 60px;
+            .linto-ai-logo {
+                img {
+                    height: 25px;
+                }
+            }
         }
         h1 {
             font-size: 28px;

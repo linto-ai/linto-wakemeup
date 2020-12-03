@@ -267,6 +267,13 @@ button {
       width: auto; }
       #wakemeup-infos .logo-container img.logo-linto-ai {
         height: 40px; }
+    #wakemeup-infos .logo-container .linto-ai-logo {
+      justify-content: flex-end;
+      align-items: center; }
+      #wakemeup-infos .logo-container .linto-ai-logo img {
+        display: inline-block;
+        height: 35px;
+        width: auto; }
   #wakemeup-infos h1 {
     display: inline-block;
     width: 100%;
@@ -978,6 +985,8 @@ svg {
     /* logo */ }
     #wakemeup-infos .logo-container {
       height: 60px; }
+      #wakemeup-infos .logo-container .linto-ai-logo img {
+        height: 25px; }
     #wakemeup-infos h1 {
       font-size: 28px;
       line-height: 34px;

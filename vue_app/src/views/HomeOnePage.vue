@@ -2,10 +2,15 @@
   <div>
     <div class="flex col" id="wakemeup-infos">
       <div class="logo-container flex row">
+        <div class="flex flex1">
           <img src="/assets/img/wakemeup-logo-white.svg" alt="logo wakemeup.linto.ai">
+        </div>
+        <div class="flex1 flex linto-ai-logo">
+          <a href="https://linto.ai" target="_blank"><img src="/assets/img/linto-ai.svg" alt="logo linto.ai"></a>
+        </div>
       </div>
       <div class="content">
-        <h1>Enregistrez des échantillons audio</h1>
+        <h1>Enregistrez le mot-réveil "LinTO"</h1>
         <div class="important">
           <h3>Assurez-vous d’être dans un environnement calme</h3>
           <ul class="flex col">

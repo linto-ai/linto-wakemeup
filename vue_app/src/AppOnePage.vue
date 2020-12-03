@@ -7,7 +7,7 @@
         </transition>
         <ModalMentionsLegales class="modal-wrapper flex row" :class="showLegals ? 'visible': 'hidden'"></ModalMentionsLegales>
         <div class="flex row" id="footer">
-          Copyright Linagora 2019 - <button @click="showLegalsModal()" class="footer-btn">Mentions légales</button>
+          Copyright Linagora 2020 - <button @click="showLegalsModal()" class="footer-btn">Mentions légales</button>
         </div>
       </div>
 </template>
