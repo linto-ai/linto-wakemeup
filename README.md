@@ -6,7 +6,7 @@ Datas are collected anonymously, and can be used to feed audio corpus, and train
 
 ```
 cd your/project/folder
-git clone ssh://git@ci.linagora.com:7999/linagora/lgs/labs/Linto-Device/Linto-Backend/wake-me-up.git
+git clone git@github.com:linto-ai/linto-wakemeup.git
 cd wake-me-up/webserver && npm i
 cd ../vue_app && npm i
 ```
