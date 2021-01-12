@@ -1,17 +1,11 @@
 {
     "name": "wakemeup",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "private": true,
     "scripts": {
-        "serve": "vue-cli-service serve",
         "build-app": "npm run build:css && vue-cli-service build --mode production",
         "build-dev": "npm run build:css && vue-cli-service build --mode development",
-        "lint": "vue-cli-service lint",
-        "test": "vue-cli-service build",
-        "build:css": "./node_modules/node-sass/bin/node-sass ./public/sass/styles.scss ./public/css/styles.css",
-        "build:cssonepage": "./node_modules/node-sass/bin/node-sass ./public/sass/styles-onepage.scss ./public/css/styles.css",
-        "build-onepage": "npm run build:cssonepage && vue-cli-service build --mode development",
-        "build-onepage-prod": "npm run build:cssonepage && vue-cli-service build --mode production"
+        "build:css": "./node_modules/node-sass/bin/node-sass ./public/sass/styles-onepage.scss ./public/css/styles.css"
     },
     "dependencies": {
         "@vue/eslint-config-standard": "^4.0.0",

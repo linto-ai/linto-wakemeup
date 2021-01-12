@@ -15,16 +15,19 @@ cd ../vue_app && npm i
 
 #### 1/ Front-end settings
 Once you've downloaded the source code, go to your **wake-me-up/vue_app** folder and setup environment variables to make it work with your development and/or production environment.
+
 There are 2 files to update :
 - wake-me-up/vue_app/**.env.development**
 ```
 VUE_APP_URL=http://localhost:3003
+VUE_APP_WAKEWORD=your_wake_word
 ```
 Set *VUE_APP_URL* to make it match with your **development** environment
 
 - wake-me-up/vue_app/**.env.production**
 ```
 VUE_APP_URL=https://wakemeup.linto.ai
+VUE_APP_WAKEWORD=linto
 ```
 Set *VUE_APP_URL* to make it match with your **production** environment
 
@@ -40,35 +43,12 @@ cp .envdefault .env
 Once you have created your **.env** file, set the environment variables to match with your working environment.
 
 ```
-# Webserver
-NODE_ENV=production // (production || development)
+# Webserver
+NODE_ENV=production
 HTTP_PORT=3003
 
-# Mongodbsettings
-BDD_TYPE=mongodb
-MONGODB_HOST=127.0.0.1
-MONGODB_PORT=27017
-MONGODB_DBNAME=MONGODB_DBNAME
-MONGODB_REQUIRE_LOGIN=true
-MONGODB_USER=MONGODB_USER
-MOGODB_PSWD=MOGODB_PSWD
-
-# Redis
-REDIS_PORT=6379
-REDIS_HOST=localhost
-
-# SMTP
-SMTP_HOST=SMTP_HOST
-SMTP_PORT=SMTP_PORT
-SMTP_SECURE=true
-SMTP_REQUIRE_TLS=true
-SMTP_AUTH=SMTP_AUTH
-SMTP_PSWD=SMTP_PSWD
-CONTACT_EMAIL=CONTACT_EMAIL
-NO_REPLY_EMAIL=NO_REPLY_EMAIL
-
-# Project URL
-VUE_APP_URL=http://localhost:3003
+# WAKEWORD
+WAKEWORD=LinTO
 ```
 
 ### Building static files
