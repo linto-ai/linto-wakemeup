@@ -25,7 +25,7 @@ class WebServer extends EventEmitter {
         let sessionConfig = {
             resave: false,
             saveUninitialized: true,
-            secret: 'hippopoceros',
+            secret: process.env.SESSION_SECRET,
             cookie: {
                 secure: false,
                 maxAge: 60 * 60 * 3 * 1000 // 3 hours
@@ -44,7 +44,7 @@ class WebServer extends EventEmitter {
         require('./routes')(this)
 
         this.app.use((req, res, next) => {
-            res.status(404)
+            res.status(404).send('Page not found')
             res.end()
         })
 

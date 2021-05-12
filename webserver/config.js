@@ -34,6 +34,8 @@ function configureDefaults() {
 
         //Server properties
         process.env.HTTP_PORT = ifHas(process.env.HTTP_PORT, envdefault.HTTP_PORT)
+        process.env.NODE_ENV = ifHas(process.env.NODE_ENV, envdefault.NODE_ENV)
+        process.env.SESSION_SECRET = ifHas(process.env.SESSION_SECRET, envdefault.SESSION_SECRET)
         process.env.WAKEWORD = ifHas(process.env.WAKEWORD, envdefault.WAKEWORD)
 
     } catch (e) {
