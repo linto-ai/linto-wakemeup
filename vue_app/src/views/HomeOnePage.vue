@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="content">
-        <h1>Enregistrez le mot-réveil "LinTO"</h1>
+        <h1>Enregistrez le mot-réveil "{{wakeword}}"</h1>
         <div class="important">
           <h3>Assurez-vous d’être dans un environnement calme</h3>
           <ul class="flex col">
@@ -154,7 +154,7 @@ import { bus } from '../main-onepage.js'
 export default {
   data(){
     return {
-        showRecorder: false,
+      showRecorder: false,
        user :{
          gender: {
            value: '',
@@ -180,7 +180,8 @@ export default {
       recordAllowed: false,
       showInfosModal: false,
       showLegalsModal: false,
-      screenWidth: 0
+      screenWidth: 0,
+      wakeword: process.env.VUE_APP_WAKEWORD || "LinTO"
       
     }
   },
